@@ -1,7 +1,21 @@
 import { css } from "@emotion/react";
 
+export const tagContainer = css`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px; 
+`;
 
-// 스타일 정의
+export const tagButton = css`
+  background-color: #dbdbdb; 
+  border: none;
+  border-radius: 20px; 
+  padding: 10px 15px;
+  margin: 0 5px;
+  cursor: pointer;
+  font-weight: bold;
+`;
+
 export const donationList = css`
   display: flex;
   flex-wrap: wrap;
@@ -9,15 +23,23 @@ export const donationList = css`
 `;
 
 export const donationCard = css`
-  width: 300px; 
+
+  width: 267px; 
+  height: 363px;
   border: 1px solid #ccc; 
   border-radius: 8px; 
   overflow: hidden; 
 `;
 
 export const donationImage = css`
-  width: 100%; 
-  height: auto; 
+
+  width: 250px; 
+  height: 200px; 
+  margin-left: 7px;
+  & > img {
+    width:100%;
+    height: 200px;
+  }
 `;
 
 export const donationDetails = css`
