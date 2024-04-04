@@ -53,6 +53,7 @@ function DonationPageboard() {
     const storyContent = usePageInput(nextInput, inputRefs[7]);
     const mainImgUrl = usePageInput(nextInput, inputRefs[8]);
     const donationTagId = usePageInput(nextInput, inputRefs[9]);
+    
 
     useEffect(() => {
         teamId.setValue(() => teamId);
