@@ -1,13 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useInput } from "../../hooks/useInput";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
 import { signupRequest } from "../../apis/api/SignUp";
 
 
-function SignUpPage(props) {
+function SignUpPage(props) {    
     const navigate = useNavigate();
 
     const [ username, userNameChange, usernameMessage, setUsernameValue, setUsernameMessage ] = useInput("username");
@@ -18,8 +18,8 @@ function SignUpPage(props) {
     const [ email, emailChange, emailMessage ] = useInput("email");
     const [ selectGender, setSelectGender ] = useState("");
     const [ age, ageChange, ageMessage ] = useInput("age");
-    const [ checkPasswordMessage, setCheckPasswordMessage ] = useState(null);
-    const [ imgUrl , setImgUrl ] = useState();
+    const [ checkPasswordMessage, setCheckPasswordMessage ] = useState("");
+    const [ imgUrl , setImgUrl ] = useState("");
     const imgFileRef = useRef();
 
     const genderOption = [{
@@ -36,6 +36,29 @@ function SignUpPage(props) {
     },
     ]
 
+    useEffect(() => {
+        if(!checkPassword || !password) {
+            setCheckPasswordMessage(() => null);
+            return;
+        }
+
+        if(checkPassword === password) {
+            setCheckPasswordMessage(() => {
+                return {
+                    type: "success",
+                    text: ""
+                }
+            })
+        } else {
+            setCheckPasswordMessage(() => {
+                return {
+                    type: "error",
+                    text: "비밀번호가 일치하지 않습니다."
+                }
+            })
+        }
+    }, [checkPassword, password]);
+
     const handleGenderChange = (selectedOption) => {
         setSelectGender(selectedOption.value); 
     };
@@ -51,17 +74,17 @@ function SignUpPage(props) {
        fileReader.readAsDataURL(e.target.files[0]);
     }
 
-    const handleSubmitClick = (e) => {
+    const handleSubmitClick = () => {
         const checkFlags = [
             usernameMessage?.type,
             passwordMessage?.type,
-            checkPasswordMessage?.type,
             nicknameMessage?.type,
             phoneNumberMessage?.type,
             emailMessage?.type
         ];
 
         if(checkFlags.includes("error") || checkFlags.includes(undefined) || checkFlags.includes(null)) {
+            console.log(checkFlags);
             alert("가입 정보를 다시 확인하세요.");
             return;
         }
@@ -113,7 +136,7 @@ function SignUpPage(props) {
                 <input type={"text"} name={"email"} placeholder={"이메일"} value={email} onChange={emailChange} message={emailMessage} />
                 <Select 
                     options={genderOption}
-                    value={genderOption.value}
+                    value={{ value: selectGender, label: selectGender }}
                     onChange={handleGenderChange}
                 />
                 <input type={"text"} name={"age"} placeholder={"age"} value={age} onChange={ageChange} message={ageMessage} />
