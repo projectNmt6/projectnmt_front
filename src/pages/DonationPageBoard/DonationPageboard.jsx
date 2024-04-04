@@ -43,7 +43,7 @@ function DonationPageboard() {
         ref.current.focus();
     };
 
-    const [ selectOption ] = useRecoilState();
+    // const [ selectOption ] = useRecoilState();
     const teamId = usePageInput(nextInput, inputRefs[1]);
     const mainCategoryId = usePageInput(nextInput, inputRefs[2]);
     const donationCategoryId = usePageInput(nextInput, inputRefs[3]);
@@ -57,7 +57,7 @@ function DonationPageboard() {
 
     useEffect(() => {
         teamId.setValue(() => teamId);
-        mainCategoryId.setValue(() => ());
+        // mainCategoryId.setValue(() => ());
     }, [teamId.value]);
 
     // 이벤트 핸들러
