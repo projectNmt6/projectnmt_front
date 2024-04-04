@@ -127,17 +127,8 @@ function SignUpPage(props) {
         }).catch(error => {
             if (error.response.status === 400) {
                 const errorMap = error.response.data;
-                const errorEntries = Object.entries(errorMap);
-                for (let [k, v] of errorEntries) {
-                    if (k === "username") {
-                        setUsernameMessage(() => {
-                            return {
-                                type: "error",
-                                text: v
-                            };
-                        });
-                    }
-                }
+                console.log(error);
+                alert(error.response.data);
             } else {
                 alert("회원가입 오류");
             }
