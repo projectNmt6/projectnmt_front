@@ -4,10 +4,10 @@ import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 import axios from 'axios';
 import Select from 'react-select';
-import { usePageInput } from '../../hooks/usePageInput';
 import { buttonBox } from './style';
-import { useRecoilState } from 'recoil';
-import { selectedWritePageState } from '../../atoms/adminSelectedWritePageAtom';
+import { imgUrlBox } from './style';
+import { getDonationListRequest } from '../../apis/api/DonationAPI';
+import { useQuery } from 'react-query';
 
 const textEditorLayout = css `
     overflow-y: auto;  
@@ -20,21 +20,6 @@ function DonationPageboard() {
     const [mainImg, setMainImg] = useState("");
     const [selectedDonationMainTag, setSelectedDonationMainTag] = useState(null);
 
-    const inputRefs = [
-        useRef(),   // team_id
-        useRef(),   // main_category_id
-        useRef(),   // donation_category_id (기부/스토리)
-        useRef(),   // donation_name
-        useRef(),   // goal_amount
-        useRef(),   // story_title
-        useRef(),   // story_content
-        useRef(),   // main_img_url
-        useRef(),   // donation_tag_id        
-    ];
-
-    const nextInput = (ref) => {
-        ref.current.focus();
-    };
     const [donationMainTagList, setDonationMainTagList] = useState([]);
     const [tagOption, setTagOption] = useState([]);
     
@@ -56,43 +41,11 @@ function DonationPageboard() {
         })));
     }, [donationMainTagList]);
     
-
     const handleMainTagChange = (selectedOption) => {
         console.log(selectedOption);
         setSelectedDonationMainTag(selectedOption);
     };
     
-    
-
-    // const teamId = usePageInput(nextInput, inputRefs[1]);
-    // const mainCategoryId = usePageInput(nextInput, inputRefs[2]);
-    // const donationCategoryId = usePageInput(nextInput, inputRefs[3]);
-    // const donationName = usePageInput(nextInput, inputRefs[4]);
-    // const goalAmount = usePageInput(nextInput, inputRefs[5]);
-    // const storyTitle = usePageInput(nextInput, inputRefs[6]);
-    // const storyContent = usePageInput(nextInput, inputRefs[7]);
-    // const mainImgUrl = usePageInput(nextInput, inputRefs[8]);
-    // const donationTagId = usePageInput(nextInput, inputRefs[9]);
-    // const [ selectedDonation ] = useRecoilState(selectedWritePageState);
-
-    // useEffect(() => {
-    //     teamId.setValue(() => teamId);
-    //     mainCategoryId.setValue(() => ({value: selectedDonation.mainCategoryId, label: selectedDonation.mainCategoryName}));
-    // }, [selectedDonation]);
-
-    const handleTitleChange = (e) => {
-        setTitle(e.target.value);
-    };
-
-    const handleContentChange = (value) => {
-        setContent(value); 
-    };
-
-
-    const handleMainImgUrlChange = (value) => {
-        setMainImg(value);
-    };
-
     const handleSubmitButton = () => {
         axios.post('http://localhost:8080/main/write', {
             donationPageId: 1, 
@@ -164,24 +117,36 @@ function DonationPageboard() {
         "image",
     ];
 
-    const mainImgFileInput = useRef(null);
-    const fileChange = (fileBlob) => {
+    const fileChange = (e) => {
+        const file = e.target.files[0];
         const reader = new FileReader();
-        reader.readAsDataURL(fileBlob);
-        return new Promise((resolve) => {
-            reader.onload = () => {
-                const base64String = reader.result;
-                setMainImg(base64String);
-                resolve();
-            };
-        });
+        reader.onload = () => {
+            setMainImg(reader.result);
+        };
+        reader.readAsDataURL(file);
     };
 
+
+    const [donationList, setDonationList] = useState([]);
+    const getDonationListQuery = useQuery(
+        "getDonationQuery",
+        async () => await getDonationListRequest({
+            
+        }),
+        {
+            refetchOnWindowFocus: false,
+            onSuccess: response => {
+                setDonationList(response.data.map(donation => ({
+                    ...donation
+                })));
+            }
+        }
+        );
 
     return (       
         <>
             <div>
-                <input type="text" placeholder='제목' value={title} onChange={handleTitleChange} />
+                <input type="text" placeholder='제목' value={title} onChange={(e) => setTitle(e.target.value)} />
             </div>
             
             <Select 
@@ -193,23 +158,26 @@ function DonationPageboard() {
 
             <div>
                 <h2>메인 이미지 추가</h2>
-                <label htmlFor="inputFile"></label>
+
+                <div css={imgUrlBox}>
+                    <label htmlFor="inputFile"></label>
+                    <img src={mainImg} alt="Main" style={{ width: '300px', height: 'auto' }}/> 
                 <input  
                     id="inputFile" 
                     type="file" 
                     name="file" 
-                    value={mainImg}
                     accept='image/*'
                     style={{ display: "block" }}
-                    onChange={(e) => {fileChange(e.target.files[0])}} 
-                /> 
-                <img src={mainImg}/> 
+                    onChange={fileChange} 
+                    /> 
+                    </div>
+                    
             </div>
             
             <div css={textEditorLayout}>
                 <ReactQuill
                     value={content}
-                    onChange={handleContentChange}
+                    onChange={setContent}
                     modules={modules}
                     formats={formats}
                     theme="snow"
