@@ -5,6 +5,7 @@ import { useInput } from "../../hooks/useInput";
 import { signinRequest } from "../../apis/api/SignIn";
 
 function SignInPage(props) {
+
     const [ username, usernameChange ] = useInput();
     const [ password, passwordChange ] = useInput();
     
@@ -14,8 +15,9 @@ function SignInPage(props) {
             password
         }).then(response => {
             const accessToken = response.data;
+            console.log(accessToken);
             localStorage.setItem("AccessToken", accessToken);
-            // window.location.replace("/");
+            window.location.replace("/");
         }).catch(error => {
             alert(error.response.data);
         })
@@ -29,7 +31,7 @@ function SignInPage(props) {
             </div>
             <input type={"text"} name={"username"} placeholder={"사용자 ID"} value={username} onChange={usernameChange} />
             <input type={"password"} name={"password"} placeholder={"비밀번호"} value={password} onChange={passwordChange} />
-            <Link to={null}>회원가입</Link>
+            <Link to={"/signup"}>회원가입</Link>
             <div>
                 <a href={null}>카카오로그인</a>
                 <a href={null}>구글로그인</a>
