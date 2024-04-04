@@ -8,3 +8,4 @@ export const QUILL_MODULES = {
         ['code-block']
     ]
 }
+
