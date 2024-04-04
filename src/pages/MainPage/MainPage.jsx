@@ -31,8 +31,6 @@ function MainPage() {
 
     
     
-    //donationList
-    
     const getDonationListQuery = useQuery(
         "getDonationQuery",
         async () => await getDonationListRequest({

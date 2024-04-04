@@ -1,31 +1,25 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { css } from '@emotion/react'; // css import 추가
-import { useMemo } from "react";
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { css } from '@emotion/react';
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 import axios from 'axios';
-import { useMutation } from 'react-query';
-import { registerDonationPage } from '../../apis/api/DonationAPI';
 import Select from 'react-select';
 import { usePageInput } from '../../hooks/usePageInput';
 import { buttonBox } from './style';
-import { v4 as uuidv4 } from 'uuid'; // uuid 라이브러리 import
 import { useRecoilState } from 'recoil';
+import { selectedWritePageState } from '../../atoms/adminSelectedWritePageAtom';
 
-// CSS 스타일
 const textEditorLayout = css `
     overflow-y: auto;  
     margin-bottom: 20px;  
 `;
 
 function DonationPageboard() {
-    // 상태 변수
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [mainImg, setMainImg] = useState("");
-    const [fundCategory, setFundCategory] = useState([]);
-    
-    // Refs
+    const [selectedDonationMainTag, setSelectedDonationMainTag] = useState(null);
+
     const inputRefs = [
         useRef(),   // team_id
         useRef(),   // main_category_id
@@ -38,45 +32,72 @@ function DonationPageboard() {
         useRef(),   // donation_tag_id        
     ];
 
-    // Custom Hook 사용
     const nextInput = (ref) => {
         ref.current.focus();
     };
-
-    // const [ selectOption ] = useRecoilState();
-    const teamId = usePageInput(nextInput, inputRefs[1]);
-    const mainCategoryId = usePageInput(nextInput, inputRefs[2]);
-    const donationCategoryId = usePageInput(nextInput, inputRefs[3]);
-    const donationName = usePageInput(nextInput, inputRefs[4]);
-    const goalAmount = usePageInput(nextInput, inputRefs[5]);
-    const storyTitle = usePageInput(nextInput, inputRefs[6]);
-    const storyContent = usePageInput(nextInput, inputRefs[7]);
-    const mainImgUrl = usePageInput(nextInput, inputRefs[8]);
-    const donationTagId = usePageInput(nextInput, inputRefs[9]);
+    const [donationMainTagList, setDonationMainTagList] = useState([]);
+    const [tagOption, setTagOption] = useState([]);
+    
+    useEffect(() => {
+        axios.get("http://localhost:8080/main/storytypes")
+            .then(response => {
+                console.log(response.data);
+                setDonationMainTagList(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, []);
+    
+    useEffect(() => {
+        setTagOption(donationMainTagList.map(mainTag => ({
+            value: mainTag.mainCategoryId,
+            label: mainTag.mainCategoryName
+        })));
+    }, [donationMainTagList]);
     
 
-    useEffect(() => {
-        teamId.setValue(() => teamId);
-        // mainCategoryId.setValue(() => ());
-    }, [teamId.value]);
+    const handleMainTagChange = (selectedOption) => {
+        console.log(selectedOption);
+        setSelectedDonationMainTag(selectedOption);
+    };
+    
+    
 
-    // 이벤트 핸들러
+    // const teamId = usePageInput(nextInput, inputRefs[1]);
+    // const mainCategoryId = usePageInput(nextInput, inputRefs[2]);
+    // const donationCategoryId = usePageInput(nextInput, inputRefs[3]);
+    // const donationName = usePageInput(nextInput, inputRefs[4]);
+    // const goalAmount = usePageInput(nextInput, inputRefs[5]);
+    // const storyTitle = usePageInput(nextInput, inputRefs[6]);
+    // const storyContent = usePageInput(nextInput, inputRefs[7]);
+    // const mainImgUrl = usePageInput(nextInput, inputRefs[8]);
+    // const donationTagId = usePageInput(nextInput, inputRefs[9]);
+    // const [ selectedDonation ] = useRecoilState(selectedWritePageState);
+
+    // useEffect(() => {
+    //     teamId.setValue(() => teamId);
+    //     mainCategoryId.setValue(() => ({value: selectedDonation.mainCategoryId, label: selectedDonation.mainCategoryName}));
+    // }, [selectedDonation]);
+
     const handleTitleChange = (e) => {
         setTitle(e.target.value);
     };
+
     const handleContentChange = (value) => {
         setContent(value); 
     };
+
+
     const handleMainImgUrlChange = (value) => {
         setMainImg(value);
     };
 
-    // 비동기 통신
     const handleSubmitButton = () => {
         axios.post('http://localhost:8080/main/write', {
             donationPageId: 1, 
             teamId: null, 
-            mainCategoryId: null, 
+            mainCategoryId: selectedDonationMainTag.value,
             donationCategoryId: null, 
             donationName: title,
             createDate: null, 
@@ -90,7 +111,7 @@ function DonationPageboard() {
         .then(response => {
             console.log(response.data);
             alert("저장 성공")
-            window.location.reload(); // 페이지 새로고침
+            // window.location.reload(); 
         })
         .catch(error => {
             console.error('Error:', error);
@@ -106,14 +127,12 @@ function DonationPageboard() {
         }
     };
 
-    // react-quill 관련
-    const quillRef = useRef();
     const modules = useMemo(() => {
         return {
             toolbar: [
                 [{ font: [] }],
                 [{ header: [1, 2, 3, 4, 5, 6, false] }],
-                [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+                [{ color: [] }, { background: [] }],
                 ["bold", "italic", "underline", "strike", "blockquote"],
                 [
                   { list: "ordered" },
@@ -145,19 +164,19 @@ function DonationPageboard() {
         "image",
     ];
 
-    // 파일 업로드 관련
     const mainImgFileInput = useRef(null);
     const fileChange = (fileBlob) => {
         const reader = new FileReader();
         reader.readAsDataURL(fileBlob);
         return new Promise((resolve) => {
             reader.onload = () => {
-                const base64String = reader.result; // 변환된 base64 문자열
-                setMainImg(base64String); // 메인 이미지 상태 설정
+                const base64String = reader.result;
+                setMainImg(base64String);
                 resolve();
             };
         });
     };
+
 
     return (       
         <>
@@ -166,9 +185,12 @@ function DonationPageboard() {
             </div>
             
             <Select 
-                options={fundCategory} 
-                value={mainCategoryId.value}
-            /> 
+                options={tagOption || []} 
+                value={selectedDonationMainTag}
+                placeholder="종류를 선택해주세요"
+                onChange={handleMainTagChange}
+            />
+
             <div>
                 <h2>메인 이미지 추가</h2>
                 <label htmlFor="inputFile"></label>
@@ -176,7 +198,7 @@ function DonationPageboard() {
                     id="inputFile" 
                     type="file" 
                     name="file" 
-                    value={setMainImg}
+                    value={mainImg}
                     accept='image/*'
                     style={{ display: "block" }}
                     onChange={(e) => {fileChange(e.target.files[0])}} 

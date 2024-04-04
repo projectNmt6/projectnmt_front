@@ -9,3 +9,7 @@ export const getDonationTagRequest = async (params) => {
 export const registerDonationPage = async (data) => {
     return await instance.post("/main/write", data);
 }
+
+export const getAllDonationTag = async () => {
+    return await instance.get("/main/storytypes")
+}
