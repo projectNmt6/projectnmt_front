@@ -1,5 +1,16 @@
 import { css } from "@emotion/react";
 
+export const sign = css`
+display: flex;
+align-items: flex-end;
+flex-direction: column;
+margin-right: 40px;
+`;
+export const write=css`
+margin-bottom: 30px;
+margin-left: 40px;
+`;
+
 export const tagContainer = css`
   display: flex;
   justify-content: center;
@@ -34,11 +45,11 @@ export const donationCard = css`
 export const donationImage = css`
 
   width: 250px; 
-  height: 200px; 
+  height: 150px; 
   margin-left: 7px;
   & > img {
     width:100%;
-    height: 200px;
+    height: 150px;
   }
 `;
 

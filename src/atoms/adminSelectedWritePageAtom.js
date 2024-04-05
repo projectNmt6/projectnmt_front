@@ -7,7 +7,7 @@ export const selectedWritePageState = atom({
         teamId: null, 
         mainCategoryId: null, 
         donationCategoryId: null, 
-        donationName: title,
+        donationName: null,
         createDate: null, 
         endDate: null, 
         storyTitle: null, 

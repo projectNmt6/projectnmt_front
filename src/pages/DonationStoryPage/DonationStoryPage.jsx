@@ -1,59 +1,49 @@
+import DOMPurify from 'dompurify';
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
-import { useLocation, useParams } from 'react-router-dom';
+import {Link, useLocation, useParams } from 'react-router-dom';
 import { getDonationListRequest, getDonationStoryRequest } from '../../apis/api/DonationAPI';
 
 function DonationStoryPage() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
-    const donationPageId = queryParams.get('page'); // 쿼리 파라미터에서 'page' 값을 donationPageId로 사용
-    const [donationPageList, setDonationPageList] = useState([]);
+    const donationPageId = queryParams.get('page'); 
+    const[donationPage, setDonationPage] = useState({});
     const getDonationStoryQuery = useQuery(
-        "getDonationPageQuery",
-        async () => await getDonationStoryRequest({
-    
-        }),
+        ["getDonationPageQuery", donationPageId], 
+        async () => {
+            const response = await getDonationStoryRequest({ page: donationPageId });
+            return response.data; 
+        },
         {
             refetchOnWindowFocus: false,
-            onSuccess: response => {
-                setDonationPageList(response.data.map(donationPage => ({
-                    ...donationPage
-                })));
+            onSuccess: (data) => {setDonationPage(data);
             }
         }
     );
 
-    // const { data: donationList} = useQuery(
-    //     ['getDonationList', { donationPageId }], // 캐시 키에 파라미터 포함
-    //     () => getDonationListRequest({ id: donationPageId }), // API 호출 시 donationPageId를 파라미터로 전달
-    //     {
-    //         enabled: !!donationPageId, // donationPageId 값이 있는 경우에만 쿼리를 실행
-    //         onSuccess: (data) => {
-    //             console.log(data); // 필요한 경우 데이터 확인
-    //         },
-    //     }
-    // );
+    const safeHTML = DOMPurify.sanitize(donationPage.storyContent);
 
+    console.log(donationPage);
+    
     return (
         <>
             <div>
                 <h1>Donation Stories</h1>
-                <p>Current Page: {donationPageId}</p>
+                <p>page:{donationPageId}</p>
             </div>
             <div>
-            {donationPageList?.data && (
-                <ul>
-                    {donationPageList.data.map((donationPage) => (
-                        <li key={donationPage.donationPageId}>
-                            <h2>{donationPage.title}</h2>
-                            <p>{donationPage.description}</p>
-                        </li>
-                     ))}
-                </ul>
-                )}
+                <Link to={"/main/donate"}>기부하기</Link>
+            </div>
+            <div>
+                    <h2>{donationPage.storyTitle}</h2>
+                    <img src={donationPage.mainImgUrl} alt="" />
+                    <p>기부 시작일: {donationPage.createDate}</p>
+                    <p>기부 종료일: {donationPage.endDate}</p>
+                    <div dangerouslySetInnerHTML={{ __html: safeHTML }} />
             </div>
         </>
-    );
+    
+    )
 }
-
 export default DonationStoryPage;
