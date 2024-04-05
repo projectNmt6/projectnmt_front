@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { useQuery } from "react-query";
 import * as s from "./style";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getDonationListRequest, getDonationTagRequest } from "../../apis/api/DonationAPI";
 import { Link } from "react-router-dom";
 
@@ -53,16 +53,21 @@ function MainPage() {
             setSelectedTag(tag);
           };
 
-        const filteredDonations = selectedTag
-        ? donationList.filter(
-                        (donation) => donation.donationTagName 
-                        ? donation.donationTagName.includes(selectedTag) 
-                        : false
-                        )
-        : donationList;
+
         
 
-
+        const [filteredDonations, setFilteredDonations] = useState([]);
+        useEffect(() => {
+            const filteredDonations = selectedTag
+                ? donationList.filter(
+                    (donation) => donation.donationTagName 
+                        ? donation.donationTagName.includes(selectedTag) 
+                        : false
+                )
+                : donationList;
+            setFilteredDonations(filteredDonations);
+        }, [selectedTag, donationList]);
+    
         return (
         <>
             <div>
@@ -70,8 +75,22 @@ function MainPage() {
             </div>
             <div>
                 <Link to={"/main/write"}>작성하기</Link>
+                <button>
+                <Link to={"/main/review"}>후기작성 </Link>
+
+                </button>
             </div>
-            <div css={s.tagContainer}>
+
+
+            <div css={s.tagContainer}>                
+                <button 
+                    key="alltag" 
+                    css={s.tagButton}
+                    onClick={() => setSelectedTag(null)} 
+                    aria-pressed={!selectedTag} 
+                    >전체보기
+                </button>
+
                 {donationTagList.map(
                     tag => (
                     <button 
@@ -97,7 +116,7 @@ function MainPage() {
                                     } alt="" />
                             </div>
                             <div css={s.donationDetails}>
-                                <h2>{donation.donationName}</h2>
+                                <h2>{donation.storyTitle}</h2>
                                 <p><strong>기관:</strong> {donation.teamName}</p>
                                 <p><strong>목표금액:</strong> {donation.goalAmount}원</p>
                                 <p><strong>시작시간:</strong> {donation.createDate.split('T')[0]}</p>
