@@ -2,7 +2,7 @@
 import { useQuery } from "react-query";
 import * as s from "./style";
 import { useState } from "react";
-import { getDonationListRequest, getDonationTagRequest } from "../../apis/api/DonationAPI";
+import { getDonationListRequest, getDonationTagRequest } from "../../apis/api/donationAPI";
 import { Link } from "react-router-dom";
 
 function MainPage() {
