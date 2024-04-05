@@ -28,3 +28,8 @@ export const imgUrlBox = css`
     line-height: 10px;
 `;
 
+
+const DatePickerCss = css`
+    margin: 20px;
+
+`;

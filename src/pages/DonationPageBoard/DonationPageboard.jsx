@@ -12,6 +12,9 @@ import MainPage from '../MainPage/MainPage';
 import { Link } from 'react-router-dom';
 import { errorSelector } from 'recoil';
 
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 const textEditorLayout = css`
     overflow-y: auto;
     margin-bottom: 20px;
@@ -25,6 +28,20 @@ function DonationPageboard() {
     const [selectedSecondTag, setSelectedSecondTag] = useState(null);
     const [mainTagOptions, setMainTagOptions] = useState([]);
     const [secondTagOptions, setSecondTagOptions] = useState([]);
+    const [createDate, setCreateDate] = useState(new Date()); // 현재 날짜로 초기화
+
+
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(null);
+    const [projectDuration, setProjectDuration] = useState(null);
+
+    const [ amount, setAmount ] = useState();
+    const handleAmountChange = (e) => {
+        const value = e.target.value; // 입력된 값
+        const parsedValue = value ? parseInt(value) : null; // 입력된 값이 있는 경우에만 정수로 변환하고 그렇지 않으면 null로 설정
+        setAmount(parsedValue); // 값 업데이트
+    };
+    
 
     useEffect(() => {
         axios.get("http://localhost:8080/main/storytypes")
@@ -64,22 +81,26 @@ function DonationPageboard() {
         setSelectedSecondTag(selectedOption);
     }
 
+
     const handleSubmitButton = () => {
+
         axios.post('http://localhost:8080/main/write', {
             donationPageId: 1,
             teamId: null,
             mainCategoryId: selectedMainTag.value,
             donationCategoryId: null,
-            createDate: null,
-            endDate: null,
+            createDate: startDate,
+            endDate: endDate,
+            goalAmount : amount,
             storyTitle: title,
             storyContent: content,
             mainImgUrl: mainImg,
-            donationTagId: selectedSecondTag.value,
+            donationTagId: selectedSecondTag ? selectedSecondTag.value : null,
             donationPageShow: null
         })
         .then(response => {
             alert("저장 성공");
+            console.log(response)
         })
         .catch(error => {
             console.error('Error:', error);
@@ -127,13 +148,55 @@ function DonationPageboard() {
         reader.readAsDataURL(file);
     };
 
-    const [startDate, setStartDate] = useState<Date | null>(new Date());
+  
+    const handleStartDateChange = (date) => {
+        setStartDate(date);
+        if (endDate) {
+            const duration = Math.round((endDate - date) / (1000 * 60 * 60 * 24));
+            setProjectDuration(duration);
+        }
+    };
+
+    const handleEndDateChange = (date) => {
+        setEndDate(date);
+        if (startDate) {
+            const duration = Math.round((date - startDate) / (1000 * 60 * 60 * 24));
+            setProjectDuration(duration);
+        }
+    };
+
 
     return (
         <>
-            {/* <div>
+            <div>
                 <input type="text" placeholder='제목' value={title} onChange={(e) => setTitle(e.target.value)} />
-            </div> */}
+            </div>
+
+            <div>기부 프로젝트 시작일: </div>
+            <DatePicker 
+                selected={startDate} 
+                onChange={handleStartDateChange} 
+                selectsStart
+                dateFormat="yyyy년 MM월 dd일"
+                minDate={new Date()}
+            />
+
+            <div>기부 프로젝트 종료일: </div>
+            <DatePicker
+                selected={endDate}
+                onChange={handleEndDateChange }
+                selectsEnd
+                startDate={startDate}
+                endDate={endDate}
+                minDate={startDate}
+                dateFormat="yyyy년 MM월 dd일"
+            />
+            
+            <div>
+            <div>프로젝트 기간: {projectDuration !== null ? `${projectDuration}일` : ''}</div>
+       
+            </div>
+                            
             
             <Select
                 options={mainTagOptions}
@@ -178,6 +241,15 @@ function DonationPageboard() {
                     style={{ height: '500px', margin: "50px" }}
                 />
 
+            </div>
+
+            <div>
+                목표 금액:
+                <input 
+                type="number"
+                value={amount}
+                onChange={handleAmountChange}
+                 />
             </div>
 
             <div style={buttonBox}>

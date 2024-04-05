@@ -60,8 +60,6 @@ function MainPage() {
                         : false
                         )
         : donationList;
-        
-
 
         return (
         <>
@@ -113,8 +111,11 @@ function MainPage() {
                                     <h2>{donation.storyTitle}</h2>
                                     <p><strong>기관:</strong> {donation.teamName}</p>
                                     <p><strong>목표금액:</strong> {donation.goalAmount}원</p>
-                                    <p><strong>시작시간:</strong> {donation.createDate.split('T')[0]}</p>
-                                    <p><strong>종료시간:</strong> {donation.endDate.split('T')[0]}</p>
+                                    {/* <p><strong>시작시간:</strong> {donation.createDate.split('T')[0]}</p>  
+                                    <p><strong>종료시간:</strong> {donation.endDate.split('T')[0]}</p> */}
+                                   
+
+
                                 </div>
                             </div>
                         </a>
