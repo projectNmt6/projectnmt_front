@@ -4,6 +4,9 @@ export const registerTeam = async (data) => {
     return await instance.post("/team/register", data);
 }
 
+export const getTeamListRequest = async (params) => {
+    return await instance.get("/account/teams", {params});
+}
 
 /**
  * 

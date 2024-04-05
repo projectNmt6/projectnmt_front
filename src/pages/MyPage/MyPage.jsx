@@ -1,12 +1,29 @@
 /** @jsxImportSource @emotion/react */
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import * as s from "./style";
 import { Link, useNavigate } from "react-router-dom";
-
+import { getTeamListRequest } from "../../apis/api/teamApi";
 function MyPage(props) {
     const queryClient = useQueryClient();
     const principalData = queryClient.getQueryData("principalQuery");
-    console.log(principalData);
+    const getTeamListQuery = useQuery(
+        [ "getTeamListQuery", principalData?.data ],
+        async () => {
+            await getTeamListRequest({
+                userId: principalData?.data.userId
+            })
+        },
+        {
+            refetchOnWindowFocus: false,
+            enabled: principalData?.data !== undefined,
+            onSuccess: response => {
+                console.log(response);
+            }
+        }
+    );            
+    const getTeamList = queryClient.getQueryData("getTeamListQuery");
+
+    console.log(getTeamList);
     return (
         <>
         {
@@ -14,7 +31,7 @@ function MyPage(props) {
                 <div css={s.header}>
                     <div css={s.imgBox}>
                         <div css={s.propfileImg}>
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_l_pV9bIEf7b1iI0-biyMLQy70FC-ew-4Pw&usqp=CAU" alt="" />
+                            <img src={principalData?.data.profileImg} alt="" />
                         </div>
                     </div>
                     <div css={s.infoBox}>
@@ -27,7 +44,7 @@ function MyPage(props) {
                     </div>
                 </div>
                 <div>
-                <Link to={"/account/create/team"}> 팀 만들기</Link>
+                    <Link to={"/team/write"} > 팀 생성 </Link>
                 </div>
             </div>
         }
