@@ -2,8 +2,8 @@
 import { useQuery } from "react-query";
 import * as s from "./style";
 import { useState } from "react";
-import { getDonationListRequest, getDonationTagRequest } from "../../apis/api/DonationAPI";
 import { Link } from "react-router-dom";
+import { getDonationListRequest, getDonationTagRequest } from "../../apis/api/DonationAPI";
 
 function MainPage() {
     
@@ -50,7 +50,7 @@ function MainPage() {
         console.log(donationList);
         
         
-        //handleTag(미완성))
+        //handleTag
         const handleTagClick = (tag) => {
             setSelectedTag(tag);
           };
@@ -68,7 +68,7 @@ function MainPage() {
         return (
         <>
             <div>
-                <h1>메인 페이지</h1>
+                <h1>Main Page</h1>
             </div>
             <div>
                 <Link to={"/main/write"}>작성하기</Link>
@@ -90,22 +90,24 @@ function MainPage() {
                 {
                     filteredDonations.map(
                         donation =>
-                        <div key={donation.donationPageId} css={s.donationCard}>
-                            <div css={s.donationImage}>
-                                <img src={
-                                        ! donation.mainImgUrl
-                                        ? "https://www.shutterstock.com/image-vector/no-image-available-picture-coming-600nw-2057829641.jpg"
-                                        : donation.mainImgUrl
-                                    } alt="" />
+                        <a href={`/donation?page=${donation.donationPageId}`} key={donation.donationPageId}  css={s.linkStyle}>
+                            <div key={donation.donationPageId} css={s.donationCard}>
+                                <div css={s.donationImage}>
+                                    <img src={
+                                            ! donation.mainImgUrl
+                                            ? "https://www.shutterstock.com/image-vector/no-image-available-picture-coming-600nw-2057829641.jpg"
+                                            : donation.mainImgUrl
+                                        } alt="" />
+                                </div>
+                                <div css={s.donationDetails}>
+                                    <h2>{donation.donationName}</h2>
+                                    <p><strong>기관:</strong> {donation.teamName}</p>
+                                    <p><strong>목표금액:</strong> {donation.goalAmount}원</p>
+                                    <p><strong>시작시간:</strong> {donation.createDate.split('T')[0]}</p>
+                                    <p><strong>종료시간:</strong> {donation.endDate.split('T')[0]}</p>
+                                </div>
                             </div>
-                            <div css={s.donationDetails}>
-                                <h2>{donation.donationName}</h2>
-                                <p><strong>기관:</strong> {donation.teamName}</p>
-                                <p><strong>목표금액:</strong> {donation.goalAmount}원</p>
-                                <p><strong>시작시간:</strong> {donation.createDate.split('T')[0]}</p>
-                                <p><strong>종료시간:</strong> {donation.endDate.split('T')[0]}</p>
-                            </div>
-                        </div>
+                        </a>
                     )
                 }
             </div>

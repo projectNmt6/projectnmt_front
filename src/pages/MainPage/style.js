@@ -53,3 +53,11 @@ export const donationDetails = css`
     margin: 5px 0; 
   }
 `;
+export const linkStyle = css`
+  text-decoration: none; 
+  color: inherit; 
+  &:hover, &:active, &:visited {
+    text-decoration: none;
+    color: inherit;
+  }
+`;
