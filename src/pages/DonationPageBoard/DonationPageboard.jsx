@@ -107,7 +107,7 @@ function DonationPageboard() {
                 [{ color: [] }, { background: [] }],
                 ["bold", "italic", "underline", "strike", "blockquote"],
                 [{ list: "ordered" }, { list: "bullet" }, { indent: "-1" }, { indent: "+1" }],
-                ["link", "image"],
+                ["link"],
                 ["clean"],
             ]
         };
@@ -127,11 +127,13 @@ function DonationPageboard() {
         reader.readAsDataURL(file);
     };
 
+    const [startDate, setStartDate] = useState<Date | null>(new Date());
+
     return (
         <>
-            <div>
+            {/* <div>
                 <input type="text" placeholder='제목' value={title} onChange={(e) => setTitle(e.target.value)} />
-            </div>
+            </div> */}
             
             <Select
                 options={mainTagOptions}
@@ -140,7 +142,7 @@ function DonationPageboard() {
                 onChange={handleMainTagChange}
             />
 
-{selectedMainTag && selectedMainTag.value === mainTagOptions[0].value && ( // 주석 추가
+            {selectedMainTag && selectedMainTag.value === mainTagOptions[0].value && ( // 주석 추가
                 <Select 
                     options={secondTagOptions}
                     placeholder="기부 카테고리를 선택해주세요"
