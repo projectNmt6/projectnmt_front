@@ -30,6 +30,8 @@ function DonationPageboard() {
     const [secondTagOptions, setSecondTagOptions] = useState([]);
     const [createDate, setCreateDate] = useState(new Date()); // 현재 날짜로 초기화
 
+    const [ storyImgs, setStoryImgs ] = useState([]);
+
 
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(null);
@@ -148,6 +150,16 @@ function DonationPageboard() {
         reader.readAsDataURL(file);
     };
 
+    const fileChange2 = (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = () => {
+            setStoryImgs(reader.result);
+        };
+        reader.readAsDataURL(file);
+    };
+
+
   
     const handleStartDateChange = (date) => {
         setStartDate(date);
@@ -228,6 +240,19 @@ function DonationPageboard() {
                         onChange={fileChange} 
                     /> 
                 </div>
+            </div>
+
+            <div>
+                <h2>이미지 추가</h2>
+                <img src={storyImgs} alt="Main" style={{ width: '300px', height: 'auto' }}/> 
+                <input  
+                        id="inputFile" 
+                        type="file" 
+                        name="file" 
+                        accept='image/*'
+                        style={{ display: "block" }}
+                        onChange={fileChange2} 
+                    /> 
             </div>
 
             <div css={textEditorLayout}>
