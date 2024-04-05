@@ -1,4 +1,5 @@
 import './App.css';
+import AuthRoute from './Routes/AuthRoute';
 import { Route, Routes } from 'react-router-dom';
 import { getPrincipalRequest } from './apis/api/principal';
 import { useQuery } from 'react-query';
@@ -20,10 +21,9 @@ function App() {
 });
 
   return (
-    <Routes>
-      <Route path="/account/mypage" element={ <MyPage />}/>
-      <Route path="/account/create/team" element={ <TeamCreatePage />}/>
-    </Routes>
+    <>
+       <AuthRoute />
+    </>
   );
 }
 
