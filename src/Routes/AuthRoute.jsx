@@ -4,6 +4,7 @@ import DonationPageboard from "../pages/DonationPageBoard/DonationPageboard";
 import HomePage from "../pages/HomePage";
 import MainPage from "../pages/MainPage/MainPage";
 import AuthPage from '../pages/AuthPage/AuthPage';
+import DonatorInfo from '../pages/DonatorInfo/DonatorInfo';
 
 function AuthRoute(props) {
     return (
@@ -12,6 +13,7 @@ function AuthRoute(props) {
             <Route path="/" element={<HomePage />} />
             <Route path="/main" element={<MainPage />} />
             <Route path="/main/write" element={<DonationPageboard />} />
+            <Route path='/test' element={<DonatorInfo />} />
         </Routes> 
     );
 }
