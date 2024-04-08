@@ -7,7 +7,9 @@ export const registerTeam = async (data) => {
 export const getTeamListRequest = async (params) => {
     return await instance.get("/account/teams", {params});
 }
-
+export const getTeamInfoRequest = async (params) => {
+    return await instance.get("/team/info", {params});
+}
 /**
  * 
  * post 요청(주소, 데이터(객체=>Json화), {headers:{}, config})
