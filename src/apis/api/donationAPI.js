@@ -34,5 +34,9 @@ export const submitDonationData = async (data) => {
     return await instance.post("/main/test", data);
 }
 
+export const deleteDonationPage = async (data) => {
+    return await instance.delete(`/main/donation/${data.donationPageId}`, data)
+}
+
 
 

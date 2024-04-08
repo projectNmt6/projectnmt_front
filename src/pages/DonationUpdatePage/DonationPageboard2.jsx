@@ -6,15 +6,14 @@ import axios from 'axios';
 import Select from 'react-select';
 import { buttonBox } from '../DonationPageBoard/style';
 import { imgUrlBox } from '../DonationPageBoard/style';
-import { getDonationListRequest, getDonationTagRequest } from '../../apis/api/DonationAPI';
-import { useQuery } from 'react-query';
+import { deleteDonationPage, getDonationListRequest, getDonationTagRequest } from '../../apis/api/DonationAPI';
+import { useMutation, useQuery } from 'react-query';
 import MainPage from '../MainPage/MainPage';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { errorSelector } from 'recoil';
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import useFetchDataAndUpdateState from '../../hooks/useFetchDataAndUpdateState';
 
 const textEditorLayout = css`
     overflow-y: auto;
@@ -204,6 +203,11 @@ function DonationPageboard2() {
         window.location.href = "/main";
     };
 
+
+    //삭제버튼
+    
+
+
     return (
         <>
             <div>
@@ -288,6 +292,7 @@ function DonationPageboard2() {
                 <button onClick={handleSubmitButton}>수정 완료</button>
                 <button onClick={handleCancelButton}>취소</button>
                 <button onClick={handleHomeButton}>돌아가기</button>
+                <button onClick={deleteButton} >삭제하기</button>
             </div>
         </>
     );
