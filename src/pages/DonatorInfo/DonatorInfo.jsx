@@ -1,18 +1,23 @@
 /** @jsxImportSource @emotion/react */
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as s from "./style";
 import { useMutation, useQueryClient } from 'react-query';
 import { submitDonationData } from "../../apis/api/donatorApi";
+import { useSearchParams } from "react-router-dom";
+import axios from 'axios';
 
 
 function DonatorInfo(props) {
+    const [ searchParams ] = useSearchParams();
     const [ money , setMoney ] =useState(0)
     const [message, setMessage] = useState("");
     const [ checked , setChecked ] = useState(false);
+    const [ userId, setUserId ] = useState();
     const inputRef = useRef(0);
     
     const queryClient = useQueryClient();
     const principalData = queryClient.getQueryData("principalQuery");
+
     const donationSubmitMutation = useMutation({
         mutationKey: "donationSubmitMutation",
         mutationFn: submitDonationData,
@@ -22,15 +27,15 @@ function DonatorInfo(props) {
         },
         onError: error => {}
     })
-
+    
     const handlemoneyChange = (e) => {
         setMoney(e.target.value)
     }
-
+    
     const handleMessegeChange = (e) => {
         setMessage(e.target.value)
     }
-
+    
     
     const handleButtonClick = (amount) => {
         if (amount === 0) {
@@ -50,12 +55,16 @@ function DonatorInfo(props) {
         const data = {
             amount: money,
             message: message,
-            anonymous: checked
+            anonymous: checked,
+            donationPageId:searchParams.get("id"),
+            userId: principalData?.data.userId
         }
         console.log(data);
         donationSubmitMutation.mutate(data);
-    
+        
     }
+
+
     return (
         <>
         <div>

@@ -12,7 +12,7 @@ function App() {
     retry: 0,
     refetchOnWindowFocus: false,
     onSuccess: response => {
-        console.log("onSuccess");
+        console.log(response.data);
         
     },
     onError: error => {
