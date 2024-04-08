@@ -7,5 +7,6 @@ export const QUILL_MODULES = {
         ['image'],
         ['code-block']
     ]
+    
 }
 

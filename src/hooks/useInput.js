@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { REGEX } from "../constants/regex";
 
+
 export const useInput = (property) => {
     const [ value, setValue ] = useState("");
     const [ message, setMessage ] = useState(null);
