@@ -14,7 +14,7 @@ function MyPage(props) {
                 <div css={s.header}>
                     <div css={s.imgBox}>
                         <div css={s.propfileImg}>
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_l_pV9bIEf7b1iI0-biyMLQy70FC-ew-4Pw&usqp=CAU" alt="" />
+                            <img src={principalData?.data.img} alt="" />
                         </div>
                     </div>
                     <div css={s.infoBox}>
@@ -28,6 +28,7 @@ function MyPage(props) {
                 </div>
                 <div>
                 <Link to={"/account/create/team"}> 팀 만들기</Link>
+                <Link to={"/account/infoedit"}>회원 정보 수정</Link>
                 </div>
             </div>
         }
