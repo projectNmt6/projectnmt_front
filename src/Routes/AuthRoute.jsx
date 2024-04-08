@@ -6,6 +6,7 @@ import SignUpPage from "../pages/SignUpPage/SignUpPage"
 import ReviewPage from '../pages/ReviewPage/ReviewPage';
 import DonationPageboard from "../pages/DonationPageBoard/DonationPageboard";
 import DonationStoryPage from "../pages/DonationStoryPage/DonationStoryPage";
+import DonationPageboard2 from '../pages/DonationUpdatePage/DonationPageboard2';
 
 function AuthRoute(props) {
     return (
@@ -16,7 +17,9 @@ function AuthRoute(props) {
             <Route path="/main/write" element={<DonationPageboard />} />
             <Route path="/main/review" element={< ReviewPage/>} />
             <Route path="/donation/*" element={<DonationStoryPage />} />
-        </Routes> 
+            <Route path="/main/donation/update" element={<DonationPageboard2 />} />
+       
+           </Routes> 
     );
 }
 

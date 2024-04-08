@@ -20,3 +20,13 @@ export const registerReviewPage = async (data) => {
 export const getAllDonationTag = async () => {
     return await instance.get("/main/storytypes")
 }
+
+export const updatePageRequest = async (data) => {
+    return await instance.put(`main/donation/update/${data.donationPageId}`, data);
+}
+
+export const getDonationPageRequest = async (pageId) => {
+    return await instance.get(`/main/donation/${pageId}`);
+}
+
+

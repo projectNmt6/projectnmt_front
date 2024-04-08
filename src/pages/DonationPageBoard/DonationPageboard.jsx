@@ -90,7 +90,7 @@ function DonationPageboard() {
             donationPageId: 1,
             teamId: null,
             mainCategoryId: selectedMainTag.value,
-            donationCategoryId: null,
+            donationCategoryId: mainTagOptions,
             createDate: startDate,
             endDate: endDate,
             goalAmount : amount,
@@ -184,6 +184,15 @@ function DonationPageboard() {
                 <input type="text" placeholder='제목' value={title} onChange={(e) => setTitle(e.target.value)} />
             </div>
 
+            {/* <input 
+                type={"date"} 
+                placeholder={"프로젝트 시작일"} 
+                selected={startDate} 
+                onChange={handleStartDateChange} 
+                selectsStart
+                dateFormat="yyyy년 MM월 dd일"
+            /> */}
+            
             <div>기부 프로젝트 시작일: </div>
             <DatePicker 
                 selected={startDate} 
@@ -205,8 +214,7 @@ function DonationPageboard() {
             />
             
             <div>
-            <div>프로젝트 기간: {projectDuration !== null ? `${projectDuration}일` : ''}</div>
-       
+                <div>프로젝트 기간: {projectDuration !== null ? `${projectDuration}일` : ''}</div>       
             </div>
                             
             
