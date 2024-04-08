@@ -1,21 +1,41 @@
 import React from 'react';
-import SignInPage from '../pages/SignInPage/SignInPage';
 import { Route, Routes } from 'react-router-dom';
-import SignUpPage from '../pages/SignUpPage/SignUpPage';
-import { Route, Routes } from "react-router-dom";
 import DonationPageboard from "../pages/DonationPageBoard/DonationPageboard";
 import HomePage from "../pages/HomePage";
 import MainPage from "../pages/MainPage/MainPage";
+import MyPage from '../pages/MyPage/MyPage';
+import { useQuery } from 'react-query';
+import { getPrincipalRequest } from '../apis/api/principal';
+import RootHeader from '../components/rootHeader/RootHeader';
+import AuthPage from '../pages/AuthPage/AuthPage';
+import TeamRoutePage from '../pages/TeamRoutePage/TeamRoutePage';
 
 function AuthRoute(props) {
+
+    const principalQuery = useQuery(["principalQuery"], getPrincipalRequest,{//focus 변경정로도
+        retry: 0,
+        refetchOnWindowFocus: false,
+        onSuccess: response => {
+            console.log(response.data);
+        },
+        onError: error => {
+            console.log("오류");
+            console.log(error);
+        }
+    });
     return (
-        <Routes>
-            <Route path='/signin' element={ <SignInPage /> }/>
-            <Route path='/signup' element={ <SignUpPage /> }/>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/main" element={<MainPage />} />
-            <Route path="/main/write" element={<DonationPageboard />} />
-        </Routes> 
+        <>
+            <RootHeader />
+            <Routes>
+                <Route path="/auth/*" element={ <AuthPage />}/>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/main" element={<MainPage />} />
+                <Route path="/main/write" element={<DonationPageboard />} />
+                <Route path="/team/*" element={ <TeamRoutePage />}/>
+                <Route path="/account/mypage" element={<MyPage />} />
+                
+            </Routes> 
+        </>
     );
 }
 
