@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import {Link, useLocation, useParams } from 'react-router-dom';
-import { getDonationStoryRequest, updatePageRequest } from '../../apis/api/DonationAPI';
+import { deleteDonationPage, getDonationStoryRequest, updatePageRequest } from '../../apis/api/DonationAPI';
 import DOMPurify from 'dompurify';
 
 function DonationStoryPage() {
@@ -28,9 +28,20 @@ function DonationStoryPage() {
 
     console.log(donationPage);
 
-    const deleteButton = () => {
-        
+    
+    const deleteMutationButton = useMutation({
+        mutationKey: "deleteMutationButton",
+        mutationFn: deleteDonationPage,
+        onSuccess: response => {
+            alert("삭제완료")
+        }
+    })
+
+    const handleDeleteButtonClick = () => {
+        deleteMutationButton.mutate({ donationPageId: donationPageId });
     }
+    
+ 
 
     useEffect(() => {
         const fetchData = async () => {
@@ -53,7 +64,7 @@ function DonationStoryPage() {
             
                 <div>
                 <Link to={`/main/donation/update?page=${donationPageId}`}>수정하기</Link>                
-                <button onClick={deleteButton} >삭제하기</button>
+                <button onClick={handleDeleteButtonClick} >삭제하기</button>
             </div>
 
 

@@ -7,6 +7,7 @@ import ReviewPage from '../pages/ReviewPage/ReviewPage'
 import DonationPageboard from '../pages/DonationPageBoard/DonationPageboard';
 import MainPage from '../pages/MainPage/MainPage';
 import SignUpPage from '../pages/SignUpPage/SignUpPage'
+import SignInPage from '../pages/SignInPage/SignInPage';
 
 
 
@@ -16,6 +17,7 @@ function AuthRoute(props) {
         <Routes>
             
             <Route path='/signup' element={ <SignUpPage /> }/>
+            <Route path='/signin' element={ <SignInPage />} />
             <Route path="/" element={<HomePage />} />
             <Route path="/main" element={<MainPage />} />
             <Route path="/main/write" element={<DonationPageboard />} />
