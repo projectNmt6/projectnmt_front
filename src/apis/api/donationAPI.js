@@ -5,7 +5,7 @@ export const getDonationListRequest = async (params) => {
     return await instance.get("/main/donations", { params });
   } catch (error) {
     console.error("Error in getDonationListRequest:", error);
-    throw error; // 에러를 다시 throw하여 호출 측에서도 처리할 수 있게 합니다.
+    throw error;
   }
 }
 
