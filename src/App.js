@@ -5,9 +5,9 @@ import { getPrincipalRequest } from './apis/api/principal';
 import { useQuery } from 'react-query';
 import MyPage from './pages/MyPage/MyPage';
 import TeamCreatePage from './pages/TeamCreatePage/TeamCreatePage';
+import DonatorInfo from './pages/DonatorInfo/DonatorInfo';
 
 function App() {
-  
   return (
     <>
        <AuthRoute />

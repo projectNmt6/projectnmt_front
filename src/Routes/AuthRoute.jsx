@@ -10,6 +10,12 @@ import RootHeader from '../components/rootHeader/RootHeader';
 import AuthPage from '../pages/AuthPage/AuthPage';
 import TeamRoutePage from '../pages/TeamRoutePage/TeamRoutePage';
 import AdminRoute from '../pages/Admin/route/AdminRoute';
+import DonationPageboard2 from '../pages/DonationUpdatePage/DonationPageboard2';
+import DonationStoryPage from '../pages/DonationStoryPage/DonationStoryPage';
+import ReviewPage from '../pages/ReviewPage/ReviewPage'
+
+
+
 
 function AuthRoute(props) {
 
@@ -35,7 +41,12 @@ function AuthRoute(props) {
                 <Route path="/team/*" element={ <TeamRoutePage />}/>
                 <Route path="/account/mypage" element={<MyPage />} />
                 <Route path="/admin/*" element={ <AdminRoute/> } /> 
-            </Routes> 
+                <Route path='/signup' element={ <SignUpPage /> }/>
+                <Route path="/main/review" element={< ReviewPage/>} />
+                <Route path="/donation/*" element={<DonationStoryPage />} />
+                <Route path="/main/donation/update" element={<DonationPageboard2 />} />
+       
+           </Routes> 
         </>
     );
 }
