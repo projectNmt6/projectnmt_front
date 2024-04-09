@@ -75,7 +75,7 @@ function DonationStoryPage() {
         axios.post("http://localhost:8080/comment/upload", {
             donationCommentId: null,
             commentText : comment,
-            donationPageId: null,
+            donationPageId: donationPageId,
             userId: null
         })
         .then(response => {
