@@ -42,13 +42,10 @@ function AuthRoute(props) {
                 <Route path="/team/*" element={ <TeamRoutePage />}/>
                 <Route path="/account/mypage" element={<MyPage />} />
                 <Route path="/admin/*" element={ <AdminRoute/> } /> 
-                <Route path='/signup' element={ <SignUpPage /> }/>
                 <Route path="/main/review" element={< ReviewPage/>} />
                 <Route path="/donation/*" element={<DonationStoryPage />} />
                 <Route path="/main/donation/update" element={<DonationPageboard2 />} />
                 <Route path="/search" element={<SearchPage />} />
-
-       
            </Routes> 
         </>
     );

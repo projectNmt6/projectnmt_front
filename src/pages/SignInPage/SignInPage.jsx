@@ -31,7 +31,7 @@ function SignInPage(props) {
             </div>
             <input type={"text"} name={"username"} placeholder={"사용자 ID"} value={username} onChange={usernameChange} />
             <input type={"password"} name={"password"} placeholder={"비밀번호"} value={password} onChange={passwordChange} />
-            <Link to={"/signup"}>회원가입</Link>
+            <Link to={"/auth/signup"}>회원가입</Link>
             <div>
                 <a href={null}>카카오로그인</a>
                 <a href={null}>구글로그인</a>

@@ -42,6 +42,3 @@ export const deleteDonationPage = async (data) => {
 }
 
 
-export const getAllDonationTag = async () => {
-    return await instance.get("/main/storytypes")
-}

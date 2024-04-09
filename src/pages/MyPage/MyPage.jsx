@@ -25,7 +25,6 @@ function MyPage(props) {
         }
     );            
 
-    console.log(temaList)
 
     return (
         <>
