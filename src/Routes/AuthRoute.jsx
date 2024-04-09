@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import DonationPageboard from "../pages/DonationPageBoard/DonationPageboard";
 import HomePage from "../pages/HomePage";
 import MainPage from "../pages/MainPage/MainPage";
+import SearchPage from '../pages/SearchPage/SearchPage';
 import MyPage from '../pages/MyPage/MyPage';
 import { useQuery } from 'react-query';
 import { getPrincipalRequest } from '../apis/api/principal';
@@ -45,6 +46,8 @@ function AuthRoute(props) {
                 <Route path="/main/review" element={< ReviewPage/>} />
                 <Route path="/donation/*" element={<DonationStoryPage />} />
                 <Route path="/main/donation/update" element={<DonationPageboard2 />} />
+                <Route path="/search" element={<SearchPage />} />
+
        
            </Routes> 
         </>
