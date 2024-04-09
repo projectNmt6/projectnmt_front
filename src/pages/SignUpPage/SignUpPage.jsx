@@ -94,7 +94,6 @@ function SignUpPage(props) {
             }   
         );
     };
-
     const handleSubmitClick = () => {
         const checkFlags = [
             usernameMessage?.type,

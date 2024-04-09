@@ -5,7 +5,6 @@ function HomePage(props) {
     return (
         <div>
             <h1>Home</h1>
-            <Link to={'/main'}>메인페이지</Link>
         </div>
     );
 }

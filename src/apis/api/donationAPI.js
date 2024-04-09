@@ -1,4 +1,5 @@
-import instance from "../utils/instance"
+import instance from "../utils/instance";
+
 export const getDonationListRequest = async (params) => { 
     return await instance.get("/main/donations", {params});
 }
@@ -17,8 +18,7 @@ export const registerReviewPage = async (data) => {
 }
 
 export const getAllDonationTag = async () => {
-    return await instance.get("/main/storytypes")
-}
+    return await instance.get("/main/storytypes")}
 
 
 export const updatePageRequest = async (data) => {
