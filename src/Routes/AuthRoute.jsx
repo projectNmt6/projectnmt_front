@@ -14,8 +14,13 @@ import AdminRoute from '../pages/Admin/route/AdminRoute';
 import DonationPageboard2 from '../pages/DonationUpdatePage/DonationPageboard2';
 import DonationStoryPage from '../pages/DonationStoryPage/DonationStoryPage';
 import ReviewPage from '../pages/ReviewPage/ReviewPage'
+<<<<<<< HEAD
 
 
+=======
+import UserInfoEditPage from '../pages/UserInfoEditPage/UserInfoEditPage';
+import SignUpPage from '../pages/SignUpPage/SignUpPage';
+>>>>>>> 19-회원정보수정
 
 
 function AuthRoute(props) {
@@ -32,10 +37,15 @@ function AuthRoute(props) {
         }
     });
     return (
+<<<<<<< HEAD
         <>
             <RootHeader />
             <Routes>
                 <Route path="/auth/*" element={ <AuthPage />}/>
+=======
+        <Routes>
+            <Route path="/auth/*" element={ <AuthPage />}/>
+>>>>>>> 19-회원정보수정
                 <Route path="/" element={<HomePage />} />
                 <Route path="/main" element={<MainPage />} />
                 <Route path="/main/write" element={<DonationPageboard />} />
@@ -47,10 +57,15 @@ function AuthRoute(props) {
                 <Route path="/donation/*" element={<DonationStoryPage />} />
                 <Route path="/main/donation/update" element={<DonationPageboard2 />} />
                 <Route path="/search" element={<SearchPage />} />
+<<<<<<< HEAD
 
        
            </Routes> 
         </>
+=======
+            <Route path='/account/mypage/edit' element={<UserInfoEditPage />} />            
+        </Routes> 
+>>>>>>> 19-회원정보수정
     );
 }
 

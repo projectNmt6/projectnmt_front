@@ -18,7 +18,7 @@ export const registerReviewPage = async (data) => {
 }
 
 export const getAllDonationTag = async () => {
-    return await instance.get("/main/storytypes")
+    return await instance.get("/main/storytypes");
 }
 
 
@@ -39,9 +39,4 @@ export const submitDonationData = async (data) => {
 
 export const deleteDonationPage = async (data) => {
     return await instance.delete(`/main/donation/${data.donationPageId}`, data)
-}
-
-
-export const getAllDonationTag = async () => {
-    return await instance.get("/main/storytypes")
 }

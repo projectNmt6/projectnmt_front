@@ -25,8 +25,6 @@ function MyPage(props) {
         }
     );            
 
-    console.log(temaList)
-
     return (
         <>
         {
@@ -34,7 +32,7 @@ function MyPage(props) {
                 <div css={s.header}>
                     <div css={s.imgBox}>
                         <div css={s.propfileImg}>
-                            <img src={principalData?.data.profileImg} alt="" />
+                            <img src={principalData?.data.img} alt="" />
                         </div>
                     </div>
                     <div css={s.infoBox}>
@@ -55,7 +53,8 @@ function MyPage(props) {
                             </Link>
                         </>
                     })}
-                    <Link to={"/team/write"} > 팀 생성 </Link>
+                    <Link to={"/account/create/team"}> 팀 만들기</Link>
+                    <Link to={"/account/infoedit"}>회원 정보 수정</Link>
                 </div>
             </div>
         }
