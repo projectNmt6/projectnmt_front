@@ -1,12 +1,32 @@
 /** @jsxImportSource @emotion/react */
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import * as s from "./style";
 import { Link, useNavigate } from "react-router-dom";
-
+import { getTeamListRequest } from "../../apis/api/teamApi";
+import { useState } from "react";
 function MyPage(props) {
+    const [ temaList, setTeamList ] = useState([]);
     const queryClient = useQueryClient();
     const principalData = queryClient.getQueryData("principalQuery");
-    console.log(principalData);
+
+    const getTeamListQuery = useQuery(
+        [ "getTeamListQuery", principalData?.data ],
+        async () => {
+            return await getTeamListRequest({
+                userId: principalData?.data.userId
+            })
+        },
+        {
+            refetchOnWindowFocus: false,
+            // enabled: principalData?.data !== undefined,
+            onSuccess: response => {
+                setTeamList(() => response?.data);
+            },
+        }
+    );            
+
+    console.log(temaList)
+
     return (
         <>
         {
@@ -14,20 +34,28 @@ function MyPage(props) {
                 <div css={s.header}>
                     <div css={s.imgBox}>
                         <div css={s.propfileImg}>
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_l_pV9bIEf7b1iI0-biyMLQy70FC-ew-4Pw&usqp=CAU" alt="" />
+                            <img src={principalData?.data.profileImg} alt="" />
                         </div>
                     </div>
                     <div css={s.infoBox}>
                         <div css={s.infoText}>사용자이름: {principalData?.data.username}</div>
                         <div css={s.infoText}>이름: {principalData?.data.name}</div>
-                        <div css={s.infoText}>전화번호: {principalData?.data.phone_number}</div>
+                        <div css={s.infoText}>전화번호: {principalData?.data.phoneNumber}</div>
                         <div css={s.infoText}>이메일: {principalData?.data.email}</div>
                         <div css={s.infoText}>성별: {principalData?.data.gender}</div>
                         <div css={s.infoText}>나이: {principalData?.data.age}</div>
                     </div>
                 </div>
                 <div>
-                <Link to={"/account/create/team"}> 팀 만들기</Link>
+                    {temaList.map(team => {
+                        return <>
+                            <div>{team.teamName}</div>
+                            <Link to={`/team/info?id=${team.teamId}`}>
+                                <img src={team.teamLogoImgUrl} alt=""/>
+                            </Link>
+                        </>
+                    })}
+                    <Link to={"/team/write"} > 팀 생성 </Link>
                 </div>
             </div>
         }

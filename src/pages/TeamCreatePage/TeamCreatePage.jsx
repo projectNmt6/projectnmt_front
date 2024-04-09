@@ -36,11 +36,11 @@ function TeamCreatePage(props) {
     const [ teamInfoText,  setTeamInfoText ] = useState();
     const [ teamLogoImgUrl,  setTeamLogoImgUrl ] = useState();
     const [ accountInfos, setAccountInfos ] = useState([]);
-    const [ accountInfosCount, setAccountInfosCount ] = useState([]);
-    const [ account, setAccount ] = useState();
+    const [ createAccount, setCreateAccount ] = useState(false);
+    const [ accountNumber, setAccount ] = useState();
     const [ bankName, setBankName ] = useState();
     const [ accountUsername, setAccountUsername ] = useState();
-    const [ accountCopy, setAccountCopy ] = useState();
+    const [ accountUrl, setAccountUrl ] = useState();
     const profileImgRef = useRef();
     const queryClient = useQueryClient();
     const principalData = queryClient.getQueryData("principalQuery");
@@ -70,11 +70,10 @@ function TeamCreatePage(props) {
         },
         onError: error => {}
     })
-    const handleAccountInfo = (e) => {
-        setAccountInfosCount(() => [...accountInfosCount,{}]);
+    const accountCounter = (e) => {
+        setCreateAccount(() => true);
     }
     const submit = () => {
-        console.log(principalData.data);
         const data = {
             userId: principalData?.data.userId,
             teamName,
@@ -86,9 +85,9 @@ function TeamCreatePage(props) {
             companyRegisterNumberUrl: isCompany ? companyRegisterNumberUrl: "",
             teamHomepage,
             teamInfoText,
-            teamLogoImgUrl      
+            teamLogoImgUrl,
+            accountInfos     
         };
-        console.log(data);
         registerTeamMutation.mutate(data);
         // accountInfos
     }
@@ -112,6 +111,16 @@ function TeamCreatePage(props) {
                 });
             }
         )
+    }
+    const handleAccountInfos = () => {
+        const accountInfo = {
+            accountUsername,
+            accountNumber,
+            bankName,
+            accountUrl
+        }
+        setAccountInfos(() => [...accountInfos, accountInfo]);
+        setCreateAccount(() => false)
     }
     return (
         <div css={header}>
@@ -166,22 +175,31 @@ function TeamCreatePage(props) {
                 <input type="text" placeholder="주소"  value={teamAddress} 
                     onChange={(e) => setTeamAddress(e.target.value)}/>
             </div>
-            {/* <div>
-                <button onClick={handleAccountInfo}>은행 계좌 등록</button>
+            <div>
+                <button onClick={accountCounter}>은행 계좌 등록</button>
                 
-                {accountInfosCount.map(accountInfo => 
+                {createAccount ?  
                     <div>  
                         <input type="text" placeholder="예금주명"  value={accountUsername} 
                             onChange={(e) => setAccountUsername(e.target.value)}/>
-                        <input type="text" placeholder="계좌번호"  value={account} 
+                        <input type="text" placeholder="계좌번호"  value={accountNumber } 
                             onChange={(e) => setAccount(e.target.value)}/>
                         <input type="text"placeholder="은행명"  value={bankName} 
                             onChange={(e) => setBankName(e.target.value)}/>   
-                        <input type="file" src="" alt="" onChange={handlefileChange}/>
-                        <button onClick={null}>은행 등록</button>
+                        <input type="file" src="" alt="" onChange={(e) => handlefileChange(e, setAccountUrl)}/>
+                        <button onClick={handleAccountInfos}>은행 등록</button>
+                    </div>
+                    : null
+                }
+                {accountInfos.map(accountInfo => 
+                    <div>  
+                        <span>예금주: {accountInfo.accountUsername}</span>
+                        <span>은행:{accountInfo.bankName}</span>
+                        <span>계좌번호: {accountInfo.accountNumber}</span>
+                        <img src={accountInfo.accountUrl} alt="" />
                     </div>
                 )}
-            </div> */}
+            </div>
             <button onClick={submit}>팀 생성</button>
         </div>
     );
