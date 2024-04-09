@@ -1,12 +1,30 @@
 /** @jsxImportSource @emotion/react */
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import * as s from "./style";
 import { Link, useNavigate } from "react-router-dom";
-
+import { getTeamListRequest } from "../../apis/api/teamApi";
+import { useState } from "react";
 function MyPage(props) {
+    const [ temaList, setTeamList ] = useState([]);
     const queryClient = useQueryClient();
     const principalData = queryClient.getQueryData("principalQuery");
-    console.log(principalData);
+
+    const getTeamListQuery = useQuery(
+        [ "getTeamListQuery", principalData?.data ],
+        async () => {
+            return await getTeamListRequest({
+                userId: principalData?.data.userId
+            })
+        },
+        {
+            refetchOnWindowFocus: false,
+            // enabled: principalData?.data !== undefined,
+            onSuccess: response => {
+                setTeamList(() => response?.data);
+            },
+        }
+    );            
+
     return (
         <>
         {
