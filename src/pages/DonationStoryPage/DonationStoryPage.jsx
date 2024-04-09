@@ -34,6 +34,7 @@ function DonationStoryPage() {
         mutationFn: deleteDonationPage,
         onSuccess: response => {
             alert("삭제완료")
+            window.location.replace("/main");
         }
     })
 
