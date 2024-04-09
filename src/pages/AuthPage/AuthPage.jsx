@@ -25,7 +25,7 @@ function AuthPage() {
         <div css={s.layout}>
             <Routes>
                 <Route path='/signin' element={ <SignInPage /> }/>
-                <Route path='/signup' element={ <SignUpPage /> } />
+                <Route path='/signup' element={ <SignUpPage /> }/>
                 <Route path='/oauth2' element={ <OAuth2Page /> } />
                 <Route path='/oauth2/signup' element={ <OAuth2SignUpPage /> }/>
                 <Route path='/oauth2/merge' element={ <OAuth2MergePage /> }/>
