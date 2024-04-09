@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 import * as s from "./style";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { getDonationListRequest, getDonationTagRequest } from "../../apis/api/DonationAPI";
+import { getDonationListRequest, getDonationTagRequest } from "../../apis/api/donationAPI";
 import { FiSearch } from "react-icons/fi";
 
 function MainPage() {

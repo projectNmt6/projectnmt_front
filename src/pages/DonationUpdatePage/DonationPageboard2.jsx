@@ -6,7 +6,7 @@ import axios from 'axios';
 import Select from 'react-select';
 import { buttonBox } from '../DonationPageBoard/style';
 import { imgUrlBox } from '../DonationPageBoard/style';
-import { deleteDonationPage, getDonationListRequest, getDonationTagRequest } from '../../apis/api/DonationAPI';
+import { deleteDonationPage, getDonationListRequest, getDonationTagRequest } from '../../apis/api/donationAPI';
 import { useMutation, useQuery } from 'react-query';
 import MainPage from '../MainPage/MainPage';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';

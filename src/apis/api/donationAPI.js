@@ -12,31 +12,24 @@ export const registerDonationPage = async (data) => {
 export const getDonationStoryRequest = async (params) => {
     return await instance.get("/main/donation",{params});
 }
-
 export const registerReviewPage = async (data) => {
     return await instance.post("/main/review", data);
 }
-
 export const getAllDonationTag = async () => {
     return await instance.get("/main/storytypes");
 }
-
-
 export const updatePageRequest = async (data) => {
     return await instance.put(`main/donation/update/${data.donationPageId}`, data);
 }
 export const searchDonationRequest = async (params) => {
     return await instance.get("/main/search",{params});
 }
-
 export const getDonationPageRequest = async (pageId) => {
     return await instance.get(`/main/donation/${pageId}`);
 }
-
 export const submitDonationData = async (data) => {
     return await instance.post("/main/test", data);
 }
-
 export const deleteDonationPage = async (data) => {
     return await instance.delete(`/main/donation/${data.donationPageId}`, data)
 }

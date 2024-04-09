@@ -20,18 +20,25 @@ import SignUpPage from '../pages/SignUpPage/SignUpPage';
 
 function AuthRoute(props) {
 
-    const principalQuery = useQuery(["principalQuery"], getPrincipalRequest,{//focus 변경정로도
-        retry: 0,
-        refetchOnWindowFocus: false,
-        onSuccess: response => {
-            console.log(response.data);
-        },
-        onError: error => {
-            console.log("오류");
-            console.log(error);
+    const principalQuery = useQuery(
+        ["principalQuery"], 
+        getPrincipalRequest,
+        {//focus 변경정로도
+            retry: 0,
+            refetchOnWindowFocus: false,
+            onSuccess: response => {
+                console.log(response.data);
+            },
+            onError: error => {
+                console.log("오류");
+                console.log(error);
+            }
         }
-    });
+    );
+
     return (
+        <div>
+        <RootHeader/>
         <Routes>
             <Route path="/auth/*" element={ <AuthPage />}/>
                 <Route path="/" element={<HomePage />} />
@@ -47,6 +54,7 @@ function AuthRoute(props) {
                 <Route path="/search" element={<SearchPage />} />
             <Route path='/account/mypage/edit' element={<UserInfoEditPage />} />            
         </Routes> 
+        </div>
     );
 }
 
