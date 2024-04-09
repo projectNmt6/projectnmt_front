@@ -1,14 +1,24 @@
 import { css } from "@emotion/react";
 
+export const upperRightMenu=css`
+display: flex;
+flex-direction: row;
+justify-content: flex-end;
+`;
+
 export const sign = css`
 display: flex;
-align-items: flex-end;
 flex-direction: column;
-margin-right: 40px;
 `;
+
 export const write=css`
 margin-bottom: 30px;
 margin-left: 40px;
+`;
+export const searchIcon=css`
+display: flex;
+margin: 0 20px;
+justify-content: center;
 `;
 
 export const tagContainer = css`
