@@ -64,40 +64,22 @@ export const updatePageRequest = async (data) => {
 }
 
 export const searchDonationRequest = async (params) => {
-  try {
     return await instance.get("/main/search", { params });
-  } catch (error) {
-    console.error("Error in searchDonationRequest:", error);
-    throw error;
-  }
 }
 
 export const getDonationPageRequest = async (pageId) => {
-  try {
     return await instance.get(`/main/donation/${pageId}`);
-  } catch (error) {
-    console.error("Error in getDonationPageRequest:", error);
-    throw error;
-  }
+
 }
 
 export const submitDonationData = async (data) => {
-  try {
     return await instance.post("/main/test", data);
-  } catch (error) {
-    console.error("Error in submitDonationData:", error);
-    throw error;
-  }
+ 
 }
 
 export const deleteDonationPage = async (data) => {
-    try {
-      // axios.delete의 두 번째 인자로 config 객체를 전달합니다.
-      // 이 객체 내에 data 속성을 추가하여 요청 본문(body) 데이터를 포함시킵니다.
+   
       return await instance.delete(`/main/donation/${data.donationPageId}`, { data });
-    } catch (error) {
-      console.error("Error in deleteDonationPage:", error);
-      throw error;
-    }
+   
   };
   
