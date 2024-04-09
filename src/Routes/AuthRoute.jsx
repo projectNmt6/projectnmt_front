@@ -9,6 +9,7 @@ import { getPrincipalRequest } from '../apis/api/principal';
 import RootHeader from '../components/rootHeader/RootHeader';
 import AuthPage from '../pages/AuthPage/AuthPage';
 import TeamRoutePage from '../pages/TeamRoutePage/TeamRoutePage';
+import AdminRoute from '../pages/Admin/route/AdminRoute';
 
 function AuthRoute(props) {
 
@@ -33,7 +34,7 @@ function AuthRoute(props) {
                 <Route path="/main/write" element={<DonationPageboard />} />
                 <Route path="/team/*" element={ <TeamRoutePage />}/>
                 <Route path="/account/mypage" element={<MyPage />} />
-                
+                <Route path="/admin/*" element={ <AdminRoute/> } /> 
             </Routes> 
         </>
     );

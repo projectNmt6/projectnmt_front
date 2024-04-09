@@ -5,6 +5,8 @@ import * as s from "./style";
 import { useRecoilState } from 'recoil';
 import { Link } from 'react-router-dom';
 import { FiLogOut, FiUser } from "react-icons/fi";
+import { FaHome } from "react-icons/fa";
+
 import { useQueryClient } from 'react-query';
 import instance from '../../apis/utils/instance';
 
@@ -36,9 +38,10 @@ function RootHeader(props) {
     }
     return (
         <div css={s.header}>
-            <button css={s.menuButton} onClick={(e) => handleOpenMenuClick(e)}>
-                <HiMenu />
-            </button>
+            <Link css={s.account} to={"/"}>
+                <FaHome />
+            </Link>
+            <Link to={"/main"}> 기부하기 </Link>
             {
                 !isLogin ? 
                 <Link css={s.account} to={"/auth/signin"}>
