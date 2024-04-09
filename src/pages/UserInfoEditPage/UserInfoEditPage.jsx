@@ -1,24 +1,35 @@
 /** @jsxImportSource @emotion/react */
-import { useState } from "react";
+import { useRef, useState } from "react";
 import * as s from "./style";
 import Select from "react-select";
 import { useInput } from "../../hooks/useInput";
-import { useMutation } from 'react-query';
-import { useAuthCheck } from "../../hooks/useAuthCheck";
+import { useMutation, useQueryClient } from 'react-query';
 import { submitDonatorEditData } from "../../apis/api/donatorApi";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { v4 as uuid } from 'uuid';
+import { storage } from "../../apis/filrebase/config/firebaseConfig";
 
 function UserInfoEditPage(props) {
     // useAuthCheck();
+    const [ oldPassword, handleOldPassword, oldMessage, setOldMessage ] = useInput("oldPassword");
+    const [ newPassword, handleNewPassword, newMessage, setNewMessage ] = useInput("newPassword");
+    const [ newPasswordCheck, handleNewPasswordCheck, newCheckMessage, setNewCheckMessage ] = useInput("newPasswordCheck");
+    const [ name, handleNewName ] = useInput();
+    const [ email, handleNewEmail ] = useInput();
+    const [ age , handleNewAge ] = useInput();
     const [ gender, setGender ] = useState(); 
-    const [ oldPassword, handleOldPassword, oldMessage, setOld, setOldMessage ] = useInput("oldPassword");
-    const [ newPassword, handleNewPassword, newMessage, setNew, setNewMessage ] = useInput("newPassword");
-    const [ newPasswordCheck, handleNewPasswordCheck, newCheckMessage, setNewCheck, setNewCheckMessage ] = useInput("newPasswordCheck");
+    const [ phonenumber , handlePhoneNumber ] = useInput(); 
+    const queryClient = useQueryClient();
+    const principalData = queryClient.getQueryData("principalQuery");
+    const [profileImg, setProfileImg] = useState("");
+    const imgFileRef = useRef();
 
     const editMutation = useMutation({
         mutationKey: "editMutation",
         mutationFn: submitDonatorEditData,
         onSuccess: response => {
-            alert("비밀번호를 정상적으로 변경하였습니다.\n다시 로그인 하세요.");
+            console.log(response);
+            alert("정상적으로 변경하였습니다.\n다시 로그인 하세요.");
             localStorage.removeItem("AccessToken");
             // window.location.replace("/auth/signin");
         },
@@ -48,13 +59,52 @@ function UserInfoEditPage(props) {
         }
     });
     
+    const handleImgFileChange = (e) => {
+        const files = Array.from(e.target.files);
+        if (files.length === 0) {
+            e.target.value = "";
+            return;
+        }
+        const fileReader = new FileReader();
+        fileReader.onload = (e) => {
+            setProfileImg(e.target.result);  
+        };
+        fileReader.readAsDataURL(e.target.files[0]);
+        
+        const storageRef = ref(storage, `library/book/cover/${uuid()}_${files[0].name}`);
+        const uploadTask = uploadBytesResumable(storageRef, files[0]);
+        
+        uploadTask.on(
+            "state_changed",
+            Snapshot => {},
+            error => {},
+            () => {
+                alert("업로드를 완료하셨습니다.");
+                getDownloadURL(storageRef)
+                    .then(url => {
+                        setProfileImg(() => url);
+                    });
+            }   
+        );
+    };
+
     const handleEditSubmitClick = () => {
+        console.log(principalData.data);
         editMutation.mutate({
+            userId:principalData?.data.userId,
+            username:principalData?.data.username,
             oldPassword,
             newPassword,
-            newPasswordCheck
+            newPasswordCheck,
+            name,
+            email,
+            age,
+            gender,
+            phonenumber,
+            profileImg
         });
-    } 
+    }
+
     const genderOption = [
         {
             value: "male",
@@ -74,31 +124,29 @@ function UserInfoEditPage(props) {
         setGender(selectedOption.value);
     };
 
-
-
     return (
         <>
         <title>회원 정보 수정</title>
         <div>
-            <label for="name">닉네임:</label>
-            <input type="text" id="name" name="name" required />
+            <label htmlFor={name}>닉네임:</label>
+            <input type="text" id={name} onChange={handleNewName} required/>
         </div>  
         <div>
-            <label for="email">이메일:</label>
-            <input type="email" id="email" name="email" required />
-        </div> 
-        <div>
-            <label for="password">비밀번호:</label>
+            <label htmlFor={"password"}>비밀번호:</label>
             <input type={"password"} id={oldPassword} onChange={handleOldPassword} placeholder={"현재 비밀번호를 입력하세요."} message={oldMessage}/>
             <input type={"password"} id={newPassword} onChange={handleNewPassword} placeholder={"새로운 비밀번호를 입력하세요."} message={newMessage}/>
             <input type={"password"} id={newPasswordCheck} onChange={handleNewPasswordCheck} placeholder={"새로운 비밀번호를 확인하세요."} message={newCheckMessage}/>
         </div> 
         <div>
-            <label for="birthdate">생년월일:</label>
-            <input type="date" id="birthdate" name="birthdate" required />
+            <label htmlFor={email}>이메일:</label>
+            <input type="email" id={email} onChange={handleNewEmail} required />
+        </div> 
+        <div>   
+            <label htmlFor={age}>나이:</label>
+            <input type="date" id={age} onChange={handleNewAge} required />
         </div> 
         <div>
-            <label for="gender">성별:</label>
+            <label htmlFor="gender">성별:</label>
             <Select 
                 options={genderOption}
                 value={{ value: setGender, label: gender }}
@@ -106,8 +154,12 @@ function UserInfoEditPage(props) {
             />
         </div>
         <div>
-            <label for="phone">전화번호:</label>
-            <input type="tel" id="phone" name="phone" />
+            <label htmlFor={phonenumber}>전화번호:</label>
+            <input type="text" id={phonenumber} onChange={handlePhoneNumber} required/>
+        </div>
+        <div css={s.imgBox} onClick={() => imgFileRef.current.click()}>
+                <input type="file" style={{ display: "none" }} ref={imgFileRef} multiple={true} onChange={handleImgFileChange} />
+                <img src={profileImg} alt="" />
         </div>
         <div>
             <button type="submit" onClick={handleEditSubmitClick}>제출하기</button>
