@@ -292,7 +292,6 @@ function DonationPageboard2() {
                 <button onClick={handleSubmitButton}>수정 완료</button>
                 <button onClick={handleCancelButton}>취소</button>
                 <button onClick={handleHomeButton}>돌아가기</button>
-                <button onClick={deleteButton} >삭제하기</button>
             </div>
         </>
     );

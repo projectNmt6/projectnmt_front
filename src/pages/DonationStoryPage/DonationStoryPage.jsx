@@ -28,6 +28,10 @@ function DonationStoryPage() {
 
     console.log(donationPage);
 
+    const deleteButton = () => {
+        
+    }
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -48,7 +52,8 @@ function DonationStoryPage() {
                 </div>
             
                 <div>
-                <Link to={`/main/donation/update?page=${donationPageId}`}>수정하기</Link>
+                <Link to={`/main/donation/update?page=${donationPageId}`}>수정하기</Link>                
+                <button onClick={deleteButton} >삭제하기</button>
             </div>
 
 
