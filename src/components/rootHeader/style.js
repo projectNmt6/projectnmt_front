@@ -38,13 +38,21 @@ export const account = css`
     color: #222222;
     cursor: pointer;
 `
-
-export const accountItems = css`
+export const accountItems1 = css`
     display: flex;
     align-items: center;
-    height: 100%;
-
+    flex-direction:row;
 `
+export const accountItems2 = css`
+    display: flex;
+    align-items: center;
+    flex-direction:row;
+    height: 100%;
+`
+export const searchIcon=css`
+margin: 0 0px;
+color: black;
+`;
 
 export const logout = css`
     display: flex;

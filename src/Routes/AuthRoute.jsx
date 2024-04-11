@@ -14,6 +14,7 @@ import AdminRoute from '../pages/Admin/route/AdminRoute';
 import DonationPageboard2 from '../pages/DonationUpdatePage/DonationPageboard2';
 import DonationStoryPage from '../pages/DonationStoryPage/DonationStoryPage';
 import ReviewPage from '../pages/ReviewPage/ReviewPage'
+import SignUpPage from '../pages/SignUpPage/SignUpPage';
 
 
 

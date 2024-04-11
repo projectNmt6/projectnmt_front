@@ -4,6 +4,7 @@ import UserManagement from '../userManagement/UserManagement';
 import CommentManagement from '../commentManagement/CommentManagement';
 import StoryManagement from '../storyManagement/StoryManagement';
 import { Route, Routes } from 'react-router-dom';
+import AdminSearchPage from '../AdminSearchPage/AdminSearchPage';
 
 function AdminRoute(props) {
     return (
@@ -13,6 +14,7 @@ function AdminRoute(props) {
                 <Route path='/management/user' element={ <UserManagement /> }/>
                 <Route path='/management/comment' element={ <CommentManagement /> }/>
                 <Route path='/management/stroy' element={ <StoryManagement /> }/>
+                <Route path="/search" element={<AdminSearchPage />} />
             </Routes>
         </div>
     );

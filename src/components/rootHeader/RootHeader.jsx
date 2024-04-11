@@ -4,7 +4,7 @@ import {HiMenu} from "react-icons/hi";
 import * as s from "./style";
 import { useRecoilState } from 'recoil';
 import { Link } from 'react-router-dom';
-import { FiLogOut, FiUser } from "react-icons/fi";
+import { FiLogOut, FiSearch, FiUser } from "react-icons/fi";
 import { FaHome } from "react-icons/fa";
 
 import { useQueryClient } from 'react-query';
@@ -14,16 +14,16 @@ function RootHeader(props) {
     const [isLogin, setLogin] = useState(false);
     const queryClient = useQueryClient();
     // const principal = queryClient.getQueryData("principalQuery");
-    const principalState = queryClient.getQueryState("principalQuery");
+    // const principalState = queryClient.getQueryState("principalQuery");
     
-    useEffect(() => {
-        setLogin(() => principalState.status === "success");
-        console.log(principalState.status);
-    },[principalState.status])
+    // useEffect(() => {
+    //     setLogin(() => principalState.status === "success");
+    //     console.log(principalState.status);
+    // },[principalState.status])
     
-    const handleOpenMenuClick = (e) => {
-        e.stopPropagation();
-    }
+    // const handleOpenMenuClick = (e) => {
+    //     e.stopPropagation();
+    // }
 
    
 
@@ -42,21 +42,25 @@ function RootHeader(props) {
                 <FaHome />
             </Link>
             <Link to={"/main"}> 기부하기 </Link>
+            
             {
                 !isLogin ? 
-                <Link css={s.account} to={"/auth/signin"}>
-                    <FiUser />
-                </Link>
-                : <div css={s.accountItems}>
+                <div css={s.accountItems1}>
+                    <Link css={s.account} to={"/auth/signin"}>
+                        <FiUser />
+                    </Link>
+                    <Link css={s.searchIcon} to={"/search"} ><FiSearch/></Link>
+                </div> 
+                : <div css={s.accountItems2}>
                     <button css={s.logout} onClick={handleLogoutClick}>
                         <FiLogOut />
                     </button> 
-                <Link css={s.account} to={"/account/mypage"}>
-                    <FiUser />
-                </Link>
-                </div> 
+                    <Link css={s.account} to={"/account/mypage"}>
+                        <FiUser />
+                    </Link>
+                    <Link css={s.searchIcon} to={"/search"} ><FiSearch/></Link>
+                  </div> 
             }
-            
         </div>
     );
 }
