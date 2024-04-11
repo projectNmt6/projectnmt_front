@@ -2,12 +2,13 @@
 import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import {Link, useLocation, useParams } from 'react-router-dom';
-import { commentReqest, commentResponse, deleteComment, deleteDonationPage, getDonationStoryRequest, updatePageRequest } from '../../apis/api/DonationAPI';
+import { commentReqest, commentResponse, deleteDonationPage, getDonationStoryRequest, updatePageRequest } from '../../apis/api/DonationAPI';
 import DOMPurify from 'dompurify';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import axios from 'axios';
-import CommentSection from '../../pages/DonationStoryPage/CommentSection'; 
+import CommentSection from '../DonationStoryPage/CommentSection'; 
+import { FcLike } from "react-icons/fc";
 
 function DonationStoryPage() {
     const location = useLocation();
@@ -15,8 +16,8 @@ function DonationStoryPage() {
     const donationPageId = queryParams.get('page'); 
     const[donationPage, setDonationPage] = useState({});
     const [ commentList, setCommentList ] = useState([]);
+    const donationCommentId = queryParams.get('commentId')
 
-    const donationCommentId = queryParams.get('id');
     const [comment, setComment ] = useState("");
 
     const getDonationStoryQuery = useQuery(
@@ -34,20 +35,27 @@ function DonationStoryPage() {
 
 
     useEffect(() => {
-        axios.get("http://localhost:8080/comment/getcomment")
-.then(response => {
-    if (Array.isArray(response.data)) {
-        setCommentList(response.data); 
-    } else {
-        console.error('데이터 형식이 올바르지 않습니다.');
-        setCommentList([]); 
-    }
-})
-.catch(error => {
-    console.error(error);
-});
+        axios.get(`http://localhost:8080/comment/getcomment/${donationPageId}`)
+            .then(response => setCommentList(response.data))
+            .catch(console.error);
+    }, [donationPageId]);
+    
 
-    }, []);
+//     useEffect(() => {
+//         axios.get("http://localhost:8080/comment/getcomment")
+// .then(response => {
+//     if (Array.isArray(response.data)) {
+//         setCommentList(response.data); 
+//     } else {
+//         console.error('데이터 형식이 올바르지 않습니다.');
+//         setCommentList([]); 
+//     }
+// })
+// .catch(error => {
+//     console.error(error);
+// });
+
+//     }, []);
     
 
 
@@ -65,10 +73,14 @@ function DonationStoryPage() {
     })
 
     const handleDeleteButtonClick = () => {
-        deleteMutationButton.mutate({ 
-            donationPageId: donationPageId });
+        deleteMutationButton.mutate({ donationPageId: donationPageId });
     }
 
+
+    const handleCommentChange = (e) => {
+        const value = e.target.value;
+        setComment(value);
+    }
 
     const handleCommentSubmit = () => {
 
@@ -100,33 +112,6 @@ function DonationStoryPage() {
         fetchData();
     }, [donationPageId]);
 
-
-        useEffect(() => {
-        axios.get("http://localhost:8080/comment/getcomment")
-            .then(response => setCommentList(response.data))
-            .catch(console.error);
-    }, []);
-
-    const handleCommentChange = (e) => setComment(e.target.value);
-
-
-
-
-    const deleteCommentMutation = useMutation({
-        mutationKey: "deleteCommentMutation",
-        mutationFn: deleteComment,
-        onSuccess: response => {
-            alert("삭제완료")
-            console.log(response);
-            // window.location.reload();
-        }
-    })
-    
-    const handleCommentDeleteButton = () => {
-        deleteCommentMutation.mutate({
-            donationCommentId: donationCommentId
-        });
-    }
     
     return (
         <>
@@ -146,7 +131,8 @@ function DonationStoryPage() {
             </div>
 
             <div>
-                    <h2>{donationPage.storyTitle}</h2>
+                    <h2>{donationPage.storyTitle}</h2>                     
+                    <button> 좋아요<FcLike /></button>
                     <img src={donationPage.mainImgUrl} alt="" />
                     <p>기부 시작일: {donationPage.createDate}</p>
                     <p>기부 종료일: {donationPage.endDate}</p>
@@ -154,24 +140,12 @@ function DonationStoryPage() {
             </div>
 
                 <h3>덧글</h3>
-            <div css={s.commentBox}>
+                    <div css={s.commentBox}>
 
-                <div>
-                    
-                <CommentSection donationPageId={donationPageId}>
-                    
-                </CommentSection>
-                </div>
-
-                {/* <div>
-                    <input 
-                        type="text" 
-                        value={comment}
-                        onChange={handleCommentChange}
-                    />
-                    <p>{commentList.commentText}</p>
-                    <button onClick={handleCommentSubmit}>덧글입력</button>
-                </div> */}
+                    <div>
+                        <CommentSection donationPageId={donationPageId}>                    
+                        </CommentSection>
+                    </div>
 
             </div>
 
