@@ -9,3 +9,12 @@ export const commentBox = css`
         border-bottom: 1px solid #ccc; 
 
 `;
+
+export const boxbox1 = css`
+
+  display: flex;
+  border: 1px solid #111111;
+  width: 500px;
+  height: 600px;
+
+`;;

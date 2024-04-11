@@ -119,6 +119,10 @@ function DonationStoryPage() {
                     <div dangerouslySetInnerHTML={{ __html: safeHTML }} />
             </div>
 
+            <div css={s.boxbox1}>
+                분리 공간
+            </div>
+
                 <h3>덧글</h3>
             <div css={s.commentBox}>
 
