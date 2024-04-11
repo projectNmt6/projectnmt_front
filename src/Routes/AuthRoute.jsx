@@ -16,6 +16,8 @@ import DonationStoryPage from '../pages/DonationStoryPage/DonationStoryPage';
 import ReviewPage from '../pages/ReviewPage/ReviewPage'
 import UserInfoEditPage from '../pages/UserInfoEditPage/UserInfoEditPage';
 import SignUpPage from '../pages/SignUpPage/SignUpPage';
+import MyDonation from '../pages/MyDonation/MyDonation';
+import DonatorInfo from '../pages/DonatorInfo/DonatorInfo';
 
 
 function AuthRoute(props) {
@@ -52,7 +54,9 @@ function AuthRoute(props) {
                 <Route path="/donation/*" element={<DonationStoryPage />} />
                 <Route path="/main/donation/update" element={<DonationPageboard2 />} />
                 <Route path="/search" element={<SearchPage />} />
-            <Route path='/account/mypage/edit' element={<UserInfoEditPage />} />            
+                <Route path="/test" element= {<DonatorInfo/>} />
+                <Route path='/account/mypage/edit' element={<UserInfoEditPage />} />
+                <Route path="/account/mypage/donation" element={<MyDonation />} />           
         </Routes> 
         </div>
     );
