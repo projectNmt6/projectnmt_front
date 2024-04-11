@@ -47,7 +47,10 @@ export const deleteDonationPage = async (data) => {
 export const commentReqest = async (data) => {
     return await instance.post("/comment/upload", data);
 }
-export const commentResponse = async (data) => {
-    return await instance.get("/comment/getcomment", data)
+
+export const commentResponse = async () => {
+    return await instance.get("/comment/getcomment");
 }
+
+
   

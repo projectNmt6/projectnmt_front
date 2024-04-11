@@ -2,18 +2,20 @@
 import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import {Link, useLocation, useParams } from 'react-router-dom';
-import { commentReqest, deleteDonationPage, getDonationStoryRequest, updatePageRequest } from '../../apis/api/DonationAPI';
+import { commentReqest, commentResponse, deleteDonationPage, getDonationStoryRequest, updatePageRequest } from '../../apis/api/DonationAPI';
 import DOMPurify from 'dompurify';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import axios from 'axios';
+import CommentSection from '../../pages/DonationStoryPage/CommentSection'; 
 
 function DonationStoryPage() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const donationPageId = queryParams.get('page'); 
     const[donationPage, setDonationPage] = useState({});
-    const [ commentList, setCommentList ] = useState({});
+    const [ commentList, setCommentList ] = useState([]);
+    const donationCommentId = queryParams.get('commentId')
 
     const [comment, setComment ] = useState("");
 
@@ -30,24 +32,26 @@ function DonationStoryPage() {
         }
     );
 
-    // const donationCommentId = queryParams.get('commentId');
 
-    // const getCommentQuery = useQuery(
-    //     ["getCommentQuery", donationCommentId],
-    //     async () => {
-    //         const response = await commentReqest({commentId: donationCommentId});
-    //         return response.data;
-    //     },
-    //     {            
-    //         refetchOnWindowFocus: false,
-    //         onSuccess: (data) => {setCommentList(data)
-    //         }
+    useEffect(() => {
+        axios.get("http://localhost:8080/comment/getcomment")
+.then(response => {
+    if (Array.isArray(response.data)) {
+        setCommentList(response.data); 
+    } else {
+        console.error('데이터 형식이 올바르지 않습니다.');
+        setCommentList([]); 
+    }
+})
+.catch(error => {
+    console.error(error);
+});
 
-    //     }
-    // )
+    }, []);
+    
+
 
     const { storyContent, storyTitle, mainImgUrl, createDate, endDate } = donationPage || {};
-    const { commentText } = commentList;
 
     const safeHTML = DOMPurify.sanitize(donationPage.storyContent);
     
@@ -129,8 +133,13 @@ function DonationStoryPage() {
                 <h3>덧글</h3>
             <div css={s.commentBox}>
 
-
                 <div>
+                <CommentSection donationPageId={donationPageId}>
+                    
+                </CommentSection>
+                </div>
+
+                {/* <div>
                     <input 
                         type="text" 
                         value={comment}
@@ -138,7 +147,7 @@ function DonationStoryPage() {
                     />
                     <p>{commentList.commentText}</p>
                     <button onClick={handleCommentSubmit}>덧글입력</button>
-                </div>
+                </div> */}
 
             </div>
 
