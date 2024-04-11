@@ -4,6 +4,11 @@ export const getDonationListRequest = async (params) => {
     return await instance.get("/main/donations", { params });
 }
 
+export const getChallengeRequest = async (params) => {
+    return await instance.get("/main/donations/challenge", { params });
+};
+
+
 export const getDonationTagRequest = async (params) => {
     return await instance.get("/main/donationtag", { params });
 }
@@ -54,9 +59,11 @@ export const commentResponse = async () => {
 
 
 export const deleteComment = async (data) => {   
-    const { donationCommentId } = data; // Extracting donationCommentId from data
-    return await instance.delete(`/comment/delete/${donationCommentId}`); // Using donationCommentId in the URL
+    const { donationCommentId } = data; 
+    return await instance.delete(`/comment/delete/${donationCommentId}`); 
 };
+
+
 
 
 
