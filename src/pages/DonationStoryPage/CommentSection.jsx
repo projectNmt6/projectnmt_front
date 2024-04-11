@@ -3,12 +3,17 @@ import { useMutation, useQuery } from 'react-query';
 import * as s from "./style";
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { commentReqest, deleteComment } from '../../apis/api/DonationAPI';
 
+import {Link, useLocation, useParams } from 'react-router-dom';
 
-function CommentSection({ donationPageId }) {
+function CommentSection() {
     const [commentList, setCommentList] = useState([]);
     const [comment, setComment] = useState("");
-
+    
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const donationCommentId = queryParams.get('page');
     useEffect(() => {
         axios.get("http://localhost:8080/comment/getcomment")
             .then(response => setCommentList(response.data))
@@ -21,7 +26,7 @@ function CommentSection({ donationPageId }) {
         try {
             await axios.post("http://localhost:8080/comment/upload", {
                 commentText: comment,
-                donationPageId,
+                donationCommentId,
             });
             alert("전송 완료");
             setCommentList([...commentList, { commentText: comment }]);
@@ -31,14 +36,33 @@ function CommentSection({ donationPageId }) {
         }
     };
 
+
+    const deleteCommentMutation = useMutation({
+        mutationKey: "deleteCommentMutation",
+        mutationFn: deleteComment,
+        onSuccess: response => {
+            alert("삭제완료")
+            window.location.reload();
+        }
+    })
+    
+    const handleCommentDeleteButton = () => {
+        deleteCommentMutation.mutate({
+            donationCommentId: donationCommentId
+        });
+    }
+    
+
     return (
         <>
         <div css={s.commentBox}>
             <div>
                 {commentList.map((comment, index) => (
                     <div key={index}>
-                        <p>{comment.commentText}</p>
-                    </div>
+                    <p>{comment.commentText}
+                    <button onClick={handleCommentDeleteButton}>덧글 삭제</button>
+                    </p>
+                </div>
                 ))}
             </div>
         </div>
@@ -51,6 +75,7 @@ function CommentSection({ donationPageId }) {
                 onChange={handleCommentChange}
                 />
             <button onClick={handleCommentSubmit}>덧글 입력</button>
+           
         </div>
     </>
 

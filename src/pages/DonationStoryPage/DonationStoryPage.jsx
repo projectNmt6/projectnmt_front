@@ -15,7 +15,6 @@ function DonationStoryPage() {
     const donationPageId = queryParams.get('page'); 
     const[donationPage, setDonationPage] = useState({});
     const [ commentList, setCommentList ] = useState([]);
-    const donationCommentId = queryParams.get('commentId')
 
     const [comment, setComment ] = useState("");
 
