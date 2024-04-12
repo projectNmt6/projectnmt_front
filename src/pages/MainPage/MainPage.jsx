@@ -13,7 +13,6 @@ function MainPage() {
     const [selectedTag, setSelectedTag] = useState(null);
 
     //donationTag
-
     const getDonationTagQuery = useQuery(
         "getDonationTagQuery",
         async () => await getDonationTagRequest({
@@ -28,10 +27,8 @@ function MainPage() {
             }
         }
     );
-    console.log(donationTagList);
 
-    
-    
+
     const getDonationListQuery = useQuery(
         "getDonationQuery",
         async () => await getDonationListRequest({
@@ -46,8 +43,6 @@ function MainPage() {
             }
         }
         );
-        console.log(donationList);
-        
         
         //handleTag
         const handleTagClick = (tag) => {
@@ -79,10 +74,10 @@ function MainPage() {
             <div css={s.write}>
                 <Link to={"/main/write"}>작성하기</Link>
             </div>
-
             <div css={s.tagContainer}>
             <button 
                 key="alltag" 
+                
                 css={s.tagButton}
                 onClick={() => setSelectedTag(null)} 
                 aria-pressed={!selectedTag} 

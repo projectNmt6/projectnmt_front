@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import DonationPageboard from "../pages/DonationPageBoard/DonationPageboard";
-import HomePage from "../pages/HomePage";
+import HomePage from "../pages/HomePage/HomePage";
 import MainPage from "../pages/MainPage/MainPage";
 import SearchPage from '../pages/SearchPage/SearchPage';
 import MyPage from '../pages/MyPage/MyPage';

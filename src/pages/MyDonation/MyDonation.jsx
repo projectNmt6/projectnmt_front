@@ -46,7 +46,6 @@ function MyDonation(props) {
         {
             refetchOnWindowFocus: false,
             onSuccess: (data) => {
-                console.log(data);
                 setDonatorList(() => data)
             },
             enabled: !!principalData?.data

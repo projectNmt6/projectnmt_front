@@ -33,3 +33,6 @@ export const submitDonationData = async (data) => {
 export const deleteDonationPage = async (data) => {
     return await instance.delete(`/main/donation/${data.donationPageId}`, data)
 }
+export const getAllAmount = async (params) => {
+    return await instance.get("/main/amount", {params});
+}
