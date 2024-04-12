@@ -23,7 +23,7 @@ function MyDonation(props) {
 
     const [ selectedYear, setSelectedYear ] = useState(donationyearoptions[0]);
     const [ selectedList, setSelectedList ] = useState(donationsoptions[0]);
-    const [ donatorList , setDonatorList ] = useState({});
+    const [ donatorList , setDonatorList ] = useState([]);
 
     const handleYearChange = (selectedOption) => {
         setSelectedYear(() => selectedOption);        
@@ -46,6 +46,7 @@ function MyDonation(props) {
         {
             refetchOnWindowFocus: false,
             onSuccess: (data) => {
+                console.log(data);
                 setDonatorList(() => data)
             },
             enabled: !!principalData?.data
@@ -53,23 +54,33 @@ function MyDonation(props) {
     )
 
     return (
+    <div>
         <div>
-        <div>
-          <Select 
-            options={donationyearoptions}
-            value={selectedYear}
-            onChange={handleYearChange}
-          />
-          <Select
-            options={donationsoptions}
-            value={selectedList}
-            onChange={handleListChange}
-          />
+            <Select 
+                options={donationyearoptions}
+                value={selectedYear}
+                onChange={handleYearChange}
+            />
+            <Select
+                options={donationsoptions}
+                value={selectedList}
+                onChange={handleListChange}
+            />
         </div>
-        <div>
-            {donatorList.length === 0 && <li>기부내역이 없습니다.</li>}
-        </div>
-      </div>
+        <table>
+            {donatorList.length === 0 ? (
+                <td>기부내역이 없습니다.</td>
+            ) : (
+                donatorList.map((donator, index) => (
+                    <th key={index}>
+                        <td>기부날짜: {donator.donationDate}</td><br/>
+                        <td>타이틀: {donator.storyTitle}</td><br/>
+                        <td>기부금액: {donator.amount}</td>
+                    </th>
+                ))
+            )}
+        </table>
+    </div>
     );
 }
 
