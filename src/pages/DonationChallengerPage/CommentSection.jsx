@@ -48,7 +48,8 @@ function CommentSection({ donationPageId }) {
         console.log("Deleting comment with ID:", donationCommentId);
         deleteCommentMutation.mutate({ donationCommentId });
     };
- 
+    
+
     return (
         <>
             <div css={s.commentBox}>
@@ -57,6 +58,7 @@ function CommentSection({ donationPageId }) {
                         <div key={index}>
                             <p>{comment.commentText}
                             <button onClick={() => handleCommentDeleteButton(comment.donationCommentId)}>
+
                                 덧글 삭제 <TbTrashXFilled />
                             </button>
                             </p>

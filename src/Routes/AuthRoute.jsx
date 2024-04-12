@@ -14,8 +14,10 @@ import AdminRoute from '../pages/Admin/route/AdminRoute';
 import DonationPageboard2 from '../pages/DonationUpdatePage/DonationPageboard2';
 import DonationStoryPage from '../pages/DonationStoryPage/DonationStoryPage';
 import ReviewPage from '../pages/ReviewPage/ReviewPage'
-import UserInfoEditPage from '../pages/UserInfoEditPage/UserInfoEditPage';
 import SignUpPage from '../pages/SignUpPage/SignUpPage';
+import DonationChallengePage from '../pages/DonationChallengerPage/DonationChallengePage'
+import MainPage2 from '../pages/DonationChallengerPage/MainPage2';
+
 
 
 function AuthRoute(props) {
@@ -32,8 +34,11 @@ function AuthRoute(props) {
         }
     });
     return (
-        <Routes>
-            <Route path="/auth/*" element={ <AuthPage />}/>
+
+        <>
+            <RootHeader />
+            <Routes>
+                <Route path="/auth/*" element={ <AuthPage />}/>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/main" element={<MainPage />} />
                 <Route path="/main/write" element={<DonationPageboard />} />
@@ -45,8 +50,11 @@ function AuthRoute(props) {
                 <Route path="/donation/*" element={<DonationStoryPage />} />
                 <Route path="/main/donation/update" element={<DonationPageboard2 />} />
                 <Route path="/search" element={<SearchPage />} />
-            <Route path='/account/mypage/edit' element={<UserInfoEditPage />} />            
-        </Routes> 
+                <Route path='/main/donations/challenge' element={ < MainPage2 />} />
+
+       
+           </Routes> 
+        </>
     );
 }
 

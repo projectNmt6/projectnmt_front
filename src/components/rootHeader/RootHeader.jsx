@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 /** @jsxImportSource @emotion/react */
-import {HiMenu} from "react-icons/hi";
 import * as s from "./style";
 import { useRecoilState } from 'recoil';
 import { Link } from 'react-router-dom';
@@ -42,6 +41,7 @@ function RootHeader(props) {
                 <FaHome />
             </Link>
             <Link to={"/main"}> 기부하기 </Link>
+            <Link to={"/main/donations/challenge"}>챌린지</Link>
             {
                 !isLogin ? 
                 <Link css={s.account} to={"/auth/signin"}>
