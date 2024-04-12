@@ -5,8 +5,9 @@ import * as s from "./style";
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { deleteComment } from '../../apis/api/DonationAPI';
-
+import { TbTrashXFilled } from "react-icons/tb";
 import { Link, useLocation, useParams } from 'react-router-dom';
+/** @jsxImportSource @emotion/react */
 
 function CommentSection({ donationPageId }) {
     const [commentList, setCommentList] = useState([]);
@@ -55,7 +56,9 @@ function CommentSection({ donationPageId }) {
                     {commentList.map((comment, index) => (
                         <div key={index}>
                             <p>{comment.commentText}
-                            <button onClick={() => handleCommentDeleteButton(comment.donationCommentId)}>덧글 삭제</button>
+                            <button onClick={() => handleCommentDeleteButton(comment.donationCommentId)}>
+                                덧글 삭제<TbTrashXFilled />
+                            </button>
                             </p>
                         </div>
                     ))}

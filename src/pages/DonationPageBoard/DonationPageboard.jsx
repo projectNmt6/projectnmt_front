@@ -209,7 +209,7 @@ function DonationPageboard() {
                 selectsEnd
                 startDate={startDate}
                 endDate={endDate}
-                minDate={startDate}
+                // minDate={startDate}
                 dateFormat="yyyy년 MM월 dd일"
             />
             
