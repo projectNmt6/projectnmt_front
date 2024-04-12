@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { Quill } from 'react-quill';
 import { useLocation } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
 
@@ -30,9 +31,10 @@ function NewsPage(props) {
             NewsPage
             <div>
                 {content}
-                {/* Ensure these are meant to display data or remove if unused */}
                 {newsPage.content}
                 {newsPage.newsContent}
+                />
+                
             </div>
         </div>
     );
