@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import { useMutation, useQuery, useQueryClient } from "react-query";
 import * as s from "./style";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Link, useNavigate } from "react-router-dom";
 import { getTeamListRequest } from "../../apis/api/teamApi";
 import { useState } from "react";
@@ -8,7 +8,6 @@ function MyPage(props) {
     const [ temaList, setTeamList ] = useState([]);
     const queryClient = useQueryClient();
     const principalData = queryClient.getQueryData("principalQuery");
-
     const getTeamListQuery = useQuery(
         [ "getTeamListQuery", principalData?.data ],
         async () => {
@@ -45,13 +44,17 @@ function MyPage(props) {
                         <div css={s.infoText}>나이: {principalData?.data.age}</div>
                     </div>
                 </div>
+                <Link to={"/message"}>메세지 확인</Link>
                 <div>
                     {temaList.map(team => {
                         return <>
+                        <div key={team.teamId}>
+
                             <div>{team.teamName}</div>
                             <Link to={`/team/info?id=${team.teamId}`}>
                                 <img src={team.teamLogoImgUrl} alt=""/>
                             </Link>
+                        </div>
                         </>
                     })}
                     <Link to={"/team/write"} > 팀 생성 </Link>

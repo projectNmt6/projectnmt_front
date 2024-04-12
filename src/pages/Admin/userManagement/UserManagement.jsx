@@ -1,6 +1,7 @@
-import React, { useRef, useState } from 'react';
-import { getUserListRequest } from '../../../apis/api/Admin'
-import { useQuery } from 'react-query';
+import React, { useEffect, useRef, useState } from 'react';
+import { getUserListRequest, postMessageRequest } from '../../../apis/api/Admin'
+import { useMutation, useQuery } from 'react-query';
+import { Link } from 'react-router-dom';
 
 function UserManagement() {
     const checkBoxRef = useRef();
@@ -42,10 +43,47 @@ function UserManagement() {
             checkBoxRef.current.checked = false
         }
     }
+    useEffect(() => {
+        for(let user of userList) {
+            checkBoxRef.current.checked = user.checked;
+            if(!checkBoxRef.current.checked) {
+                break;
+            }
+        }
+        
+    },[userList])
+    const [ message, setMessage ] = useState();
+    const handleTextareaOnchange = (e) => {
+        setMessage(() => e.target.value);
+        console.log(message);
+    }
+    const sendMessageMutation = useMutation({
+        mutationKey: "sendMessageMutation",
+        mutationFn: postMessageRequest,
+        onSuccess: response => {
+            console.log(response);
+            alert("전송완료.");
+        },
+        onError: error => {}
+    })
+    const handleMessageOnClick = (e) => {
+        let userIds = [];
+        for(let user of userList) {
+            if(user.checked) {
+                userIds = [...userIds, user.userId];
+            }
+        }
+        sendMessageMutation.mutate({
+            message,
+            userId: userIds
+        });
+     }
     return (
         <>
             <div>
                 유저관리
+                <p><textarea placeholder="공지 사항 입력" value={message} onChange={handleTextareaOnchange}></textarea></p>
+                <button onClick={handleMessageOnClick}>공지보내기</button>
             </div>
             <div >
                 <table >
@@ -60,6 +98,7 @@ function UserManagement() {
                             <th>성별</th>
                             <th>권한</th>
                             <th>표지URL</th>
+                            <th>상세정보 보기</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -76,6 +115,7 @@ function UserManagement() {
                                     <td>{user.gender}</td>
                                     <td>{user.role?.roleNameKor}</td>
                                     <td><img src={user.profileImg} alt="" /></td>
+                                    <td><Link to={`/admin/user?id=${user.userId}`}>상세정보</Link></td>
                                 </tr>
                             )
                         }

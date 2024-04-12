@@ -14,6 +14,7 @@ import AdminRoute from '../pages/Admin/route/AdminRoute';
 import DonationPageboard2 from '../pages/DonationUpdatePage/DonationPageboard2';
 import DonationStoryPage from '../pages/DonationStoryPage/DonationStoryPage';
 import ReviewPage from '../pages/ReviewPage/ReviewPage'
+import MessagePage from '../pages/MessagePage/MessagePage';
 
 
 
@@ -46,6 +47,7 @@ function AuthRoute(props) {
                 <Route path="/donation/*" element={<DonationStoryPage />} />
                 <Route path="/main/donation/update" element={<DonationPageboard2 />} />
                 <Route path="/search" element={<SearchPage />} />
+                <Route path="/message" element={<MessagePage />} />
            </Routes> 
         </>
     );
