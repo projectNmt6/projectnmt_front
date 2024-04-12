@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import {Link, useLocation, useParams } from 'react-router-dom';
-import { commentReqest, commentResponse, deleteDonationPage, getChallengeRequest, getDonationStoryRequest, updatePageRequest } from '../../apis/api/donationAPI';
+import { commentReqest, commentResponse, deleteDonationPage, getChallengeRequest, getDonationStoryRequest, updatePageRequest } from '../../apis/api/DonationAPI';
 import DOMPurify from 'dompurify';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
