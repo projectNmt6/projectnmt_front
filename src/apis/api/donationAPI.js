@@ -56,7 +56,6 @@ export const commentResponse = async () => {
     return await instance.get("/comment/getcomment");
 }
 
-
 export const deleteComment = async (data) => {   
     const { donationCommentId } = data; 
     return await instance.delete(`/comment/delete/${donationCommentId}`); 
