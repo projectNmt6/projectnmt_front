@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
-import {Link, useLocation, useParams } from 'react-router-dom';
+import {Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { commentReqest, commentResponse, deleteDonationPage, getDonationStoryRequest, updatePageRequest } from '../../apis/api/DonationAPI';
 import DOMPurify from 'dompurify';
 /** @jsxImportSource @emotion/react */
@@ -99,8 +99,12 @@ function DonationStoryPage() {
     
 
     const handleTabChange = (tab) => {
+       
         setSelectedTab(tab);
+
     }
+    const navigate = useNavigate();
+
     
     return (
         <>
@@ -132,12 +136,14 @@ function DonationStoryPage() {
 
             <button onClick={() => handleTabChange('news')}>news</button>
             <button onClick={() => handleTabChange('story')}>Story</button>
-            <div css={s.boxbox1}>
-                <h5>분리공간</h5>
-                <div>
 
+            <div css={s.boxbox1}>
+                <div>
+                    <h2>분리공간 </h2>
+{/*                 
                 {selectedTab === 'news' && <NewsPage />}
-                {selectedTab === 'story' && <Story />}
+                {selectedTab === 'story' && <Story />} */}
+                {selectedTab === 'news' ? <NewsPage /> : <Story />}
                 </div>                
             </div>
 
