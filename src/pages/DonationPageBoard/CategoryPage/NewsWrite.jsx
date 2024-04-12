@@ -6,14 +6,8 @@ import axios from 'axios';
 import Select from 'react-select';
 import { buttonBox } from './style';
 import { imgUrlBox } from './style';
-import { getDonationListRequest, getDonationTagRequest } from '../../apis/api/DonationAPI';
 import { useQuery } from 'react-query';
-import MainPage from '../MainPage/MainPage';
-import { Link } from 'react-router-dom';
-import { errorSelector } from 'recoil';
-import DonationWrite from './CategoryPage/DonationWrite';
-
-import DatePicker from "react-datepicker";
+import { Link, useLocation } from 'react-router-dom';
 import "react-datepicker/dist/react-datepicker.css";
 
 const textEditorLayout = css`
@@ -21,7 +15,7 @@ const textEditorLayout = css`
     margin-bottom: 20px;
 `;
 
-function DonationPageboard() {
+function NewsWrite() {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [mainImg, setMainImg] = useState("");
@@ -30,51 +24,25 @@ function DonationPageboard() {
     const [mainTagOptions, setMainTagOptions] = useState([]);
     const [secondTagOptions, setSecondTagOptions] = useState([]);
     const [createDate, setCreateDate] = useState(new Date()); // 현재 날짜로 초기화
-
-    const [ storyImgs, setStoryImgs ] = useState([]);
-
-
+    const [donationData, setDonationData] = useState();
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(null);
+    const [goalAmount, setgoalAmount] = useState(0);
+    const [ pageCategoryId, setPageCategoryId] = useState(null);
+    const [ storyImgs, setStoryImgs ] = useState([]);
     const [projectDuration, setProjectDuration] = useState(null);
+    const [ donationNewsPageId, setDonationNewsPageId ] = useState("");
 
     const [ amount, setAmount ] = useState();
+
     const handleAmountChange = (e) => {
         const value = e.target.value; // 입력된 값
-        const parsedValue = value ? parseInt(value) : null; // 입력된 값이 있는 경우에만 정수로 변환하고 그렇지 않으면 null로 설정
-        setAmount(parsedValue); // 값 업데이트
+        const parsedValue = value ? parseInt(value) : null;
+        setAmount(parsedValue); 
     };
-    
-
-    useEffect(() => {
-        axios.get("http://localhost:8080/main/storytypes")
-            .then(response => {
-                const options = response.data.map(mainTag => ({
-                    value: mainTag.mainCategoryId,
-                    label: mainTag.mainCategoryName
-                }));
-                setMainTagOptions(options);
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }, []);
-
-    useEffect(() => {
-        axios.get("http://localhost:8080/main/donationtag")
-            .then(response => {
-                const options = response.data.map(secondTag => ({
-                    value: secondTag.donationTagId,
-                    label: secondTag.donationTagName
-                }));
-                setSecondTagOptions(options);
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }, []);
-
-
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const donationPageId = queryParams.get('page');    
 
     const handleMainTagChange = (selectedOption) => {
         setSelectedMainTag(selectedOption);
@@ -84,22 +52,40 @@ function DonationPageboard() {
         setSelectedSecondTag(selectedOption);
     }
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/main/donation/update/${donationPageId}`);
+                const data = response.data;
+                setDonationData(data);
+                setTitle(data.storyTitle);
+                setMainImg(data.mainImgUrl);
+                setStartDate(new Date(data.createDate));
+                setEndDate(new Date(data.endDate));
 
+                console.log(selectedMainTag);
+                console.log(setContent);
+                
+                setgoalAmount(data.goalAmount !== null ? data.goalAmount : 0);
+                console.log(data);
+                console.log(response);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchData(); 
+    }, [donationPageId]);
+    
+
+    console.log("content: " + content)
     const handleSubmitButton = () => {
 
-        axios.post('http://localhost:8080/main/write', {
-            donationPageId: 1,
-            teamId: null,
-            mainCategoryId: selectedMainTag.value,
-            pageCategoryId: 1,
-            createDate: startDate,
-            endDate: endDate,
-            goalAmount : amount,
-            storyTitle: title,
-            storyContent: content,
-            mainImgUrl: mainImg,
-            donationTagId: selectedSecondTag ? selectedSecondTag.value : null,
-            donationPageShow: null
+        axios.post('http://localhost:8080/main/donation/donationnews', {
+            donationNewsPageId: 0,
+            donationPageId: donationPageId,
+            pageCategoryId: 3,
+            newsContent: content,
+            userId: null
         })
         .then(response => {
             alert("저장 성공");
@@ -112,9 +98,7 @@ function DonationPageboard() {
 
     const handleCancelButton = () => {
         if (window.confirm("작성 중인 내용을 취소하시겠습니까?")) {
-            setTitle("");
             setContent("");
-            setMainImg("");
             alert("작성이 취소 되었습니다.");
         }
     };
@@ -185,72 +169,8 @@ function DonationPageboard() {
                 <input type="text" placeholder='제목' value={title} onChange={(e) => setTitle(e.target.value)} />
             </div>
 
-            {/* <input 
-                type={"date"} 
-                placeholder={"프로젝트 시작일"} 
-                selected={startDate} 
-                onChange={handleStartDateChange} 
-                selectsStart
-                dateFormat="yyyy년 MM월 dd일"
-            /> */}
+            <h2>후기</h2>
             
-            <div>기부 프로젝트 시작일: </div>
-            <DatePicker 
-                selected={startDate} 
-                onChange={handleStartDateChange} 
-                selectsStart
-                dateFormat="yyyy년 MM월 dd일"
-                // minDate={new Date()}
-            />
-
-            <div>기부 프로젝트 종료일: </div>
-            <DatePicker
-                selected={endDate}
-                onChange={handleEndDateChange }
-                selectsEnd
-                startDate={startDate}
-                endDate={endDate}
-                // minDate={startDate}
-                dateFormat="yyyy년 MM월 dd일"
-            />
-            
-            <div>
-                <div>프로젝트 기간: {projectDuration !== null ? `${projectDuration}일` : ''}</div>       
-            </div>
-                            
-            
-            <Select
-                options={mainTagOptions}
-                value={selectedMainTag}
-                placeholder="종류를 선택해주세요"
-                onChange={handleMainTagChange}
-            />
-
-            {selectedMainTag && selectedMainTag.value === mainTagOptions[0].value && ( 
-                <Select 
-                    options={secondTagOptions}
-                    placeholder="기부 카테고리를 선택해주세요"
-                    value={selectedSecondTag}
-                    onChange={handleSecondTagChange}
-                />
-            )} 
-
-            <div>
-                <h2>메인 이미지 추가</h2>
-                <div css={imgUrlBox}>
-                    <label htmlFor="inputFile"></label>
-                    <img src={mainImg} alt="Main" style={{ width: '300px', height: 'auto' }}/> 
-                    <input  
-                        id="inputFile" 
-                        type="file" 
-                        name="file" 
-                        accept='image/*'
-                        style={{ display: "block" }}
-                        onChange={fileChange} 
-                    /> 
-                </div>
-            </div>
-
             <div>
                 <h2>이미지 추가</h2>
                 <img src={storyImgs} alt="Main" style={{ width: '300px', height: 'auto' }}/> 
@@ -273,18 +193,7 @@ function DonationPageboard() {
                     theme="snow"
                     placeholder="내용을 입력해주세요."
                     style={{ height: '500px', margin: "50px" }}
-                />                
-                < DonationWrite />
-
-            </div>
-
-            <div>
-                목표 금액:
-                <input 
-                type="number"
-                value={amount}
-                onChange={handleAmountChange}
-                 />
+                />
             </div>
 
             <div style={buttonBox}>
@@ -296,4 +205,4 @@ function DonationPageboard() {
     );
 }
 
-export default DonationPageboard;
+export default NewsWrite;

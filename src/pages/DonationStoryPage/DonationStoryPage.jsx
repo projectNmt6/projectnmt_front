@@ -8,6 +8,8 @@ import DOMPurify from 'dompurify';
 import * as s from "./style";
 import axios from 'axios';
 import CommentSection from '../../pages/DonationStoryPage/CommentSection'; 
+import NewsPage from './CategoryPage/NewsPage'; // NewsPage 경로 수정
+import Story from './CategoryPage/Story'; // Story 경로 수정
 
 function DonationStoryPage() {
     const location = useLocation();
@@ -18,6 +20,8 @@ function DonationStoryPage() {
     const donationCommentId = queryParams.get('commentId')
 
     const [comment, setComment ] = useState("");
+
+    const [selectedTab, setSelectedTab] = useState('story'); // news, story 중 하나의 값을 가짐
 
     const getDonationStoryQuery = useQuery(
         ["getDonationPageQuery", donationPageId], 
@@ -92,7 +96,11 @@ function DonationStoryPage() {
         };
         fetchData();
     }, [donationPageId]);
+    
 
+    const handleTabChange = (tab) => {
+        setSelectedTab(tab);
+    }
     
     return (
         <>
@@ -101,6 +109,9 @@ function DonationStoryPage() {
                 </div>
             
                 <div>
+                <button>
+                <Link to={`/main/donation/donationnews?page=${donationPageId}`}>후기 작성하기</Link>
+                    </button>
                 <Link to={`/main/donation/update?page=${donationPageId}`}>수정하기</Link>                
                 <button onClick={handleDeleteButtonClick} >삭제하기</button>
             </div>
@@ -119,8 +130,15 @@ function DonationStoryPage() {
                     <div dangerouslySetInnerHTML={{ __html: safeHTML }} />
             </div>
 
+            <button onClick={() => handleTabChange('news')}>news</button>
+            <button onClick={() => handleTabChange('story')}>Story</button>
             <div css={s.boxbox1}>
-                분리 공간
+                <h5>분리공간</h5>
+                <div>
+
+                {selectedTab === 'news' && <NewsPage />}
+                {selectedTab === 'story' && <Story />}
+                </div>                
             </div>
 
                 <h3>덧글</h3>

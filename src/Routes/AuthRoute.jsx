@@ -9,14 +9,14 @@ import { useQuery } from 'react-query';
 import { getPrincipalRequest } from '../apis/api/principal';
 import RootHeader from '../components/rootHeader/RootHeader';
 import AuthPage from '../pages/AuthPage/AuthPage';
-import TeamRoutePage from '../pages/TeamRoutePage/TeamRoutePage';
 import AdminRoute from '../pages/Admin/route/AdminRoute';
 import DonationPageboard2 from '../pages/DonationUpdatePage/DonationPageboard2';
 import DonationStoryPage from '../pages/DonationStoryPage/DonationStoryPage';
 import ReviewPage from '../pages/ReviewPage/ReviewPage'
 import SignUpPage from '../pages/SignUpPage/SignUpPage';
-import DonationChallengePage from '../pages/DonationChallengerPage/DonationChallengePage'
 import MainPage2 from '../pages/DonationChallengerPage/MainPage2';
+import NewsPage from '../pages/DonationStoryPage/CategoryPage/NewsPage';
+import NewsWrite from '../pages/DonationPageBoard/CategoryPage/NewsWrite';
 
 
 
@@ -41,8 +41,9 @@ function AuthRoute(props) {
                 <Route path="/auth/*" element={ <AuthPage />}/>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/main" element={<MainPage />} />
-                <Route path="/main/write" element={<DonationPageboard />} />
-                <Route path="/team/*" element={ <TeamRoutePage />}/>
+                <Route path="/main/write" element={<DonationPageboard/>} />
+                <Route path="/main/donation/donationnews" element={ <NewsWrite />} />
+                <Route path='/main/donation/news' element={<NewsPage />} />
                 <Route path="/account/mypage" element={<MyPage />} />
                 <Route path="/admin/*" element={ <AdminRoute/> } /> 
                 <Route path='/signup' element={ <SignUpPage /> }/>

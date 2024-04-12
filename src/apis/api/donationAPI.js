@@ -15,12 +15,24 @@ export const getDonationStoryRequest = async (params) => {
     return await instance.get("/main/donation", { params });
 }
 
+export const getDonationNewsRequest = async (params) => {
+    return await instance.get("/donation/news", {params});
+}
+
 export const getChallengeRequest = async (params) => {
     return await instance.get("/main/donations/challenge", { params });
 };
 
 export const registerReviewPage = async (data) => {
-    return await instance.post("/main/review", data);
+    return await instance.post("/main/donation/review", data);
+}
+
+export const registerNewsPage = async (data) => {
+    return await instance.post(`/main/donation/news${data.donationPageId}`, data);
+}
+
+export const registerDonationNews = async (data) => {
+    return await instance.post('/main/donation/donationnews', data);
 }
 
 export const getAllDonationTag = async () => {
@@ -34,7 +46,7 @@ export const updatePageRequest = async (data) => {
 export const searchDonationRequest = async (params) => {
     return await instance.get("/main/search", { params });
 }
-//
+
 
 export const getDonationPageRequest = async (pageId) => {
     return await instance.get(`/main/donation/${pageId}`);
