@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { getUserInfoRequest, postUserRoleRequest } from '../../../apis/api/Admin';
 import { useMutation, useQuery } from 'react-query';
+import CommentManagement from "../commentManagement/CommentManagement";
 
 function UserInfo(props) {
     const [ searchParams ] = useSearchParams();
@@ -59,6 +60,7 @@ function UserInfo(props) {
                         <button onClick={() => handleAdminRoleClick(5)}>사용 권한 제제</button>
                     </div>
                 </div>
+                    <div><CommentManagement userId={findUser?.userId}/> </div>
             </div>
     );
 }
