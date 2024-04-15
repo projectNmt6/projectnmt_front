@@ -34,7 +34,7 @@ function DonationPageboard2() {
     const [goalAmount, setgoalAmount] = useState(0);
     const [selectedMainTag, setSelectedMainTag] = useState(null);
     const [selectedSecondTag, setSelectedSecondTag] = useState(null);   
-    const [ donationCategoryId, setDonationCategoryId] = useState(null);
+    const [ pageCategoryId, setPageCategoryId] = useState(null);
 
     const [mainTagOptions, setMainTagOptions] = useState([]);
     
@@ -122,7 +122,7 @@ function DonationPageboard2() {
             donationPageId: donationPageId,
             teamId: null,
             mainCategoryId: selectedMainTag.value,
-            donationCategoryId: null,
+            pageCategoryId: 1,
             createDate: startDate,
             endDate: endDate,
             goalAmount : goalAmount,

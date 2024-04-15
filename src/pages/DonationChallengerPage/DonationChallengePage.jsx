@@ -1,53 +1,53 @@
 
 import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
-import {Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { commentReqest, commentResponse, deleteDonationPage, getDonationNewsRequest, getDonationStoryRequest, updatePageRequest } from '../../apis/api/DonationAPI';
+import {Link, useLocation, useParams } from 'react-router-dom';
+import { commentReqest, commentResponse, deleteDonationPage, getChallengeRequest, getDonationStoryRequest, updatePageRequest } from '../../apis/api/DonationAPI';
 import DOMPurify from 'dompurify';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import axios from 'axios';
-import CommentSection from '../../pages/DonationStoryPage/CommentSection'; 
-import NewsPage from './CategoryPage/NewsPage'; // NewsPage 경로 수정
-import Story from './CategoryPage/Story'; // Story 경로 수정
+import CommentSection from '../DonationStoryPage/CommentSection'; 
+import { FcLike } from "react-icons/fc";
 
 function DonationStoryPage() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const donationPageId = queryParams.get('page'); 
     const[donationPage, setDonationPage] = useState({});
-    const[donationNewsPage, setDonationNewsPage] = useState({});
+    const [ challengePage, setChallegePage ] = useState({});
     const [ commentList, setCommentList ] = useState([]);
     const donationCommentId = queryParams.get('commentId')
 
     const [comment, setComment ] = useState("");
 
-    const [selectedTab, setSelectedTab] = useState('story'); // news, story 중 하나의 값을 가짐
-
-    const getDonationStoryQuery = useQuery(
-        ["getDonationPageQuery", donationPageId], 
+    const getDonationChallengeQuery = useQuery(
+        ["getDonationChallengeQuery", donationPageId], 
         async () => {
-            const response = await getDonationStoryRequest({ page: donationPageId });
+            const response = await getChallengeRequest({ page: donationPageId });
             return response.data; 
         },
         {
             refetchOnWindowFocus: false,
-            onSuccess: (data) => {setDonationPage(data);
+            onSuccess: (data) => {setChallegePage(data);
             }
         }
     );
 
-    
+
     useEffect(() => {
         axios.get(`http://localhost:8080/comment/getcomment/${donationPageId}`)
             .then(response => setCommentList(response.data))
             .catch(console.error);
     }, [donationPageId]);
+    
+
+    
 
 
-    const { storyContent, storyTitle, mainImgUrl, createDate, endDate } = donationPage || {};
+    const { storyContent, storyTitle, mainImgUrl, createDate, endDate } = challengePage || {};
 
-    const safeHTML = DOMPurify.sanitize(donationPage.storyContent);
+    const safeHTML = DOMPurify.sanitize(challengePage.storyContent);
     
     const deleteMutationButton = useMutation({
         mutationKey: "deleteMutationButton",
@@ -89,23 +89,14 @@ function DonationStoryPage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await getDonationStoryRequest({ page: donationPageId });
-                setDonationPage(response.data);
+                const response = await getChallengeRequest({ page: donationPageId });
+                setChallegePage(response.data);
             } catch (error) {
                 console.error('Error fetching donation page:', error);
             }
         };
         fetchData();
     }, [donationPageId]);
-
-    
-
-    const handleTabChange = (tab) => {
-       
-        setSelectedTab(tab);
-
-    }
-    const navigate = useNavigate();
 
     
     return (
@@ -115,9 +106,6 @@ function DonationStoryPage() {
                 </div>
             
                 <div>
-                <button>
-                <Link to={`/main/donation/donationnews?page=${donationPageId}`}>후기 작성하기</Link>
-                    </button>
                 <Link to={`/main/donation/update?page=${donationPageId}`}>수정하기</Link>                
                 <button onClick={handleDeleteButtonClick} >삭제하기</button>
             </div>
@@ -129,43 +117,23 @@ function DonationStoryPage() {
             </div>
 
             <div>
-                    <h2>{donationPage.storyTitle}</h2>
-                    <img src={donationPage.mainImgUrl} alt="" />
-                    <p>기부 시작일: {donationPage.createDate}</p>
-                    <p>기부 종료일: {donationPage.endDate}</p>
+                    <h2>{challengePage.storyTitle}</h2>                     
+                    <button> 좋아요<FcLike /></button>
+                    <img src={challengePage.mainImgUrl} alt="" />
+                    <p>기부 시작일: {challengePage.createDate}</p>
+                    <p>기부 종료일: {challengePage.endDate}</p>
                     <div dangerouslySetInnerHTML={{ __html: safeHTML }} />
             </div>
 
-            <button onClick={() => handleTabChange('news')}>news</button>
-            <button onClick={() => handleTabChange('story')}>Story</button>
-            <button>후기수정하기</button>
 
-            <div css={s.boxbox1}>
-                <div>
-                    <h2>분리공간 </h2>
-
-                {selectedTab === 'news' ? <NewsPage donationPageId={donationPageId} />: <Story />}
-                </div>                
-            </div>
 
                 <h3>덧글</h3>
-            <div css={s.commentBox}>
+                    <div css={s.commentBox}>
 
-                <div>
-                <CommentSection donationPageId={donationPageId}>
-                    
-                </CommentSection>
-                </div>
-
-                {/* <div>
-                    <input 
-                        type="text" 
-                        value={comment}
-                        onChange={handleCommentChange}
-                    />
-                    <p>{commentList.commentText}</p>
-                    <button onClick={handleCommentSubmit}>덧글입력</button>
-                </div> */}
+                    <div>
+                        <CommentSection donationPageId={donationPageId}>                    
+                        </CommentSection>
+                    </div>
 
             </div>
 
