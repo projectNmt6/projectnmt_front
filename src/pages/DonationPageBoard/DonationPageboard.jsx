@@ -249,6 +249,8 @@ function DonationPageboard() {
                         onChange={fileChange} 
                     /> 
                 </div>
+                
+                <button>이미지 제거 </button>
             </div>
 
             <div>
