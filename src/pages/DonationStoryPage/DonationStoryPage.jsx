@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import {Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { commentReqest, commentResponse, deleteDonationPage, getDonationStoryRequest, updatePageRequest } from '../../apis/api/DonationAPI';
+import { commentReqest, commentResponse, deleteDonationPage, getDonationNewsRequest, getDonationStoryRequest, updatePageRequest } from '../../apis/api/DonationAPI';
 import DOMPurify from 'dompurify';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
@@ -16,6 +16,7 @@ function DonationStoryPage() {
     const queryParams = new URLSearchParams(location.search);
     const donationPageId = queryParams.get('page'); 
     const[donationPage, setDonationPage] = useState({});
+    const[donationNewsPage, setDonationNewsPage] = useState({});
     const [ commentList, setCommentList ] = useState([]);
     const donationCommentId = queryParams.get('commentId')
 
@@ -42,7 +43,7 @@ function DonationStoryPage() {
             .then(response => setCommentList(response.data))
             .catch(console.error);
     }, [donationPageId]);
-    
+
 
     const { storyContent, storyTitle, mainImgUrl, createDate, endDate } = donationPage || {};
 
@@ -96,6 +97,7 @@ function DonationStoryPage() {
         };
         fetchData();
     }, [donationPageId]);
+
     
 
     const handleTabChange = (tab) => {
@@ -136,14 +138,13 @@ function DonationStoryPage() {
 
             <button onClick={() => handleTabChange('news')}>news</button>
             <button onClick={() => handleTabChange('story')}>Story</button>
+            <button>후기수정하기</button>
 
             <div css={s.boxbox1}>
                 <div>
                     <h2>분리공간 </h2>
-{/*                 
-                {selectedTab === 'news' && <NewsPage />}
-                {selectedTab === 'story' && <Story />} */}
-                {selectedTab === 'news' ? <NewsPage /> : <Story />}
+
+                {selectedTab === 'news' ? <NewsPage donationPageId={donationPageId} />: <Story />}
                 </div>                
             </div>
 

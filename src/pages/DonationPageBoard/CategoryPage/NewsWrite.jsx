@@ -44,14 +44,6 @@ function NewsWrite() {
     const queryParams = new URLSearchParams(location.search);
     const donationPageId = queryParams.get('page');    
 
-    const handleMainTagChange = (selectedOption) => {
-        setSelectedMainTag(selectedOption);
-    };
-
-    const handleSecondTagChange = (selectedOption) => {
-        setSelectedSecondTag(selectedOption);
-    }
-
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -62,10 +54,8 @@ function NewsWrite() {
                 setMainImg(data.mainImgUrl);
                 setStartDate(new Date(data.createDate));
                 setEndDate(new Date(data.endDate));
-
                 console.log(selectedMainTag);
-                console.log(setContent);
-                
+                console.log(setContent);                
                 setgoalAmount(data.goalAmount !== null ? data.goalAmount : 0);
                 console.log(data);
                 console.log(response);

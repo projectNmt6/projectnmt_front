@@ -43,7 +43,6 @@ function AuthRoute(props) {
                 <Route path="/main" element={<MainPage />} />
                 <Route path="/main/write" element={<DonationPageboard/>} />
                 <Route path="/main/donation/donationnews" element={ <NewsWrite />} />
-                <Route path='/main/donation/news' element={<NewsPage />} />
                 <Route path="/account/mypage" element={<MyPage />} />
                 <Route path="/admin/*" element={ <AdminRoute/> } /> 
                 <Route path='/signup' element={ <SignUpPage /> }/>

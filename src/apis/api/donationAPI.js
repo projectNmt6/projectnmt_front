@@ -15,9 +15,10 @@ export const getDonationStoryRequest = async (params) => {
     return await instance.get("/main/donation", { params });
 }
 
-export const getDonationNewsRequest = async (params) => {
-    return await instance.get("/donation/news", {params});
-}
+export const getDonationNewsRequest = async (pageId) => {
+    return await instance.get(`/main/donation/news/${pageId}`);
+};
+
 
 export const getChallengeRequest = async (params) => {
     return await instance.get("/main/donations/challenge", { params });

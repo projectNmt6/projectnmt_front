@@ -1,40 +1,34 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Quill } from 'react-quill';
 import { useLocation } from 'react-router-dom';
+import NonePage from './NonePage';
 /** @jsxImportSource @emotion/react */
 
-function NewsPage(props) {
-    const location = useLocation();
-    const queryParams = new URLSearchParams(location.search);
-    const donationPageId = queryParams.get('page'); 
-    const [newsPage, setNewsPage] = useState({});
-    const [content, setContent] = useState("");
-
+function NewsPage({donationPageId}) {
+    const [content, setContent] = useState(null); // 초기 상태를 null로 설정
+    
     useEffect(() => {
         axios.get(`http://localhost:8080/main/donation/news/${donationPageId}`)
             .then(response => {
-                const data = response.data;
-                setContent(data.newsContent);
-                setNewsPage(data);  // Update the newsPage state if needed
-                console.log("Fetched data:", data);  // Additional logging to see the fetched data
+                // 데이터가 비어 있는 경우를 처리
+                if (!response.data || Object.keys(response.data).length === 0) {
+                    setContent(null); // 데이터가 비어있으면 null 설정
+                } else {
+                    setContent(response.data); // 데이터가 있으면 상태 업데이트
+                }
             })
-            .catch(error => {
-                console.error("Error fetching data:", error);
-                console.log("Detailed error:", error.response);
-            });
+            .catch(console.error);
     }, [donationPageId]);
 
-    console.log("newsPage state:", newsPage); // Logging the state for debugging
     return (
         <div>
             NewsPage
-            <div>
-                {content}
-                {newsPage.content}
-                {newsPage.newsContent}
-                />
-                
+            <div> 
+                {content ? (
+                    <div>{content.newsContent}</div> // 뉴스 컨텐츠 표시
+                ) : (
+                    <NonePage />
+                )}
             </div>
         </div>
     );
