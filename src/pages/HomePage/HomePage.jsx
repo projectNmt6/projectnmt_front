@@ -1,9 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
-import React, { useState } from 'react';
-import { useQuery } from "react-query";
+import React, { useEffect, useState } from 'react';
+import { useQuery, useQueryClient } from "react-query";
 import { Link } from 'react-router-dom';
 import { getAllAmount, getProgressAmount } from "../../apis/api/donationAPI";
+import DonationStoryPage from "../DonationStoryPage/DonationStoryPage";
+import Progress from "../../components/progress/Progress";
 
 
 function HomePage(props) {
@@ -18,7 +20,7 @@ function HomePage(props) {
     const getAmountQuery = useQuery(
         "getAmountQuery",
         async () => {
-            const response = await getAllAmount({});
+            const response = await getAllAmount();
             return response;
         },
         {
@@ -29,31 +31,6 @@ function HomePage(props) {
         }
     );
 
-    const getamountQuery = useQuery(
-        "getamountQuery",
-        async () => {
-            const response = await getProgressAmount({});
-            return response;
-        },
-        {
-            refetchOnWindowFocus: false,
-            onSuccess: data => {
-                setGoalAmount(data.data.goalAmount);
-                setCurrentAmount(data.data.addAmount);
-                setStoryTitle(data.data.storyTitle);
-                setEndDate(data.data.endDate);
-            },
-        }
-    )
-    useEffect(() => {
-        if (getamountQuery.isSuccess) {
-          setCurrentAmount(getamountQuery.data.currentAmount);
-          setGoalAmount(getamountQuery.data.goalAmount);
-        }
-      }, [getamountQuery.data]);
-
-    const progressPercent = (currentAmount / goalAmount) * 100;
-    
     return (
         <>
         <div>
@@ -63,10 +40,8 @@ function HomePage(props) {
             <div>{formattedDate} 날짜 기준 </div>
             <div>총 기부금:{totalamount}</div>
         </div>
-        <div css={s.progressbar}>
-            <div css={s.progress} style={{ width: `${progressPercent}%` }}>
-            {`${progressPercent.toFixed(2)}%`}
-            </div> 
+        <div>
+            <Progress />
         </div>
         </>
     );
