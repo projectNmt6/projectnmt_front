@@ -6,7 +6,7 @@ import axios from 'axios';
 import Select from 'react-select';
 import { buttonBox } from './style';
 import { imgUrlBox } from './style';
-import { getDonationListRequest, getDonationTagRequest } from '../../apis/api/DonationAPI';
+import { getDonationListRequest, getDonationTagRequest } from '../../apis/api/donationAPI';
 import { useQuery } from 'react-query';
 import MainPage from '../MainPage/MainPage';
 import { Link } from 'react-router-dom';

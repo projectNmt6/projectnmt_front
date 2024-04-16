@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import * as s from "./style";
 import { useMutation, useQueryClient } from 'react-query';
-import { submitDonationData } from "../../apis/api/DonationAPI";
+import { submitDonationData } from "../../apis/api/donationAPI";
 import { useSearchParams } from "react-router-dom";
 import axios from 'axios';
 
@@ -17,7 +17,6 @@ function DonatorInfo(props) {
     
     const queryClient = useQueryClient();
     const principalData = queryClient.getQueryData("principalQuery");
-
     const donationSubmitMutation = useMutation({
         mutationKey: "donationSubmitMutation",
         mutationFn: submitDonationData,

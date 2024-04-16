@@ -18,7 +18,6 @@ function RootHeader(props) {
     
     useEffect(() => {
         setLogin(() => principalState.status === "success");
-        console.log(principalState.status);
     },[principalState.status])
     
     const handleOpenMenuClick = (e) => {

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import {Link, useLocation, useParams } from 'react-router-dom';
-import { getDonationStoryRequest, updatePageRequest } from '../../apis/api/DonationAPI';
+import { getDonationStoryRequest, updatePageRequest } from '../../apis/api/donationAPI';
 import DOMPurify from 'dompurify';
 
 function DonationStoryPage() {

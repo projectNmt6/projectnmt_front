@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import DonationPageboard from "../pages/DonationPageBoard/DonationPageboard";
-import HomePage from "../pages/HomePage";
+import HomePage from "../pages/HomePage/HomePage";
 import MainPage from "../pages/MainPage/MainPage";
 import SearchPage from '../pages/SearchPage/SearchPage';
 import MyPage from '../pages/MyPage/MyPage';
@@ -16,22 +16,31 @@ import DonationStoryPage from '../pages/DonationStoryPage/DonationStoryPage';
 import ReviewPage from '../pages/ReviewPage/ReviewPage'
 import UserInfoEditPage from '../pages/UserInfoEditPage/UserInfoEditPage';
 import SignUpPage from '../pages/SignUpPage/SignUpPage';
+import MyDonation from '../pages/MyDonation/MyDonation';
+import DonatorInfo from '../pages/DonatorInfo/DonatorInfo';
 
 
 function AuthRoute(props) {
 
-    const principalQuery = useQuery(["principalQuery"], getPrincipalRequest,{//focus 변경정로도
-        retry: 0,
-        refetchOnWindowFocus: false,
-        onSuccess: response => {
-            console.log(response.data);
-        },
-        onError: error => {
-            console.log("오류");
-            console.log(error);
+    const principalQuery = useQuery(
+        ["principalQuery"], 
+        getPrincipalRequest,
+        {//focus 변경정로도
+            retry: 0,
+            refetchOnWindowFocus: false,
+            onSuccess: response => {
+                console.log(response.data);
+            },
+            onError: error => {
+                console.log("오류");
+                console.log(error);
+            }
         }
-    });
+    );
+
     return (
+        <div>
+        <RootHeader/>
         <Routes>
             <Route path="/auth/*" element={ <AuthPage />}/>
                 <Route path="/" element={<HomePage />} />
@@ -45,8 +54,11 @@ function AuthRoute(props) {
                 <Route path="/donation/*" element={<DonationStoryPage />} />
                 <Route path="/main/donation/update" element={<DonationPageboard2 />} />
                 <Route path="/search" element={<SearchPage />} />
-            <Route path='/account/mypage/edit' element={<UserInfoEditPage />} />            
+                <Route path="/test" element= {<DonatorInfo/>} />
+                <Route path='/account/mypage/edit' element={<UserInfoEditPage />} />
+                <Route path="/account/mypage/donation" element={<MyDonation />} />           
         </Routes> 
+        </div>
     );
 }
 
