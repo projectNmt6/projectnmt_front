@@ -5,19 +5,16 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { getDonationListRequest, getDonationTagRequest } from "../../apis/api/donationAPI";
 import { FiSearch } from "react-icons/fi";
+import Progress from "../../components/progress/Progress";
 
 function MainPage() {
-    
     const [donationTagList, setDonationTagList] = useState([]);
     const [donationList, setDonationList] = useState([]);
     const [selectedTag, setSelectedTag] = useState(null);
-    console.log(donationList);
     //donationTag
     const getDonationTagQuery = useQuery(
         "getDonationTagQuery",
-        async () => await getDonationTagRequest({
-    
-        }),
+        async () => await getDonationTagRequest(),
         {
             refetchOnWindowFocus: false,
             onSuccess: response => {
@@ -27,13 +24,9 @@ function MainPage() {
             }
         }
     );
-
-
     const getDonationListQuery = useQuery(
         "getDonationQuery",
-        async () => await getDonationListRequest({
-            
-        }),
+        async () => await getDonationListRequest(),
         {
             refetchOnWindowFocus: false,
             onSuccess: response => {
@@ -43,12 +36,10 @@ function MainPage() {
             }
         }
         );
-        
         //handleTag
         const handleTagClick = (tag) => {
             setSelectedTag(tag);
           };
-
         const filteredDonations = selectedTag
         ? donationList.filter(
                         (donation) => donation.donationTagName 
@@ -85,6 +76,7 @@ function MainPage() {
             </button>
                 {donationTagList.map(
                     tag => (
+                        
                     <button 
                         key={tag.donationTagName} 
                         css={s.tagButton}
@@ -114,9 +106,7 @@ function MainPage() {
                                     <p><strong>목표금액:</strong> {donation.goalAmount}원</p>
                                     {/* <p><strong>시작시간:</strong> {donation.createDate.split('T')[0]}</p>  
                                     <p><strong>종료시간:</strong> {donation.endDate.split('T')[0]}</p> */}
-                                    <ProgressBar donationPageId={donation.donationPageId}/>
-
-
+                                     <Progress pageId={donation.donationPageId} />
                                 </div>
                             </div>
                         </a>
