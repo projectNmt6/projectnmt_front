@@ -17,6 +17,7 @@ import SignUpPage from '../pages/SignUpPage/SignUpPage';
 import MainPage2 from '../pages/DonationChallengerPage/MainPage2';
 import NewsPage from '../pages/DonationStoryPage/CategoryPage/NewsPage';
 import NewsWrite from '../pages/DonationPageBoard/CategoryPage/NewsWrite';
+import NewsUpdatePage from '../pages/DonationStoryPage/CategoryPage/NewsUpdatePage'
 
 
 
@@ -51,7 +52,7 @@ function AuthRoute(props) {
                 <Route path="/main/donation/update" element={<DonationPageboard2 />} />
                 <Route path="/search" element={<SearchPage />} />
                 <Route path='/main/donations/challenge' element={ < MainPage2 />} />
-
+                <Route path='/main/donation/news/update' element={<NewsUpdatePage />} />
        
            </Routes> 
         </>
