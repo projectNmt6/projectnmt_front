@@ -44,6 +44,10 @@ export const updatePageRequest = async (data) => {
     return await instance.put(`main/donation/update/${data.donationPageId}`, data);
 }
 
+export const updateNewsRequest = async (data) => {
+    return await instance.put(`/mian/donation/news/update${data.donationPageId}`, data);
+}
+
 export const searchDonationRequest = async (params) => {
     return await instance.get("/main/search", { params });
 }

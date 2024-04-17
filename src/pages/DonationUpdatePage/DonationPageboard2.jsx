@@ -86,7 +86,6 @@ function DonationPageboard2() {
     useEffect(() => {
         console.log(selectedMainTag);
         console.log(selectedSecondTag);
-
     }, [selectedMainTag, selectedSecondTag]);
 
     useEffect(() => {
