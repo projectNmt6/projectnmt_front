@@ -10,14 +10,15 @@ import { getPrincipalRequest } from '../apis/api/principal';
 import RootHeader from '../components/rootHeader/RootHeader';
 import AuthPage from '../pages/AuthPage/AuthPage';
 import AdminRoute from '../pages/Admin/route/AdminRoute';
-import DonationPageboard2 from '../pages/DonationUpdatePage/DonationPageboard2';
+import DonationPageboard2 from '../pages/DonationUpdatePage/DonationUpdatePageboard';
 import DonationStoryPage from '../pages/DonationStoryPage/DonationStoryPage';
 import ReviewPage from '../pages/ReviewPage/ReviewPage'
 import SignUpPage from '../pages/SignUpPage/SignUpPage';
 import MainPage2 from '../pages/DonationChallengerPage/MainPage2';
-import NewsPage from '../pages/DonationStoryPage/CategoryPage/NewsPage';
 import NewsWrite from '../pages/DonationPageBoard/CategoryPage/NewsWrite';
 import NewsUpdatePage from '../pages/DonationStoryPage/CategoryPage/NewsUpdatePage'
+import EndedFundings from '../pages/MainPage/fundings/EndedFundings'
+import NowFundingPage from '../pages/MainPage/fundings/NowFundingPage';
 
 
 
@@ -53,6 +54,8 @@ function AuthRoute(props) {
                 <Route path="/search" element={<SearchPage />} />
                 <Route path='/main/donations/challenge' element={ < MainPage2 />} />
                 <Route path='/main/donation/news/update' element={<NewsUpdatePage />} />
+                <Route path="/main/donation/fundings/now" element= {  <NowFundingPage />} />
+                
        
            </Routes> 
         </>

@@ -1,25 +1,20 @@
 /** @jsxImportSource @emotion/react */
+import { useEffect, useState } from "react";
+import { getDonationListRequest, getDonationTagRequest, getNowFundingRequest } from "../../../apis/api/DonationAPI";
 import * as s from "./style";
-import { useQuery } from "react-query";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FiSearch } from "react-icons/fi";
-import { getDonationListRequest, getDonationTagRequest } from "../../apis/api/DonationAPI";
-import NowFundingPage from "./fundings/NowFundingPage";
+import { useQuery } from "react-query";
 
-function MainPage() {
+function NowFundingPage() {
     
     const [donationTagList, setDonationTagList] = useState([]);
     const [donationList, setDonationList] = useState([]);
     const [selectedTag, setSelectedTag] = useState(null);
 
-    //donationTag
-
     const getDonationTagQuery = useQuery(
         "getDonationTagQuery",
-        async () => await getDonationTagRequest({
-    
-        }),
+        async () => await getDonationTagRequest(),
         {
             refetchOnWindowFocus: false,
             onSuccess: response => {
@@ -29,15 +24,10 @@ function MainPage() {
             }
         }
     );
-    console.log(donationTagList);
 
-    
-    
     const getDonationListQuery = useQuery(
         "getDonationQuery",
-        async () => await getDonationListRequest({
-            
-        }),
+        async () => await getNowFundingRequest(),
         {
             refetchOnWindowFocus: false,
             onSuccess: response => {
@@ -46,28 +36,32 @@ function MainPage() {
                 })));
             }
         }
-        );
-        console.log(donationList);
+    );
         
-        
-        //handleTag
-        const handleTagClick = (tag) => {
-            setSelectedTag(tag);
-          };
+    const handleTagClick = (tag) => {
+        setSelectedTag(tag);
+    };
 
-        const filteredDonations = selectedTag
+    const filteredDonations = selectedTag
         ? donationList.filter(
-                        (donation) => donation.donationTagName 
-                        ? donation.donationTagName.includes(selectedTag) 
-                        : false
-                        )
+            (donation) => donation.donationTagName 
+                            ? donation.donationTagName.includes(selectedTag) 
+                            : false
+        )
         : donationList;
 
+    const [nowFundingList, setNowFundingList] = useState([]);
+
+    const { data: nowFundingData } = useQuery("nowFunding", getNowFundingRequest);
+
+        
+        
         return (
         <>
             <div>
-                <h1>Main Page</h1>
+                <h1>모금중 페이지</h1> 
             </div>
+            
             <div css={s.upperRightMenu}>
                 <div css={s.sign}>
                     <Link to={"/signin"}>로그인 </Link>
@@ -133,4 +127,4 @@ function MainPage() {
         );
 }
 
-export default MainPage;
+export default NowFundingPage;
