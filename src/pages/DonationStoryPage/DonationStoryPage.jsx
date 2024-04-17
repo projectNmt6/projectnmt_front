@@ -4,6 +4,7 @@ import { useMutation, useQuery } from 'react-query';
 import {Link, useLocation, useParams } from 'react-router-dom';
 import { getDonationStoryRequest, updatePageRequest } from '../../apis/api/DonationAPI';
 import DOMPurify from 'dompurify';
+import LikeButton from '../../components/LikeButton/LikeButton';
 
 function DonationStoryPage() {
     const location = useLocation();
@@ -63,6 +64,7 @@ function DonationStoryPage() {
             </div>
 
             <div>
+                    <LikeButton donationPageId={donationPageId} />
                     <h2>{donationPage.storyTitle}</h2>
                     <img src={donationPage.mainImgUrl} alt="" />
                     <p>기부 시작일: {donationPage.createDate}</p>
