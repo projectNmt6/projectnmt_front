@@ -158,9 +158,7 @@ function DonationStoryPage() {
             <div css={s.commentBox}>
 
                 <div>
-                <CommentSection donationPageId={donationPageId}>
-                    
-                </CommentSection>
+                <CommentSection donationPageId={donationPageId} /> 
                 </div>
 
                 {/* <div>

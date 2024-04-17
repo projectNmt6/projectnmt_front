@@ -76,7 +76,11 @@ export const deleteComment = async (data) => {
 };
 
 export const getNowFundingRequest = async (data) => {
-    return await instance.get("/main/donation/fundings/now", data)
+    return await instance.get("/main/donation/fundings/now", data);
+}
+
+export const getEndFundingRequest = async (data) => {
+    return await instance.get("/main/donation/fundings/end", data);
 }
 
 export const getAllAmount = async (params) => {

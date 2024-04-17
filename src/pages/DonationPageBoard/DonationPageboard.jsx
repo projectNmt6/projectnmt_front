@@ -30,6 +30,7 @@ function DonationPageboard() {
     const [mainTagOptions, setMainTagOptions] = useState([]);
     const [secondTagOptions, setSecondTagOptions] = useState([]);
     const [ storyImgs, setStoryImgs ] = useState([]);
+    const [ teamId, setTeamId ] = useState('');
 
 
     const [startDate, setStartDate] = useState(new Date());
@@ -87,7 +88,7 @@ function DonationPageboard() {
 
         axios.post('http://localhost:8080/main/write', {
             donationPageId: 1,
-            teamId: null,
+            teamId: teamId,
             mainCategoryId: selectedMainTag.value,
             pageCategoryId: 1,
             createDate: startDate,

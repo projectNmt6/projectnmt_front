@@ -20,6 +20,7 @@ import NewsUpdatePage from '../pages/DonationStoryPage/CategoryPage/NewsUpdatePa
 import MyDonation from '../pages/MyDonation/MyDonation';
 import DonatorInfo from '../pages/DonatorInfo/DonatorInfo';
 import NowFundingPage from '../pages/MainPage/fundings/NowFundingPage';
+import EndedFundingsPage from '../pages/MainPage/fundings/EndedFundings';
 
 
 function AuthRoute(props) {
@@ -62,6 +63,7 @@ function AuthRoute(props) {
                 <Route path="/test" element= {<DonatorInfo/>} />
                 <Route path="/account/mypage/donation" element={<MyDonation />} />        
                 <Route path="/main/donation/fundings/now" element= {  <NowFundingPage />} />
+                <Route path="/main/donation/fundings/end" element= {  <EndedFundingsPage />} />
             
        
            </Routes> 
