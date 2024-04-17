@@ -10,7 +10,7 @@ import { getPrincipalRequest } from '../apis/api/principal';
 import RootHeader from '../components/rootHeader/RootHeader';
 import AuthPage from '../pages/AuthPage/AuthPage';
 import AdminRoute from '../pages/Admin/route/AdminRoute';
-import DonationPageboard2 from '../pages/DonationUpdatePage/DonationPageboard2';
+import DonationPageboard2 from '../pages/DonationUpdatePage/DonationUpdatePageboard';
 import DonationStoryPage from '../pages/DonationStoryPage/DonationStoryPage';
 import ReviewPage from '../pages/ReviewPage/ReviewPage'
 import SignUpPage from '../pages/SignUpPage/SignUpPage';
@@ -19,6 +19,7 @@ import NewsWrite from '../pages/DonationPageBoard/CategoryPage/NewsWrite';
 import NewsUpdatePage from '../pages/DonationStoryPage/CategoryPage/NewsUpdatePage'
 import MyDonation from '../pages/MyDonation/MyDonation';
 import DonatorInfo from '../pages/DonatorInfo/DonatorInfo';
+import NowFundingPage from '../pages/MainPage/fundings/NowFundingPage';
 
 
 function AuthRoute(props) {
@@ -42,7 +43,6 @@ function AuthRoute(props) {
     return (
         <>
 
-        <div>
         <RootHeader/>
         <Routes>
             <Route path="/auth/*" element={ <AuthPage />}/>
@@ -60,9 +60,12 @@ function AuthRoute(props) {
                 <Route path='/main/donations/challenge' element={ < MainPage2 />} />
                 <Route path='/main/donation/news/update' element={<NewsUpdatePage />} />       
                 <Route path="/test" element= {<DonatorInfo/>} />
-                <Route path="/account/mypage/donation" element={<MyDonation />} />           
-        </Routes> 
-        </div>
+                <Route path="/account/mypage/donation" element={<MyDonation />} />        
+                <Route path="/main/donation/fundings/now" element= {  <NowFundingPage />} />
+            
+       
+           </Routes> 
+
         </>
     );
 }

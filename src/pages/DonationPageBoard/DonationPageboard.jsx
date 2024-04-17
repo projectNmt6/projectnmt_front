@@ -29,8 +29,6 @@ function DonationPageboard() {
     const [selectedSecondTag, setSelectedSecondTag] = useState(null);
     const [mainTagOptions, setMainTagOptions] = useState([]);
     const [secondTagOptions, setSecondTagOptions] = useState([]);
-    const [createDate, setCreateDate] = useState(new Date()); // 현재 날짜로 초기화
-
     const [ storyImgs, setStoryImgs ] = useState([]);
 
 
