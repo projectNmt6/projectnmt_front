@@ -5,20 +5,16 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FiSearch } from "react-icons/fi";
 import { getDonationListRequest, getDonationTagRequest } from "../../apis/api/DonationAPI";
+import Progress from "../../components/progress/Progress";
 
 function MainPage() {
-    
     const [donationTagList, setDonationTagList] = useState([]);
     const [donationList, setDonationList] = useState([]);
     const [selectedTag, setSelectedTag] = useState(null);
-
     //donationTag
-
     const getDonationTagQuery = useQuery(
         "getDonationTagQuery",
-        async () => await getDonationTagRequest({
-    
-        }),
+        async () => await getDonationTagRequest(),
         {
             refetchOnWindowFocus: false,
             onSuccess: response => {
@@ -28,15 +24,9 @@ function MainPage() {
             }
         }
     );
-    console.log(donationTagList);
-
-    
-    
     const getDonationListQuery = useQuery(
         "getDonationQuery",
-        async () => await getDonationListRequest({
-            
-        }),
+        async () => await getDonationListRequest(),
         {
             refetchOnWindowFocus: false,
             onSuccess: response => {
@@ -46,14 +36,10 @@ function MainPage() {
             }
         }
         );
-        console.log(donationList);
-        
-        
         //handleTag
         const handleTagClick = (tag) => {
             setSelectedTag(tag);
           };
-
         const filteredDonations = selectedTag
         ? donationList.filter(
                         (donation) => donation.donationTagName 
@@ -79,10 +65,10 @@ function MainPage() {
             <div css={s.write}>
                 <Link to={"/main/write"}>작성하기</Link>
             </div>
-
             <div css={s.tagContainer}>
             <button 
                 key="alltag" 
+                
                 css={s.tagButton}
                 onClick={() => setSelectedTag(null)} 
                 aria-pressed={!selectedTag} 
@@ -90,6 +76,7 @@ function MainPage() {
             </button>
                 {donationTagList.map(
                     tag => (
+                        
                     <button 
                         key={tag.donationTagName} 
                         css={s.tagButton}
@@ -119,9 +106,7 @@ function MainPage() {
                                     <p><strong>목표금액:</strong> {donation.goalAmount}원</p>
                                     {/* <p><strong>시작시간:</strong> {donation.createDate.split('T')[0]}</p>  
                                     <p><strong>종료시간:</strong> {donation.endDate.split('T')[0]}</p> */}
-                                   
-
-
+                                     <Progress pageId={donation.donationPageId} />
                                 </div>
                             </div>
                         </a>

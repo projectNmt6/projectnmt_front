@@ -35,7 +35,6 @@ export const registerNewsPage = async (data) => {
 export const registerDonationNews = async (data) => {
     return await instance.post('/main/donation/donationnews', data);
 }
-
 export const getAllDonationTag = async () => {
     return await instance.get("/main/storytypes")
 }
@@ -52,11 +51,9 @@ export const searchDonationRequest = async (params) => {
     return await instance.get("/main/search", { params });
 }
 
-
 export const getDonationPageRequest = async (pageId) => {
     return await instance.get(`/main/donation/${pageId}`);
 }
-
 export const submitDonationData = async (data) => {
     return await instance.post("/main/test", data); 
 }
@@ -83,4 +80,10 @@ export const getNowFundingRequest = async (data) => {
     return await instance.get("/main/donation/fundings/now", data)
 }
 
-
+export const getAllAmount = async (params) => {
+    return await instance.get("/main/amount", {params});
+}
+export const getProgressAmount = async (params) => {
+    console.log(params);
+    return await instance.get("/main/progress", {params});
+}

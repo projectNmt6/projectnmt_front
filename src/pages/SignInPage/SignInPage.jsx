@@ -10,6 +10,7 @@ function SignInPage(props) {
     const [ password, passwordChange ] = useInput();
     
     const handleLogin = (e) => {
+        
         signinRequest({
             username,
             password
@@ -17,10 +18,11 @@ function SignInPage(props) {
             const accessToken = response.data;
             console.log(accessToken);
             localStorage.setItem("AccessToken", accessToken);
-            window.location.replace("/");
+            window.location.replace("/main");
         }).catch(error => {
-            alert(error.response.data);
-        })
+            // alert(error.response.data);
+        }
+    )
     }
 
     return (
