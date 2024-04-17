@@ -1,17 +1,16 @@
 /** @jsxImportSource @emotion/react */
-import * as s from "./style";
+import * as s from "../MainPage/style";
 import { useQuery } from "react-query";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { getChallengeRequest, getDonationListRequest, getDonationTagRequest } from "../../apis/api/DonationAPI";
 import { FiSearch } from "react-icons/fi";
-import LikeButton from "../../components/LikeButton/LikeButton";
 
-import { getDonationListRequest, getDonationTagRequest } from "../../apis/api/DonationAPI";
-
-function MainPage() {
+function MainPage2() {
     
     const [donationTagList, setDonationTagList] = useState([]);
     const [donationList, setDonationList] = useState([]);
+    const [ challengeList, setChallengeList ] = useState([])
     const [selectedTag, setSelectedTag] = useState(null);
 
     //donationTag
@@ -35,21 +34,19 @@ function MainPage() {
     
     
     const getDonationListQuery = useQuery(
-        "getDonationQuery",
-        async () => await getDonationListRequest({
-            
-        }),
+        "getDonationListQuery",
+        async () => await getChallengeRequest({ mainCategoryId: 2 }), // 여기서 mainCategoryId를 2로 지정
         {
             refetchOnWindowFocus: false,
-            onSuccess: response => {
-                setDonationList(response.data.map(donation => ({
+            onSuccess: (response) => {
+                setChallengeList(response.data.map((donation) => ({
                     ...donation
                 })));
             }
         }
-        );
-        console.log(donationList);
-        
+    );
+    console.log(challengeList);
+    
         
         //handleTag
         const handleTagClick = (tag) => {
@@ -57,12 +54,12 @@ function MainPage() {
           };
 
         const filteredDonations = selectedTag
-        ? donationList.filter(
+        ? challengeList.filter(
                         (donation) => donation.donationTagName 
                         ? donation.donationTagName.includes(selectedTag) 
                         : false
                         )
-        : donationList;
+        : challengeList;
 
         return (
         <>
@@ -121,7 +118,7 @@ function MainPage() {
                                     <p><strong>목표금액:</strong> {donation.goalAmount}원</p>
                                     {/* <p><strong>시작시간:</strong> {donation.createDate.split('T')[0]}</p>  
                                     <p><strong>종료시간:</strong> {donation.endDate.split('T')[0]}</p> */}
-                                <LikeButton donationPageId = {donation.donationPageId} />
+                                   
 
 
                                 </div>
@@ -134,4 +131,4 @@ function MainPage() {
         );
 }
 
-export default MainPage;
+export default MainPage2;

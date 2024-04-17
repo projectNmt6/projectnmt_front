@@ -58,7 +58,6 @@ function LikeButton({donationPageId}) {
         <div css={s.like}>
             <button onClick={handleLikeCount} css={s.likeButton}>
             {isLike ? <FcLike  /> : <CiHeart />} 공감 {likeStatus.countLike}
-                
             </button>
         </div>
     );

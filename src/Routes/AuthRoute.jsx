@@ -9,13 +9,15 @@ import { useQuery } from 'react-query';
 import { getPrincipalRequest } from '../apis/api/principal';
 import RootHeader from '../components/rootHeader/RootHeader';
 import AuthPage from '../pages/AuthPage/AuthPage';
-import TeamRoutePage from '../pages/TeamRoutePage/TeamRoutePage';
 import AdminRoute from '../pages/Admin/route/AdminRoute';
 import DonationPageboard2 from '../pages/DonationUpdatePage/DonationPageboard2';
 import DonationStoryPage from '../pages/DonationStoryPage/DonationStoryPage';
 import ReviewPage from '../pages/ReviewPage/ReviewPage'
-import UserInfoEditPage from '../pages/UserInfoEditPage/UserInfoEditPage';
 import SignUpPage from '../pages/SignUpPage/SignUpPage';
+import MainPage2 from '../pages/DonationChallengerPage/MainPage2';
+import NewsPage from '../pages/DonationStoryPage/CategoryPage/NewsPage';
+import NewsWrite from '../pages/DonationPageBoard/CategoryPage/NewsWrite';
+
 
 
 function AuthRoute(props) {
@@ -32,12 +34,15 @@ function AuthRoute(props) {
         }
     });
     return (
-        <Routes>
-            <Route path="/auth/*" element={ <AuthPage />}/>
+
+        <>
+            <RootHeader />
+            <Routes>
+                <Route path="/auth/*" element={ <AuthPage />}/>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/main" element={<MainPage />} />
-                <Route path="/main/write" element={<DonationPageboard />} />
-                <Route path="/team/*" element={ <TeamRoutePage />}/>
+                <Route path="/main/write" element={<DonationPageboard/>} />
+                <Route path="/main/donation/donationnews" element={ <NewsWrite />} />
                 <Route path="/account/mypage" element={<MyPage />} />
                 <Route path="/admin/*" element={ <AdminRoute/> } /> 
                 <Route path='/signup' element={ <SignUpPage /> }/>
@@ -45,8 +50,11 @@ function AuthRoute(props) {
                 <Route path="/donation/*" element={<DonationStoryPage />} />
                 <Route path="/main/donation/update" element={<DonationPageboard2 />} />
                 <Route path="/search" element={<SearchPage />} />
-            <Route path='/account/mypage/edit' element={<UserInfoEditPage />} />            
-        </Routes> 
+                <Route path='/main/donations/challenge' element={ < MainPage2 />} />
+
+       
+           </Routes> 
+        </>
     );
 }
 
