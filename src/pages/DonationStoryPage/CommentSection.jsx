@@ -59,7 +59,7 @@ function CommentSection({ donationPageId }) {
             alert("로그인이 필요합니다.");
             return;
         }
-        console.log("Deleting comment with ID:", userId);
+        console.log("Deleting ID:", userId);
         deleteCommentMutation.mutate({ donationCommentId, userId });
     };
     
