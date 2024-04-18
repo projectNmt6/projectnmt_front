@@ -187,7 +187,7 @@ export const button4 = css`
 export const sanitizeHtml = css`
     display: flex;
     margin-bottom: 20px;
-`
+`;
 export const boxbox1 = css`
     display: flex;
     justify-content: flex-start;
