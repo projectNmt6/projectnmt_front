@@ -120,9 +120,9 @@ const handleShareKakao = () => {
     const route = window.location.href; // 현재 페이지 URL
     const title = donationPage.storyTitle; // 기부 스토리 제목
     const THU = mainImgUrl;
-    const content = "ㅇㅇㅇ팀의 프로젝트 " + title + "입니다~!" + storyContent; 
+    const content = "펀펀하게 펀딩하러 가기!"
     const page = donationPageId;
-    
+
     shareKakao(route, title, THU, content, page);
   };
   
