@@ -10,6 +10,10 @@ import axios from 'axios';
 import CommentSection from '../../pages/DonationStoryPage/CommentSection'; 
 import NewsPage from './CategoryPage/NewsPage'; // NewsPage 경로 수정
 import Story from './CategoryPage/Story'; // Story 경로 수정
+import { shareKakao } from '../../apis/utils/shareKakaoLink';
+
+import KakaoShareButton from '../../assets/KakaoShareButton';
+
 
 function DonationStoryPage() {
     const location = useLocation();
@@ -84,7 +88,7 @@ function DonationStoryPage() {
             console.log(error);
         })
     }
- 
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -110,7 +114,27 @@ function DonationStoryPage() {
     const handleNewsUpdateButton = () => {
 
     }
+
+    // 카카오톡 공유 버튼 클릭 이벤트 핸들러 추가
+const handleShareKakao = () => {
+    const route = window.location.href; // 현재 페이지 URL
+    const title = donationPage.storyTitle; // 기부 스토리 제목
+    const THU = mainImgUrl;
+    const content = "ㅇㅇㅇ팀의 프로젝트 " + title + "입니다~!" + storyContent; 
+    const page = donationPageId;
     
+    shareKakao(route, title, THU, content, page);
+  };
+  
+    useEffect(() => {
+        const script = document.createElement("script");
+        script.src = "https://developers.kakao.com/sdk/js/kakao.js";
+        script.async = true;
+        document.body.appendChild(script);
+        return () => document.body.removeChild(script);
+    }, []);
+    
+
     return (
         <>
             <div>                
@@ -127,7 +151,9 @@ function DonationStoryPage() {
                 <Link to={`/main/donation/update?page=${donationPageId}`}>수정하기</Link>                
                 <button onClick={handleDeleteButtonClick} >삭제하기</button>
             </div>
-
+            <button onClick={handleShareKakao}>
+            카카오톡공유하기
+            </button>
 
             <div>
                 <h1>Donation Stories</h1>
@@ -161,15 +187,6 @@ function DonationStoryPage() {
                 <CommentSection donationPageId={donationPageId} /> 
                 </div>
 
-                {/* <div>
-                    <input 
-                        type="text" 
-                        value={comment}
-                        onChange={handleCommentChange}
-                    />
-                    <p>{commentList.commentText}</p>
-                    <button onClick={handleCommentSubmit}>덧글입력</button>
-                </div> */}
 
             </div>
 
