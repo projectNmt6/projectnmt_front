@@ -17,7 +17,6 @@ function RootHeader(props) {
     
     useEffect(() => {
         setLogin(() => principalState.status === "success");
-        console.log(principalState.status);
     },[principalState.status])
     
     const handleOpenMenuClick = (e) => {
@@ -40,7 +39,10 @@ function RootHeader(props) {
             <Link css={s.account} to={"/"}>
                 <FaHome />
             </Link>
-            <Link to={"/main"}> 기부하기 </Link>
+            <div css={s.mainbox}>
+                <Link to={"/main"} > 기부하기 </Link>
+            </div>
+            
             <Link to={"/main/donations/challenge"}>챌린지</Link>
             {
                 !isLogin ? 

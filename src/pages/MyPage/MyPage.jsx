@@ -8,7 +8,7 @@ function MyPage(props) {
     const [ temaList, setTeamList ] = useState([]);
     const queryClient = useQueryClient();
     const principalData = queryClient.getQueryData("principalQuery");
-
+    console.log(principalData?.data);
     const getTeamListQuery = useQuery(
         [ "getTeamListQuery", principalData?.data ],
         async () => {
@@ -54,7 +54,7 @@ function MyPage(props) {
                         </>
                     })}
                     <Link to={"/account/create/team"}> 팀 만들기</Link>
-                    <Link to={"/account/infoedit"}>회원 정보 수정</Link>
+                    <Link to={"/account/mypage/edit"}>회원 정보 수정</Link>
                 </div>
             </div>
         }

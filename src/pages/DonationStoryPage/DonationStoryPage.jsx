@@ -108,6 +108,9 @@ function DonationStoryPage() {
     }
     const navigate = useNavigate();
 
+    const handleNewsUpdateButton = () => {
+
+    }
     
     return (
         <>
@@ -119,6 +122,9 @@ function DonationStoryPage() {
                 <button>
                 <Link to={`/main/donation/donationnews?page=${donationPageId}`}>후기 작성하기</Link>
                     </button>
+                <button> 
+                    <Link to={`/main/donation/news/update?page=${donationPageId}`}>후기수정하기</Link>
+                </button>
                 <Link to={`/main/donation/update?page=${donationPageId}`}>수정하기</Link>                
                 <button onClick={handleDeleteButtonClick} >삭제하기</button>
             </div>
@@ -140,7 +146,7 @@ function DonationStoryPage() {
 
             <button onClick={() => handleTabChange('news')}>news</button>
             <button onClick={() => handleTabChange('story')}>Story</button>
-            <button>후기수정하기</button>
+
 
             <div css={s.boxbox1}>
                 <div>
@@ -154,9 +160,7 @@ function DonationStoryPage() {
             <div css={s.commentBox}>
 
                 <div>
-                <CommentSection donationPageId={donationPageId}>
-                    
-                </CommentSection>
+                <CommentSection donationPageId={donationPageId} /> 
                 </div>
 
                 {/* <div>

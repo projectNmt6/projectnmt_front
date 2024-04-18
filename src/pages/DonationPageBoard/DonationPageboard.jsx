@@ -29,9 +29,8 @@ function DonationPageboard() {
     const [selectedSecondTag, setSelectedSecondTag] = useState(null);
     const [mainTagOptions, setMainTagOptions] = useState([]);
     const [secondTagOptions, setSecondTagOptions] = useState([]);
-    const [createDate, setCreateDate] = useState(new Date()); // 현재 날짜로 초기화
-
     const [ storyImgs, setStoryImgs ] = useState([]);
+    const [ teamId, setTeamId ] = useState('');
 
 
     const [startDate, setStartDate] = useState(new Date());
@@ -89,7 +88,7 @@ function DonationPageboard() {
 
         axios.post('http://localhost:8080/main/write', {
             donationPageId: 1,
-            teamId: null,
+            teamId: teamId,
             mainCategoryId: selectedMainTag.value,
             pageCategoryId: 1,
             createDate: startDate,
@@ -276,7 +275,7 @@ function DonationPageboard() {
                     placeholder="내용을 입력해주세요."
                     style={{ height: '500px', margin: "50px" }}
                 />                
-                < DonationWrite />
+                {/* < DonationWrite /> */}
 
             </div>
 
