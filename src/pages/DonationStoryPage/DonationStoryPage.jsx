@@ -41,12 +41,7 @@ function DonationStoryPage() {
         }
     );
 
-    // useEffect(() => {
-    //     axios.get(`http://localhost:8080/comment/getcomment/${donationPageId}`)
-    //         .then(response => setCommentList(response.data))
-    //         .catch(console.error);
-    // }, [donationPageId]);
-    
+
     useEffect(() => {
         commentResponse({ params: { donationPageId } })
             .then(response => setCommentList(response.data))
@@ -188,6 +183,7 @@ const handleShareKakao = () => {
                         <h2 css={s.donationtitle}>{donationPage.storyTitle}</h2>
                         <div css={s.currentAmount}>{currentAmount}원</div>
                         <div css={s.goalAmount}>{donationPage.goalAmount}원 목표</div>
+                        <button onClick={handleShareKakao}>카카오톡공유하기</button>
                         {/* <Progress pageId={donationPageId} /> */}
                         <div css={s.dates}>
                             <div css={s.dates2}>기부 시작일: {donationPage.createDate ? donationPage.createDate.substring(0, 10) : ''}</div>
