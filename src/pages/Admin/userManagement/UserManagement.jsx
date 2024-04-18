@@ -7,6 +7,7 @@ import Message from '../../../components/Message/Message';
 function UserManagement() {
     const checkBoxRef = useRef();
     const [ userList, setUserList ] = useState([]);
+    
     const userListQuery = useQuery(["userListQuery"], getUserListRequest, {
         retry: 3,
         refetchOnWindowFocus: false,

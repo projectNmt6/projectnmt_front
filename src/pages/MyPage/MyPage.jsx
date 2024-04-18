@@ -31,7 +31,7 @@ function MyPage(props) {
         mutationKey: "deleteUserMutation",
         mutationFn: deleteUserRequest,
         onSuccess: response => {
-            console.log(response);
+            console.log("MyPage: "+response);
             alert("삭제완료.");
         },
         onError: error => {}

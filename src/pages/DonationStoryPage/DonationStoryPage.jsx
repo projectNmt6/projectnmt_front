@@ -12,6 +12,7 @@ import CommentSection from '../../pages/DonationStoryPage/CommentSection';
 import NewsPage from './CategoryPage/NewsPage'; // NewsPage 경로 수정
 import Story from './CategoryPage/Story'; // Story 경로 수정
 import { shareKakao } from '../../apis/utils/shareKakaoLink';
+import Donators from "./CategoryPage/Donators";
 
 function DonationStoryPage() {
     const location = useLocation();
@@ -40,12 +41,18 @@ function DonationStoryPage() {
         }
     );
 
+    // useEffect(() => {
+    //     axios.get(`http://localhost:8080/comment/getcomment/${donationPageId}`)
+    //         .then(response => setCommentList(response.data))
+    //         .catch(console.error);
+    // }, [donationPageId]);
+    
     useEffect(() => {
-        axios.get(`http://localhost:8080/comment/getcomment/${donationPageId}`)
+        commentResponse({ params: { donationPageId } })
             .then(response => setCommentList(response.data))
             .catch(console.error);
     }, [donationPageId]);
-
+    
 
     const { storyContent, storyTitle, mainImgUrl, createDate, endDate } = donationPage || {};
 
@@ -64,11 +71,11 @@ function DonationStoryPage() {
         deleteMutationButton.mutate({ donationPageId: donationPageId });
     }
 
-
     const handleCommentChange = (e) => {
         const value = e.target.value;
         setComment(value);
     }
+
     const getamountQuery = useQuery(
         ["getamountQuery", donationPageId],
         async () => {
@@ -181,7 +188,7 @@ const handleShareKakao = () => {
                         <h2 css={s.donationtitle}>{donationPage.storyTitle}</h2>
                         <div css={s.currentAmount}>{currentAmount}원</div>
                         <div css={s.goalAmount}>{donationPage.goalAmount}원 목표</div>
-                        <Progress pageId={donationPageId} />
+                        {/* <Progress pageId={donationPageId} /> */}
                         <div css={s.dates}>
                             <div css={s.dates2}>기부 시작일: {donationPage.createDate ? donationPage.createDate.substring(0, 10) : ''}</div>
                             <div css={s.dates3}>기부 종료일: {calculateDaysRemaining(donationPage.createDate, donationPage.endDate)}</div>
@@ -198,10 +205,17 @@ const handleShareKakao = () => {
                 <div css={s.container2}>
                     <button css={s.button4} onClick={() => handleTabChange('news')}>news</button>
                     <button css={s.button4} onClick={() => handleTabChange('story')}>Story</button>
+                    <button css={s.button4} onClick={() => handleTabChange('donators')}>Donators</button>
                     <div css={s.boxbox1}>
                         <div>
                             <h2>분리공간 </h2>
-                            {selectedTab === 'news' ? <NewsPage donationPageId={donationPageId} /> : <Story />}
+                            {selectedTab === 'news' ? 
+                            <NewsPage donationPageId={donationPageId} /> 
+                            : selectedTab === 'story' ?
+                            <Story />
+                            : <Donators />
+                            }
+
                         </div>
                     </div>
                     <h3>덧글</h3>

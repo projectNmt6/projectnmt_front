@@ -33,7 +33,7 @@ function AuthRoute(props) {
             retry: 0,
             refetchOnWindowFocus: false,
             onSuccess: response => {
-                console.log(response.data);
+                console.log("Auth: "+response.data);
             },
             onError: error => {
                 console.log("오류");
