@@ -4,7 +4,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useQuery } from "react-query";
 import Select from 'react-select';
-import { getDonationListRequest, searchDonationRequest } from "../../apis/api/donationAPI";
+import { getDonationListRequest, searchDonationRequest } from "../../apis/api/DonationAPI";
 
 function SearchPage(props) {
 

@@ -3,7 +3,7 @@ import * as s from "./style";
 import React, { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from "react-query";
 import { Link } from 'react-router-dom';
-import { getAllAmount, getDonationListRequest, getProgressAmount } from "../../apis/api/donationAPI";
+import { getAllAmount, getDonationListRequest, getProgressAmount } from "../../apis/api/DonationAPI";
 import Progress from "../../components/progress/Progress";
 
 

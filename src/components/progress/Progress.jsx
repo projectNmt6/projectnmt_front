@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
-import { getDonationStoryRequest, getProgressAmount } from '../../apis/api/donationAPI';
+import { getDonationStoryRequest, getProgressAmount } from '../../apis/api/DonationAPI';
 import { useQuery } from 'react-query';
 
 function Progress({pageId}) {

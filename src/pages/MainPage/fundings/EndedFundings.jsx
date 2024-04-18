@@ -1,18 +1,17 @@
 /** @jsxImportSource @emotion/react */
+import { useEffect, useState } from "react";
+import { getDonationListRequest, getDonationTagRequest, getEndFundingRequest, getNowFundingRequest } from "../../../apis/api/DonationAPI";
 import * as s from "./style";
-import { useQuery } from "react-query";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FiSearch } from "react-icons/fi";
-import { getDonationListRequest, getDonationTagRequest } from "../../apis/api/DonationAPI";
-import Progress from "../../components/progress/Progress";
-import NowFundingPage from "./fundings/NowFundingPage";
+import { useQuery } from "react-query";
 
-function MainPage() {
+function EndedFundingsPage() {
+    
     const [donationTagList, setDonationTagList] = useState([]);
     const [donationList, setDonationList] = useState([]);
     const [selectedTag, setSelectedTag] = useState(null);
-    //donationTag
+
     const getDonationTagQuery = useQuery(
         "getDonationTagQuery",
         async () => await getDonationTagRequest(),
@@ -25,9 +24,10 @@ function MainPage() {
             }
         }
     );
+
     const getDonationListQuery = useQuery(
         "getDonationQuery",
-        async () => await getDonationListRequest(),
+        async () => await getEndFundingRequest(),
         {
             refetchOnWindowFocus: false,
             onSuccess: response => {
@@ -36,24 +36,32 @@ function MainPage() {
                 })));
             }
         }
-        );
-        //handleTag
-        const handleTagClick = (tag) => {
-            setSelectedTag(tag);
-          };
-        const filteredDonations = selectedTag
+    );
+        
+    const handleTagClick = (tag) => {
+        setSelectedTag(tag);
+    };
+
+    const filteredDonations = selectedTag
         ? donationList.filter(
-                        (donation) => donation.donationTagName 
-                        ? donation.donationTagName.includes(selectedTag) 
-                        : false
-                        )
+            (donation) => donation.donationTagName 
+                            ? donation.donationTagName.includes(selectedTag) 
+                            : false
+        )
         : donationList;
 
+    const [EndFundingList, setEndFundingList] = useState([]);
+
+    const { data: EndFundingData } = useQuery("EndFunding", getEndFundingRequest);
+
+        
+        
         return (
         <>
             <div>
-                <h1>Main Page</h1>
+                <h1>모금중 페이지</h1> 
             </div>
+            
             <div css={s.upperRightMenu}>
                 <div css={s.sign}>
                     <Link to={"/signin"}>로그인 </Link>
@@ -67,15 +75,9 @@ function MainPage() {
                 <Link to={"/main/write"}>작성하기</Link>
             </div>
 
-            <div>
-                <button><Link to={'/main/donation/fundings/now'}>펀딩중</Link></button>
-                <button><Link to={'/main/donation/fundings/end'}>펀딩종료</Link></button>
-            </div>
-
             <div css={s.tagContainer}>
             <button 
                 key="alltag" 
-                
                 css={s.tagButton}
                 onClick={() => setSelectedTag(null)} 
                 aria-pressed={!selectedTag} 
@@ -83,7 +85,6 @@ function MainPage() {
             </button>
                 {donationTagList.map(
                     tag => (
-                        
                     <button 
                         key={tag.donationTagName} 
                         css={s.tagButton}
@@ -113,7 +114,9 @@ function MainPage() {
                                     <p><strong>목표금액:</strong> {donation.goalAmount}원</p>
                                     {/* <p><strong>시작시간:</strong> {donation.createDate.split('T')[0]}</p>  
                                     <p><strong>종료시간:</strong> {donation.endDate.split('T')[0]}</p> */}
-                                     <Progress pageId={donation.donationPageId} />
+                                   
+
+
                                 </div>
                             </div>
                         </a>
@@ -124,4 +127,4 @@ function MainPage() {
         );
 }
 
-export default MainPage;
+export default EndedFundingsPage;

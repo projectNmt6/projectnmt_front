@@ -6,11 +6,12 @@ import axios from 'axios';
 import Select from 'react-select';
 import { buttonBox } from './style';
 import { imgUrlBox } from './style';
-import { getDonationListRequest, getDonationTagRequest } from '../../apis/api/donationAPI';
+import { getDonationListRequest, getDonationTagRequest } from '../../apis/api/DonationAPI';
 import { useQuery } from 'react-query';
 import MainPage from '../MainPage/MainPage';
 import { Link } from 'react-router-dom';
 import { errorSelector } from 'recoil';
+import DonationWrite from './CategoryPage/DonationWrite';
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -28,9 +29,8 @@ function DonationPageboard() {
     const [selectedSecondTag, setSelectedSecondTag] = useState(null);
     const [mainTagOptions, setMainTagOptions] = useState([]);
     const [secondTagOptions, setSecondTagOptions] = useState([]);
-    const [createDate, setCreateDate] = useState(new Date()); // 현재 날짜로 초기화
-
     const [ storyImgs, setStoryImgs ] = useState([]);
+    const [ teamId, setTeamId ] = useState('');
 
 
     const [startDate, setStartDate] = useState(new Date());
@@ -88,9 +88,9 @@ function DonationPageboard() {
 
         axios.post('http://localhost:8080/main/write', {
             donationPageId: 1,
-            teamId: null,
+            teamId: teamId,
             mainCategoryId: selectedMainTag.value,
-            donationCategoryId: mainTagOptions,
+            pageCategoryId: 1,
             createDate: startDate,
             endDate: endDate,
             goalAmount : amount,
@@ -199,7 +199,7 @@ function DonationPageboard() {
                 onChange={handleStartDateChange} 
                 selectsStart
                 dateFormat="yyyy년 MM월 dd일"
-                minDate={new Date()}
+                // minDate={new Date()}
             />
 
             <div>기부 프로젝트 종료일: </div>
@@ -209,7 +209,7 @@ function DonationPageboard() {
                 selectsEnd
                 startDate={startDate}
                 endDate={endDate}
-                minDate={startDate}
+                // minDate={startDate}
                 dateFormat="yyyy년 MM월 dd일"
             />
             
@@ -225,7 +225,7 @@ function DonationPageboard() {
                 onChange={handleMainTagChange}
             />
 
-            {selectedMainTag && selectedMainTag.value === mainTagOptions[0].value && ( // 주석 추가
+            {selectedMainTag && selectedMainTag.value === mainTagOptions[0].value && ( 
                 <Select 
                     options={secondTagOptions}
                     placeholder="기부 카테고리를 선택해주세요"
@@ -248,6 +248,8 @@ function DonationPageboard() {
                         onChange={fileChange} 
                     /> 
                 </div>
+                
+                <button>이미지 제거 </button>
             </div>
 
             <div>
@@ -272,7 +274,8 @@ function DonationPageboard() {
                     theme="snow"
                     placeholder="내용을 입력해주세요."
                     style={{ height: '500px', margin: "50px" }}
-                />
+                />                
+                {/* < DonationWrite /> */}
 
             </div>
 

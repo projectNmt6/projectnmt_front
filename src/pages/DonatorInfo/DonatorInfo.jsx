@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import * as s from "./style";
 import { useMutation, useQueryClient } from 'react-query';
-import { submitDonationData } from "../../apis/api/donationAPI";
+import { submitDonationData } from "../../apis/api/DonationAPI";
 import { useSearchParams } from "react-router-dom";
 import axios from 'axios';
 
