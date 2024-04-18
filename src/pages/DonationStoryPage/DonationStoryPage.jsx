@@ -6,6 +6,7 @@ import Progress from "../../components/progress/Progress";
 import {Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { commentReqest, commentResponse, deleteDonationPage, getDonationNewsRequest, getDonationStoryRequest, updatePageRequest, getDonationStoryRequest, getProgressAmount } from '../../apis/api/DonationAPI';
 import DOMPurify from 'dompurify';
+import LikeButton from '../../components/LikeButton/LikeButton';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import axios from 'axios';
@@ -155,13 +156,25 @@ function DonationStoryPage() {
                 <button> 
                     <Link to={`/main/donation/news/update?page=${donationPageId}`}>후기수정하기</Link>
                 </button>
-                <Link css={s.link} to={`/main/donation/update?page=${donationPageId}`}>수정하기</Link>                
-                <button css={s.button} onClick={handleDeleteButtonClick} >삭제하기</button>
+
+                <Link to={`/main/donation/update?page=${donationPageId}`}>수정하기</Link>                
+                <button onClick={handleDeleteButtonClick} >삭제하기</button>
+
             </div>
             <div css={s.storyHeader}>
                 <h1>Donation Stories</h1>
                 <p>page: {donationPageId}</p>
             </div>
+
+
+            <div>
+                    <LikeButton donationPageId={donationPageId} />
+                    <h2>{donationPage.storyTitle}</h2>
+                    <img src={donationPage.mainImgUrl} alt="" />
+                    <p>기부 시작일: {donationPage.createDate}</p>
+                    <p>기부 종료일: {donationPage.endDate}</p>
+                    <div dangerouslySetInnerHTML={{ __html: safeHTML }} />
+
             <div css={s.storyContent}>
                 <div css={s.main}>
                     <img src={donationPage.mainImgUrl} alt="Story" css={s.storyImage}/>
@@ -177,6 +190,7 @@ function DonationStoryPage() {
                     </div>
                 </div>
                 <div css={s.sanitizeHtml} dangerouslySetInnerHTML={{ __html: safeHTML }} />
+
             </div>
         </div>
             <button onClick={() => handleTabChange('news')}>news</button>
