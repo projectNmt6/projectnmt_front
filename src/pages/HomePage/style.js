@@ -5,6 +5,7 @@ import { css } from "@emotion/react";
 export const mainLayout = css`
 padding : 20px;
 background-color: #F4FFFF;
+white-space: pre;
 `
 export const rootheader = css`
   display: flex;
@@ -52,17 +53,17 @@ export const contentAreaStyle = css`
 export const leftCardLayout = css`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  overflow: hidden;
+  flex-wrap: wrap;
   width: 63%;
+  position: sticky;
 `;
 
 export const rightCardLayout = css`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  flex-wrap: wrap;  
   overflow: hidden;
-  width: 35%;
+  width: 30%;
 `;
 
 export const cardStyle = css`
@@ -71,6 +72,7 @@ export const cardStyle = css`
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   padding: 10px;
+  width: 100%;
    
 `;
 

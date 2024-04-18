@@ -9,8 +9,12 @@ import introImg from '../../assets/introImg.png';
 import introImg2 from '../../assets/introImg2.jpeg';
 import { FaArrowCircleRight } from "react-icons/fa";
 import sideImg from '../../assets/sideImg.png';
-import { FaWonSign } from "react-icons/fa";
-import { BsEmojiHeartEyes } from "react-icons/bs";
+import { BsFillSearchHeartFill } from "react-icons/bs";
+import { GiSandsOfTime } from "react-icons/gi";
+import { FaSackDollar } from "react-icons/fa6";
+import { FaCrown } from "react-icons/fa6";
+
+
 import LikeButton from "../../components/LikeButton/LikeButton";
 
 
@@ -22,6 +26,10 @@ function HomePage() {
     const [remainingTime, setRemainingTime] = useState(null);
     const today = new Date();
     const formattedDate = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`;
+    const [closestToGoal, setClosestToGoal] = useState(null);
+    const [topThreeDonations, setTopThreeDonations] = useState([]);
+    const [topDonator, setTopDonator] = useState(null);
+
 
     const getAmountQuery = useQuery(
         "getAmountQuery",
@@ -36,6 +44,8 @@ function HomePage() {
             },
         }
     );
+
+
     const getDonationListQuery = useQuery(
         "getDonationQuery",
         async () => await getDonationListRequest(),
@@ -51,7 +61,26 @@ function HomePage() {
                 setUpcomingDonation(sortedDonations.find(donation => {
                     const timeRemaining = new Date(donation.endDate) - today;
                     return timeRemaining > 0;
-                    }))
+                    }));
+                const closestToGoalDonation = sortedDonations.reduce((prev, curr) => {
+                    const prevDiff = Math.abs(prev.goalAmount - prev.currentAmount);
+                    const currDiff = Math.abs(curr.goalAmount - curr.currentAmount);
+                    return prevDiff < currDiff ? prev : curr;
+                });
+                setClosestToGoal(closestToGoalDonation);
+
+                const topThree = sortedDonations
+                    .sort((a, b) => b.currentAmount - a.currentAmount)
+                    .slice(0, 3);
+                setTopThreeDonations(topThree);
+
+                const donors = sortedDonations.flatMap(donation => donation.donators);
+                const topDonator = donors.reduce((prev, curr) => {
+                    const prevTotal = prev.donations.reduce((sum, donation) => sum + donation.amount, 0);
+                    const currTotal = curr.donations.reduce((sum, donation) => sum + donation.amount, 0);
+                    return prevTotal > currTotal ? prev : curr;
+                });
+                setTopDonator(topDonator);
                 }
             }
         }
@@ -103,8 +132,8 @@ function HomePage() {
             
                             <div>
                                 <div css={s.cardText}> 
-                                    <h2>마지막 기부자를 찾습니다   <BsEmojiHeartEyes /></h2>
-                                    <p>기한 종료까지 얼마 남지 않았어요! </p>
+                                    <h2>시간이 얼마 남지 않았어요 <GiSandsOfTime color="orange" /></h2>
+                                    <p>망설이면 끝! 조금만 더 힘을 내주세요 </p>
                                 </div>
                             </div>
                             {upcomingDonation && (
@@ -137,14 +166,43 @@ function HomePage() {
                             )}
                         </div>
                         <div css={s.cardStyle}>
-                            <h2>가장 많이 기부 중인 모금함</h2>
-
-
+                            <h2>가장 많이 기부 중인 모금함 <FaSackDollar color="orange" /></h2>
+                            <p>오늘, 기부 하셨나요? 당신의 마음도 함께 나눠주세요 </p>
+                            {topThreeDonations.map(donation => (
+                                <Link key={donation.donationPageId} to={`/donation?page=${donation.donationPageId}`}>
+                                    <div>
+                                        <h3>{donation.storyTitle}</h3>
+                                        <p>현재 금액: {donation.currentAmount}원</p>
+                                    </div>
+                                </Link>
+                            ))}
                         </div>
+
                         <div css={s.cardStyle}>
-                            <h2>오늘의 기부왕!</h2>
+                            <h2>마지막 기부자를 찾습니다 <BsFillSearchHeartFill color="orange" /></h2>
+                            <p>오늘, 기부 하셨나요? 당신의 마음도 함께 나눠주세요 </p>
+                            {closestToGoal && (
+                                <Link to={`/donation?page=${closestToGoal.donationPageId}`}>
+                                    <div>
+                                        <h3>{closestToGoal.storyTitle}</h3>
+                                        <p>목표 금액: {closestToGoal.goalAmount}원</p>
+                                        <p>현재 금액: {closestToGoal.currentAmount}원</p>
+                                    </div>
+                                </Link>
+                            )}
+                            </div>
 
-
+                        
+                        <div css={s.cardStyle}>
+                            <h2>오늘의 기부왕!  <FaCrown color="orange"/></h2>
+                            {topDonator ? (
+                            <div>
+                                <h3>{topDonator.name}</h3>
+                                <p>총 기부 금액: {topDonator.donations.reduce((sum, donation) => sum + donation.amount, 0)}원</p>
+                            </div>
+                            ) : (
+                                <p>아직 기부한 사람이 없습니다.</p>
+                            )}
                         </div>
                     </div>
 
@@ -164,7 +222,7 @@ function HomePage() {
                                     </div>
                                 </div>
                                 <div css={s.totalAmountBox}> 
-                                <h3><FaWonSign /> 총 기부금           {totalamount}원</h3>
+                                <h3> ₩ 총 기부금                               {totalamount.toLocaleString()}원</h3>
                                 </div>
                             </div>
                             <div css={s.sidebarStyle}>

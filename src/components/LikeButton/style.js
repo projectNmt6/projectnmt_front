@@ -8,6 +8,7 @@ export const like = css`
 `
 export const likeButton = css`
 background-color: transparent;
+border: none;
 cursor: pointer;
 ` 
 

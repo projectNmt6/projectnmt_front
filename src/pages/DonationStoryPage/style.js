@@ -109,7 +109,6 @@ export const main = css`
     justify-content: space-around;
     width: 1120px;
     height: 480px;
-    
 `;
 
 export const storyImage = css`
@@ -161,8 +160,8 @@ export const likebutton = css`
     display: flex;
     flex-direction: column;
     margin-top: 30px;
+`
 
-`;
 export const likebutton1 = css`
     margin-top: 35px;
     display: flex;
