@@ -1,13 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react';
 /** @jsxImportSource @emotion/react */
 import {css} from "@emotion/react";
+import React, { useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import Select from "react-select";
 import {v4 as uuid} from "uuid";
 import { storage } from '../../apis/filrebase/config/firebaseConfig';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
-import { registerTeam } from '../../apis/api/teamApi';
+import { registerTeam, updateTeam, updateTeamRequest } from '../../apis/api/teamApi';
 import { useMutation, useQueryClient } from 'react-query';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const header = css`
     & > div{
@@ -24,49 +25,28 @@ const imgBox = css`
         overflow: hidden;
     }
 `
-function TeamCreatePage(props) {
-    const [ isCompany, setIsCompany] = useState(true);
-    const [ teamTypeCategory,  setTeamTypeCategory ] = useState();
-    const [ teamName,  setTeamName ] = useState();
-    const [ teamPhoneNumber, setTeamPhoneNumber ] = useState();
-    const [ teamEmail,  setTeamEmail ] = useState();
-    const [ companyRegisterNumber,  setCompanyRegisterNumber ] = useState();
-    const [ companyRegisterNumberUrl, setCompanyRegisterNumberUrl ] = useState();
-    const [ teamHomepage,  setTeamHomepage ] = useState();
-    const [ teamInfoText,  setTeamInfoText ] = useState();
-    const [ teamLogoImgUrl,  setTeamLogoImgUrl ] = useState();
-    const [ accountInfos, setAccountInfos ] = useState([]);
+function UpdateTeamPage(props) {
+    const location = useLocation();
+    const teamInfo = location.state.teamInfo;
+    const navigate = useNavigate();
+    const [ teamPhoneNumber, setTeamPhoneNumber ] = useState(teamInfo.teamPhoneNumber);
+    const [ teamEmail,  setTeamEmail ] = useState(teamInfo.teamEmail);
+    const [ teamHomepage,  setTeamHomepage ] = useState(teamInfo.teamHomepage);
+    const [ teamInfoText,  setTeamInfoText ] = useState(teamInfo.teamInfoText);
+    const [ teamLogoImgUrl,  setTeamLogoImgUrl ] = useState(teamInfo.teamLogoImgUrl);
+    const [ accountInfos, setAccountInfos ] = useState(teamInfo.accounts);
     const [ createAccount, setCreateAccount ] = useState(false);
     const [ accountNumber, setAccount ] = useState();
     const [ bankName, setBankName ] = useState();
     const [ accountUsername, setAccountUsername ] = useState();
     const [ accountUrl, setAccountUrl ] = useState();
     const profileImgRef = useRef();
-    const accountRef = useRef(0);
-    const queryClient = useQueryClient();
-    const navigate = useNavigate();
-
-    const principalData = queryClient.getQueryData("principalQuery");
-    const handleCheckBox = () => {
-        setIsCompany(() => !isCompany);
-    }
     const handleContentChange = (value) => {
         setTeamInfoText(() => value);
     }
-    const teamTypeCategoryOption = [
-        {value: 0, label: " 선택해주세요 "},
-        {value: 1, label: " 사회복지시설/사회복지법인 "},
-        {value: 2, label: " 복지관(종합/노인/장애인 등) "},
-        {value: 3, label: " 비영리법인/비영리민간단체 "},
-        {value: 4, label: " 비영리(임의)단체 "},
-        {value: 5, label: " 사회적경제 영역(소셜벤처, 사회적기업, 협동조합 등) "},
-        {value: 6, label: " 기타 "}
-    ]
-    
-    const [ defaultValue,  setDefaultValue ] = useState(teamTypeCategoryOption[0]);
-    const registerTeamMutation = useMutation({
-        mutationKey: "registerTeamMutation",
-        mutationFn: registerTeam,
+    const updateTeamMutation = useMutation({
+        mutationKey: "updateTeamMutation",
+        mutationFn: updateTeamRequest,
         onSuccess: response => {
             console.log(response);
             alert("등록완료.");
@@ -78,21 +58,17 @@ function TeamCreatePage(props) {
     }
     const submit = () => {
         const data = {
-            userId: principalData?.data.userId,
-            teamName,
-            teamType:isCompany,
-            teamTypeCategory: isCompany ? teamTypeCategory.value : 0,
+            teamId: teamInfo.teamId,
             teamPhoneNumber,
             teamEmail,
-            companyRegisterNumber: isCompany ? companyRegisterNumber : "",
-            companyRegisterNumberUrl: isCompany ? companyRegisterNumberUrl: "",
             teamHomepage,
             teamInfoText,
             teamLogoImgUrl,
-            accountInfos     
+            accountInfos      
         };
-        registerTeamMutation.mutate(data);
-        navigate("/account/mypage")
+        updateTeamMutation.mutate(data);
+        // accountInfos
+        navigate(`/team/info?id=${teamInfo.teamId}`)
     }
     const handlefileChange = (e, setFile) => {
         const files = Array.from(e.target.files);
@@ -117,17 +93,16 @@ function TeamCreatePage(props) {
     }
     const handleAccountInfos = () => {
         const accountInfo = {
-            accountId: accountRef + 1,
             accountUsername,
             accountNumber,
             bankName,
             accountUrl
         }
+        setAccountInfos(() => [...accountInfos, accountInfo]);
         setAccountUsername(() => "");
         setAccountUrl(() => "");
         setAccount(() => "");
         setBankName(() => "");
-        setAccountInfos(() => [...accountInfos, accountInfo]);
         setCreateAccount(() => false)
     }
     const handleDeleteAccountInfos = (id) => {
@@ -136,34 +111,10 @@ function TeamCreatePage(props) {
     return (
         <div css={header}>
             <div>
-                팀 제작
+                팀 정보수정
             </div>
-            <input type="checkbox" name="개인" id="개인" checked={!isCompany} onClick={handleCheckBox}/>
-            <label htmlFor="개인">개인</label>
-            <input type="checkbox" name="법인" id="법인" checked={isCompany} onClick={handleCheckBox}/>
-            <label htmlFor="법인">법인</label>
-            {
-                isCompany ? 
-                <div>
-                    <Select options={teamTypeCategoryOption}
-                    defaultValue={defaultValue}
-                    value={teamTypeCategory}
-                    onChange={(option) => {
-                        setTeamTypeCategory(() => option);
-                        setDefaultValue(() => option);
-                    }}/> 
-                    <input type="text" 
-                    placeholder="사업자번호" 
-                    value={companyRegisterNumber} 
-                    onChange={(e) => setCompanyRegisterNumber(e.target.value)}/>
-                    <input type="file" src="" alt=""  onChange={(e) => handlefileChange(e, setCompanyRegisterNumberUrl)}/>
-                </div>
-                : null
-                
-            }
             <div>
-                <input type="text" placeholder="팀 이름" value={teamName} 
-                    onChange={(e) => setTeamName(e.target.value)}/>
+                {teamInfo.teamName}
             </div>
             <div css={imgBox}>
                 팀로고
@@ -208,9 +159,9 @@ function TeamCreatePage(props) {
                     </div>
                 )}
             </div>
-            <button onClick={submit}>팀 생성</button>
+            <button onClick={submit}>수정하기</button>
         </div>
     );
 }
 
-export default TeamCreatePage;
+export default UpdateTeamPage;
