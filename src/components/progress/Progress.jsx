@@ -41,16 +41,15 @@ function Progress({pageId}) {
             {getamountQuery.isLoading ? (
                 <p>Loading...</p>
             ) : (
-
+                
                 <>
-                <div css={s.progressbar}>
-                    <div css={s.progress} style={{ width: `${progressPercent}%` }}>
-                        {isNaN(progressPercent) ? "" : ""}
+                    <div css={s.progressbar}>
+                        <div css={s.progress} style={{ width: `${progressPercent}%` }}>
+                            {isNaN(progressPercent) ? "" : ""}
+                        </div>
                     </div>
-                </div>
-                <div>{progressPercent}%</div>
+                    <div>{progressPercent}%</div>
                 </>
-
             )}
         </div>
     );
