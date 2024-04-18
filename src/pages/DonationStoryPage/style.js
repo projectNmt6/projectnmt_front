@@ -109,6 +109,7 @@ export const main = css`
     justify-content: space-around;
     width: 1120px;
     height: 480px;
+    
 `;
 
 export const storyImage = css`
@@ -160,6 +161,7 @@ export const likebutton = css`
     display: flex;
     flex-direction: column;
     margin-top: 30px;
+
 `;
 export const likebutton1 = css`
     margin-top: 35px;
@@ -173,6 +175,7 @@ export const container2 = css`
     height: 480px;
     background-color: white;
 `;
+
 export const button4 = css`
     border: none;
     font-size: 15px;
@@ -188,6 +191,7 @@ export const sanitizeHtml = css`
     display: flex;
     margin-bottom: 20px;
 `;
+
 export const boxbox1 = css`
     display: flex;
     justify-content: flex-start;

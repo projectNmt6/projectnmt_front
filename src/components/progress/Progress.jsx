@@ -41,7 +41,6 @@ function Progress({pageId}) {
             {getamountQuery.isLoading ? (
                 <p>Loading...</p>
             ) : (
-
                 <>
                     <div css={s.progressbar}>
                         <div css={s.progress} style={{ width: `${progressPercent}%` }}>
