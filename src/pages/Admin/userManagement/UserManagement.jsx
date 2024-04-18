@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { getUserListRequest, postMessageRequest } from '../../../apis/api/Admin'
+import { getUserListRequest, postMessageRequest, updateDeleteUsersRequest } from '../../../apis/api/Admin'
 import { useMutation, useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
+import Message from '../../../components/Message/Message';
 
 function UserManagement() {
     const checkBoxRef = useRef();
@@ -52,38 +53,29 @@ function UserManagement() {
         }
         
     },[userList])
-    const [ message, setMessage ] = useState();
-    const handleTextareaOnchange = (e) => {
-        setMessage(() => e.target.value);
-        console.log(message);
-    }
-    const sendMessageMutation = useMutation({
-        mutationKey: "sendMessageMutation",
-        mutationFn: postMessageRequest,
+    
+    
+    
+    const deleyedDeleteUserMutation = useMutation({
+        mutationKey: "deleteUserMutation",
+        mutationFn: updateDeleteUsersRequest,
         onSuccess: response => {
             console.log(response);
-            alert("전송완료.");
+            alert("삭제완료.");
         },
         onError: error => {}
-    })
-    const handleMessageOnClick = (e) => {
-        let userIds = [];
-        for(let user of userList) {
-            if(user.checked) {
-                userIds = [...userIds, user.userId];
-            }
+    })   
+    const handleUserDeleteOnClick = () => {
+        if(!window.confirm("지정된 유저들의 계정을 삭제 하시겠습니까?")) {
+            return
         }
-        sendMessageMutation.mutate({
-            message,
-            userId: userIds
-        });
-     }
+        deleyedDeleteUserMutation.mutate(userList)
+    }
     return (
         <>
             <div>
                 유저관리
-                <p><textarea placeholder="공지 사항 입력" value={message} onChange={handleTextareaOnchange}></textarea></p>
-                <button onClick={handleMessageOnClick}>공지보내기</button>
+                <Message userList={userList}/>
             </div>
             <div >
                 <table >

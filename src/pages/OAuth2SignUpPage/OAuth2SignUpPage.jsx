@@ -22,7 +22,10 @@ function OAuth2SignUpPage(props) {
         mutationKey: "oAuth2SignupMutation",
         mutationFn: oAuth2SignupRequest,
         onSuccess: response => {
-            navigate("/auth/signin");
+            console.log(response);
+            localStorage.setItem("AccessToken", response.data);
+            navigate("/account/mypage");
+            window.location.reload();
         },
         onError: error => {
             if(error.response.status === 400) {
@@ -45,62 +48,14 @@ function OAuth2SignUpPage(props) {
     });
 
     useEffect(() => {
-        if(!checkPassword || !password) {
-            setCheckPasswordMessage(() => null);
-            return;
-        }
-
-        if(checkPassword === password) {
-            setCheckPasswordMessage(() => {
-                return {
-                    type: "success",
-                    text: ""
-                }
-            })
-        } else {
-            setCheckPasswordMessage(() => {
-                return {
-                    type: "error",
-                    text: "비밀번호가 일치하지 않습니다."
-                }
-            })
-        }
-    }, [checkPassword, password]);
-
-    const handleSignupSubmit = () => {
-        const checkFlags = [
-            usernameMessage?.type,
-            passwordMessage?.type,
-            checkPasswordMessage?.type,
-            nameMessage?.type,
-            emailMessage?.type
-        ];
-
-        if(checkFlags.includes("error") || checkFlags.includes(undefined) || checkFlags.includes(null)) {
-            alert("가입 정보를 다시 확인하세요.");
-            return;
-        }
-
         oAuth2SignupMutation.mutate({
-            username,
-            password,
-            name,
-            email,
             oauth2Name: searchParams.get("name"),
             providerName: searchParams.get("provider")
         });
-    }
+    }, [checkPassword, password]);
+
     return (
         <>
-            <div css={s.header}>
-                <h2>회원가입({searchParams.get("provider")})</h2>
-                <button onClick={handleSignupSubmit}>가입하기</button>
-            </div>
-            <AuthPageInput type={"text"} name={"username"} placeholder={"사용자이름"} value={username} onChange={userNameChange} message={usernameMessage} />
-            <AuthPageInput type={"password"} name={"password"} placeholder={"비밀번호"} value={password} onChange={passwordChange} message={passwordMessage} />
-            <AuthPageInput type={"password"} name={"checkPassword"} placeholder={"비밀번호 확인"} value={checkPassword} onChange={checkPasswordChange} message={checkPasswordMessage} />
-            <AuthPageInput type={"text"} name={"name"} placeholder={"닉네임"} value={name} onChange={nameChange} message={nameMessage} />
-            <AuthPageInput type={"text"} name={"email"} placeholder={"이메일"} value={email} onChange={emailChange} message={emailMessage} />
         </>
     );
 }

@@ -18,9 +18,14 @@ function MessagePage(props) {
             setMessageList(() => response.data);
         }
     });
+    const deleteAllMessage = () => {
+        
+    }
     return (
         <div>
-            메세지 리스트
+            <div>
+                메세지 리스트
+            </div>
             {messageList.map(message => {
                 return <>
                     <div key={message.messageId}>
@@ -31,6 +36,10 @@ function MessagePage(props) {
                     </div>
                 </>
             })}
+            <div>
+                60일이 지난 메세지는 자동 삭제됩니다.
+            </div>
+            <button onClick={deleteAllMessage}>전체 메세지 삭제</button>
         </div>
     );
 }

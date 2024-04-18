@@ -7,6 +7,7 @@ import { storage } from '../../apis/filrebase/config/firebaseConfig';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { registerTeam } from '../../apis/api/teamApi';
 import { useMutation, useQueryClient } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 
 const header = css`
     & > div{
@@ -43,6 +44,8 @@ function TeamCreatePage(props) {
     const profileImgRef = useRef();
     const accountRef = useRef(0);
     const queryClient = useQueryClient();
+    const navigate = useNavigate();
+
     const principalData = queryClient.getQueryData("principalQuery");
     const handleCheckBox = () => {
         setIsCompany(() => !isCompany);
@@ -89,7 +92,7 @@ function TeamCreatePage(props) {
             accountInfos     
         };
         registerTeamMutation.mutate(data);
-        // accountInfos
+        navigate("/account/mypage")
     }
     const handlefileChange = (e, setFile) => {
         const files = Array.from(e.target.files);

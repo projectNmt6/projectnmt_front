@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useSearchParams } from 'react-router-dom';
-import { getUserCommentListRequest } from '../../../apis/api/Admin';
+import { deleteCommentRequest, getUserCommentListRequest } from '../../../apis/api/Admin';
 
-function CommentManagement({userId}) {
+function CommentManagement({userId} ) {
     const [ commentList, setCommentList] = useState([]);
     const getCommentListQuery = useQuery(
         [ "getCommentListQuery" ],
@@ -14,15 +14,58 @@ function CommentManagement({userId}) {
         },
         {
             refetchOnWindowFocus: false,
+            enabled: !!userId,
             onSuccess: response => {
-                setCommentList(() => response.data);
+                setCommentList(() => response.data.map(comment => {
+                    return {
+                        ...comment,
+                        checked: false
+                    }
+                }));
             },
         }
     );
-
+    const deleteCommentMutation = useMutation({
+        mutationKey: "deleteCommentMutation",
+        mutationFn: deleteCommentRequest,
+        onSuccess: response => {
+            console.log(response);
+            alert("삭제완료.");
+        },
+        onError: error => {}
+    })
+    const handleCheckOnChange = (e) => {
+        const commentId = parseInt(e.target.value);
+        setCommentList(() =>commentList.map(comment => {
+            if (commentId === comment.donationCommentId) {
+                return {
+                    ...comment,
+                    checked: e.target.checked
+                }
+            } else {
+                return comment
+            }
+            }));
+    }
+    const handleDeleteButtonOnClick = () => {
+        const deleteComments = commentList.filter(comment => comment.checked === true).map(comment => comment.donationCommentId);
+        deleteCommentMutation.mutate(deleteComments);
+    }
     return (
         <div>
             댓글 관리
+            <button onClick={handleDeleteButtonOnClick}>댓글 삭제</button>
+            {
+                commentList.map(comment => {
+                    return <>
+                    <div key={comment.donationCommentId}>
+                        <input type="checkbox" value={comment.donationCommentId} checked={comment.checked} onChange={handleCheckOnChange}/>
+                        <span>{comment.storyTitle}</span>
+                        <span>{comment.commentText}</span>
+                    </div>
+                    </>
+                })
+            }
         </div>
     );
 }
