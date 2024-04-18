@@ -6,7 +6,7 @@ import axios from 'axios';
 import Select from 'react-select';
 import { buttonBox } from '../DonationPageBoard/style';
 import { imgUrlBox } from '../DonationPageBoard/style';
-import { deleteDonationPage, getDonationListRequest, getDonationTagRequest } from '../../apis/api/donationAPI';
+import { deleteDonationPage, getDonationListRequest, getDonationTagRequest } from '../../apis/api/DonationAPI';
 import { useMutation, useQuery } from 'react-query';
 import MainPage from '../MainPage/MainPage';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
@@ -20,7 +20,7 @@ const textEditorLayout = css`
     margin-bottom: 20px;
 `;
 
-function DonationPageboard2() {
+function DonationUpdatePageBoard() {
    
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -34,7 +34,7 @@ function DonationPageboard2() {
     const [goalAmount, setgoalAmount] = useState(0);
     const [selectedMainTag, setSelectedMainTag] = useState(null);
     const [selectedSecondTag, setSelectedSecondTag] = useState(null);   
-    const [ donationCategoryId, setDonationCategoryId] = useState(null);
+    const [ pageCategoryId, setPageCategoryId] = useState(null);
 
     const [mainTagOptions, setMainTagOptions] = useState([]);
     
@@ -86,7 +86,6 @@ function DonationPageboard2() {
     useEffect(() => {
         console.log(selectedMainTag);
         console.log(selectedSecondTag);
-
     }, [selectedMainTag, selectedSecondTag]);
 
     useEffect(() => {
@@ -94,18 +93,26 @@ function DonationPageboard2() {
             try {
                 const response = await axios.get(`http://localhost:8080/main/donation/update/${donationPageId}`);
                 const data = response.data;
+    
+                // API 응답이 비어있는 경우에 대한 처리
+                if (!data) {
+                    console.error("API 응답이 비어있습니다.");
+                    return;
+                }
+    
+                // donationData 설정
                 setDonationData(data);
-
+    
                 setTitle(data.storyTitle);
                 setContent(data.storyContent);
                 setMainImg(data.mainImgUrl);
                 setStartDate(new Date(data.createDate));
                 setEndDate(new Date(data.endDate));
-
+                setgoalAmount(data.goalAmount !== null ? data.goalAmount : 0);
+    
                 console.log(selectedMainTag);
                 console.log(selectedSecondTag);
-                
-                setgoalAmount(data.goalAmount !== null ? data.goalAmount : 0);
+    
                 console.log(data);
                 console.log(response);
             } catch (error) {
@@ -122,7 +129,7 @@ function DonationPageboard2() {
             donationPageId: donationPageId,
             teamId: null,
             mainCategoryId: selectedMainTag.value,
-            donationCategoryId: null,
+            pageCategoryId: 1,
             createDate: startDate,
             endDate: endDate,
             goalAmount : goalAmount,
@@ -131,6 +138,7 @@ function DonationPageboard2() {
             mainImgUrl: mainImg,
             donationTagId: selectedSecondTag ? selectedSecondTag.value : null,
             donationPageShow: null
+            
         })
         .then(response => {
             alert("저장 성공");
@@ -220,7 +228,7 @@ function DonationPageboard2() {
                 onChange={date => setStartDate(date)} 
                 selectsStart
                 dateFormat="yyyy년 MM월 dd일"
-                minDate={new Date()}
+                // minDate={new Date()}
             />
 
             <div>기부 프로젝트 종료일: </div>
@@ -230,7 +238,7 @@ function DonationPageboard2() {
                     selectsEnd
                     startDate={startDate}
                     endDate={endDate}
-                    minDate={startDate}
+                    // minDate={startDate}
                     dateFormat="yyyy년 MM월 dd일"
                 />
 
@@ -297,4 +305,4 @@ function DonationPageboard2() {
     );
 }
 
-export default DonationPageboard2;
+export default DonationUpdatePageBoard;
