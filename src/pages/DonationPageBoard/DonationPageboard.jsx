@@ -275,7 +275,7 @@ function DonationPageboard() {
                     placeholder="내용을 입력해주세요."
                     style={{ height: '500px', margin: "50px" }}
                 />                
-                < DonationWrite />
+                {/* < DonationWrite /> */}
 
             </div>
 
