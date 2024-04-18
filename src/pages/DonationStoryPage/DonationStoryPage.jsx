@@ -49,6 +49,20 @@ function DonationStoryPage() {
             },
         }
     )
+    const calculateDaysRemaining = (startDate, endDate) => {
+        const today = new Date();
+        const startDateTime = new Date(startDate);
+        const endDateTime = new Date(endDate);
+
+        startDateTime.setHours(0, 0, 0, 0);
+    
+        const timeRemaining = Math.ceil((endDateTime - today) / (1000 * 60 * 60 * 24));
+        if (timeRemaining <= 0) {
+            return "종료";
+        } else {
+            return `${timeRemaining}일 남음`;
+        }
+    };
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -82,8 +96,8 @@ function DonationStoryPage() {
                         <div css={s.goalAmount}>{donationPage.goalAmount}원 목표</div>
                         <Progress pageId={donationPageId}/>
                         <div css={s.dates}>
-                            <p>기부 시작일: {donationPage.createDate}</p>
-                            <p>기부 종료일: {donationPage.endDate}</p>
+                            <p>기부 시작일: {donationPage.createDate ? donationPage.createDate.substring(0, 10) : ''}</p>
+                            <p>기부 종료일: {calculateDaysRemaining(donationPage.createDate, donationPage.endDate)}</p>
                         </div>
                     </div>
                 </div>
