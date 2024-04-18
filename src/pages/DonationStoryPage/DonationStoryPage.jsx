@@ -184,12 +184,10 @@ function DonationStoryPage() {
                             <h2>분리공간 </h2>
                             {selectedTab === 'news' ? <NewsPage donationPageId={donationPageId} /> : <Story />}
                         </div>
-                    </div>
-                    <h3>덧글</h3>
-                    <div css={s.commentBox}>
-                        <div>
-                            <CommentSection donationPageId={donationPageId} />
                         </div>
+                    <h3>댓글</h3>
+                    <div css={s.commentBox}>
+                            <CommentSection donationPageId={donationPageId} />
                     </div>
                 </div>
             </div>

@@ -1,5 +1,4 @@
-// CommentSection.jsx
-
+/** @jsxImportSource @emotion/react */
 import { useMutation } from 'react-query';
 import * as s from "./style";
 import axios from 'axios';
@@ -47,25 +46,25 @@ function CommentSection({ donationPageId }) {
         console.log("Deleting comment with ID:", donationCommentId);
         deleteCommentMutation.mutate({ donationCommentId });
     };
-
     return (
         <>
-            <div css={s.commentBox}>
+            <div css={s.commentBoxStyle}>
                 <div>
-                    <input css={s.inputbox}
+                    <input 
+                        css={s.inputboxStyle}
                         type="text"
-                        placeholder='따뜻한 댓글을 남겨주세요'
+                        placeholder='  따뜻한 댓글을 남겨주세요.'
                         value={comment}
                         onChange={handleCommentChange}
-                    />
+                        />
                 </div>
-                    <button onClick={handleCommentSubmit}>덧글 입력</button>
+                    <button css={s.button5} onClick={handleCommentSubmit}>등록</button>
                 <div>
                     {commentList.map((comment, index) => (
                         <div key={index}>
                             <p>{comment.commentText}
-                                <button onClick={() => handleCommentDeleteButton(comment.donationCommentId)}>
-                                    덧글 삭제 <TbTrashXFilled /></button>
+                                <button css={s.button5} onClick={() => handleCommentDeleteButton(comment.donationCommentId)}>
+                                    댓글 삭제 <TbTrashXFilled /></button>
                             </p>
                         </div>
                     ))}
@@ -74,6 +73,5 @@ function CommentSection({ donationPageId }) {
         </>
     );
 }
-
 
 export default CommentSection;

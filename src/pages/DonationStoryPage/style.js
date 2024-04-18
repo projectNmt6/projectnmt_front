@@ -145,15 +145,20 @@ export const dates4 = css`
     margin-top: 20px;
 `;
 export const donation = css`
-    padding: 15px 140px;
+    padding: 12px 110px;
     text-align: center;
-    background-color: rgba(255,64 ,80,0.9);
-    color: rgba(255,255,255);
+    background-color: #FFC8C8;
+    color: white;
     font-weight: 700;
-    font-size: 12px;
+    font-size: 20px;
     border-radius: 5px;
     text-decoration: none;
     cursor: pointer;
+    &:hover {
+        background-color: 	#F58282;
+        transition: all 0.5s ease-in-out;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    }
 `;
 
 export const likebutton = css`
@@ -182,6 +187,14 @@ export const button4 = css`
     padding: 12px;
     font-weight: 600;
     cursor: pointer;
+    :focus {
+        transition: all 0.3s ease-in-out;
+        background-color: #bfbdbd;
+    }
+    &:hover {
+        background-color: #bfbdbd;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); 
+    }
 `;
 
 export const sanitizeHtml = css`
@@ -199,12 +212,45 @@ export const boxbox1 = css`
 
 export const commentBox = css`
     display: flex;
+    justify-content: center;
+    width: 100%;
     border-top:2px solid #d2d0d0;
     margin-bottom: 20px;
-    padding: 10px;
-    border-bottom: 1px solid #ccc; 
 `;
-export const inputbox = css`
+export const commentBoxStyle = css`
     width: 100%;
-    height: 40px;
+    margin-top: 10px;
+`;
+
+export const inputboxStyle = css`
+    margin-top: 30px;
+    width: 100%;
+    height: 70px;
+    box-sizing: border-box;
+    border: 1px solid #d2d0d0;
+    border-radius: 5px;
+    font-size: inherit;    
+    :focus {
+        transition: all 0.3s ease-in-out;
+        border: 1px solid pink;
+        outline: 1px solid pink;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+`;
+export const button5 = css`
+    margin-top: 16px;
+    background-color: #aaaaaa;
+    color: white;
+    font-size: 14px;
+    height: 30px;
+    box-sizing: border-box;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.5s, box-shadow 0.5s; 
+
+    &:hover {
+        background-color: #828282;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); 
+    }
 `;
