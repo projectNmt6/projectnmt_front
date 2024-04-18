@@ -13,6 +13,7 @@ import AdminRoute from '../pages/Admin/route/AdminRoute';
 import DonationPageboard2 from '../pages/DonationUpdatePage/DonationUpdatePageboard';
 import DonationStoryPage from '../pages/DonationStoryPage/DonationStoryPage';
 import ReviewPage from '../pages/ReviewPage/ReviewPage'
+import MessagePage from '../pages/MessagePage/MessagePage';
 import SignUpPage from '../pages/SignUpPage/SignUpPage';
 import MainPage2 from '../pages/DonationChallengerPage/MainPage2';
 import NewsWrite from '../pages/DonationPageBoard/CategoryPage/NewsWrite';
@@ -53,19 +54,17 @@ function AuthRoute(props) {
                 <Route path="/main/donation/donationnews" element={ <NewsWrite />} />
                 <Route path="/account/mypage" element={<MyPage />} />
                 <Route path="/admin/*" element={ <AdminRoute/> } /> 
-                <Route path='/signup' element={ <SignUpPage /> }/>
                 <Route path="/main/review" element={< ReviewPage/>} />
                 <Route path="/donation/*" element={<DonationStoryPage />} />
                 <Route path="/main/donation/update" element={<DonationPageboard2 />} />
                 <Route path="/search" element={<SearchPage />} />
+                <Route path="/message" element={<MessagePage />} />
                 <Route path='/main/donations/challenge' element={ < MainPage2 />} />
                 <Route path='/main/donation/news/update' element={<NewsUpdatePage />} />       
                 <Route path="/test" element= {<DonatorInfo/>} />
                 <Route path="/account/mypage/donation" element={<MyDonation />} />        
                 <Route path="/main/donation/fundings/now" element= {  <NowFundingPage />} />
                 <Route path="/main/donation/fundings/end" element= {  <EndedFundingsPage />} />
-            
-       
            </Routes> 
 
         </>
