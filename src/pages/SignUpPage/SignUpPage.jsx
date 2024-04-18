@@ -21,7 +21,7 @@ function SignUpPage(props) {
     const [gender, setGender] = useState("");
     const [age, ageChange, ageMessage] = useInput("age");
     const [checkPasswordMessage, setCheckPasswordMessage] = useState("");
-    const [profileImg, setProfileImg] = useState("");
+    const [profileImg, setProfileImg] = useState("");//기본이미지 필요
     const imgFileRef = useRef();
 
     const genderOption = [

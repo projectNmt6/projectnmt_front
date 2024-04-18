@@ -76,6 +76,7 @@ function UserManagement() {
             <div>
                 유저관리
                 <Message userList={userList}/>
+                <button onClick={handleUserDeleteOnClick}>계정 삭제</button>
             </div>
             <div >
                 <table >

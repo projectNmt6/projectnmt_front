@@ -61,7 +61,7 @@ function TeamInfoPage(props) {
             <>  
                 
                 <img src={teamInfo?.teamLogoImgUrl} alt="" />
-                {teamInfo?.teamMembers.filter(teamMember => teamMember.userId === principalData.data.userId)[0].teamRoleId === 1
+                {teamInfo?.teamMembers.filter(teamMember => teamMember.userId === principalData.data.userId)[0]?.teamRoleId === 1
                 ? <Link to={`/team/management?id=${teamId}`}  state={{ teamInfo }} >관리하기</Link>
                 :null}
                 <div>{teamInfo?.teamName}</div>
