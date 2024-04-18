@@ -54,6 +54,15 @@ function CommentSection({ donationPageId }) {
         }
     };
     
+    const handleCommentDeleteButton = (donationCommentId) => {
+        if (!userId) {
+            alert("로그인이 필요합니다.");
+            return;
+        }
+        console.log("Deleting comment with ID:", userId);
+        deleteCommentMutation.mutate({ donationCommentId, userId });
+    };
+    
 
     const deleteCommentMutation = useMutation({
         mutationKey: "deleteCommentMutation",
@@ -64,10 +73,6 @@ function CommentSection({ donationPageId }) {
         }
     });
 
-    const handleCommentDeleteButton = (donationCommentId) => {
-        console.log("Deleting comment with ID:", donationCommentId);
-        deleteCommentMutation.mutate({ donationCommentId });
-    };
 
     return (
         <>
@@ -82,14 +87,15 @@ function CommentSection({ donationPageId }) {
                 </div>
                     <button onClick={handleCommentSubmit}>덧글 입력</button>
                 <div>
-                    {commentList.map((comment, index) => (
-                        <div key={index}>
-                            <p>{comment.commentText}
-                                <button onClick={() => handleCommentDeleteButton(comment.donationCommentId)}>
-                                    덧글 삭제 <TbTrashXFilled /></button>
-                            </p>
-                        </div>
-                    ))}
+                {commentList.map((comment, index) => (
+                <div key={index}>
+                    <p>{comment.commentText}
+                        <button onClick={() => handleCommentDeleteButton(comment.donationCommentId)}>
+                            덧글 삭제 <TbTrashXFilled />
+                        </button>
+                    </p>
+                </div>
+            ))}
                 </div>
             </div>
         </>
