@@ -209,7 +209,7 @@ const handleShareKakao = () => {
                             <Story />
                             :selectedTab === 'news' ? 
                             <NewsPage donationPageId={donationPageId} /> 
-                            : <Donators />
+                            : <Donators donationPageId={donationPageId} />
                             }
 
                         </div>

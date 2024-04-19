@@ -70,6 +70,9 @@ export const commentResponse = async (donationPageId) => {
     return await instance.get(`/comment/getcomment/${donationPageId}`);
 }
 
+export const donationGivingResponse = async (donationPageId) => {
+    return await instance.get(`/main/donators/${donationPageId}`)
+}
 
 export const deleteComment = async (data) => {   
     const { donationCommentId } = data; 
