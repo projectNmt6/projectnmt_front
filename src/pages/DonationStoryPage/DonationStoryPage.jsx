@@ -199,16 +199,16 @@ const handleShareKakao = () => {
                     </div>
                 </div>
                 <div css={s.container2}>
-                    <button css={s.button4} onClick={() => handleTabChange('news')}>news</button>
                     <button css={s.button4} onClick={() => handleTabChange('story')}>Story</button>
                     <button css={s.button4} onClick={() => handleTabChange('donators')}>Donators</button>
+                    <button css={s.button4} onClick={() => handleTabChange('news')}>news</button>
                     <div css={s.boxbox1}>
                         <div>
                             <h2>분리공간 </h2>
-                            {selectedTab === 'news' ? 
-                            <NewsPage donationPageId={donationPageId} /> 
-                            : selectedTab === 'story' ?
+                            { selectedTab === 'story' ?
                             <Story />
+                            :selectedTab === 'news' ? 
+                            <NewsPage donationPageId={donationPageId} /> 
                             : <Donators />
                             }
 

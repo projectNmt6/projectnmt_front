@@ -7,13 +7,15 @@ import Select from 'react-select';
 import { buttonBox } from '../DonationPageBoard/style';
 import { imgUrlBox } from '../DonationPageBoard/style';
 import { deleteDonationPage, getDonationListRequest, getDonationTagRequest } from '../../apis/api/DonationAPI';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import MainPage from '../MainPage/MainPage';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { errorSelector } from 'recoil';
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { getPrincipalRequest } from '../../apis/api/principal';
+import { getTeamListRequest } from '../../apis/api/teamApi';
 
 const textEditorLayout = css`
     overflow-y: auto;
@@ -36,18 +38,69 @@ function DonationUpdatePageBoard() {
     const [selectedSecondTag, setSelectedSecondTag] = useState(null);   
     const [ pageCategoryId, setPageCategoryId] = useState(null);
 
+    const [userId, setUserId ] = useState();
+    const [ teamId, setTeamId ] = useState();
     const [mainTagOptions, setMainTagOptions] = useState([]);
     
+    const [teams, setTeams] = useState([]);
     const [ storyImgs, setStoryImgs ] = useState([]);
 
     const [secondTagOptions, setSecondTagOptions] = useState([]);
 
+    const [selectedTeam, setSelectedTeam] = useState(null);
 
     const handleAmountChange = (e) => {
         const value = e.target.value; // 입력된 값
         const parsedValue = value ? parseInt(value) : null; // 입력된 값이 있는 경우에만 정수로 변환하고 그렇지 않으면 null로 설정
         setgoalAmount(parsedValue); // 값 업데이트
     };
+
+    const principalQuery = useQuery(
+        ["principalQuery"], 
+        getPrincipalRequest,
+        {
+            retry: 0,
+            refetchOnWindowFocus: false,
+            onSuccess: (response) => {
+                console.log("Auth", response.data);
+                setUserId(response.data.userId); // 예제로 userId 설정
+            },
+            onError: (error) => {
+                console.error("Authentication error", error);
+            }
+        }
+    );
+    const [ teamInfo, setTeamInfo ] = useState();
+    const [ temaList, setTeamList ] = useState([]);    
+    const queryClient = useQueryClient();    
+    const principalData = queryClient.getQueryData("principalQuery");
+    useEffect(() => {
+        if (selectedTeam) {
+            setTeamId(selectedTeam.value);
+        }
+    }, [selectedTeam]);
+
+
+    useEffect(() => {
+        if (userId) {
+            const fetchTeams = async () => {
+                try {
+                    const response = await getTeamListRequest({ userId });
+                    if (response.status === 200) {
+                        const formattedTeams = response.data.map(team => ({
+                            value: team.teamId,
+                            label: team.teamName
+                        }));
+                        setTeams(formattedTeams);
+                    }
+                } catch (error) {
+                    console.error('Failed to fetch teams', error);
+                }
+            };
+
+            fetchTeams();
+        }
+    }, [userId]);
 
     useEffect(() => {
         axios.get("http://localhost:8080/main/storytypes")
@@ -102,7 +155,7 @@ function DonationUpdatePageBoard() {
     
                 // donationData 설정
                 setDonationData(data);
-    
+                setTeamId(data.teamId)
                 setTitle(data.storyTitle);
                 setContent(data.storyContent);
                 setMainImg(data.mainImgUrl);
@@ -127,7 +180,7 @@ function DonationUpdatePageBoard() {
 
         axios.put(`http://localhost:8080/main/donation/update/${donationPageId}`, {
             donationPageId: donationPageId,
-            teamId: null,
+            teamId: teamId,
             mainCategoryId: selectedMainTag.value,
             pageCategoryId: 1,
             createDate: startDate,
