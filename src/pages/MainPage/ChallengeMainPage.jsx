@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { getChallengeRequest, getDonationListRequest, getDonationTagRequest } from "../../apis/api/DonationAPI";
 import { FiSearch } from "react-icons/fi";
 
-function MainPage2() {
+function ChallengeMainPage() {
     
     const [donationTagList, setDonationTagList] = useState([]);
     const [donationList, setDonationList] = useState([]);
@@ -76,7 +76,7 @@ function MainPage2() {
                 </div>
             </div>
             <div css={s.write}>
-                <Link to={"/main/write"}>작성하기</Link>
+                <Link to={"/main/challenge/write"}>작성하기</Link>
             </div>
 
             <div css={s.tagContainer}>
@@ -131,4 +131,4 @@ function MainPage2() {
         );
 }
 
-export default MainPage2;
+export default ChallengeMainPage;

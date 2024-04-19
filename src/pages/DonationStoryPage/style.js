@@ -170,7 +170,7 @@ export const likebutton1 = css`
 export const container2 = css`
     padding-top: 20px;
     width: 1120px;
-    height: 480px;
+    height: 50%;
     background-color: white;
 `;
 export const button4 = css`

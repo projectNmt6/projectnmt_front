@@ -160,6 +160,16 @@ const handleShareKakao = () => {
         return () => document.body.removeChild(script);
     }, []);
     
+    useEffect(() => {
+        if (donationPage && donationPage.endDate) {
+            const endDate = new Date(donationPage.endDate);
+            const today = new Date();
+            if (endDate < today) {
+                setSelectedTab('news');
+            }
+        }
+    }, [donationPage]);
+    
 
     return (
         <>

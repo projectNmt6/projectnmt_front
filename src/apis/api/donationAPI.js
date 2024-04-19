@@ -11,6 +11,10 @@ export const registerDonationPage = async (data) => {
     return await instance.post("/main/write", data);
 }
 
+export const registerChallengePage = async (data) => {
+    return await instance.post("/main/challenge/write", data);
+}
+
 export const getDonationStoryRequest = async (params) => {
     return await instance.get("/main/donation", { params });
 }
