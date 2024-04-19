@@ -1,7 +1,7 @@
 import { css } from "@emotion/react"
 
 export const container = css`
-    background: #f4f4f4; 
+    background: #f4f4f4;
     padding: 20px;
 `;
 
@@ -145,7 +145,7 @@ export const dates4 = css`
     margin-top: 20px;
 `;
 export const donation = css`
-    padding: 12px 110px;
+    padding: 10px 125px;
     text-align: center;
     background-color: #FFC8C8;
     color: white;
@@ -153,11 +153,16 @@ export const donation = css`
     font-size: 20px;
     border-radius: 5px;
     text-decoration: none;
+    border: none;
     cursor: pointer;
-    &:hover {
+    :hover {
         background-color: 	#F58282;
-        transition: all 0.5s ease-in-out;
+        transition: all 0.4s ease-in-out;
         box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    }
+    :active {
+        background-color: #F58282;
+        box-shadow: inset 2px 2px 6px #FFC8C8 ;
     }
 `;
 
@@ -191,9 +196,13 @@ export const button4 = css`
         transition: all 0.3s ease-in-out;
         background-color: #bfbdbd;
     }
-    &:hover {
+    :hover {
         background-color: #bfbdbd;
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); 
+    }
+    :active {
+        background-color: #bfbdbd;
+        box-shadow: inset 2px 2px 6px gray ;
     }
 `;
 
@@ -235,7 +244,10 @@ export const inputboxStyle = css`
         border: 1px solid pink;
         outline: 1px solid pink;
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-}
+    }
+    :active {
+        background-color:#f3f2f2;
+    }
 `;
 export const button5 = css`
     margin-top: 16px;
@@ -249,8 +261,42 @@ export const button5 = css`
     cursor: pointer;
     transition: background-color 0.5s, box-shadow 0.5s; 
 
-    &:hover {
+    :hover {
         background-color: #828282;
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); 
     }
+    :active {
+        background-color: white;
+    }
+`;
+
+export const container1 = css`
+    width: 100%;
+    height: 100%;
+`;
+
+export const container3 = css`
+    position: absolute;
+    width: 100%;
+    height: 200%;
+    top:0; left: 0; bottom: 0; right: 0;
+    background: rgba(160, 160, 160, 0.6);
+    overflow: hidden;
+    
+`;
+
+export const modal = css`
+    position: fixed;
+    background-color: white;
+    top: 50%;
+    left: 50%;
+    margin-left:-10%;
+    margin-top: -200px; 
+    display: flex;
+    flex-direction: column;
+    border: #d1d8dd;
+    border-radius: 5px;
+    width: 400px;
+    height: 500px;
+    box-shadow: 0 0 6px 1px rgb(0 0 0 / 30%);
 `;
