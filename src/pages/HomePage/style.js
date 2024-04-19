@@ -4,7 +4,8 @@ import { css } from "@emotion/react";
 ////////홈 CSS ////////////////
 export const mainLayout = css`
 padding : 20px;
-background-color: #F4FFFF;
+background-color:  #F8F8F8;
+white-space: pre;
 `
 export const rootheader = css`
   display: flex;
@@ -52,17 +53,17 @@ export const contentAreaStyle = css`
 export const leftCardLayout = css`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  overflow: hidden;
+  flex-wrap: wrap;
   width: 63%;
+  position: sticky;
 `;
 
 export const rightCardLayout = css`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  flex-wrap: wrap;  
   overflow: hidden;
-  width: 35%;
+  width: 30%;
 `;
 
 export const cardStyle = css`
@@ -70,7 +71,16 @@ export const cardStyle = css`
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  overflow: hidden;
+
   padding: 10px;
+  width: 100%;
+  &:hover {
+    text-decoration: none;
+    color: inherit;
+    background-color:#faf9f7;
+    transition: background-color 0.5s ease,border-color 0.5s ease;
+  }
    
 `;
 
@@ -106,6 +116,7 @@ align-items: center;
 
 export const totalAmountBox = css`
 border: 1px solid #dbdbdb;
+border-radius: 10px;
 padding: 10px;
 background-color: white;
 display:flex;
@@ -136,6 +147,7 @@ export const donationList = css`
   display: flex;
   flex-wrap: wrap;
   gap: 20px; 
+
 `;
 
 export const donationCard = css`
@@ -202,6 +214,77 @@ export const LikeDonate = css`
   }
 }
 `;
+export const goalAmount = css`
+display:flex;
+flex-direction: column;
+`;
+////////////////Top3////////////////
+
+
+
+export const Top3donationList = css`
+  display: flex;
+  flex-direction: row;
+  gap: 20px; 
+
+
+`;
+
+
+export const Top3donationCard = css`
+  display: flex;
+  flex-direction: column;
+  width: 300px; 
+  height: 363px;
+  border: 1px solid #ccc; 
+  border-radius: 8px; 
+  border: none;
+  margin: 20px;
+
+`;
+
+export const Top3donationImage = css`
+
+  width: 250px; 
+  height: 150px; 
+  margin-left: 7px;
+  & > img {
+    width:100%;
+    height: 150px;
+  }
+`;
+
+export const Top3donationDetails = css`
+  padding: 15px; 
+  
+  h2 {
+    margin-top: 0;
+  }
+
+  p {
+    margin: 5px 0; 
+  }
+`;
+export const Top3linkStyle = css`
+  text-decoration: none; 
+  color: inherit; 
+  &:hover, &:active, &:visited {
+    text-decoration: none;
+    color: inherit;
+  }
+`;
+
+
+export const Top3goalAmount = css`
+display:flex;
+flex-direction: column;
+`;
+
+
+
+
+
+
 
 //////////// footer ////////////
 export const additionalContentStyle = css`
