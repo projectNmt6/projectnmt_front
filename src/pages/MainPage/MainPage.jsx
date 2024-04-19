@@ -117,7 +117,7 @@ function MainPage() {
                                     <p><strong>종료시간:</strong> {donation.endDate.split('T')[0]}</p> */}
 
 
-                                <LikeButton donationPageId = {donation.donationPageId} />
+                                {/* <LikeButton donationPageId = {donation.donationPageId} /> */}
                                 <Progress pageId={donation.donationPageId} />
 
                                 </div>

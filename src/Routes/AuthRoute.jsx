@@ -22,6 +22,7 @@ import MyDonation from '../pages/MyDonation/MyDonation';
 import DonatorInfo from '../pages/DonatorInfo/DonatorInfo';
 import NowFundingPage from '../pages/MainPage/fundings/NowFundingPage';
 import EndedFundingsPage from '../pages/MainPage/fundings/EndedFundings';
+import AdminSearchPage from '../pages/Admin/AdminSearchPage/AdminSearchPage';
 
 
 function AuthRoute(props) {
@@ -53,7 +54,9 @@ function AuthRoute(props) {
                 <Route path="/main/write" element={<DonationPageboard/>} />
                 <Route path="/main/donation/donationnews" element={ <NewsWrite />} />
                 <Route path="/account/mypage" element={<MyPage />} />
-                <Route path="/admin/*" element={ <AdminRoute/> } /> 
+                <Route path="/admin/*" element={ <AdminRoute/> } />
+                <Route path="/admin/search" element={<AdminSearchPage />} />
+ 
                 <Route path="/main/review" element={< ReviewPage/>} />
                 <Route path="/donation/*" element={<DonationStoryPage />} />
                 <Route path="/main/donation/update" element={<DonationPageboard2 />} />
