@@ -184,7 +184,7 @@ const handleShareKakao = () => {
                         <div css={s.currentAmount}>{currentAmount}원</div>
                         <div css={s.goalAmount}>{donationPage.goalAmount}원 목표</div>
                         <button onClick={handleShareKakao}>카카오톡공유하기</button>
-                        {/* <Progress pageId={donationPageId} /> */}
+                        <Progress pageId={donationPageId} />
                         <div css={s.dates}>
                             <div css={s.dates2}>기부 시작일: {donationPage.createDate ? donationPage.createDate.substring(0, 10) : ''}</div>
                             <div css={s.dates3}>기부 종료일: {calculateDaysRemaining(donationPage.createDate, donationPage.endDate)}</div>

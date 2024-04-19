@@ -70,6 +70,9 @@ function CommentSection({ donationPageId }) {
         onSuccess: response => {
             alert("삭제완료")
             window.location.reload();
+        },
+        onError: response => {
+            alert("삭제할 권한이 없습니다.")
         }
     });
 

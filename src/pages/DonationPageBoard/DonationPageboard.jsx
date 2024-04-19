@@ -7,7 +7,7 @@ import Select from 'react-select';
 import { buttonBox } from './style';
 import { imgUrlBox } from './style';
 import { getDonationListRequest, getDonationTagRequest } from '../../apis/api/DonationAPI';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import MainPage from '../MainPage/MainPage';
 import { Link } from 'react-router-dom';
 import { errorSelector } from 'recoil';
@@ -15,6 +15,8 @@ import DonationWrite from './CategoryPage/DonationWrite';
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { getPrincipalRequest } from '../../apis/api/principal';
+import { getTeamInfoRequest, getTeamListRequest, getTeamMemberInfoRequest, getTeamMemberInfoRequest2 } from '../../apis/api/teamApi';
 
 const textEditorLayout = css`
     overflow-y: auto;
@@ -30,20 +32,85 @@ function DonationPageboard() {
     const [mainTagOptions, setMainTagOptions] = useState([]);
     const [secondTagOptions, setSecondTagOptions] = useState([]);
     const [ storyImgs, setStoryImgs ] = useState([]);
-    const [ teamId, setTeamId ] = useState('');
-
+    const [ teamId, setTeamId ] = useState();
 
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(null);
     const [projectDuration, setProjectDuration] = useState(null);
 
+    const [userId, setUserId ] = useState();
     const [ amount, setAmount ] = useState();
     const handleAmountChange = (e) => {
         const value = e.target.value; // 입력된 값
         const parsedValue = value ? parseInt(value) : null; // 입력된 값이 있는 경우에만 정수로 변환하고 그렇지 않으면 null로 설정
         setAmount(parsedValue); // 값 업데이트
     };
+
+
+    const [teams, setTeams] = useState([]);
+    const [selectedTeam, setSelectedTeam] = useState(null);
+
+    const principalQuery = useQuery(
+        ["principalQuery"], 
+        getPrincipalRequest,
+        {
+            retry: 0,
+            refetchOnWindowFocus: false,
+            onSuccess: (response) => {
+                console.log("Auth", response.data);
+                setUserId(response.data.userId); // 예제로 userId 설정
+            },
+            onError: (error) => {
+                console.error("Authentication error", error);
+            }
+        }
+    );
+
     
+    const [ teamInfo, setTeamInfo ] = useState();
+    const [ temaList, setTeamList ] = useState([]);    
+    const queryClient = useQueryClient();    
+    const principalData = queryClient.getQueryData("principalQuery");
+    useEffect(() => {
+        if (selectedTeam) {
+            setTeamId(selectedTeam.value);
+        }
+    }, [selectedTeam]);
+
+
+    useEffect(() => {
+        if (userId) {
+            const fetchTeams = async () => {
+                try {
+                    const response = await getTeamListRequest({ userId });
+                    if (response.status === 200) {
+                        const formattedTeams = response.data.map(team => ({
+                            value: team.teamId,
+                            label: team.teamName
+                        }));
+                        setTeams(formattedTeams);
+                    }
+                } catch (error) {
+                    console.error('Failed to fetch teams', error);
+                }
+            };
+
+            fetchTeams();
+        }
+    }, [userId]);
+
+    const handleSelectTeam = (selectedOption) => {
+        setSelectedTeam(selectedOption);
+    };
+
+    const handleSubmit = () => {
+        console.log("Selected Team ID:", selectedTeam?.value);
+        alert(`Selected Team ID: ${selectedTeam?.value}`);
+    };
+    
+
+
+
 
     useEffect(() => {
         axios.get("http://localhost:8080/main/storytypes")
@@ -85,7 +152,7 @@ function DonationPageboard() {
 
 
     const handleSubmitButton = () => {
-
+        // API 호출 시 teamId 사용
         axios.post('http://localhost:8080/main/write', {
             donationPageId: 1,
             teamId: teamId,
@@ -102,7 +169,7 @@ function DonationPageboard() {
         })
         .then(response => {
             alert("저장 성공");
-            console.log(response)
+            console.log(response);
         })
         .catch(error => {
             console.error('Error:', error);
@@ -184,14 +251,16 @@ function DonationPageboard() {
                 <input type="text" placeholder='제목' value={title} onChange={(e) => setTitle(e.target.value)} />
             </div>
 
-            {/* <input 
-                type={"date"} 
-                placeholder={"프로젝트 시작일"} 
-                selected={startDate} 
-                onChange={handleStartDateChange} 
-                selectsStart
-                dateFormat="yyyy년 MM월 dd일"
-            /> */}
+            <div>
+            <h3>Select Your Team</h3>
+            <Select
+                value={selectedTeam}
+                onChange={handleSelectTeam}
+                options={teams}
+                placeholder="Select your team..."
+            />
+            <button onClick={handleSubmit}>확인</button>
+        </div>
             
             <div>기부 프로젝트 시작일: </div>
             <DatePicker 

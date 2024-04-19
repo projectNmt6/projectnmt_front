@@ -12,6 +12,7 @@ function TeamInfoPage(props) {
     const [ endDonationList, setEndDonationList ] = useState([]);
     const [ searchParams ] = useSearchParams();
     const teamId = searchParams.get("id");
+    
     const queryClient = useQueryClient();
     const principalData = queryClient.getQueryData("principalQuery");
     const getTeamInfoQuery = useQuery(

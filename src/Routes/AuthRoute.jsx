@@ -22,7 +22,8 @@ import MyDonation from '../pages/MyDonation/MyDonation';
 import DonatorInfo from '../pages/DonatorInfo/DonatorInfo';
 import NowFundingPage from '../pages/MainPage/fundings/NowFundingPage';
 import EndedFundingsPage from '../pages/MainPage/fundings/EndedFundings';
-
+import TeamRoutePage from '../pages/TeamRoutePage/TeamRoutePage';
+import TeamSelectPage from '../pages/DonationPageBoard/TeamSelectPage';
 
 function AuthRoute(props) {
 
@@ -65,6 +66,8 @@ function AuthRoute(props) {
                 <Route path="/account/mypage/donation" element={<MyDonation />} />        
                 <Route path="/main/donation/fundings/now" element= {  <NowFundingPage />} />
                 <Route path="/main/donation/fundings/end" element= {  <EndedFundingsPage />} />
+                <Route path='/team/*' element={<TeamRoutePage />} />
+                <Route path='/team/select' element={<TeamSelectPage />} />
            </Routes> 
 
         </>
