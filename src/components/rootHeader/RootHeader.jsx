@@ -37,11 +37,15 @@ function RootHeader(props) {
             <Link css={s.account} to={"/"}>
                 <FaHome />
             </Link>
+            <div css={s.adminbox}>
             {isAdmin ? <Link to={"/admin/main"}> 관리자 </Link> : null}
+            </div>
             <div css={s.mainbox}>
                 <Link to={"/main"} > 기부하기 </Link>
             </div>
+            <div css={s.challengebox}>
             <Link to={"/main/donations/challenge"}>챌린지</Link>
+            </div>
             {
                 !isLogin ? 
                 <Link css={s.account} to={"/auth/signin"}>
@@ -56,7 +60,6 @@ function RootHeader(props) {
                 </Link>
                 </div> 
             }
-            
         </div>
     );
 }

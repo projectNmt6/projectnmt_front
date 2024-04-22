@@ -7,9 +7,6 @@ const instance = axios.create({
     }
 });
 
-// const instance = axios.create({
-//     baseURL: "http://localhost:8080"
-// });
 
 
 

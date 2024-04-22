@@ -29,3 +29,9 @@ export const updateDeleteUsersRequest = async (data) => {
 export const deleteTeamListRequest = async (data) => { 
     return await instance.delete("/admin/team/delete",{data});
 }
+export const adminSearchDonationRequest = async (params) => {
+    return await instance.get("/admin/search",{params});
+}
+export const updatePageShowRequest = async ( data ) => {
+    return await instance.patch("/admin/updatePageShow",  data );
+};

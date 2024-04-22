@@ -169,7 +169,8 @@ export const likebutton = css`
     display: flex;
     flex-direction: column;
     margin-top: 30px;
-`;
+`
+
 export const likebutton1 = css`
     margin-top: 35px;
     display: flex;
@@ -182,6 +183,7 @@ export const container2 = css`
     height: 480px;
     background-color: white;
 `;
+
 export const button4 = css`
     border: none;
     font-size: 15px;

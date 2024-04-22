@@ -7,7 +7,6 @@ export const header = css`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 15px;
     border-bottom: 1px solid #dbdbdb;
     padding: 0px 10px;
     width: 100%;
@@ -62,14 +61,49 @@ export const logout = css`
     cursor: pointer;
 `
 
-export const mainbox = css`
+export const adminbox = css`
     display: flex;
     justify-content: center;
-    border: 1px solid #222222;
+    border: none;
     padding: 10px;
     cursor: pointer;
     & > * {
-        font-size: 16px;        
+        font-size: 16px;   
+        font-weight: bold;
+        text-decoration: none; 
+        color: inherit; 
+        align-items: center;
+             
+    }
+
+`;
+export const mainbox = css`
+    display: flex;
+    justify-content: center;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    & > * {
+        font-size: 16px;   
+        font-weight: bold;
+        text-decoration: none; 
+        color: inherit; 
+             
+    }
+
+`;
+export const challengebox = css`
+     display: flex;
+    justify-content: center;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    & > * {
+        font-size: 16px;   
+        font-weight: bold;  
+        text-decoration: none; 
+        color: inherit; 
+             
     }
 
 `;

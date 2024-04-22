@@ -17,7 +17,6 @@ function Progress({pageId}) {
         {
             refetchOnWindowFocus: false,
             onSuccess: data => {
-                console.log(data.data);
                 setGoalAmount(data.data.goalAmount);
                 setCurrentAmount(data.data.addAmount);
             },
