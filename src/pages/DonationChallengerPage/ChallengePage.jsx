@@ -3,8 +3,11 @@ import { useQuery } from 'react-query';
 import { Link, useLocation } from 'react-router-dom';
 import { getChallengePageRequest } from '../../apis/api/DonationAPI';
 import DOMPurify from 'dompurify';
-import * as s from "./style";
-import CommentSection from '../DonationChallengerPage/CommentSection';
+import * as s from "../DonationStoryPage/style";
+import CommentSection from './CommentSection';
+import ChallengeStory from './Challenge/ChallengeStory';
+import ChallengeNews from './Challenge/ChallengeNews';
+import ActionBoard from './Challenge/ActionBoard';
 
 function ChallengePage() {    
     const location = useLocation();
@@ -44,22 +47,48 @@ function ChallengePage() {
     }, [challengePageId]);
 
     const { challengeMainImg, challengeTitle, challengeOverview, endDate, challengeContent } = challengePage || {};
-
+    const [selectedTab, setSelectedTab] = useState('story'); // news, story 중 하나의 값을 가짐
+    const handleTabChange = (tab) => {
+        setSelectedTab(tab);
+    }
     const safeHTML = DOMPurify.sanitize(challengeContent);
     return (
         <div>
             <div css={s.container}>
                 <Link css={s.link} to={"/main"}>메인으로 </Link>
 
-                <button>수정하기</button>
-
-
-            </div>
-            <h1>{challengeTitle}</h1>
+                <h1>{challengeTitle}</h1>
             <p>{challengeOverview}</p>
             <div dangerouslySetInnerHTML={{ __html: safeHTML }} />
             <img src={challengeMainImg} alt="Challenge Main Image" />
             <p>종료 날짜: {endDate}</p>
+
+                <button>수정하기</button>
+                <button>행동하기!</button>
+
+                <div css={s.container2}>
+                    <button css={s.button4} onClick={() => handleTabChange('story')}>Story</button>
+                    <button css={s.button4} onClick={() => handleTabChange('action')}>Donators</button>
+                    <button css={s.button4} onClick={() => handleTabChange('news')}>news</button>
+                   
+                    <div css={s.boxbox1}>
+                        <div>
+                            <h2>분리공간 </h2>
+                            { selectedTab === 'story' ?
+                            <ChallengeStory />
+                            :selectedTab === 'news' ? 
+                            <ChallengeNews challengePageId={challengePageId} /> 
+                            : <ActionBoard challengePageId={challengePageId} />
+                            }
+
+                        </div>
+                    </div>
+                </div>
+                
+
+
+            </div>
+           
 
             <div css={s.commentBox}>
             <CommentSection challengePageId={challengePageId} />

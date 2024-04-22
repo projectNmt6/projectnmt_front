@@ -138,7 +138,6 @@ function DonationStoryPage() {
     const handleTabChange = (tab) => {
         setSelectedTab(tab);
     }
-    const navigate = useNavigate();
 
     const handleNewsUpdateButton = () => {
     }

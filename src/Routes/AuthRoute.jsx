@@ -23,9 +23,9 @@ import NowFundingPage from '../pages/MainPage/fundings/NowFundingPage';
 import EndedFundingsPage from '../pages/MainPage/fundings/EndedFundings';
 import TeamRoutePage from '../pages/TeamRoutePage/TeamRoutePage';
 import TeamSelectPage from '../pages/DonationPageBoard/TeamSelectPage';
-import DonationChallengePage from '../pages/DonationChallengerPage/DonationChallengePage';
 import ChallengeMainPage from '../pages/MainPage/ChallengeMainPage';
-import ChallengePage from '../pages/DonationStoryPage/ChallengePage'
+import DonationChallengePage from '../pages/DonationChallengerPage/DonationChallengePage';
+import ChallengePage from '../pages/DonationChallengerPage/ChallengePage';
 
 function AuthRoute(props) {
 
