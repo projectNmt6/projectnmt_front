@@ -245,18 +245,28 @@ export const Top3donationCard = css`
 
 export const Top3donationImage = css`
 
-  width: 250px; 
-  height: 150px; 
-  margin-left: 7px;
+  height: 100%; 
+  margin: 20px;
   & > img {
-    width:100%;
-    height: 150px;
+    border-radius: 10px;
+    width:300px;
+    height: 200px;
   }
 `;
 
+
+export const donationDetails = css`
+  box-sizing: border-box;
+  width: 100%;
+
 export const Top3donationDetails = css`
   padding: 15px; 
-  
+  margin: 20px;
+
+  div {
+    display: flex;
+    justify-content: space-between;
+  }
   h2 {
     margin-top: 0;
   }
@@ -268,22 +278,33 @@ export const Top3donationDetails = css`
 export const Top3linkStyle = css`
   text-decoration: none; 
   color: inherit; 
+  width: 100%;
   &:hover, &:active, &:visited {
     text-decoration: none;
     color: inherit;
   }
 `;
 
+export const LikeDonate = css`
+&>div{
+  padding: 10px;
+  border: 1px solid #dbdbdb;
+  border-radius: 5px;
+  width: 100%;
+  margin: 20px;
+  display: flex;
+  justify-content: center;
+  &>a{
+    color: black;
+    text-decoration-line: none;
+  }
+}
+`;
 
 export const Top3goalAmount = css`
 display:flex;
 flex-direction: column;
 `;
-
-
-
-
-
 
 
 //////////// footer ////////////

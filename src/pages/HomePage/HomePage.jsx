@@ -7,18 +7,18 @@ import { getAllAmount, getDonationListRequest, getProgressAmount } from "../../a
 import Progress from "../../components/progress/Progress";
 import introImg from '../../assets/introImg.png';
 import introImg2 from '../../assets/introImg2.jpeg';
-import lion from '../../assets/lion.gif';
 import { FaArrowCircleRight } from "react-icons/fa";
 import sideImg from '../../assets/sideImg.png';
+import { FaWonSign } from "react-icons/fa";
+import { BsEmojiHeartEyes } from "react-icons/bs";
+import LikeButton from "../../components/LikeButton/LikeButton";
+import lion from '../../assets/lion.gif';
 import { BsFillSearchHeartFill } from "react-icons/bs";
 import { GiSandsOfTime } from "react-icons/gi";
 import { FaSackDollar } from "react-icons/fa6";
 import { FaCrown } from "react-icons/fa6";
 import LikeButton from "../../components/LikeButton/LikeButton";
 import { getDonatorList, getDonators } from "../../apis/api/donatorApi";
-
-
-
 
 function HomePage() {
     const [totalDonationAmount, setTotalDonationAmount] = useState(0);
@@ -94,7 +94,6 @@ function HomePage() {
                 console.log(response.data);
                 if (Array.isArray(response.data)) {
                     setTotalDonationLength(response.data.length);
-
                     const sortedDonations = response.data.sort((a, b) => {
                         const timeRemainingA = new Date(a.endDate) - today;
                         const timeRemainingB = new Date(b.endDate) - today;
@@ -103,8 +102,8 @@ function HomePage() {
                     setUpcomingDonation(sortedDonations.find(donation => {
                         const timeRemaining = new Date(donation.endDate) - today;
                         return timeRemaining > 0;
+                    }))
                     }));
-
 
                     const closestToGoalDonation = sortedDonations.reduce((prev, curr) => {
                         const prevDiff = Math.abs(prev.goalAmount - prev.currentAmount);
@@ -117,8 +116,6 @@ function HomePage() {
                         .sort((a, b) => b.currentAmount - a.currentAmount)
                         .slice(0, 3);
                     setTopThreeDonations(topThree);
-
-                   
                 }
             }
         }
@@ -153,7 +150,6 @@ function HomePage() {
                 <header css={s.rootheader}>
                     <div css={s.headerStyle}>
                         <h1>세상을 위한 따뜻한 마음 <br />노먹튀와 함께해요 <img src={lion} alt="" width="7%" /></h1>
-
                     </div>
                     <div css={s.introStyle}>
                         <img src={introImg} />
@@ -163,7 +159,6 @@ function HomePage() {
                         <button><FaArrowCircleRight size="30" /></button>
                     </div>
                 </header>
-
                 <div css={s.contentAreaStyle}>
                     <div css={s.leftCardLayout}>
                         <div css={s.cardStyle}>
@@ -235,9 +230,8 @@ function HomePage() {
                                 )
                                 )}
                             </div>
-
-
                         </div>
+
 
                         <div css={s.cardStyle}>
                             <h2>마지막 기부자를 찾습니다 <BsFillSearchHeartFill color="orange" /></h2>
@@ -305,6 +299,7 @@ function HomePage() {
                                 <h3> ₩ 총 기부금                               {totalDonationAmount.toLocaleString()}원</h3>
                             </div>
                         </div>
+
                         <div css={s.sidebarStyle}>
                             <h2>따뜻한 후기</h2>
                         </div>
@@ -313,6 +308,9 @@ function HomePage() {
                         </div>
 
                     </div>
+                </div>
+
+                <div css={s.additionalContentStyle}>
                 </div>
 
 

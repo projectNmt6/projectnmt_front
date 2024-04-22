@@ -11,6 +11,7 @@ import axios from 'axios';
 import CommentSection from '../../pages/DonationStoryPage/CommentSection';
 import NewsPage from './CategoryPage/NewsPage';
 import Story from './CategoryPage/Story';
+import DonatorInfo from "../DonatorInfo/DonatorInfo";
 
 function DonationStoryPage() {
     const location = useLocation();
@@ -24,7 +25,7 @@ function DonationStoryPage() {
     const donationCommentId = queryParams.get('commentId')
     const [comment, setComment] = useState("");
     const [selectedTab, setSelectedTab] = useState('story'); // news, story 중 하나의 값을 가짐
-
+    const [ showModal , setshowModal ] = useState(false);
     const getDonationStoryQuery = useQuery(
         ["getDonationPageQuery", donationPageId],
         async () => {
@@ -128,8 +129,6 @@ function DonationStoryPage() {
         fetchData();
     }, [donationPageId]);
 
-
-
     const handleTabChange = (tab) => {
 
         setSelectedTab(tab);
@@ -137,11 +136,25 @@ function DonationStoryPage() {
     }
     const navigate = useNavigate();
 
-    const handleNewsUpdateButton = () => {
-    }
-
+  
+    useEffect(() => {
+        if (showModal) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+    },[showModal])
     return (
         <>
+            <div css={s.container1}>
+                {
+                    showModal
+                    ? 
+                    <div css={s.container3}>
+                        <div css={s.modal}><DonatorInfo setShowModal={setshowModal}/></div>
+                    </div>
+                    : null
+                }
             <div css={s.container}>
                 <Link css={s.link} to={"/main"}>메인으로 </Link>
             </div>
@@ -168,7 +181,7 @@ function DonationStoryPage() {
                             <div css={s.dates3}>기부 종료일: {calculateDaysRemaining(donationPage.createDate, donationPage.endDate)}</div>
                             <div css={s.dates4}>●기부금은 100% 단체에 전달됩니다.</div>
                             <div css={s.likebutton}>
-                                <Link css={s.donation} to={"/test"}>기부하기</Link>
+                                <button css={s.donation} onClick={() => setshowModal(() => !showModal)}>기부하기</button>
                                 <div css={s.likebutton1}>
                                     <LikeButton donationPageId={donationPageId} />
                                 </div>
@@ -184,14 +197,13 @@ function DonationStoryPage() {
                             <h2>분리공간 </h2>
                             {selectedTab === 'news' ? <NewsPage donationPageId={donationPageId} /> : <Story />}
                         </div>
-                    </div>
-                    <h3>덧글</h3>
-                    <div css={s.commentBox}>
-                        <div>
-                            <CommentSection donationPageId={donationPageId} />
                         </div>
+                    <h3>댓글</h3>
+                    <div css={s.commentBox}>
+                            <CommentSection donationPageId={donationPageId} />
                     </div>
                 </div>
+            </div>
             </div>
         </>
     )
