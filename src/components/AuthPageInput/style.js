@@ -1,16 +1,16 @@
 import { css } from "@emotion/react";
 
 export const inputBox = css`
-    position: relative;
-    box-sizing: border-box;
-    width: 100%;
+    display: flex;
+    height: auto;
+    flex-direction: column;
     margin-bottom: 10px;
 `;
 
 export const input = css`
     background-color: transparent;
-    height: 27px;
-    width: 200px;
+    height: 44px;
+    width: 600px;
     border: 2px solid rgba(0, 0, 0, 0.23);
     border-radius: 5px;
 `;

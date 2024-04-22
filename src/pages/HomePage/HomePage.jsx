@@ -17,7 +17,6 @@ import { BsFillSearchHeartFill } from "react-icons/bs";
 import { GiSandsOfTime } from "react-icons/gi";
 import { FaSackDollar } from "react-icons/fa6";
 import { FaCrown } from "react-icons/fa6";
-import LikeButton from "../../components/LikeButton/LikeButton";
 import { getDonatorList, getDonators } from "../../apis/api/donatorApi";
 
 function HomePage() {
@@ -103,7 +102,6 @@ function HomePage() {
                         const timeRemaining = new Date(donation.endDate) - today;
                         return timeRemaining > 0;
                     }))
-                    }));
 
                     const closestToGoalDonation = sortedDonations.reduce((prev, curr) => {
                         const prevDiff = Math.abs(prev.goalAmount - prev.currentAmount);

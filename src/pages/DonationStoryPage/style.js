@@ -156,7 +156,7 @@ export const donation = css`
     border: none;
     cursor: pointer;
     :hover {
-        background-color: 	#ff1c1c;
+        background-color:#ff1c1c;
         transition: all 0.4s ease-in-out;
         box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
     }
@@ -172,7 +172,8 @@ export const likebutton = css`
 `
 
 export const likebutton1 = css`
-    margin-top: 35px;
+    margin-top: 15px;
+    margin-bottom: 15px;
     display: flex;
     justify-content: space-around;
 `;
