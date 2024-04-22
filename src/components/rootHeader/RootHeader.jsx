@@ -41,7 +41,7 @@ function RootHeader(props) {
             <div css={s.mainbox}>
                 <Link to={"/main"} > 기부하기 </Link>
             </div>
-            <Link to={"/main/donations/challenge"}>챌린지</Link>
+            <Link to={"/main/challenges"}>챌린지</Link>
             {
                 !isLogin ? 
                 <Link css={s.account} to={"/auth/signin"}>

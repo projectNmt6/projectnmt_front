@@ -1,4 +1,4 @@
-// CommentSection.jsx
+import React from 'react';
 
 import { useMutation, useQuery } from 'react-query';
 import * as s from "./style";
@@ -8,8 +8,9 @@ import { commentRequest, commentResponse, deleteComment } from '../../apis/api/D
 import { TbTrashXFilled } from 'react-icons/tb';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { getPrincipalRequest } from '../../apis/api/principal';
+/** @jsxImportSource @emotion/react */
+function DonationComment({donationPageId}) {
 
-function CommentSection({ donationPageId }) {
     const [commentList, setCommentList] = useState([]);
     const [comment, setComment] = useState("");
     const [userId, setUserId ] = useState();
@@ -106,4 +107,4 @@ function CommentSection({ donationPageId }) {
 }
 
 
-export default CommentSection;
+export default DonationComment;

@@ -157,7 +157,7 @@ function DonationPageboard() {
             storyContent: content,
             mainImgUrl: mainImg,
             donationTagId: selectedSecondTag ? selectedSecondTag.value : null,
-            donationPageShow: null
+            donationPageShow: 2
         })
         .then(response => {
             alert("저장 성공");
@@ -294,7 +294,6 @@ function DonationPageboard() {
                     /> 
                 </div>
                 
-                <button>이미지 제거 </button>
             </div>
 
             <h3>슬라이드</h3>

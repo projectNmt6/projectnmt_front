@@ -16,19 +16,20 @@ import ChallengeAlbum from '../../components/TextEditor/ChallengeAlbum';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import TextEditor from '../../components/TextEditor/TextEditor';
+import CommentSection from './CommentSection';
 
 
 function DonationChallengePage() {
     const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
     const [mainImg, setMainImg] = useState("");
-    const [ teamId, setTeamId ] = useState();
-    const [ challengeTitle, setChallengeTitle, ] = useState();
-    const [ challengeContent, setChallengeContent ] = useState();
-    const [ overview, setOverview ] =  useState();
-    const [userId, setUserId ] = useState();
+    const [teamId, setTeamId] = useState(null); 
+    const [challengeContent, setChallengeContent] = useState("");
+    const [overview, setOverview] = useState("");
+    const [userId, setUserId] = useState(null);
     const [teams, setTeams] = useState([]);
-    const [selectedTeam, setSelectedTeam] = useState(null);
+    const [selectedTeam, setSelectedTeam] = useState(null);    
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(null);
 
     const principalQuery = useQuery(
         ["principalQuery"], 
@@ -82,31 +83,35 @@ function DonationChallengePage() {
 
 
     const handleSubmitButton = () => {
-        // API 호출 시 teamId 사용
+        // 현재 시간으로 startDate 업데이트
+        const now = new Date();
+        setStartDate(now);
+    
         axios.post('http://localhost:8080/main/challenge/write', {
-            donationPageId: 1,
+            challengePageId: 1,
             teamId: teamId,
-            mainCategoryId: 2,
-            pageCategoryId: null,
-            challengeTitle: challengeTitle,
+            mainCategoryId: 2,  // 챌린지
+            pageCategoryId: 4,   // 4.mission, 5.action, 6.news
+            createDate: now,
+            endDate: endDate,
+            challengeTitle: title,
             challengeOverview : overview,
-            challengeContent: content,
+            challengeContent: challengeContent,
             challengeMainImg: mainImg,
-            challengePageShow: null
+            challengePageShow: 2
         })
         .then(response => {
             alert("저장 성공");
             console.log(response);
         })
-        .catch(error => {
+        .catch(error => {          
             console.error('Error:', error);
         });
     };
+    
 
     const handleCancelButton = () => {
         if (window.confirm("작성 중인 내용을 취소하시겠습니까?")) {
-            setChallengeContent("");
-            setChallengeTitle("");
             setMainImg("");
             alert("작성이 취소 되었습니다.");
         }
@@ -140,6 +145,11 @@ function DonationChallengePage() {
         reader.readAsDataURL(file);
       }
     };
+
+    const handleEndDateChange = (date) => {
+        setEndDate(date);
+
+    };
     return (
         <>
             <div>
@@ -160,6 +170,16 @@ function DonationChallengePage() {
                 placeholder="등록할 팀을 선택해주세요"
             />
         </div>
+
+        <div> <h4>프로젝트 진행 기간 </h4></div>
+            <DatePicker
+                selected={endDate}
+                onChange={handleEndDateChange }
+                selectsEnd
+                startDate={startDate}
+                endDate={endDate}
+                dateFormat="yyyy년 MM월 dd일"
+            />
 
 
             <div>
@@ -185,7 +205,8 @@ function DonationChallengePage() {
             <input type="file" accept="image/*" onChange={handleFileChange} />
             {uploadedImages.length > 0 && <ChallengeAlbum uploadedImages={uploadedImages} />}
 
-            <TextEditor content={content} setContent={setContent} />
+            <TextEditor content={challengeContent} setContent={setChallengeContent} />
+ 
 
             <div css={s.buttonBox}>
                 <button onClick={handleSubmitButton}>작성완료</button>

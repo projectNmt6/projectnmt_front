@@ -25,6 +25,7 @@ import TeamRoutePage from '../pages/TeamRoutePage/TeamRoutePage';
 import TeamSelectPage from '../pages/DonationPageBoard/TeamSelectPage';
 import DonationChallengePage from '../pages/DonationChallengerPage/DonationChallengePage';
 import ChallengeMainPage from '../pages/MainPage/ChallengeMainPage';
+import ChallengePage from '../pages/DonationStoryPage/ChallengePage'
 
 function AuthRoute(props) {
 
@@ -61,8 +62,9 @@ function AuthRoute(props) {
                 <Route path="/main/donation/update" element={<DonationPageboard2 />} />
                 <Route path="/search" element={<SearchPage />} />
                 <Route path="/message" element={<MessagePage />} />
-                <Route path='/main/donations/challenge' element={ < ChallengeMainPage />} />
+                <Route path='/main/challenges' element={ < ChallengeMainPage />} />
                 <Route path='/main/challenge/write' element={< DonationChallengePage />} />
+                <Route path='/main/challenge' element={< ChallengePage />} />
                 <Route path='/main/donation/news/update' element={<NewsUpdatePage />} />       
                 <Route path="/test" element= {<DonatorInfo/>} />
                 <Route path="/account/mypage/donation" element={<MyDonation />} />        

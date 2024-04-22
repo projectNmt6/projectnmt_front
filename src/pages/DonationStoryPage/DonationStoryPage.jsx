@@ -8,11 +8,13 @@ import { commentReqest, commentResponse, deleteDonationPage, getDonationNewsRequ
 import DOMPurify from 'dompurify';
 import LikeButton from '../../components/LikeButton/LikeButton';
 import axios from 'axios';
-import CommentSection from '../../pages/DonationStoryPage/CommentSection'; 
 import NewsPage from './CategoryPage/NewsPage'; // NewsPage 경로 수정
 import Story from './CategoryPage/Story'; // Story 경로 수정
 import { shareKakao } from '../../apis/utils/shareKakaoLink';
 import Donators from "./CategoryPage/Donators";
+import CommentSection from "../DonationChallengerPage/CommentSection";
+import { getPrincipalRequest } from "../../apis/api/principal";
+import DonationComment from "./DonationComment";
 
 function DonationStoryPage() {
     const location = useLocation();
@@ -132,6 +134,7 @@ function DonationStoryPage() {
     }, [donationPageId]);
 
 
+    const [userId, setUserId ] = useState();
     const handleTabChange = (tab) => {
         setSelectedTab(tab);
     }
@@ -140,6 +143,22 @@ function DonationStoryPage() {
     const handleNewsUpdateButton = () => {
     }
 
+    const principalQuery = useQuery(
+        ["principalQuery"], 
+        getPrincipalRequest,
+        {
+            retry: 0,
+            refetchOnWindowFocus: false,
+            onSuccess: (response) => {
+                console.log("Auth", response.data);
+                setUserId(response.data.userId);
+            },
+            onError: (error) => {
+                console.error("Authentication error", error);
+            }
+        }
+    );
+    
 
     // 카카오톡 공유 버튼 클릭 이벤트 핸들러 추가
 const handleShareKakao = () => {
@@ -227,7 +246,8 @@ const handleShareKakao = () => {
                     <h3>덧글</h3>
                     <div css={s.commentBox}>
                         <div>
-                            <CommentSection donationPageId={donationPageId} />
+                            
+                            <DonationComment donationPageId={donationPageId} />
                         </div>
                     </div>
                 </div>
