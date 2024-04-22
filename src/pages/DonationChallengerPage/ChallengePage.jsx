@@ -8,6 +8,7 @@ import CommentSection from './CommentSection';
 import ChallengeStory from './Challenge/ChallengeStory';
 import ChallengeNews from './Challenge/ChallengeNews';
 import ActionBoard from './Challenge/ActionBoard';
+import LoginModal from './Challenge/LoginModal';
 
 function ChallengePage() {    
     const location = useLocation();
@@ -52,11 +53,26 @@ function ChallengePage() {
         setSelectedTab(tab);
     }
     const safeHTML = DOMPurify.sanitize(challengeContent);
+
+
+    const [showModal, setShowModal] = useState(false);
+    useEffect(() => {
+        if (showModal) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+    },[showModal])
+    const handleModalToggle = () => setShowModal(!showModal);
     return (
         <div>
             <div css={s.container}>
                 <Link css={s.link} to={"/main"}>메인으로 </Link>
-
+                {showModal && (
+                    <div css={s.container3}>
+                        <div css={s.modal}><LoginModal setShowModal={setShowModal} /></div>
+                    </div>
+                )}
                 <h1>{challengeTitle}</h1>
             <p>{challengeOverview}</p>
             <div dangerouslySetInnerHTML={{ __html: safeHTML }} />
@@ -64,7 +80,13 @@ function ChallengePage() {
             <p>종료 날짜: {endDate}</p>
 
                 <button>수정하기</button>
-                <button>행동하기!</button>
+                <button onClick={handleModalToggle}>행동하기!</button>
+                {showModal && (
+                    <div css={s.container3}>
+                        <LoginModal setShowModal={setShowModal} />
+                    </div>
+                )}
+ 
 
                 <div css={s.container2}>
                     <button css={s.button4} onClick={() => handleTabChange('story')}>Story</button>

@@ -5,7 +5,6 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FiSearch } from "react-icons/fi";
 import LikeButton from "../../components/LikeButton/LikeButton";
-
 import { getDonationListRequest, getDonationTagRequest } from "../../apis/api/DonationAPI";
 import Progress from "../../components/progress/Progress";
 import NowFundingPage from "./fundings/NowFundingPage";
@@ -113,7 +112,11 @@ function MainPage() {
                                     <h2>{donation.storyTitle}</h2>
                                     <p><strong>기관:</strong> {donation.teamName}</p>
                                     <p><strong>목표금액:</strong> {donation.goalAmount}원</p>
-                                {/* <LikeButton donationPageId = {donation.donationPageId} /> */}
+
+                                    {/* <p><strong>시작시간:</strong> {donation.createDate.split('T')[0]}</p>  
+                                    <p><strong>종료시간:</strong> {donation.endDate.split('T')[0]}</p> */}
+
+                                <LikeButton donationPageId = {donation.donationPageId} />
                                 <Progress pageId={donation.donationPageId} />
 
                                 </div>

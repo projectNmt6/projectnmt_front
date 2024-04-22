@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import Select from "react-select";
-import { getDonatorList } from "../../apis/api/donatorApi";
+import { getDonatorList } from "../../apis/api/DonatorApi";
 import * as s from "./style";
 
 function MyDonation(props) {

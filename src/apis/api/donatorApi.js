@@ -10,3 +10,6 @@ export const submitDonatorEditData = async (data) => {
 export const getDonatorList = async (params) => { 
     return await instance.get("/account/mypage/donation", {params});
 }
+export const getDonators = async (params) => { 
+    return await instance.get("/donator", {params});
+}
