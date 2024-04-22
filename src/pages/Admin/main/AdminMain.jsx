@@ -5,9 +5,9 @@ function AdminMain(props) {
 
     return (
         <div>
-            <Link to={"/admin/management/user"}>회원관리</Link>        
-            <Link to={"/admin/management/team"}>팀 관리</Link>        
-            <Link to={"/admin/management/story"}>게시글 관리</Link>        
+            <Link to={"/management/user"}>회원관리</Link>        
+            <Link to={"/management/comment"}>댓글 관리</Link>        
+            <Link to={"/management/story"}>게시글 관리</Link>        
         </div>
     );
 }

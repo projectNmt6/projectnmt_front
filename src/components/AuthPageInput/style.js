@@ -1,20 +1,9 @@
 import { css } from "@emotion/react";
 
 export const inputBox = css`
-    position: relative;
-    box-sizing: border-box;
-    width: 100%;
-    margin-bottom: 10px;
 `;
-
 export const input = css`
-    background-color: transparent;
-    height: 27px;
-    width: 200px;
-    border: 2px solid rgba(0, 0, 0, 0.23);
-    border-radius: 5px;
 `;
-
 export const messageBox = (type) => css`
     padding: ${type === "error" ? "5px 10px" : 0};
     width: 100%;

@@ -17,6 +17,7 @@ function DonatorInfo(props) {
     
     const queryClient = useQueryClient();
     const principalData = queryClient.getQueryData("principalQuery");
+
     const donationSubmitMutation = useMutation({
         mutationKey: "donationSubmitMutation",
         mutationFn: submitDonationData,

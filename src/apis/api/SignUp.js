@@ -12,6 +12,3 @@ export const signupRequest = async (data) => {
 export const oAuth2SignupRequest = async (data) => {
     return await instance.post("/auth/oauth2/signup", data);
 }
-export const deleteUserRequest = async (data) => { 
-    return await instance.delete(`/auth/user/delete/${data}`);
-}

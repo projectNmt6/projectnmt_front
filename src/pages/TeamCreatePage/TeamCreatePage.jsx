@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
-/** @jsxImportSource @emotion/react */
 import {css} from "@emotion/react";
+/** @jsxImportSource @emotion/react */
 import Select from "react-select";
 import {v4 as uuid} from "uuid";
 import { storage } from '../../apis/filrebase/config/firebaseConfig';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { registerTeam } from '../../apis/api/teamApi';
 import { useMutation, useQueryClient } from 'react-query';
-import { useNavigate } from 'react-router-dom';
 
 const header = css`
     & > div{
@@ -33,6 +32,7 @@ function TeamCreatePage(props) {
     const [ companyRegisterNumber,  setCompanyRegisterNumber ] = useState();
     const [ companyRegisterNumberUrl, setCompanyRegisterNumberUrl ] = useState();
     const [ teamHomepage,  setTeamHomepage ] = useState();
+    const [ teamAddress,  setTeamAddress ] = useState();
     const [ teamInfoText,  setTeamInfoText ] = useState();
     const [ teamLogoImgUrl,  setTeamLogoImgUrl ] = useState();
     const [ accountInfos, setAccountInfos ] = useState([]);
@@ -42,10 +42,7 @@ function TeamCreatePage(props) {
     const [ accountUsername, setAccountUsername ] = useState();
     const [ accountUrl, setAccountUrl ] = useState();
     const profileImgRef = useRef();
-    const accountRef = useRef(0);
     const queryClient = useQueryClient();
-    const navigate = useNavigate();
-
     const principalData = queryClient.getQueryData("principalQuery");
     const handleCheckBox = () => {
         setIsCompany(() => !isCompany);
@@ -92,7 +89,7 @@ function TeamCreatePage(props) {
             accountInfos     
         };
         registerTeamMutation.mutate(data);
-        navigate("/account/mypage")
+        // accountInfos
     }
     const handlefileChange = (e, setFile) => {
         const files = Array.from(e.target.files);
@@ -117,21 +114,13 @@ function TeamCreatePage(props) {
     }
     const handleAccountInfos = () => {
         const accountInfo = {
-            accountId: accountRef + 1,
             accountUsername,
             accountNumber,
             bankName,
             accountUrl
         }
-        setAccountUsername(() => "");
-        setAccountUrl(() => "");
-        setAccount(() => "");
-        setBankName(() => "");
         setAccountInfos(() => [...accountInfos, accountInfo]);
         setCreateAccount(() => false)
-    }
-    const handleDeleteAccountInfos = (id) => {
-        setAccountInfos(() => [...accountInfos.filter(accountInfo => accountInfo.accountId !== id)]);
     }
     return (
         <div css={header}>
@@ -183,6 +172,10 @@ function TeamCreatePage(props) {
                     onChange={(e) => setTeamHomepage(e.target.value)}/>
             </div>
             <div>
+                <input type="text" placeholder="주소"  value={teamAddress} 
+                    onChange={(e) => setTeamAddress(e.target.value)}/>
+            </div>
+            <div>
                 <button onClick={accountCounter}>은행 계좌 등록</button>
                 
                 {createAccount ?  
@@ -204,7 +197,6 @@ function TeamCreatePage(props) {
                         <span>은행:{accountInfo.bankName}</span>
                         <span>계좌번호: {accountInfo.accountNumber}</span>
                         <img src={accountInfo.accountUrl} alt="" />
-                        <button onClick={() => handleDeleteAccountInfos(accountInfo.accountId)}>계좌 삭제</button>
                     </div>
                 )}
             </div>

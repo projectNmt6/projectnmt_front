@@ -61,15 +61,3 @@ export const logout = css`
     color: #222222;
     cursor: pointer;
 `
-
-export const mainbox = css`
-    display: flex;
-    justify-content: center;
-    border: 1px solid #222222;
-    padding: 10px;
-    cursor: pointer;
-    & > * {
-        font-size: 16px;        
-    }
-
-`;
