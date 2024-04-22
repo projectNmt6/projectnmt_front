@@ -12,9 +12,16 @@ const textEditorLayout = css`
     margin-bottom: 20px;
 `;
 
-function NewsUpdatePage({donationPageId}) {
-    const [content, setContent] = useState(''); // 초기 상태를 null로 설정
-    
+function NewsUpdatePage() {
+
+    const [ pageCategoryId, setPageCategoryId ] = useState();
+    const [ userId, setUserId ] = useState();
+    const [ donationNewsPageId, setDonationNewsPageId ] = useState("");
+    const [content, setContent] = useState('');
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const donationPageId = queryParams.get('page');    
+
     const modules = useMemo(() => {
         return {
             toolbar: [
@@ -34,22 +41,45 @@ function NewsUpdatePage({donationPageId}) {
         "strike", "blockquote", "list", "bullet", "indent", "link", "image"
     ];
 
+    
     useEffect(() => {
-        axios.get(`http://localhost:8080/main/donation/news/update/${donationPageId}`)
-            .then(response => {
-                // 데이터가 비어 있는 경우를 처리
-                if (!response.data || Object.keys(response.data).length === 0) {
-                    setContent(null); // 데이터가 비어있으면 null 설정
-                } else {
-                    setContent(response.data.newsContent);
-                }
-            })
-            .catch(console.error);
+        const fetchData = async () => {
+            console.log(`Request URL: http://localhost:8080/main/donation/news/update/${donationPageId}`);
+            try {
+                const response = await axios.get(`http://localhost:8080/main/donation/news/update/${donationPageId}`);
+                const data = response.data;
+                console.log("Response Data:", data);
+                setContent(data.newsContent);
+                setUserId(data.userId);
+                setPageCategoryId(data.pageCategoryId);
+                setDonationNewsPageId(data.donationNewsPageId);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+        fetchData(); 
     }, [donationPageId]);
-
-    const handleContentChange = (value) => { // 변경된 부분: 내용이 변경될 때 호출되는 함수
+    
+    const handleContentChange = (value) => { 
         setContent(value);
     };
+
+    const handleSubmitButton = () => {
+
+        axios.put(`http://localhost:8080/main/donation/news/update/${donationPageId}`, {
+            donationPageId: donationPageId,            
+            pageCategoryId: pageCategoryId,
+            newsContent: content
+        })
+        .then(response => {
+            alert("저장 성공");
+            console.log(response)
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    };
+
     return (
         <div>
             NewsPage
@@ -57,14 +87,14 @@ function NewsUpdatePage({donationPageId}) {
 
                 <div css={textEditorLayout}>
                 <ReactQuill
-                    value={content.newsContent}
+                    value={content}
                     onChange={handleContentChange}
                     modules={modules}
                     formats={formats}
                     theme="snow"
                     style={{ height: '500px', margin: "50px" }}
                 />
-
+                <button onClick={handleSubmitButton}>수정 완료</button>
             </div>
             </div>
         </div>

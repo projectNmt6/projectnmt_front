@@ -14,18 +14,15 @@ function RootHeader(props) {
     const queryClient = useQueryClient();
     // const principal = queryClient.getQueryData("principalQuery");
     const principalState = queryClient.getQueryState("principalQuery");
-    
+    const [ isAdmin, setIsAdmin ] = useState();
     useEffect(() => {
         setLogin(() => principalState.status === "success");
-        console.log(principalState.status);
+        setIsAdmin(() => !!principalState?.data?.data.authorities.filter(authority => authority.authority === "ROLE_ADMIN")[0])
     },[principalState.status])
     
     const handleOpenMenuClick = (e) => {
         e.stopPropagation();
     }
-
-   
-
     const handleLogoutClick = () => {
         localStorage.removeItem("AccessToken");
         instance.interceptors.request.use((config) => {
@@ -40,7 +37,10 @@ function RootHeader(props) {
             <Link css={s.account} to={"/"}>
                 <FaHome />
             </Link>
-            <Link to={"/main"}> 기부하기 </Link>
+            {isAdmin ? <Link to={"/admin/main"}> 관리자 </Link> : null}
+            <div css={s.mainbox}>
+                <Link to={"/main"} > 기부하기 </Link>
+            </div>
             <Link to={"/main/donations/challenge"}>챌린지</Link>
             {
                 !isLogin ? 
