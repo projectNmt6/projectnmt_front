@@ -70,7 +70,7 @@ function DonatorInfo({ setShowModal }) {
             <div css={s.header}>
                 <button css={s.button} onClick={() => setShowModal(false)}><GrClose /></button>
                 <div css={s.header1}>기부하기</div>
-                <div css={s.div}>
+                <div>
                     <div css={s.div1}>
                         <input css={s.input} type="text" id="" value={money} ref={inputRef} onChange={handlemoneyChange} />원
                     </div>
@@ -94,15 +94,20 @@ function DonatorInfo({ setShowModal }) {
                         placeholder="응원하는 따뜻한 한마디를 남겨주세요!."
                         onChange={handleMessegeChange} />
                 </div>
-                <div>
+                <div css={s.div4}>
+                    <div css={s.div5}>
                     익명으로 기부하기
+                    </div>
                     <input
+                        css={s.input2}
                         type="checkbox"
                         id=""
                         checked={checked}
                         onChange={(e) => checkHandled(e.target.checked)} />
                 </div>
-                <button onClick={handleDonationSubmit}>기부하기</button>
+                <div css={s.div}>
+                <button css={s.button2} onClick={handleDonationSubmit}>기부하기</button>
+                </div>
             </div>
         </>
     );

@@ -32,7 +32,9 @@ export const header1 = css`
 
 
 export const div = css`
-
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
 `;
 
 export const div1 = css`
@@ -99,5 +101,43 @@ export const input1 = css`
     }
     :hover{
         box-shadow: 1px 1px 6px gray;
+    }
+`;
+export const div4 = css`
+    margin-top: 10px;
+    border-top: 5px solid #f0efefc1;
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid #dbdbdb ;
+`;
+export const div5 = css`
+    font-size: 14px;
+    color: #6e6e6ec1;
+    font-weight: 600;
+    padding: 20px 220px 20px 0px;
+`;
+export const input2 = css`
+    width: 18px;
+    accent-color: black;
+    cursor: pointer;
+`;
+
+export const button2 = css`
+    width: 380px;
+    height: 40px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 5px;
+    background-color: #ff3b3b;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    :hover {
+        transition: all 0.4s ease-in-out;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    }
+    :active {
+        box-shadow: inset 2px 2px 6px #FFC8C8 ;
     }
 `;

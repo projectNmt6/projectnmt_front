@@ -147,7 +147,7 @@ export const dates4 = css`
 export const donation = css`
     padding: 10px 125px;
     text-align: center;
-    background-color: #FFC8C8;
+    background-color: #fc4d4d;
     color: white;
     font-weight: 700;
     font-size: 20px;
@@ -156,12 +156,11 @@ export const donation = css`
     border: none;
     cursor: pointer;
     :hover {
-        background-color: 	#F58282;
+        background-color: 	#ff1c1c;
         transition: all 0.4s ease-in-out;
         box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
     }
     :active {
-        background-color: #F58282;
         box-shadow: inset 2px 2px 6px #FFC8C8 ;
     }
 `;
