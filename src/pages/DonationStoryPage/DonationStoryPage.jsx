@@ -163,16 +163,6 @@ function DonationStoryPage() {
                 </CommentSection>
                 </div>
 
-                {/* <div>
-                    <input 
-                        type="text" 
-                        value={comment}
-                        onChange={handleCommentChange}
-                    />
-                    <p>{commentList.commentText}</p>
-                    <button onClick={handleCommentSubmit}>덧글입력</button>
-                </div> */}
-
             </div>
 
         </>
