@@ -27,7 +27,6 @@ export const account = css`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0px 8px;
     border: none;
     border-radius: 50%;
     width: 30px;
@@ -42,6 +41,7 @@ export const accountItems = css`
     display: flex;
     align-items: center;
     height: 100%;
+    justify-content: space-between;
 
 `
 
@@ -49,7 +49,7 @@ export const logout = css`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0px;
+    margin-right: 5px;
     border: none;
     border-radius: 50%;
     padding: 0px;
@@ -105,5 +105,15 @@ export const challengebox = css`
         color: inherit; 
              
     }
-
 `;
+
+export const searchIcon=css`
+display: flex;
+margin: 0 20px;
+justify-content: center;
+`;
+
+export const noAccountItems = css`
+display: flex;
+align-items: center;
+`

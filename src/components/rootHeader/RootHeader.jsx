@@ -5,7 +5,7 @@ import { useRecoilState } from 'recoil';
 import { Link } from 'react-router-dom';
 import { FiLogOut, FiUser } from "react-icons/fi";
 import { FaHome } from "react-icons/fa";
-
+import { FiSearch } from "react-icons/fi";
 import { useQueryClient } from 'react-query';
 import instance from '../../apis/utils/instance';
 
@@ -33,6 +33,7 @@ function RootHeader(props) {
         window.location.replace("/auth/signin");
     }
     return (
+    <>
         <div css={s.header}>
             <Link css={s.account} to={"/"}>
                 <FaHome />
@@ -48,19 +49,20 @@ function RootHeader(props) {
             </div>
             {
                 !isLogin ? 
-                <Link css={s.account} to={"/auth/signin"}>
-                    <FiUser />
-                </Link>
+                <div css={s.noAccountItems}>
+                <Link css={s.account} to={"/auth/signin"}><FiUser /></Link>
+                <Link to={"/search"} css={s.searchIcon}><FiSearch color="black"/></Link>
+                </div>
                 : <div css={s.accountItems}>
                     <button css={s.logout} onClick={handleLogoutClick}>
                         <FiLogOut />
                     </button> 
-                <Link css={s.account} to={"/account/mypage"}>
-                    <FiUser />
-                </Link>
+                <Link css={s.account} to={"/account/mypage"}><FiUser /></Link>
+                <Link to={"/search"} css={s.searchIcon}><FiSearch color="black"/></Link>
                 </div> 
             }
         </div>
+    </>
     );
 }
 
