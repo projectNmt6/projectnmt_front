@@ -20,14 +20,12 @@ function LastDonator(props) {
             onSuccess: response => {
                 const donations = response.data;
 
-
                 const uniqueDonations = donations.reduce((acc, curr) => {
                     if (!acc.some(item => item.donationPageId === curr.donationPageId)) {
                         acc.push(curr);
                     }
                     return acc;
                 }, []);
-                console.log(uniqueDonations);
 
                 const closestToGoalDonation = uniqueDonations.reduce((prev, curr) => {
                     const prevDiff = Math.abs(prev.goalAmount - prev.addAmount);

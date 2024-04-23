@@ -20,7 +20,6 @@ function DonationKing(props) {
         {
             refetchOnWindowFocus: false,
             onSuccess: response => {
-                // setDonations(response.data);
                 const donations = response.data;
                 // 1. donationId를 기준으로 그룹화
                 const donorGroups = donations.reduce((groups, donation) => {
@@ -31,37 +30,28 @@ function DonationKing(props) {
                     groups[donationPageId].push(donation);
                     return groups;
                 }, {});
-
                 // 2. 각 그룹별로 총 기부 금액 계산
                 const donationRankings = Object.entries(donorGroups).map(([donationPageId, donations]) => {
                     const totalDonations = donations.reduce((sum, donation) => sum + donation.donationAmount, 0);
                     return { donationPageId, totalDonations };
                 });
-
                 // 3. 총 기부 금액 기준 내림차순 정렬
                 setSortedRankings(donationRankings.sort((a, b) => b.totalDonations - a.totalDonations));
-                console.log(sortedRankings);
-
                 const uniqueDonations = donations.reduce((acc, curr) => {
                     if (!acc.some(item => item.donationPageId === curr.donationPageId)) {
                         acc.push(curr);
                     }
                     return acc;
                 }, []);
-                console.log(uniqueDonations);
                 const sortedDonations = uniqueDonations.sort((a, b) => {
                     const aPageId = sortedRankings.findIndex(item => item.donationPageId === a.donationPageId.toString());
                     const bPageId = sortedRankings.findIndex(item => item.donationPageId === b.donationPageId.toString());
                     return aPageId - bPageId;
                 });
-                console.log(sortedDonations);
 
-
-                setTop3Donations(uniqueDonations.slice(0, 3));
-                console.log(top3Donations);
+                setTop3Donations(sortedDonations.slice(0, 3));
             }
         },
-
     );
 
     return (
@@ -79,7 +69,7 @@ function DonationKing(props) {
                                     <img src={!donation.mainImgUrl ? "https://www.shutterstock.com/image-vector/no-image-available-picture-coming-600nw-2057829641.jpg" : donation.mainImgUrl} alt="" />
                                 </div>
                                 <div css={s.Top3donationDetails}>
-                                    <h2>{!donation.storyTitle? "제목없음" : donation.storyTitle}  </h2>
+                                    <h2>{!donation.storyTitle ? "제목없음" : donation.storyTitle}  </h2>
                                     <Progress pageId={donation.donationPageId} />
                                     <div>
                                         <div css={s.Top3goalAmount}>

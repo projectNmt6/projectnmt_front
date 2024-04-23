@@ -254,11 +254,6 @@ export const Top3donationImage = css`
   }
 `;
 
-
-export const donationDetails = css`
-  box-sizing: border-box;
-  width: 100%;
-
 export const Top3donationDetails = css`
   padding: 15px; 
   margin: 20px;
@@ -285,21 +280,6 @@ export const Top3linkStyle = css`
   }
 `;
 
-export const LikeDonate = css`
-&>div{
-  padding: 10px;
-  border: 1px solid #dbdbdb;
-  border-radius: 5px;
-  width: 100%;
-  margin: 20px;
-  display: flex;
-  justify-content: center;
-  &>a{
-    color: black;
-    text-decoration-line: none;
-  }
-}
-`;
 
 export const Top3goalAmount = css`
 display:flex;
