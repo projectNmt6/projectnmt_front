@@ -150,24 +150,47 @@ function SignUpPage(props) {
             <div css={s.header}>
                 <h1>회원가입</h1>
             </div>
+            <div css={s.imgBox} onClick={() => imgFileRef.current.click()}>
+                <input type="file" style={{ display: "none" }} ref={imgFileRef} multiple={true} onChange={handleImgFileChange} />
+                <img src={profileImg} alt="" />
+            </div>
             <div css={s.div}>
-                <AuthPageInput type={"text"} name={"username"} placeholder={"사용자 ID"} value={username} onChange={userNameChange} message={usernameMessage} />
-                <AuthPageInput type={"password"} name={"password"} placeholder={"비밀번호"} value={password} onChange={passwordChange} message={passwordMessage} />
-                <AuthPageInput type={"password"} name={"checkPassword"} placeholder={"비밀번호 확인"} value={checkPassword} onChange={checkPasswordChange} message={checkPasswordMessage} />
-                <AuthPageInput type={"text"} name={"name"} placeholder={"닉네임"} value={name} onChange={nameChange} message={nameMessage} />
-                <AuthPageInput type={"text"} name={"phoneNumber"} placeholder={"전화번호"} value={phoneNumber} onChange={phoneNumberChange} message={phoneNumberMessage} />
-                <AuthPageInput type={"text"} name={"email"} placeholder={"이메일"} value={email} onChange={emailChange} message={emailMessage} />
-                <Select
-                    css={s.select}
-                    placeholder="성별"
-                    options={genderOption}
-                    value={gender}
-                    onChange={handleGenderChange}
+                <div css={s.div4}>
+                    <label htmlFor={username}>사용자 ID</label>
+                    <AuthPageInput type={"text"} name={"username"} value={username} onChange={userNameChange} message={usernameMessage} />
+                </div>
+                <div css={s.div2}>
+                    <label htmlFor={password}>비밀번호</label>
+                    <div css={s.div3}>
+                        <AuthPageInput type={"password"} name={"password"} placeholder={"비밀번호"} value={password} onChange={passwordChange} message={passwordMessage} />
+                        <AuthPageInput type={"password"} name={"checkPassword"} placeholder={"비밀번호 확인"} value={checkPassword} onChange={checkPasswordChange} message={checkPasswordMessage} />
+                    </div>
+                </div>
+                <div css={s.div4}>
+                    <label htmlFor={name}>닉네임</label>
+                    <AuthPageInput type={"text"} name={"name"} value={name} onChange={nameChange} message={nameMessage} />
+                </div>
+                <div css={s.div4}>
+                    <label htmlFor={phoneNumber}>전화번호</label>
+                    <AuthPageInput type={"text"} name={"phoneNumber"} value={phoneNumber} onChange={phoneNumberChange} message={phoneNumberMessage} />
+                </div>
+                <div css={s.div4}>
+                    <label htmlFor={email}>이메일</label>
+                    <AuthPageInput type={"text"} name={"email"} value={email} onChange={emailChange} message={emailMessage} />
+                </div>
+                <div css={s.div4}>
+                    <label htmlFor={gender}>성별</label>
+                    <Select
+                        css={s.select}
+                        placeholder=""
+                        options={genderOption}
+                        value={gender}
+                        onChange={handleGenderChange}
                     />
-                <input css={s.input} type={"date"} name={"age"} placeholder={"생년월일"} value={age} onChange={ageChange} />
-                <div css={s.imgBox} onClick={() => imgFileRef.current.click()}>
-                    <input type="file" style={{ display: "none" }} ref={imgFileRef} multiple={true} onChange={handleImgFileChange} />
-                    <img src={profileImg} alt="" />
+                </div>
+                <div css={s.div4}>
+                    <label htmlFor={age}>생년월일</label>
+                    <input css={s.input} type={"date"} name={"age"} value={age} onChange={ageChange} />
                 </div>
                 <div>
                     <button css={s.button} onClick={handleSubmitClick}>가입하기</button>
