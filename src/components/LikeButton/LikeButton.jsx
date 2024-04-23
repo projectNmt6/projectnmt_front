@@ -25,7 +25,6 @@ function LikeButton({donationPageId}) {
         ["getLikeQuery", donationPageId, principalData?.data?.userId ?? null],
         async () => {
             const response = await getLike({ donationPageId, userId: principalData.data.userId});
-            console.log(response.data);
             return response.data;
         },
         {

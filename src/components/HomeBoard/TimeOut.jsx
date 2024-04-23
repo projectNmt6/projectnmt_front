@@ -23,7 +23,6 @@ function TimeOut(props) {
         {
             refetchOnWindowFocus: false,
             onSuccess: response => {
-                console.log(response.data);
                 if (Array.isArray(response.data)) {
                     setTotalDonationLength(response.data.length);
                     const sortedDonations = response.data.sort((a, b) => {
@@ -70,7 +69,7 @@ function TimeOut(props) {
         }, 1000);
         return () => clearInterval(timer);
     }, [upcomingDonation]);
-    
+
     return (
         <>
             <div css={s.cardStyle}>

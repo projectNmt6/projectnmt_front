@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useQuery, useQueryClient } from "react-query";
 import { getAllAmount, getDonationListRequest, getProgressAmount } from "../../apis/api/DonationAPI";
 import introImg from '../../assets/introImg.png';
@@ -11,16 +11,8 @@ import DonatorKing from "../../components/HomeBoard/DonatorKing";
 import LastDonator from "../../components/HomeBoard/LastDonator";
 import DonationKing from "../../components/HomeBoard/DonationKing";
 import TimeOut from "../../components/HomeBoard/TimeOut";
-import { FaWonSign } from "react-icons/fa";
-import { BsEmojiHeartEyes } from "react-icons/bs";
-import LikeButton from "../../components/LikeButton/LikeButton";
 import lion from '../../assets/lion.gif';
-import { BsFillSearchHeartFill } from "react-icons/bs";
-import { GiSandsOfTime } from "react-icons/gi";
-import { FaSackDollar } from "react-icons/fa6";
-import { FaCrown } from "react-icons/fa6";
-import LikeButton from "../../components/LikeButton/LikeButton";
-import { getDonatorList, getDonators } from "../../apis/api/donatorApi";
+
 
 function HomePage() {
     const [totalDonationAmount, setTotalDonationAmount] = useState(0);
@@ -49,7 +41,6 @@ function HomePage() {
         {
             refetchOnWindowFocus: false,
             onSuccess: response => {
-                console.log(response.data);
                 if (Array.isArray(response.data)) {
                     setTotalDonationLength(response.data.length);
 

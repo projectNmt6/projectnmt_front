@@ -17,7 +17,6 @@ function DonatorKing(props) {
         {
             refetchOnWindowFocus: false,
             onSuccess: response => {
-                console.log(response.data);
                 const donations = response.data;
                              // 1. userId를 기준으로 그룹화
                              const donorGroups = donations.reduce((groups, donation) => {
