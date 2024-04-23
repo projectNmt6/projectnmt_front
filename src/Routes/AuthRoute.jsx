@@ -14,7 +14,6 @@ import DonationPageboard2 from '../pages/DonationUpdatePage/DonationUpdatePagebo
 import DonationStoryPage from '../pages/DonationStoryPage/DonationStoryPage';
 import ReviewPage from '../pages/ReviewPage/ReviewPage'
 import MessagePage from '../pages/MessagePage/MessagePage';
-import SignUpPage from '../pages/SignUpPage/SignUpPage';
 import MainPage2 from '../pages/DonationChallengerPage/MainPage2';
 import NewsWrite from '../pages/DonationPageBoard/CategoryPage/NewsWrite';
 import NewsUpdatePage from '../pages/DonationStoryPage/CategoryPage/NewsUpdatePage'
@@ -24,6 +23,7 @@ import NowFundingPage from '../pages/MainPage/fundings/NowFundingPage';
 import EndedFundingsPage from '../pages/MainPage/fundings/EndedFundings';
 import AdminSearchPage from '../pages/Admin/AdminSearchPage/AdminSearchPage';
 import UserInfoEditPage from '../pages/UserInfoEditPage/UserInfoEditPage';
+import TeamRoutePage from '../pages/TeamRoutePage/TeamRoutePage';
 
 
 function AuthRoute(props) {
@@ -49,7 +49,7 @@ function AuthRoute(props) {
 
         <RootHeader/>
         <Routes>
-            <Route path="/auth/*" element={ <AuthPage />}/>
+                <Route path="/auth/*" element={ <AuthPage />}/>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/main" element={<MainPage />} />
                 <Route path="/main/write" element={<DonationPageboard/>} />
@@ -69,6 +69,7 @@ function AuthRoute(props) {
                 <Route path="/main/donation/fundings/now" element= {  <NowFundingPage />} />
                 <Route path="/main/donation/fundings/end" element= {  <EndedFundingsPage />} />
                 <Route path='/account/mypage/edit' element= { <UserInfoEditPage />} />
+                <Route path='/team/*' element= { <TeamRoutePage />} />
            </Routes> 
 
         </>

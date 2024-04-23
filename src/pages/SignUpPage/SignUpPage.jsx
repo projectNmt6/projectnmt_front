@@ -9,7 +9,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { v4 as uuid } from 'uuid';
 import { storage } from "../../apis/filrebase/config/firebaseConfig";
 import AuthPageInput from "../../components/AuthPageInput/AuthPageInput";
-import profileimg from "../../assets/profileimg.png";
+
 
 function SignUpPage(props) {
     const navigate = useNavigate();
@@ -23,7 +23,7 @@ function SignUpPage(props) {
     const [gender, setGender] = useState("");
     const [age, ageChange] = useInput("age");
     const [checkPasswordMessage, setCheckPasswordMessage] = useState("");
-    const [profileImg, setProfileImg] = useState(profileimg);//기본이미지 필요
+    const [profileImg, setProfileImg] = useState("https://firebasestorage.googleapis.com/v0/b/react-study-20240226-jsm-4f336.appspot.com/o/library%2Fbook%2Fcover%2F5b2b3bc5-a9fd-4efa-9d71-6f8ee3c92765_%ED%95%98%EB%8A%98%EB%8B%A4%EB%9E%8C%EC%A5%90_%EA%B7%B8%EB%A6%BC_%EA%B0%95%EC%A2%8C%EB%8C%80%EC%A7%80_10-removebg-preview.png?alt=media&token=a241c611-ae05-4a85-b58f-fe47a53c0ced");//기본이미지 필요
     const imgFileRef = useRef();
 
     const genderOption = [
