@@ -88,6 +88,5 @@ export const getAllAmount = async (params) => {
     return await instance.get("/main/amount", {params});
 }
 export const getProgressAmount = async (params) => {
-    console.log(params);
     return await instance.get("/main/progress", {params});
 }

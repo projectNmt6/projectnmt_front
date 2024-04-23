@@ -28,6 +28,7 @@ function DonationStoryPage() {
     const [selectedTab, setSelectedTab] = useState('story'); //news, story 중 하나의 값을 가짐
     const [ showModal, setShowModal ] = useState(false);
     const [ teamInfo, setTeamInfo ] = useState();
+  
     const getDonationStoryQuery = useQuery(
         ["getDonationPageQuery", donationPageId],
         async () => {
@@ -145,8 +146,6 @@ function DonationStoryPage() {
         fetchData();
     }, [donationPageId]);
 
-
-
     const handleTabChange = (tab) => {
 
         setSelectedTab(tab);
@@ -154,15 +153,25 @@ function DonationStoryPage() {
     }
     const navigate = useNavigate();
 
+  
+    useEffect(() => {
+        if (showModal) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+    },[showModal])
     return (
         <>
-            <div>
+            <div css={s.container1}>
                 {
-                    showModal 
-                    ? <DonatorInfo />
+                    showModal
+                    ? 
+                    <div css={s.container3}>
+                        <div css={s.modal}><DonatorInfo setShowModal={setshowModal}/></div>
+                    </div>
                     : null
                 }
-            </div>
             <div css={s.container}>
                 <Link css={s.link} to={"/main"}>메인으로 </Link>
             </div>
@@ -189,7 +198,7 @@ function DonationStoryPage() {
                             <div css={s.dates3}>기부 종료일: {calculateDaysRemaining(donationPage.createDate, donationPage.endDate)}</div>
                             <div css={s.dates4}>●기부금은 100% 단체에 전달됩니다.</div>
                             <div css={s.likebutton}>
-                                <button css={s.donation} onClick={() => setShowModal(() => !showModal)}>기부하기</button>
+                                <button css={s.donation} onClick={() => setshowModal(() => !showModal)}>기부하기</button>
                                 <div css={s.likebutton1}>
                                     <LikeButton donationPageId={donationPageId} />
                                 </div>
@@ -215,15 +224,14 @@ function DonationStoryPage() {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <h3>덧글</h3>
-                    <div css={s.commentBox}>
-                        <div>
-                            <CommentSection donationPageId={donationPageId} />
                         </div>
+                    <h3>댓글</h3>
+                    <div css={s.commentBox}>
+                            <CommentSection donationPageId={donationPageId} />
                     </div>
                 </div>
                 
+            </div>
             </div>
         </>
     )

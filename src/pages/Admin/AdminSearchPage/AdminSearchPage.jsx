@@ -1,12 +1,12 @@
- /** @jsxImportSource @emotion/react */
+/** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import Select from 'react-select';
-import { getDonationListRequest, searchDonationRequest } from "../../apis/api/DonationAPI";
+import { adminSearchDonationRequest, updatePageShowRequest } from "../../../apis/api/Admin";
 
-function SearchPage(props) {
+function AdminSearchPage(props) {
 
     const [selectedMainTag, setSelectedMainTag] = useState(null);
     const [selectedSecondTag, setSelectedSecondTag] = useState(null);
@@ -17,6 +17,8 @@ function SearchPage(props) {
     const [donationList, setDonationList] = useState([]);
     const [filteredDonations, setFilteredDonations] = useState([]);
     const [sortOrder, setSortOrder] = useState('');
+    const [donationPageShow, setDonationPageShow] = useState(false);
+
 
     const handleOnChange = (e) => {
             setSearchText(()=>e.target.value);
@@ -64,7 +66,7 @@ function SearchPage(props) {
     const searchDonationQuery = useQuery(
         ["searchDonationQuery", searchValue],
         async () => {
-            const response = await searchDonationRequest({ name: searchValue });
+            const response = await adminSearchDonationRequest({ name: searchValue });
             return response.data; 
         },
         {
@@ -105,6 +107,34 @@ function SearchPage(props) {
 
     }, [sortOrder]);
 
+
+
+
+////DonationPageShow 업데이트
+
+  // React Query 클라이언트 인스턴스를 가져옵니다.
+  const queryClient = useQueryClient();
+
+  // useMutation 훅을 사용하여 데이터 업데이트 로직을 구성합니다.
+  const mutation = useMutation(updatePageShowRequest, {
+
+    onSuccess: () => {
+        //요청 성공 후 캐시된 데이터를 무효화하여 새로운 데이터로 리프레시합니다.
+
+    }});
+
+const handlePageShow = (donation) => {
+    console.log(donation);
+    const updatedPageShow = {
+        donationPageId: donation.donationPageId
+    };
+    
+    console.log(donation.donationPageShow);
+    // mutation.mutate를 사용하여 업데이트 로직을 실행
+    mutation.mutate(updatedPageShow);
+    donation.donationPageShow = !donation.donationPageShow;
+
+};
 
 
     return (
@@ -149,26 +179,36 @@ function SearchPage(props) {
                 {
                     filteredDonations.map(
                         donation =>
-                        <a href={`/donation?page=${donation.donationPageId}`} key={donation.donationPageId}  css={s.linkStyle}>
-                            <div key={donation.donationPageId} css={s.donationCard}>
-                                <div css={s.donationImage}>
-                                    <img src={
-                                            ! donation.mainImgUrl
-                                            ? "https://www.shutterstock.com/image-vector/no-image-available-picture-coming-600nw-2057829641.jpg"
-                                            : donation.mainImgUrl
-                                        } alt="" />
-                                </div>
-                                <div css={s.donationDetails}>
-                                    <div css={s.donationText}>
-                                        <h2><strong>(진행중)</strong> {donation.storyTitle}</h2>
-                                        <p><strong>기관:</strong> {donation.teamName}</p>
+                        <div css={s.linkbox}>
+                            <a href={`/donation?page=${donation.donationPageId}`} key={donation.donationPageId}  css={s.linkStyle}>
+                                <div key={donation.donationPageId} css={s.donationCard}>
+                                    <div css={s.donationImage}>
+                                        <img src={
+                                                ! donation.mainImgUrl
+                                                ? "https://www.shutterstock.com/image-vector/no-image-available-picture-coming-600nw-2057829641.jpg"
+                                                : donation.mainImgUrl
+                                            } alt="" />
                                     </div>
-                                    <div css={s.donationAmount}>
-                                        <p><strong>₩</strong>{donation.goalAmount}</p>
+                                    <div css={s.donationDetails}>
+                                        <div css={s.donationText}>
+                                            <h2><strong>(진행중)</strong> {donation.storyTitle}</h2>
+                                            <p><strong>기관:</strong> {donation.teamName}</p>
+                                        </div>
+                                        <div css={s.donationAmount}>
+                                            <p><strong>₩</strong>{donation.goalAmount}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </a>
+                            </a>
+                            <button css={s.getManageCard(donation.donationPageShow)} onClick={() => handlePageShow(donation)}>
+                                {
+                                    !donation.donationPageShow
+                                    ? "확인 전"
+                                    : "확인 완료"
+                                }
+                            </button>
+                        </div>
+                        
                     )
                 }
             </div>
@@ -176,4 +216,4 @@ function SearchPage(props) {
     );
 }
 
-export default SearchPage;
+export default AdminSearchPage;

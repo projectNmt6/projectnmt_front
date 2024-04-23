@@ -126,6 +126,7 @@ function MyPage(props) {
                             </div>
                         }
                     </div>
+
                 </div>
             </div>
         }

@@ -1,7 +1,7 @@
 import { css } from "@emotion/react"
 
 export const container = css`
-    background: #f4f4f4; 
+    background: #f4f4f4;
     padding: 20px;
 `;
 
@@ -145,24 +145,35 @@ export const dates4 = css`
     margin-top: 20px;
 `;
 export const donation = css`
-    padding: 15px 140px;
+    padding: 10px 125px;
     text-align: center;
-    background-color: rgba(255,64 ,80,0.9);
-    color: rgba(255,255,255);
+    background-color: #fc4d4d;
+    color: white;
     font-weight: 700;
-    font-size: 12px;
+    font-size: 20px;
     border-radius: 5px;
     text-decoration: none;
+    border: none;
     cursor: pointer;
+    :hover {
+        background-color:#ff1c1c;
+        transition: all 0.4s ease-in-out;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    }
+    :active {
+        box-shadow: inset 2px 2px 6px #FFC8C8 ;
+    }
 `;
 
 export const likebutton = css`
     display: flex;
     flex-direction: column;
     margin-top: 30px;
-`;
+`
+
 export const likebutton1 = css`
-    margin-top: 35px;
+    margin-top: 15px;
+    margin-bottom: 15px;
     display: flex;
     justify-content: space-around;
 `;
@@ -173,6 +184,7 @@ export const container2 = css`
     height: 480px;
     background-color: white;
 `;
+
 export const button4 = css`
     border: none;
     font-size: 15px;
@@ -182,6 +194,18 @@ export const button4 = css`
     padding: 12px;
     font-weight: 600;
     cursor: pointer;
+    :focus {
+        transition: all 0.3s ease-in-out;
+        background-color: #bfbdbd;
+    }
+    :hover {
+        background-color: #bfbdbd;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); 
+    }
+    :active {
+        background-color: #bfbdbd;
+        box-shadow: inset 2px 2px 6px gray ;
+    }
 `;
 
 export const sanitizeHtml = css`
@@ -199,12 +223,12 @@ export const boxbox1 = css`
 
 export const commentBox = css`
     display: flex;
+    justify-content: center;
+    width: 100%;
     border-top:2px solid #d2d0d0;
     margin-bottom: 20px;
-    padding: 10px;
-    border-bottom: 1px solid #ccc; 
 `;
-export const inputbox = css`
+export const commentBoxStyle = css`
     width: 100%;
     height: 40px;
 `;
@@ -254,4 +278,75 @@ export const teamInfoText = css`
         display: -webkit-box;
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
+    margin-top: 10px;
+`;
+
+export const inputboxStyle = css`
+    margin-top: 30px;
+    width: 100%;
+    height: 70px;
+    box-sizing: border-box;
+    border: 1px solid #d2d0d0;
+    border-radius: 5px;
+    font-size: inherit;    
+    :focus {
+        transition: all 0.3s ease-in-out;
+        border: 1px solid pink;
+        outline: 1px solid pink;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+    :active {
+        background-color:#f3f2f2;
+    }
+`;
+export const button5 = css`
+    margin-top: 16px;
+    background-color: #aaaaaa;
+    color: white;
+    font-size: 14px;
+    height: 30px;
+    box-sizing: border-box;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.5s, box-shadow 0.5s; 
+
+    :hover {
+        background-color: #828282;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); 
+    }
+    :active {
+        background-color: white;
+    }
+`;
+
+export const container1 = css`
+    width: 100%;
+    height: 100%;
+`;
+
+export const container3 = css`
+    position: absolute;
+    width: 100%;
+    height: 200%;
+    top:0; left: 0; bottom: 0; right: 0;
+    background: rgba(160, 160, 160, 0.6);
+    overflow: hidden;
+    
+`;
+
+export const modal = css`
+    position: fixed;
+    background-color: white;
+    top: 50%;
+    left: 50%;
+    margin-left:-10%;
+    margin-top: -200px; 
+    display: flex;
+    flex-direction: column;
+    border: #d1d8dd;
+    border-radius: 5px;
+    width: 400px;
+    height: 500px;
+    box-shadow: 0 0 6px 1px rgb(0 0 0 / 30%);
 `;
