@@ -10,6 +10,7 @@ export const button = css`
     position: absolute;
     right: 0%;
     border: none;
+    border-radius: 5px;
     font-size:14px ;
     box-sizing: border-box;
     display: flex;

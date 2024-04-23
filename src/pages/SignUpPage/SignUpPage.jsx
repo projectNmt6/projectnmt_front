@@ -9,6 +9,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { v4 as uuid } from 'uuid';
 import { storage } from "../../apis/filrebase/config/firebaseConfig";
 import AuthPageInput from "../../components/AuthPageInput/AuthPageInput";
+import profileimg from "../../assets/profileimg.png";
 
 function SignUpPage(props) {
     const navigate = useNavigate();
@@ -22,7 +23,7 @@ function SignUpPage(props) {
     const [gender, setGender] = useState("");
     const [age, ageChange] = useInput("age");
     const [checkPasswordMessage, setCheckPasswordMessage] = useState("");
-    const [profileImg, setProfileImg] = useState("");//기본이미지 필요
+    const [profileImg, setProfileImg] = useState(profileimg);//기본이미지 필요
     const imgFileRef = useRef();
 
     const genderOption = [
@@ -75,24 +76,24 @@ function SignUpPage(props) {
         }
         const fileReader = new FileReader();
         fileReader.onload = (e) => {
-            setProfileImg(e.target.result);  
+            setProfileImg(e.target.result);
         };
         fileReader.readAsDataURL(e.target.files[0]);
-        
+
         const storageRef = ref(storage, `library/book/cover/${uuid()}_${files[0].name}`);
         const uploadTask = uploadBytesResumable(storageRef, files[0]);
-        
+
         uploadTask.on(
             "state_changed",
-            Snapshot => {},
-            error => {},
+            Snapshot => { },
+            error => { },
             () => {
                 alert("업로드를 완료하셨습니다.");
                 getDownloadURL(storageRef)
                     .then(url => {
                         setProfileImg(() => url);
                     });
-            }   
+            }
         );
     };
     const handleSubmitClick = () => {
@@ -128,8 +129,8 @@ function SignUpPage(props) {
             if (error.response.status === 400) {
                 const errorMap = error.response.data;
                 const errorEntries = Object.entries(errorMap);
-                for(let [ k, v ] of errorEntries) {
-                    if(k === "username") {
+                for (let [k, v] of errorEntries) {
+                    if (k === "username") {
                         setUsernameMessage(() => {
                             return {
                                 type: "error",
@@ -145,28 +146,57 @@ function SignUpPage(props) {
     }
 
     return (
-        <>
+        <div css={s.container}>
             <div css={s.header}>
                 <h1>회원가입</h1>
-                <button onClick={handleSubmitClick}>가입하기</button>
             </div>
-            <AuthPageInput type={"text"} name={"username"} placeholder={"사용자 ID"} value={username} onChange={userNameChange} message={usernameMessage} />
-            <AuthPageInput type={"password"} name={"password"} placeholder={"비밀번호"} value={password} onChange={passwordChange} message={passwordMessage} />
-            <AuthPageInput type={"password"} name={"checkPassword"} placeholder={"비밀번호 확인"} value={checkPassword} onChange={checkPasswordChange} message={checkPasswordMessage} />
-            <AuthPageInput type={"text"} name={"name"} placeholder={"닉네임"} value={name} onChange={nameChange} message={nameMessage} />
-            <AuthPageInput type={"text"} name={"phoneNumber"} placeholder={"전화번호"} value={phoneNumber} onChange={phoneNumberChange} message={phoneNumberMessage} />
-            <AuthPageInput type={"text"} name={"email"} placeholder={"이메일"} value={email} onChange={emailChange} message={emailMessage} />
-            <Select
-                options={genderOption}
-                value={{ value: setGender, label: gender }}
-                onChange={handleGenderChange}
-            />
-            <input type={"date"} name={"age"} placeholder={"생년월일"} value={age} onChange={ageChange} />
             <div css={s.imgBox} onClick={() => imgFileRef.current.click()}>
                 <input type="file" style={{ display: "none" }} ref={imgFileRef} multiple={true} onChange={handleImgFileChange} />
                 <img src={profileImg} alt="" />
             </div>
-        </>
+            <div css={s.div}>
+                <div css={s.div4}>
+                    <label htmlFor={username}>사용자 ID</label>
+                    <AuthPageInput type={"text"} name={"username"} value={username} onChange={userNameChange} message={usernameMessage} />
+                </div>
+                <div css={s.div2}>
+                    <label htmlFor={password}>비밀번호</label>
+                    <div css={s.div3}>
+                        <AuthPageInput type={"password"} name={"password"} placeholder={"비밀번호"} value={password} onChange={passwordChange} message={passwordMessage} />
+                        <AuthPageInput type={"password"} name={"checkPassword"} placeholder={"비밀번호 확인"} value={checkPassword} onChange={checkPasswordChange} message={checkPasswordMessage} />
+                    </div>
+                </div>
+                <div css={s.div4}>
+                    <label htmlFor={name}>닉네임</label>
+                    <AuthPageInput type={"text"} name={"name"} value={name} onChange={nameChange} message={nameMessage} />
+                </div>
+                <div css={s.div4}>
+                    <label htmlFor={phoneNumber}>전화번호</label>
+                    <AuthPageInput type={"text"} name={"phoneNumber"} value={phoneNumber} onChange={phoneNumberChange} message={phoneNumberMessage} />
+                </div>
+                <div css={s.div4}>
+                    <label htmlFor={email}>이메일</label>
+                    <AuthPageInput type={"text"} name={"email"} value={email} onChange={emailChange} message={emailMessage} />
+                </div>
+                <div css={s.div4}>
+                    <label htmlFor={gender}>성별</label>
+                    <Select
+                        css={s.select}
+                        placeholder=""
+                        options={genderOption}
+                        value={gender}
+                        onChange={handleGenderChange}
+                    />
+                </div>
+                <div css={s.div4}>
+                    <label htmlFor={age}>생년월일</label>
+                    <input css={s.input} type={"date"} name={"age"} value={age} onChange={ageChange} />
+                </div>
+                <div>
+                    <button css={s.button} onClick={handleSubmitClick}>가입하기</button>
+                </div>
+            </div>
+        </div>
     );
 }
 

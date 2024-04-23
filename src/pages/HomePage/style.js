@@ -147,7 +147,6 @@ export const donationList = css`
   display: flex;
   flex-wrap: wrap;
   gap: 20px; 
-
 `;
 
 export const donationCard = css`
@@ -199,28 +198,11 @@ export const linkStyle = css`
   }
 `;
 
-export const LikeDonate = css`
-&>div{
-  padding: 10px;
-  border: 1px solid #dbdbdb;
-  border-radius: 5px;
-  width: 100%;
-  margin: 20px;
-  display: flex;
-  justify-content: center;
-  &>a{
-    color: black;
-    text-decoration-line: none;
-  }
-}
-`;
 export const goalAmount = css`
 display:flex;
 flex-direction: column;
 `;
 ////////////////Top3////////////////
-
-
 
 export const Top3donationList = css`
   display: flex;

@@ -12,7 +12,11 @@ import LastDonator from "../../components/HomeBoard/LastDonator";
 import DonationKing from "../../components/HomeBoard/DonationKing";
 import TimeOut from "../../components/HomeBoard/TimeOut";
 import lion from '../../assets/lion.gif';
-
+import { BsFillSearchHeartFill } from "react-icons/bs";
+import { GiSandsOfTime } from "react-icons/gi";
+import { FaSackDollar } from "react-icons/fa6";
+import { FaCrown } from "react-icons/fa6";
+import { getDonatorList, getDonators } from "../../apis/api/donatorApi";
 
 function HomePage() {
     const [totalDonationAmount, setTotalDonationAmount] = useState(0);
@@ -43,6 +47,15 @@ function HomePage() {
             onSuccess: response => {
                 if (Array.isArray(response.data)) {
                     setTotalDonationLength(response.data.length);
+                    const sortedDonations = response.data.sort((a, b) => {
+                        const timeRemainingA = new Date(a.endDate) - today;
+                        const timeRemainingB = new Date(b.endDate) - today;
+                        return timeRemainingA - timeRemainingB;
+                    });
+                    setUpcomingDonation(sortedDonations.find(donation => {
+                        const timeRemaining = new Date(donation.endDate) - today;
+                        return timeRemaining > 0;
+                    }))
 
                 }
             }
