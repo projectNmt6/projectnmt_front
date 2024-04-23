@@ -46,7 +46,7 @@ function Progress({pageId}) {
                             {isNaN(progressPercent) ? "" : ""}
                         </div>
                     </div>
-                    <div>{progressPercent}%</div>
+                    <div>{progressPercent} %</div>
                 </>
             )}
         </div>
