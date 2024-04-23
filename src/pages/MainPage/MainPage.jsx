@@ -5,7 +5,6 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FiSearch } from "react-icons/fi";
 import LikeButton from "../../components/LikeButton/LikeButton";
-
 import { getDonationListRequest, getDonationTagRequest } from "../../apis/api/DonationAPI";
 import Progress from "../../components/progress/Progress";
 import NowFundingPage from "./fundings/NowFundingPage";
@@ -56,9 +55,10 @@ function MainPage() {
             <div>
                 <h1>Main Page</h1>
             </div>
-
+            <div css={s.upperRightMenu}>
+            </div>
             <div css={s.write}>
-                <Link to={"/main/write"}>작성하기</Link>
+                <Link to={"/donation/select/team"}>작성하기</Link>
             </div>
 
             <div>

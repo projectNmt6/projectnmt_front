@@ -48,6 +48,24 @@ export const infoText = css`
     font-size: 14px;
     margin-bottom: 10px;
 `
+export const button1 = css`
+    border-radius:20px;
+    background-color:#A0AFFF;
+    height: 35px;
+    font-size: 16px;
+    margin-right: 10px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    :hover {
+        background-color:#6464FF;
+        box-shadow: 2px 2px 6px #A0AFFF
+    }
+    :active {
+        box-shadow: inset 2px 2px 10px 2px #A0AFFF;
+    }
+`;
+
 export const emailBox = css`
     display: flex;
     align-items: center;

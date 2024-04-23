@@ -2,8 +2,9 @@ import { css } from "@emotion/react";
 
 export const header = css`
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    flex-direction: column;
     width: 100%;
 `;
 
@@ -13,4 +14,107 @@ export const imgBox = css`
     height: 200px;
     border-radius: 50%;
     border: 1px solid #dbdbdb;
+    margin: 30px 0px;
+    overflow: hidden;
+    & > img {
+        height: 100%;
+    }
+`;
+
+
+export const div = css`
+    width: 800px;
+    height: 650px;
+    justify-content: center;
+    align-items: center;
+`;
+export const div1 = css`
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 20px;
+    color: #3c3c3cc1;
+    font-weight: 800;
+    border-bottom: 1px solid #cececec1 ;
+`;
+
+export const input = css`
+    width: 520px;
+    height: 24px;
+    background-color: #FAFAFA;
+    padding: 9px 13px;
+    margin-left: 150px;
+    border-radius: 4px;
+    font-size:16px;
+    border:1px solid #b8b8b8c1;
+    :focus {
+        border: none;
+    }
+`;
+export const div2 = css`
+    padding-top: 20px;
+    font-size: 20px;
+    color: #3c3c3cc1;
+    font-weight: 800;
+`;
+
+export const div3 = css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-bottom: 15px;
+    border-bottom:1px solid #b8b8b8c1;
+`;
+export const input2 = css`
+    width: 520px;
+    height: 24px;
+    padding: 9px 13px;
+    margin: 10px 0px 0px 251px;
+    background-color: #FAFAFA;
+    border-radius: 4px;
+    font-size:16px;
+    border:1px solid #b8b8b8c1;
+    :focus {
+        border: none;
+    }
+`;
+export const input3 = css`
+    width: 520px;
+    height: 24px;
+    background-color: #FAFAFA;
+    padding: 9px 13px;
+    margin-left: 150px;
+    border-radius: 4px;
+    font-size:16px;
+    border:1px solid #b8b8b8c1;
+    :focus {
+        border: none;
+    }
+`;
+export const select = css`
+    font-size: 20px;
+    width: 548px;
+`;
+export const button = css`
+    width: 400px;
+    height: 40px;
+    margin-bottom:100px;
+    font-size: 18px;
+    font-weight: 600;
+    color: gray;
+    background-color: #FFD79999;
+    border-radius: 5px;
+    border: 1px solid #FFD79999;
+    cursor: pointer;
+    :hover {
+        color: black;
+        font-size: 18px;
+        font-weight: 600;     
+    }
+    :active {
+        box-shadow: inset 5px 5px 10px #ffb44399 ;
+    }
 `;

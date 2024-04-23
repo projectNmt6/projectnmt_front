@@ -23,11 +23,15 @@ export const postUserRoleRequest = async (data) => {
 export const postMessageRequest = async (data) => { 
     return await instance.post("/admin/message",data);
 }
-export const updateDeleteUsersRequest = async (data) => { 
-    return await instance.update("/admin/user/delete",data);
+export const deleteUsersRequest = async (data) => { 
+    return await instance.delete("/admin/user/delete",{data});
 }
 export const deleteTeamListRequest = async (data) => { 
     return await instance.delete("/admin/team/delete",{data});
+}
+export const updateDonationShowRequest = async (data) => { 
+    console.log(data);
+    return await instance.put("/admin/donation/show",data);
 }
 export const adminSearchDonationRequest = async (params) => {
     return await instance.get("/admin/search",{params});

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { getUserListRequest, postMessageRequest, updateDeleteUsersRequest } from '../../../apis/api/Admin'
+import { deleteUsersRequest, getUserListRequest, postMessageRequest, updateDeleteUsersRequest } from '../../../apis/api/Admin'
 import { useMutation, useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 import Message from '../../../components/Message/Message';
@@ -56,9 +56,9 @@ function UserManagement() {
     
     
     
-    const deleyedDeleteUserMutation = useMutation({
+    const deleteUserMutation = useMutation({
         mutationKey: "deleteUserMutation",
-        mutationFn: updateDeleteUsersRequest,
+        mutationFn: deleteUsersRequest,
         onSuccess: response => {
             console.log(response);
             alert("삭제완료.");
@@ -69,13 +69,19 @@ function UserManagement() {
         if(!window.confirm("지정된 유저들의 계정을 삭제 하시겠습니까?")) {
             return
         }
-        deleyedDeleteUserMutation.mutate(userList)
+        let userIds = [];
+        for(let user of userList) {
+            if(user.checked) {
+                userIds = [...userIds, user.userId];
+            }
+        }
+        deleteUserMutation.mutate(userIds)
     }
     return (
         <>
             <div>
                 유저관리
-                <Message userList={userList}/>
+                <Message list={userList} isTeam={0}/>
                 <button onClick={handleUserDeleteOnClick}>계정 삭제</button>
             </div>
             <div >

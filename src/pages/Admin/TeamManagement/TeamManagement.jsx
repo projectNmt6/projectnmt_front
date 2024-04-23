@@ -60,8 +60,8 @@ function TeamManagement(props) {
         }
         
     },[teamList])
-    const deleteMessageMutation = useMutation({
-        mutationKey: "deleteNessageMutation",
+    const deleteTeamMutation = useMutation({
+        mutationKey: "deleteTeamMutation",
         mutationFn: deleteTeamListRequest,
         onSuccess: response => {
             console.log(response);
@@ -69,18 +69,15 @@ function TeamManagement(props) {
         },
         onError: error => {}
     })  
-    const sendMessageMutation = useMutation({
-        mutationKey: "sendMessageMutation",
-        mutationFn: postMessageRequest,
-        onSuccess: response => {
-            console.log(response);
-            alert("전송완료.");
-        },
-        onError: error => {}
-    })
     const handleDeleteTeamsOnClick = () => {
         if(!window.confirm("정말로 해당 팀들을 삭제하시겠습니까?")) return;
-        deleteMessageMutation.mutate(teamList);
+        let teamIds = [];
+        for(let team of teamList) {
+            if(team.checked) {
+                teamIds = [...teamIds, {teamId: team.teamId, teamName: team.teamName}];
+            }
+        }
+        deleteTeamMutation.mutate(teamIds);
     }
 
     return (

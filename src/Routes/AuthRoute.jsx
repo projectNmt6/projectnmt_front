@@ -1,4 +1,7 @@
 import React from 'react';
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
+import * as s from "./style";
 import { Route, Routes } from 'react-router-dom';
 import DonationPageboard from "../pages/DonationPageBoard/DonationPageboard";
 import HomePage from "../pages/HomePage/HomePage";
@@ -22,6 +25,10 @@ import MyDonation from '../pages/MyDonation/MyDonation';
 import DonatorInfo from '../pages/DonatorInfo/DonatorInfo';
 import NowFundingPage from '../pages/MainPage/fundings/NowFundingPage';
 import EndedFundingsPage from '../pages/MainPage/fundings/EndedFundings';
+import UserInfoEditPage from '../pages/UserInfoEditPage/UserInfoEditPage';
+import TeamRoutePage from '../pages/TeamRoutePage/TeamRoutePage';
+import SelectTeam from '../pages/SelectTeam/SelectTeam';
+import TeamList from '../components/TeamListForUser/TeamList';
 import AdminSearchPage from '../pages/Admin/AdminSearchPage/AdminSearchPage';
 
 
@@ -47,16 +54,17 @@ function AuthRoute(props) {
         <>
 
         <RootHeader/>
+        <div css={s.container}>
         <Routes>
-            <Route path="/auth/*" element={ <AuthPage />}/>
+                <Route path="/auth/*" element={ <AuthPage />}/>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/main" element={<MainPage />} />
                 <Route path="/main/write" element={<DonationPageboard/>} />
                 <Route path="/main/donation/donationnews" element={ <NewsWrite />} />
+                <Route path="/account/mypage/edit" element={<UserInfoEditPage />} />
+                <Route path="/admin/*" element={ <AdminRoute/> } /> 
                 <Route path="/account/mypage" element={<MyPage />} />
-                <Route path="/admin/*" element={ <AdminRoute/> } />
                 <Route path="/admin/search" element={<AdminSearchPage />} />
- 
                 <Route path="/main/review" element={< ReviewPage/>} />
                 <Route path="/donation/*" element={<DonationStoryPage />} />
                 <Route path="/main/donation/update" element={<DonationPageboard2 />} />
@@ -64,11 +72,15 @@ function AuthRoute(props) {
                 <Route path="/message" element={<MessagePage />} />
                 <Route path='/main/donations/challenge' element={ < MainPage2 />} />
                 <Route path='/main/donation/news/update' element={<NewsUpdatePage />} />       
-                <Route path="/test" element= {<DonatorInfo/>} />
                 <Route path="/account/mypage/donation" element={<MyDonation />} />        
                 <Route path="/main/donation/fundings/now" element= {  <NowFundingPage />} />
                 <Route path="/main/donation/fundings/end" element= {  <EndedFundingsPage />} />
+                <Route path='/team/*' element={ <TeamRoutePage /> } />
+                <Route path='/donation/select/team' element={ <SelectTeam /> } />
+                <Route path='/test' element={ <TeamList /> } />
+                <Route path='/account/mypage/edit' element= { <UserInfoEditPage />} />
            </Routes> 
+        </div>
 
         </>
     );

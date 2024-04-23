@@ -12,6 +12,7 @@ import CommentSection from '../../pages/DonationStoryPage/CommentSection';
 import NewsPage from './CategoryPage/NewsPage';
 import Story from './CategoryPage/Story';
 import DonatorInfo from "../DonatorInfo/DonatorInfo";
+import { getTeamInfoRequest } from "../../apis/api/teamApi";
 
 function DonationStoryPage() {
     const location = useLocation();
@@ -24,8 +25,10 @@ function DonationStoryPage() {
     const [commentList, setCommentList] = useState([]);
     const donationCommentId = queryParams.get('commentId')
     const [comment, setComment] = useState("");
-    const [selectedTab, setSelectedTab] = useState('story'); // news, story 중 하나의 값을 가짐
-    const [ showModal , setshowModal ] = useState(false);
+    const [selectedTab, setSelectedTab] = useState('story'); //news, story 중 하나의 값을 가짐
+    const [ showModal, setShowModal ] = useState(false);
+    const [ teamInfo, setTeamInfo ] = useState();
+  
     const getDonationStoryQuery = useQuery(
         ["getDonationPageQuery", donationPageId],
         async () => {
@@ -35,6 +38,7 @@ function DonationStoryPage() {
         {
             refetchOnWindowFocus: false,
             onSuccess: (data) => {
+                console.log(data);
                 setDonationPage(data);
             }
         }
@@ -59,7 +63,22 @@ function DonationStoryPage() {
             window.location.replace("/main");
         }
     })
-
+    const getTeamInfoMutation = useQuery(
+        ["getTeamInfoMutation"],
+        async () => {
+            console.log(donationPage);
+            const response = await getTeamInfoRequest({ teamId: donationPage.teamId });
+            return response;
+        },
+        {
+            refetchOnWindowFocus: false,
+            enabled: !!donationPage.teamId,
+            onSuccess: response => {
+                console.log(response.data);
+                setTeamInfo(() => response.data);
+            }
+        }
+    );
     const handleDeleteButtonClick = () => {
         deleteMutationButton.mutate({ donationPageId: donationPageId });
     }
@@ -77,7 +96,6 @@ function DonationStoryPage() {
         {
             refetchOnWindowFocus: false,
             onSuccess: data => {
-                console.log(data.data);
                 setGoalAmount(data.data.goalAmount);
                 setCurrentAmount(data.data.addAmount);
             },
@@ -100,7 +118,6 @@ function DonationStoryPage() {
     };
 
     const handleCommentSubmit = () => {
-
         axios.post("http://localhost:8080/comment/upload", {
             donationCommentId: null,
             commentText: comment,
@@ -195,7 +212,17 @@ function DonationStoryPage() {
                     <div css={s.boxbox1}>
                         <div>
                             <h2>분리공간 </h2>
-                            {selectedTab === 'news' ? <NewsPage donationPageId={donationPageId} /> : <Story />}
+                        {selectedTab === 'news' ? <NewsPage donationPageId={donationPageId} /> : <Story />}
+                        <div>
+                            <div css={s.teamInfo}>
+                                <div css={s.logoImg}>
+                                    <img src={teamInfo?.teamLogoImgUrl} alt="" />
+                                </div>
+                                <div>{teamInfo?.teamName}</div>
+                                    <div css={s.teamInfoText}>{teamInfo?.teamInfoText}</div>
+                                    <button>자세히 보기 </button>
+                                </div>
+                            </div>
                         </div>
                         </div>
                     <h3>댓글</h3>
@@ -203,6 +230,7 @@ function DonationStoryPage() {
                             <CommentSection donationPageId={donationPageId} />
                     </div>
                 </div>
+                
             </div>
             </div>
         </>
