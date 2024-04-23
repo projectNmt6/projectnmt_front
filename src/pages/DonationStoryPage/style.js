@@ -215,7 +215,7 @@ export const sanitizeHtml = css`
 
 export const boxbox1 = css`
     display: flex;
-    justify-content: flex-start;
+    justify-content:space-between;
     border-top:2px solid #d2d0d0;
     width: 100%;
     height: 100%;
@@ -230,6 +230,54 @@ export const commentBox = css`
 `;
 export const commentBoxStyle = css`
     width: 100%;
+    height: 40px;
+`;
+
+export const teamInfo = css`
+    margin-top: 20px;
+    margin-right: 15px;
+    width: 360px;
+    height: 260px;
+    box-sizing: border-box;
+    border:1px solid #dbdbdb;
+    border-radius: 5px;
+    color: black;
+    background-color: white;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+
+`;
+export const logoImg = css`
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #dbdbdb;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    & > img {
+        height: 100%;
+    }
+`;
+
+export const teamInfoText = css`
+        color: black;
+        width: 300px;
+        font-size: 16px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal;
+        line-height: 1.2;
+/*        height: 4.8em;*/
+        text-align: left;
+        word-wrap: break-word;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
     margin-top: 10px;
 `;
 

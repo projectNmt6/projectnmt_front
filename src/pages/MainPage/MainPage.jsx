@@ -59,7 +59,7 @@ function MainPage() {
             <div css={s.upperRightMenu}>
             </div>
             <div css={s.write}>
-                <Link to={"/main/write"}>작성하기</Link>
+                <Link to={"/donation/select/team"}>작성하기</Link>
             </div>
 
             <div>

@@ -56,10 +56,9 @@ function DonatorInfo({ setShowModal }) {
             amount: money,
             message: message,
             anonymous: checked,
-            donationPageId: searchParams.get("page"),
+            donationPageId:searchParams.get("page"),
             userId: principalData?.data.userId
         }
-        console.log(data);
         donationSubmitMutation.mutate(data);
         setShowModal(() => false)
     }

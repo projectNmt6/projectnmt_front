@@ -21,9 +21,6 @@ export const introStyle = css`
   display: flex;
   align-items: center;
   overflow: hidden;
-
-
-
     & > img {
         border-radius: 50%;
         width: 70px;
@@ -81,7 +78,6 @@ export const cardStyle = css`
     background-color:#faf9f7;
     transition: background-color 0.5s ease,border-color 0.5s ease;
   }
-   
 `;
 
 export const cardText = css`
@@ -261,7 +257,6 @@ export const Top3linkStyle = css`
     color: inherit;
   }
 `;
-
 
 export const Top3goalAmount = css`
 display:flex;

@@ -5,15 +5,16 @@ import { useInput } from "../../hooks/useInput";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
 import { signupRequest } from "../../apis/api/SignUp";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage";
 import { v4 as uuid } from 'uuid';
 import { storage } from "../../apis/filrebase/config/firebaseConfig";
 import AuthPageInput from "../../components/AuthPageInput/AuthPageInput";
+import {FirebaseDeleter} from "../../components/FirebaseDeleter/FirebaseDeleter"
+import introImg2 from '../../assets/introImg2.jpeg';
 import profileimg from "../../assets/profileimg.png";
 
 function SignUpPage(props) {
     const navigate = useNavigate();
-
     const [username, userNameChange, usernameMessage, setUsernameValue, setUsernameMessage] = useInput("username");
     const [checkPassword, checkPasswordChange] = useInput("checkPassword");
     const [password, passwordChange, passwordMessage] = useInput("password");
@@ -79,8 +80,7 @@ function SignUpPage(props) {
             setProfileImg(e.target.result);
         };
         fileReader.readAsDataURL(e.target.files[0]);
-
-        const storageRef = ref(storage, `library/book/cover/${uuid()}_${files[0].name}`);
+        const storageRef = ref(storage, `projectnmt/profile/img/${uuid()}_${files[0].name}`);
         const uploadTask = uploadBytesResumable(storageRef, files[0]);
 
         uploadTask.on(
@@ -91,6 +91,9 @@ function SignUpPage(props) {
                 alert("업로드를 완료하셨습니다.");
                 getDownloadURL(storageRef)
                     .then(url => {
+                        if(profileImg.length > 0) {
+                            FirebaseDeleter(profileImg);
+                        }
                         setProfileImg(() => url);
                     });
             }

@@ -6,5 +6,6 @@ export const getMessageListRequest = async (params) => {
 
 
 export const deleteAllMessageRequest = async (data) => { 
-    return await instance.delete(`/account/message/delete/${data}`);
+    console.log(data);
+    return await instance.delete(`/account/message/delete/${data.id}/${data.isTeam}`);
 }
