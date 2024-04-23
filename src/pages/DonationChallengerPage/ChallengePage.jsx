@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { deleteChallengePage, getChallengePageRequest } from '../../apis/api/DonationAPI';
 import DOMPurify from 'dompurify';
-import * as s from "../DonationStoryPage/style";
+import * as s from "../DonationChallengerPage/style";
 import CommentSection from './CommentSection';
 import ChallengeStory from './Challenge/ChallengeStory';
 import ChallengeNews from './Challenge/ChallengeNews';
@@ -11,7 +11,7 @@ import ActionBoard from './Challenge/ActionBoard';
 import { getPrincipalRequest } from '../../apis/api/principal';
 import LoginRequiredModal from '../../components/LoginRequiredModal/LoginRequiredModal';
 import ActionModal from './Challenge/ActionModal/ActionModal';
-
+/** @jsxImportSource @emotion/react */
 function ChallengePage() {    
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -108,6 +108,9 @@ function ChallengePage() {
     };
     return (
         <div>
+            <div css={s.mainContent}>
+
+            
             <div css={s.container}>
                 <Link css={s.link} to={"/main"}>메인으로 </Link>
                 {showModal && (
@@ -115,7 +118,15 @@ function ChallengePage() {
                         <div css={s.modal}><LoginRequiredModal setShowModal={setShowModal} /></div>
                     </div>
                 )}
+                <div css={s.header}>
+                        <Link css={s.button1} >후기 작성하기</Link>
+                        <Link css={s.button1} >후기수정하기</Link>
+                        <Link css={s.button2} to={`update?page=${challengePageId}`}>수정하기</Link>
+
+                </div>
+                <div css={s.storyContent}>
                 <h1>{challengeTitle}</h1>
+
             <p>{challengeOverview}</p>
             <div dangerouslySetInnerHTML={{ __html: safeHTML }} />
             <img src={challengeMainImg} alt="Challenge Main Image" />
@@ -155,16 +166,22 @@ function ChallengePage() {
 
                         </div>
                     </div>
+
+
                 </div>
-                
-
+                    <div>
+                        <CommentSection challengePageId={challengePageId} />
+                    </div>
+                </div>
 
             </div>
-           
 
-            <div css={s.commentBox}>
-            <CommentSection challengePageId={challengePageId} />
             </div>
+                           
+            <aside css={s.aside}>
+                <h2>사이드 콘텐츠</h2>
+                <p>이곳에는 추가 정보가 표시됩니다.</p>
+            </aside>
         </div>
 
 

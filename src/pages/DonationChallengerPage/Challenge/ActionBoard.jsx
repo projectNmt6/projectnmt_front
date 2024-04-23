@@ -38,6 +38,7 @@ function ActionBoard({challengePageId}) {
                     <p>Content: {action.actionContent}</p>
                 </div>
             ))}
+            <button>삭제하기</button>
         </div>
     </div>
     );

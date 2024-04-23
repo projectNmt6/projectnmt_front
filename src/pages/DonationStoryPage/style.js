@@ -165,6 +165,21 @@ export const donation = css`
     }
 `;
 
+export const donationDisabled = css`
+    padding: 10px 125px;
+    text-align: center;
+    background-color: black;  // 배경을 검은색으로 설정
+    color: white;  // 글자 색상을 흰색으로 설정
+    font-weight: 700;
+    font-size: 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    border: none;
+    cursor: not-allowed;  // 커서를 not-allowed로 설정하여 클릭할 수 없음을 나타냄
+    pointer-events: none;  // 클릭 이벤트 발생하지 않도록 설정
+`;
+
+
 export const likebutton = css`
     display: flex;
     flex-direction: column;

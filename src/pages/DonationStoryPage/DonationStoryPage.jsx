@@ -233,7 +233,19 @@ const handleShareKakao = () => {
                                     <div css={s.dates3}>기부 종료일: {calculateDaysRemaining(donationPage.createDate, donationPage.endDate)}</div>
                                     <div css={s.dates4}>기부금은 100% 단체에 전달됩니다.</div>
                                     <div css={s.likebutton}>
-                                        <button css={s.donation} onClick={() => setshowModal(!showModal)}>기부하기</button>
+                                    <button
+                                        css={new Date() > new Date(donationPage.endDate) ? s.donationDisabled : s.donation}
+                                        onClick={() => {
+                                            if (new Date() <= new Date(donationPage.endDate)) {
+                                                setshowModal(!showModal);
+                                            } else {
+                                                alert('모금 기간이 종료되었습니다.');
+                                            }
+                                        }}
+                                    >
+                                        {new Date() > new Date(donationPage.endDate) ? '모금 종료' : '기부하기'}
+                                    </button>
+
                                         <div css={s.likebutton1}>
                                             <LikeButton donationPageId={donationPageId} />
                                         </div>
