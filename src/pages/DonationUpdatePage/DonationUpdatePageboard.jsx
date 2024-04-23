@@ -70,8 +70,7 @@ function DonationUpdatePageBoard() {
             }
         }
     );
-    const [ teamInfo, setTeamInfo ] = useState();
-    const [ temaList, setTeamList ] = useState([]);    
+
     const queryClient = useQueryClient();    
     const principalData = queryClient.getQueryData("principalQuery");
     useEffect(() => {
@@ -129,9 +128,6 @@ function DonationUpdatePageBoard() {
         .catch(error => {
             console.error(error);
         });
-
-        
-        
         
     }, [donationData]);
 
@@ -223,14 +219,6 @@ function DonationUpdatePageBoard() {
         reader.readAsDataURL(file);
     };
 
-    const fileChange2 = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = () => {
-            setStoryImgs(reader.result);
-        };
-        reader.readAsDataURL(file);
-    };
     const modules = useMemo(() => {
         return {
             toolbar: [

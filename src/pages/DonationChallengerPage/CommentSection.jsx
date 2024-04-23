@@ -4,13 +4,14 @@ import { useMutation, useQuery } from 'react-query';
 import * as s from "./style";
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { challengeCommentRequest, challengeCommentResponse, commentRequest, commentResponse, deleteChallengeComment, deleteComment } from '../../apis/api/DonationAPI';
 import { TbTrashXFilled } from 'react-icons/tb';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { getPrincipalRequest } from '../../apis/api/principal';
+import { challengeCommentRequest, challengeCommentResponse, deleteChallengeComment } from '../../apis/api/DonationAPI';
 /** @jsxImportSource @emotion/react */
 
 function CommentSection({ challengePageId }) {
+
     const [commentList, setCommentList] = useState([]);
     const [comment, setComment] = useState("");
     const [userId, setUserId ] = useState();
@@ -60,9 +61,14 @@ function CommentSection({ challengePageId }) {
             alert("로그인이 필요합니다.");
             return;
         }
-        console.log("Deleting ID:", userId);
+        if (typeof challengeCommentId === 'undefined') {
+            console.error('댓글 ID가 정의되지 않았습니다.');
+            return;
+        }
+        console.log("Deleting ID:", userId); // 로그로 ID 확인
         deleteCommentMutation.mutate({ challengeCommentId, userId });
     };
+    
     
 
     const deleteCommentMutation = useMutation({
@@ -76,7 +82,6 @@ function CommentSection({ challengePageId }) {
             alert("삭제할 권한이 없습니다.")
         }
     });
-
 
     return (
         <>

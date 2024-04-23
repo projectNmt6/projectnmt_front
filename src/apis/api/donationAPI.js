@@ -61,6 +61,14 @@ export const updateNewsRequest = async (data) => {
     return await instance.put(`/mian/donation/news/update${data.donationPageId}`, data);
 }
 
+export const updateChallengeRequest = async (data) => {
+    return await instance.put(`/main/challenge/update/${data.challengePageId}`, data);
+}
+
+export const getUpdateChallengePageRequest = async (data) => {
+    return await instance.get(`/main/challenge/update/${data.challengePageId}`, data);
+}
+
 export const searchDonationRequest = async (params) => {
     return await instance.get("/main/search", { params });
 }
@@ -75,6 +83,10 @@ export const submitDonationData = async (data) => {
 export const deleteDonationPage = async (data) => {   
       return await instance.delete(`/main/donation/${data.donationPageId}`, { data });   
   };
+
+export const deleteChallengePage = async (data) => {
+    return await instance.delete(`/main/challenge/${data.challengePageId}`, {data})
+}
 
 export const commentRequest = async (data) => {
     return await instance.post(`/comment/upload/`, data);

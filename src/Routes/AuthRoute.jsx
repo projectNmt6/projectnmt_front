@@ -27,6 +27,7 @@ import ChallengeMainPage from '../pages/MainPage/ChallengeMainPage';
 import DonationChallengePage from '../pages/DonationChallengerPage/DonationChallengePage';
 import ChallengePage from '../pages/DonationChallengerPage/ChallengePage';
 import AdminSearchPage from '../pages/Admin/AdminSearchPage/AdminSearchPage';
+import ChallengeUpdatePage from '../pages/DonationChallengerPage/ChallengeUpdatePage';
 
 function AuthRoute(props) {
 
@@ -58,8 +59,7 @@ function AuthRoute(props) {
                 <Route path="/main/donation/donationnews" element={ <NewsWrite />} />
                 <Route path="/account/mypage" element={<MyPage />} />
                 <Route path="/admin/*" element={ <AdminRoute/> } />
-                <Route path="/admin/search" element={<AdminSearchPage />} />
- 
+                <Route path="/admin/search" element={<AdminSearchPage />} /> 
                 <Route path="/main/review" element={< ReviewPage/>} />
                 <Route path="/donation/*" element={<DonationStoryPage />} />
                 <Route path="/main/donation/update" element={<DonationPageboard2 />} />
@@ -68,6 +68,7 @@ function AuthRoute(props) {
                 <Route path='/main/challenges' element={ < ChallengeMainPage />} />
                 <Route path='/main/challenge/write' element={< DonationChallengePage />} />
                 <Route path='/main/challenge' element={< ChallengePage />} />
+                <Route path='/main/challenge/update' element={<ChallengeUpdatePage />} />
                 <Route path='/main/donation/news/update' element={<NewsUpdatePage />} />       
                 <Route path="/test" element= {<DonatorInfo/>} />
                 <Route path="/account/mypage/donation" element={<MyDonation />} />        

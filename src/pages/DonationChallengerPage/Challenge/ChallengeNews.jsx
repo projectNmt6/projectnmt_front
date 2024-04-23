@@ -1,6 +1,6 @@
 import React from 'react';
 
-function ChallengeNews(props) {
+function ChallengeNews({challengePageId}) {
     return (
         <div>
             

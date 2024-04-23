@@ -1,6 +1,6 @@
 import React from 'react';
 
-function ChallengeStory(props) {
+function ChallengeStory({challengePageId}) {
     return (
         <div>
             챌린지스토리

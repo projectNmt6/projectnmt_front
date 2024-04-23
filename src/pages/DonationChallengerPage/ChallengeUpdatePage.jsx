@@ -1,44 +1,45 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import ReactQuill from "react-quill";
-import 'react-quill/dist/quill.snow.css';
-import axios from 'axios';
-import Select from 'react-select';
-import { getDonationListRequest, getDonationTagRequest } from '../../apis/api/DonationAPI';
-import { useQuery, useQueryClient } from 'react-query';
-import MainPage from '../MainPage/MainPage';
-import { Link } from 'react-router-dom';
-import { errorSelector } from 'recoil';
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import { getPrincipalRequest } from '../../apis/api/principal';
+import { useQuery, useQueryClient } from 'react-query';
 import { getTeamListRequest } from '../../apis/api/teamApi';
-import ChallengeAlbum from '../../components/TextEditor/ChallengeAlbum';
+import { getChallengePageRequest, getChallengeRequest, getUpdateChallengePageRequest, updateChallengeRequest } from '../../apis/api/DonationAPI';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import TextEditor from '../../components/TextEditor/TextEditor';
-import CommentSection from './CommentSection';
+import ChallengeAlbum from '../../components/TextEditor/ChallengeAlbum';
+import DatePicker from "react-datepicker";
+import Select from 'react-select';
+import ReactQuill from "react-quill";
+import 'react-quill/dist/quill.snow.css';
+import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 
-
-function DonationChallengePage() {
+function ChallengeUpdatePage(props) {
     const [title, setTitle] = useState("");
     const [mainImg, setMainImg] = useState("");
-    const [teamId, setTeamId] = useState(null); 
+    const [teamId, setTeamId] = useState(null);
     const [challengeContent, setChallengeContent] = useState("");
     const [overview, setOverview] = useState("");
     const [userId, setUserId] = useState(null);
     const [teams, setTeams] = useState([]);
-    const [selectedTeam, setSelectedTeam] = useState(null);    
+    const [selectedTeam, setSelectedTeam] = useState(null);
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(null);
+    const [uploadedImages, setUploadedImages] = useState([]);
+    
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const challengePageId = queryParams.get('page');
+    const queryClient = useQueryClient();
 
+    // 사용자 주요 정보 로드
     const principalQuery = useQuery(
-        ["principalQuery"], 
+        "principalQuery", 
         getPrincipalRequest,
         {
             retry: 0,
             refetchOnWindowFocus: false,
             onSuccess: (response) => {
-                console.log("챌린지페이지", response.data);
                 setUserId(response.data.userId);
             },
             onError: (error) => {
@@ -46,48 +47,87 @@ function DonationChallengePage() {
             }
         }
     );
-    
-    const queryClient = useQueryClient();    
+
+   
+
     const principalData = queryClient.getQueryData("principalQuery");
     useEffect(() => {
         if (selectedTeam) {
             setTeamId(selectedTeam.value);
         }
     }, [selectedTeam]);
+    
 
-
+    // 팀 정보 로드
     useEffect(() => {
-        if (userId) {
-            const fetchTeams = async () => {
+        const fetchTeams = async () => {
+            if (userId) {
                 try {
                     const response = await getTeamListRequest({ userId });
-                    if (response.status === 200) {
+                    if (response.status === 200 && response.data.length > 0) {
                         const formattedTeams = response.data.map(team => ({
                             value: team.teamId,
-                            label: team.teamName
+                            label: team.teamName // 데이터 구조에 따라 정확하게 매핑
                         }));
                         setTeams(formattedTeams);
+                    } else {
+                        console.log("No teams found or empty response.");
                     }
                 } catch (error) {
-                    console.error('Failed', error);
+                    console.error('Failed to load teams', error);
                 }
-            };
-
-            fetchTeams();
-        }
+            }
+        };
+    
+        fetchTeams();
     }, [userId]);
+
+useEffect(() => {
+    const fetchData = async () => {
+        if (challengePageId) {
+            try {
+                const response = await getUpdateChallengePageRequest({ challengePageId });
+                if (response.status === 200) {
+                    const data = response.data;
+                    setTitle(data.challengeTitle);
+                    setMainImg(data.challengeMainImg);
+                    setChallengeContent(data.challengeContent);
+                    setOverview(data.challengeOverview);
+                    setStartDate(new Date(data.startDate));
+                    setEndDate(new Date(data.endDate));
+                    setSelectedTeam({ value: data.teamId, label: data.teamName });
+                }
+            } catch (error) {
+                console.error('Error fetching challenge page:', error);
+            }
+        } else {
+            console.error('No valid challengePageId provided');
+        }
+    };
+    fetchData();
+}, [challengePageId]);
+
+useEffect(() => {
+    if (selectedTeam && selectedTeam.label === undefined) {
+        const team = teams.find(team => team.value === selectedTeam.value);
+        if (team) {
+            setSelectedTeam(team);
+        }
+    }
+}, [selectedTeam, teams]);
 
     const handleSelectTeam = (selectedOption) => {
         setSelectedTeam(selectedOption);
     };
 
+  
 
     const handleSubmitButton = () => {
         // 현재 시간으로 startDate 업데이트
         const now = new Date();
         setStartDate(now);
     
-        axios.post('http://localhost:8080/main/challenge/write', {
+        axios.put(`http://localhost:8080/main/challenge/update/${challengePageId}`, {
             challengePageId: 1,
             teamId: teamId,
             mainCategoryId: 2,  // 챌린지
@@ -131,8 +171,6 @@ function DonationChallengePage() {
     };
 
 
-    const [uploadedImages, setUploadedImages] = useState([]);
-
     const handleFileChange = (e) => {
       const file = e.target.files[0];
       const reader = new FileReader();
@@ -153,7 +191,8 @@ function DonationChallengePage() {
     return (
         <>
             <div>
-                <input type="text" placeholder='제목' value={title} onChange={(e) => setTitle(e.target.value)} />
+                <input type="text" placeholder='제목' 
+                value={title} onChange={(e) => setTitle(e.target.value)} />
             </div>
 
             <div>
@@ -164,11 +203,12 @@ function DonationChallengePage() {
             <div>
             <h3>프로젝트 팀</h3>
             <Select
-                value={selectedTeam}
-                onChange={handleSelectTeam}
-                options={teams}
+                value={selectedTeam} // 현재 선택된 팀
+                onChange={handleSelectTeam} // 선택이 변경될 때 실행되는 함수
+                options={teams} // 팀 목록
                 placeholder="등록할 팀을 선택해주세요"
             />
+
         </div>
 
         <div> <h4>프로젝트 진행 기간 </h4></div>
@@ -216,5 +256,4 @@ function DonationChallengePage() {
         </>
     );
 }
-
-export default DonationChallengePage;
+export default ChallengeUpdatePage;
