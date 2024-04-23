@@ -55,27 +55,29 @@ function MyDonation(props) {
 
     return (
     <div>
-        <div>
+        <div css={s.div}>
             <Select 
+                css={s.box}
                 options={donationyearoptions}
                 value={selectedYear}
                 onChange={handleYearChange}
             />
             <Select
+                css={s.box}
                 options={donationsoptions}
                 value={selectedList}
                 onChange={handleListChange}
             />
         </div>
-        <table>
+        <table css={s.div1}>
             {donatorList.length === 0 ? (
                 <td>기부내역이 없습니다.</td>
             ) : (
                 donatorList.map((donator, index) => (
-                    <th key={index}>
-                        <td>기부날짜: {donator.donationDate}</td><br/>
-                        <Link to={`/donation?page=${donator.donationPageId}`}>타이틀: {donator.storyTitle}</Link><br/>
-                        <td>기부금액: {donator.amount}</td>
+                    <th css={s.table} key={index}>
+                        <td css={s.td}>{donator.donationDate}</td>
+                        <td css={s.td1}><Link css={s.link} to={`/donation?page=${donator.donationPageId}`}>{donator.storyTitle}</Link></td>
+                        <td css={s.td2}>{donator.amount}원</td>
                     </th>
                 ))
             )}

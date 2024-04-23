@@ -168,7 +168,7 @@ function DonationStoryPage() {
                     showModal
                     ? 
                     <div css={s.container3}>
-                        <div css={s.modal}><DonatorInfo setShowModal={setshowModal}/></div>
+                        <div css={s.modal}><DonatorInfo setShowModal={setShowModal}/></div>
                     </div>
                     : null
                 }
@@ -198,7 +198,7 @@ function DonationStoryPage() {
                             <div css={s.dates3}>기부 종료일: {calculateDaysRemaining(donationPage.createDate, donationPage.endDate)}</div>
                             <div css={s.dates4}>●기부금은 100% 단체에 전달됩니다.</div>
                             <div css={s.likebutton}>
-                                <button css={s.donation} onClick={() => setshowModal(() => !showModal)}>기부하기</button>
+                                <button css={s.donation} onClick={() => setShowModal(() => !showModal)}>기부하기</button>
                                 <div css={s.likebutton1}>
                                     <LikeButton donationPageId={donationPageId} />
                                 </div>
