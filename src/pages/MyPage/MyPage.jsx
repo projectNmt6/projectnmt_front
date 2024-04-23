@@ -83,6 +83,7 @@ function MyPage(props) {
                     })}
                     <Link to={"/account/create/team"}> 팀 만들기</Link>
                     <Link to={"/account/mypage/edit"}>회원 정보 수정</Link>
+                    <Link to={"/account/mypage/donation"}>기부내역</Link>
                 </div>
             </div>
         }
