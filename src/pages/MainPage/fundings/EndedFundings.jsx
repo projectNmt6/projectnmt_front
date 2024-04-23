@@ -59,7 +59,7 @@ function EndedFundingsPage() {
         return (
         <>
             <div>
-                <h1>모금중 페이지</h1> 
+                <h1>모금 완료 페이지</h1> 
             </div>
             
             <div css={s.upperRightMenu}>
@@ -72,9 +72,12 @@ function EndedFundingsPage() {
                 </div>
             </div>
             <div css={s.write}>
-                <Link to={"/main/write"}>작성하기</Link>
+                <Link to={"/donation/select/team"}>작성하기</Link>
             </div>
-
+            <div>
+                <button><Link to={'/main/donation/fundings/now'}>펀딩중</Link></button>
+                <button><Link to={'/main/donation/fundings/end'}>펀딩종료</Link></button>
+            </div>
             <div css={s.tagContainer}>
             <button 
                 key="alltag" 

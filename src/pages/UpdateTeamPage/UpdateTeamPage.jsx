@@ -116,14 +116,16 @@ function UpdateTeamPage(props) {
             <div>
                 {teamInfo.teamName}
             </div>
+            <div>
+
+            팀로고
+            </div>
             <div css={imgBox}>
-                팀로고
                 <input type="file" src="" alt="" ref={profileImgRef} style={{display:"none"}} onChange={(e) => handlefileChange(e, setTeamLogoImgUrl)}/>
                 <img src={teamLogoImgUrl} alt="" onClick={() => profileImgRef.current.click()}/>
             </div>
             <div>
-                <input type="text" placeholder="팀 소개" value={teamInfoText} 
-                    onChange={(e) => setTeamInfoText(e.target.value)}/>
+                    <textarea id="story" value={teamInfoText}  placeholder="팀 소개" onChange={(e) => setTeamInfoText(e.target.value)}  rows="20" cols="80"/>
             </div>
             <div>
                 <input type="text" placeholder="email" value={teamEmail} 

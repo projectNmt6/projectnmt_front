@@ -5,6 +5,15 @@ import { useQuery, useQueryClient } from "react-query";
 import { Link } from 'react-router-dom';
 import { getAllAmount, getDonationListRequest, getProgressAmount } from "../../apis/api/DonationAPI";
 import Progress from "../../components/progress/Progress";
+import introImg from '../../assets/introImg.png';
+import introImg2 from '../../assets/introImg2.jpeg';
+import { FaArrowCircleRight } from "react-icons/fa";
+import sideImg from '../../assets/sideImg.png';
+import { FaWonSign } from "react-icons/fa";
+import { BsEmojiHeartEyes } from "react-icons/bs";
+import LikeButton from "../../components/LikeButton/LikeButton";
+
+
 
 
 function HomePage() {
@@ -73,31 +82,112 @@ function HomePage() {
 
     return (
         <>
-            <div>
-                <h1>Home</h1>
-            </div>
-            <div>
-                <div>{formattedDate} 날짜 기준 </div>
-                <div>총 기부금: {totalamount}</div>
-            </div>
-            {upcomingDonation && (
-                <div css={s.donationList}>
-                    <a href={`/donation?page=${upcomingDonation.donationPageId}`} key={upcomingDonation.donationPageId} css={s.linkStyle}>
-                        <div key={upcomingDonation.donationPageId} css={s.donationCard}>
-                            <div css={s.donationImage}>
-                                <img src={!upcomingDonation.mainImgUrl ? "https://www.shutterstock.com/image-vector/no-image-available-picture-coming-600nw-2057829641.jpg" : upcomingDonation.mainImgUrl} alt="" />
+            <main css={s.mainLayout}>
+                <header css={s.rootheader}>
+                    <div css={s.headerStyle}>
+                        <h1>세상을 위한 따뜻한 마음 <br />노먹튀와 함께해요.</h1>
+                    </div>
+                    <div css={s.introStyle}>
+                        <img src={introImg} />
+                        <h3>총 기부 52 건</h3>
+                        <img src={introImg2} />
+                        <h3>노먹튀 소개</h3>
+                        <button><FaArrowCircleRight size="30" /></button>
+
+                    </div>
+                </header>
+                
+                <div css={s.contentAreaStyle}>
+                    <div css={s.leftCardLayout}>
+                        <div css={s.cardStyle}>
+            
+                            <div>
+                                <div css={s.cardText}> 
+                                    <h2>마지막 기부자를 찾습니다   <BsEmojiHeartEyes /></h2>
+                                    <p>기한 종료까지 얼마 남지 않았어요! </p>
+                                </div>
                             </div>
-                            <div css={s.donationDetails}>
-                                <h2>{upcomingDonation.storyTitle}</h2>
-                                <p><strong>기관:</strong> {upcomingDonation.teamName}</p>
-                                <p><strong>목표금액:</strong> {upcomingDonation.goalAmount}원</p>
-                                <p><strong>종료시간까지 남은 시간:</strong> {calculateTimeRemaining(upcomingDonation.endDate)}</p>
-                                <Progress pageId={upcomingDonation.donationPageId} />
-                            </div>
+                            {upcomingDonation && (
+                                <div css={s.donationList}>
+                                    <a href={`/donation?page=${upcomingDonation.donationPageId}`} key={upcomingDonation.donationPageId} css={s.linkStyle}>
+                                        <div key={upcomingDonation.donationPageId} css={s.donationCard}>
+                                            <div css={s.donationImage}>
+                                                <img src={!upcomingDonation.mainImgUrl ? "https://www.shutterstock.com/image-vector/no-image-available-picture-coming-600nw-2057829641.jpg" : upcomingDonation.mainImgUrl} alt="" />
+                                            </div>
+                                            <div css={s.donationDetails}>
+                                                <h2>{upcomingDonation.storyTitle}</h2>
+                                                <Progress pageId={upcomingDonation.donationPageId}/>
+                                                <div>
+                                                    <div><p><strong>{upcomingDonation.goalAmount}원 목표</strong> </p></div>
+                                                    <div><p><strong>남은 시간:</strong> {calculateTimeRemaining(upcomingDonation.endDate)}</p></div>
+                                                </div>
+                                                <div css={s.LikeDonate}>
+                                                    <div>
+                                                        <LikeButton />
+                                                    </div>
+                                                    <div>
+                                                        <a href="">기부하기</a>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            )}
                         </div>
-                    </a>
+                        <div css={s.cardStyle}>
+                            <h2>가장 많이 기부 중인 모금함</h2>
+
+
+                        </div>
+                        <div css={s.cardStyle}>
+                            <h2>오늘의 기부왕!</h2>
+
+
+                        </div>
+                    </div>
+
+
+
+
+                    <div css={s.rightCardLayout}>            
+                            <div css={s.sidebarStyle}>
+                                <div css={s.sidebarText}>
+                                    <div>
+                                        <h2>우리가<br />같이 만든 변화들</h2>
+                                        
+                                        <p>{formattedDate} 기준</p>
+                                    </div>
+                                    <div>
+                                        <img src={sideImg} />
+                                    </div>
+                                </div>
+                                <div css={s.totalAmountBox}> 
+                                <h3><FaWonSign /> 총 기부금           {totalamount}원</h3>
+                                </div>
+                            </div>
+                            <div css={s.sidebarStyle}>
+                                <h2>따뜻한 후기</h2>
+                            </div>
+                            <div css={s.sidebarStyle}>
+                                <h2>놓치면 아까운 소식</h2>
+                            </div>
+
+                    </div>
+                </div>    
+                <div css={s.additionalContentStyle}>
                 </div>
-            )}
+
+            </main>
+            <footer css={s.footerStyle}>
+                <p>© 2024 ProjectNMT</p>
+                <a href="">고객센터 </a>
+                <a href="">문의하기 </a>
+                <a href="">이용약관 </a>
+                <a href="">개인정보처리방침 </a>
+            </footer>
+
         </>
     );
 }

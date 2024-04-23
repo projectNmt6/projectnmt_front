@@ -5,11 +5,12 @@ import { useInput } from "../../hooks/useInput";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
 import { signupRequest } from "../../apis/api/SignUp";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage";
 import { v4 as uuid } from 'uuid';
 import { storage } from "../../apis/filrebase/config/firebaseConfig";
 import AuthPageInput from "../../components/AuthPageInput/AuthPageInput";
-
+import {FirebaseDeleter} from "../../components/FirebaseDeleter/FirebaseDeleter"
+import introImg2 from '../../assets/introImg2.jpeg';
 function SignUpPage(props) {
     const navigate = useNavigate();
 
@@ -22,7 +23,7 @@ function SignUpPage(props) {
     const [gender, setGender] = useState("");
     const [age, ageChange] = useInput("age");
     const [checkPasswordMessage, setCheckPasswordMessage] = useState("");
-    const [profileImg, setProfileImg] = useState("");//기본이미지 필요
+    const [profileImg, setProfileImg] = useState(introImg2);//기본이미지 필요
     const imgFileRef = useRef();
 
     const genderOption = [
@@ -79,7 +80,7 @@ function SignUpPage(props) {
         };
         fileReader.readAsDataURL(e.target.files[0]);
         
-        const storageRef = ref(storage, `library/book/cover/${uuid()}_${files[0].name}`);
+        const storageRef = ref(storage, `projectnmt/profile/img/${uuid()}_${files[0].name}`);
         const uploadTask = uploadBytesResumable(storageRef, files[0]);
         
         uploadTask.on(
@@ -90,6 +91,9 @@ function SignUpPage(props) {
                 alert("업로드를 완료하셨습니다.");
                 getDownloadURL(storageRef)
                     .then(url => {
+                        if(profileImg.length > 0) {
+                            FirebaseDeleter(profileImg);
+                        }
                         setProfileImg(() => url);
                     });
             }   

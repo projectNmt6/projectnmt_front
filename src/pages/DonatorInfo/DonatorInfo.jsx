@@ -55,17 +55,16 @@ function DonatorInfo(props) {
             amount: money,
             message: message,
             anonymous: checked,
-            donationPageId:searchParams.get("id"),
+            donationPageId:searchParams.get("page"),
             userId: principalData?.data.userId
         }
-        console.log(data);
         donationSubmitMutation.mutate(data);
         
     }
 
 
     return (
-        <>
+        <div css={s.mainContainer}>
         <div>
             <input type="text" id="" value={money} ref={inputRef} placeholder="기부 금액" onChange={handlemoneyChange} />
         </div>
@@ -96,7 +95,7 @@ function DonatorInfo(props) {
                 onChange={(e) => checkHandled(e.target.checked)}/>
         </div>
         <button onClick={handleDonationSubmit}>기부하기</button>
-        </>
+        </div>
     );
 }
 

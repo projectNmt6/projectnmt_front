@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useMutation } from 'react-query';
 import { postMessageRequest } from '../../apis/api/Admin';
 
-function Message({userList}) {
+function Message({list, isTeam}) {
     const [ message, setMessage ] = useState();
 
     const sendMessageMutation = useMutation({
@@ -19,16 +19,33 @@ function Message({userList}) {
         console.log(message);
     }
     const handleMessageOnClick = (e) => {
-        let userIds = [];
-        for(let user of userList) {
-            if(user.checked) {
-                userIds = [...userIds, user.userId];
+        if(isTeam === 0) {
+
+            let userIds = [];
+            for(let user of list) {
+                if(user.checked) {
+                    userIds = [...userIds, user.userId];
+                }
             }
+            sendMessageMutation.mutate({
+                message,
+                userId: userIds,
+                isTeam
+            });
+        } else {
+            let userIds = [];
+            console.log(list);
+            for(let team of list) {
+                if(team.checked) {
+                    userIds = [...userIds, team.teamId];
+                }
+            }
+            sendMessageMutation.mutate({
+                message,
+                userId: userIds,
+                isTeam
+            });
         }
-        sendMessageMutation.mutate({
-            message,
-            userId: userIds
-        });
     }
     return (
         <div>

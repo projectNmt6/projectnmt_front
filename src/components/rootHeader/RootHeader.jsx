@@ -12,7 +12,6 @@ import instance from '../../apis/utils/instance';
 function RootHeader(props) {
     const [isLogin, setLogin] = useState(false);
     const queryClient = useQueryClient();
-    // const principal = queryClient.getQueryData("principalQuery");
     const principalState = queryClient.getQueryState("principalQuery");
     const [ isAdmin, setIsAdmin ] = useState();
     useEffect(() => {
