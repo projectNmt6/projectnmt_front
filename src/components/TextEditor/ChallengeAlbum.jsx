@@ -1,32 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 /** @jsxImportSource @emotion/react */
 import * as s from "../../pages/DonationChallengerPage/style";
+import { Line } from "rc-progress";
+import { useFileUpload } from '../../hooks/useFileUpload';
 
- function ChallengeAlbum({ uploadedImages  }) {
+function ChallengeAlbum({ handleImageUpload, uploadProgress, uploadedUrls }) {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  
-    const handleNext = () => {
-      setCurrentImageIndex((prevIndex) =>
-        prevIndex === uploadedImages.length - 1 ? 0 : prevIndex + 1
-      );
-    };
-  
-    const handlePrev = () => {
-      setCurrentImageIndex((prevIndex) =>
-        prevIndex === 0 ? uploadedImages.length - 1 : prevIndex - 1
-      );
-    };
-  
-    useEffect(() => {
-      const interval = setInterval;
-      return () => clearInterval(interval);
-    }, [currentImageIndex, uploadedImages]); // uploadedImages가 변경될 때마다 useEffect 실행
+  const imgFileRef = useRef();
+
+  const handlePrev = () => {
+    setCurrentImageIndex(prevIndex => (prevIndex - 1 + uploadedUrls.length) % uploadedUrls.length);
+  };
+
+  const handleNext = () => {
+    setCurrentImageIndex(prevIndex => (prevIndex + 1) % uploadedUrls.length);
+  };
+
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    handleImageUpload(files);
+  };
+
 
   return (
-<div>
+    <div>
       <button onClick={handlePrev}>이전</button>
-      <img src={uploadedImages[currentImageIndex]} alt="slide" />
+      <input type="file" multiple ref={imgFileRef} onChange={handleFileChange} />
+      <Line percent={uploadProgress} strokeWidth="4" strokeColor="#D3D3D3" />
+      {uploadedUrls.length > 0 && (
+        <img src={uploadedUrls[currentImageIndex]} alt="Uploaded" style={{ width: '300px', height: 'auto' }} />
+      )}
       <button onClick={handleNext}>다음</button>
     </div>
   );

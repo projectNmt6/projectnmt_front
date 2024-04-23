@@ -1,24 +1,25 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { css } from '@emotion/react';
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
+
+/** @jsxImportSource @emotion/react */
 import axios from 'axios';
 import Select from 'react-select';
 import { buttonBox } from './style';
 import { imgUrlBox } from './style';
-import { getDonationListRequest, getDonationTagRequest } from '../../apis/api/DonationAPI';
-import { useQuery, useQueryClient } from 'react-query';
+import { PostDonationImage, getDonationListRequest, getDonationTagRequest } from '../../apis/api/DonationAPI';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import MainPage from '../MainPage/MainPage';
 import { Link } from 'react-router-dom';
 import { errorSelector } from 'recoil';
-import DonationWrite from './CategoryPage/DonationWrite';
-
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { getPrincipalRequest } from '../../apis/api/principal';
 import { getTeamInfoRequest, getTeamListRequest, getTeamMemberInfoRequest, getTeamMemberInfoRequest2 } from '../../apis/api/teamApi';
 import TextEditor from '../../components/TextEditor/TextEditor';
 import ChallengeAlbum from '../../components/TextEditor/ChallengeAlbum';
+import { useFileUpload } from '../../hooks/useFileUpload';
 
 
 function DonationPageboard() {
@@ -29,7 +30,6 @@ function DonationPageboard() {
     const [selectedSecondTag, setSelectedSecondTag] = useState(null);
     const [mainTagOptions, setMainTagOptions] = useState([]);
     const [secondTagOptions, setSecondTagOptions] = useState([]);
-    const [ storyImgs, setStoryImgs ] = useState([]);
     const [ teamId, setTeamId ] = useState();
 
     const [startDate, setStartDate] = useState(new Date());
@@ -64,11 +64,6 @@ function DonationPageboard() {
         }
     );
 
-    
-    const [ teamInfo, setTeamInfo ] = useState();
-    const [ temaList, setTeamList ] = useState([]);    
-    const queryClient = useQueryClient();    
-    const principalData = queryClient.getQueryData("principalQuery");
     useEffect(() => {
         if (selectedTeam) {
             setTeamId(selectedTeam.value);
@@ -141,6 +136,32 @@ function DonationPageboard() {
     const handleSecondTagChange = (selectedOption) => {
         setSelectedSecondTag(selectedOption);
     }
+
+        
+    const handleSubmit2 = () => {
+        const now = new Date();
+        uploadedUrls.forEach(({ url }, index) => {
+            // 각 이미지에 대해 인덱스를 이용하여 고유한 정수 ID를 생성 (예제로 인덱스 활용)
+            const donationImageNumber = index + 1; // 예를 들어, 첫 번째 이미지는 ID 1을 가집니다.
+            const data = {
+                donationImageNumber, 
+                donationImageURL: url,
+                createDate: now,
+            };
+            registerDonationImage.mutate(data);
+        });
+    };
+    
+
+    const registerDonationImage = useMutation({
+        mutationKey: "registerDonationImage",
+        mutationFn: PostDonationImage,
+        onSuccess: response => {
+            console.log(response);
+            alert("등록완료.");
+        },
+        onError: error => {}
+    })
 
 
     const handleSubmitButton = () => {
@@ -221,6 +242,10 @@ function DonationPageboard() {
         reader.readAsDataURL(file);
       }
     };
+
+    const { uploadProgress, uploadedUrls, handleImageUpload } = useFileUpload();
+    const imgFileRef = useRef();
+
     return (
         <>
             <div>
@@ -297,8 +322,11 @@ function DonationPageboard() {
             </div>
 
             <h3>슬라이드</h3>
-            <input type="file" accept="image/*" onChange={handleFileChange} />
-            {uploadedImages.length > 0 && <ChallengeAlbum uploadedImages={uploadedImages} />}
+            <ChallengeAlbum 
+                 uploadProgress={uploadProgress}
+                 uploadedUrls={uploadedUrls}
+                 handleImageUpload={handleImageUpload}
+            />
 
             <TextEditor content={content} setContent={setContent} />
 

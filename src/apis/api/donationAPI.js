@@ -133,3 +133,11 @@ export const getProgressAmount = async (params) => {
     console.log(params);
     return await instance.get("/main/progress", {params});
 }
+
+export const PostDonationImage = async (data) => {
+    return await instance.post("/donation/image/upload", data);
+}
+
+export const getDonationImageList = async (donationPageId) => {
+    return await instance.get(`/donation/image/${donationPageId}`);
+}
