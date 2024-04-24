@@ -28,6 +28,7 @@ import DonationChallengePage from '../pages/DonationChallengerPage/DonationChall
 import ChallengePage from '../pages/DonationChallengerPage/ChallengePage';
 import AdminSearchPage from '../pages/Admin/AdminSearchPage/AdminSearchPage';
 import ChallengeUpdatePage from '../pages/DonationChallengerPage/ChallengeUpdatePage';
+import DonationUpdatePageBoard from '../pages/DonationUpdatePage/DonationUpdatePageboard';
 
 function AuthRoute(props) {
 
@@ -62,7 +63,7 @@ function AuthRoute(props) {
                 <Route path="/admin/search" element={<AdminSearchPage />} /> 
                 <Route path="/main/review" element={< ReviewPage/>} />
                 <Route path="/donation/*" element={<DonationStoryPage />} />
-                <Route path="/main/donation/update" element={<DonationPageboard2 />} />
+                <Route path="/main/donation/update" element={<DonationUpdatePageBoard />} />
                 <Route path="/search" element={<SearchPage />} />
                 <Route path="/message" element={<MessagePage />} />
                 <Route path='/main/challenges' element={ < ChallengeMainPage />} />

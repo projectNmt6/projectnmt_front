@@ -38,9 +38,6 @@ export const getChallengeList = async (params) => {
     return await instance.get("/main/challenges", {params});
 }
 
-export const registerReviewPage = async (data) => {
-    return await instance.post("/main/donation/review", data);
-}
 
 export const registerNewsPage = async (data) => {
     return await instance.post(`/main/donation/news${data.donationPageId}`, data);
@@ -56,6 +53,11 @@ export const getAllDonationTag = async () => {
 export const updatePageRequest = async (data) => {
     return await instance.put(`main/donation/update/${data.donationPageId}`, data);
 }
+
+export const updateDonationPageResponse = async (data) => {
+    return await instance.get(`/main/donation/update/${data.donationPageId}`, data)
+}
+
 
 export const updateNewsRequest = async (data) => {
     return await instance.put(`/mian/donation/news/update${data.donationPageId}`, data);

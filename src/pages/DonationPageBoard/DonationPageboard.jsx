@@ -232,8 +232,6 @@ function DonationPageboard() {
 
     const imgFileRef = useRef();
 
-
-    const [files, setFiles] = useState([]);
     const [uploadedUrls, setUploadedUrls] = useState([]);
     
     const handleImageUpload = async (files) => {

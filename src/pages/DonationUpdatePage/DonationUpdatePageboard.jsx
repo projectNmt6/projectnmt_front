@@ -1,58 +1,49 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { css } from '@emotion/react';
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 import axios from 'axios';
 import Select from 'react-select';
-import { buttonBox } from '../DonationPageBoard/style';
-import { imgUrlBox } from '../DonationPageBoard/style';
-import { deleteDonationPage, getDonationListRequest, getDonationTagRequest } from '../../apis/api/DonationAPI';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import MainPage from '../MainPage/MainPage';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
-import { errorSelector } from 'recoil';
-
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { getPrincipalRequest } from '../../apis/api/principal';
 import { getTeamListRequest } from '../../apis/api/teamApi';
+import { updateDonationPageResponse, updatePageRequest } from '../../apis/api/DonationAPI';
+import TextEditor from '../../components/TextEditor/TextEditor';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
+import { storage } from '../../apis/filrebase/config/firebaseConfig';
+import { v4 as uuid } from "uuid"
 
-const textEditorLayout = css`
-    overflow-y: auto;
-    margin-bottom: 20px;
-`;
 
 function DonationUpdatePageBoard() {
    
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const donationPageId = queryParams.get('page'); 
-    const [donationData, setDonationData] = useState();
+
+    const [donationPage, setDonationPage] = useState({});
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [mainImg, setMainImg] = useState('');
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(null);
-    const [goalAmount, setgoalAmount] = useState(0);
     const [selectedMainTag, setSelectedMainTag] = useState(null);
-    const [selectedSecondTag, setSelectedSecondTag] = useState(null);   
-    const [ pageCategoryId, setPageCategoryId] = useState(null);
-
+    const [selectedSecondTag, setSelectedSecondTag] = useState(null);
     const [userId, setUserId ] = useState();
     const [ teamId, setTeamId ] = useState();
     const [mainTagOptions, setMainTagOptions] = useState([]);
-    
     const [teams, setTeams] = useState([]);
-    const [ storyImgs, setStoryImgs ] = useState([]);
-
+    const [ amount, setAmount ] = useState();
     const [secondTagOptions, setSecondTagOptions] = useState([]);
-
     const [selectedTeam, setSelectedTeam] = useState(null);
+    const [ storyImages, setStoryImages] = useState([])
 
     const handleAmountChange = (e) => {
         const value = e.target.value; // 입력된 값
         const parsedValue = value ? parseInt(value) : null; // 입력된 값이 있는 경우에만 정수로 변환하고 그렇지 않으면 null로 설정
-        setgoalAmount(parsedValue); // 값 업데이트
+        setGoalAmount(parsedValue); // 값 업데이트
     };
 
     const principalQuery = useQuery(
@@ -71,8 +62,6 @@ function DonationUpdatePageBoard() {
         }
     );
 
-    const queryClient = useQueryClient();    
-    const principalData = queryClient.getQueryData("principalQuery");
     useEffect(() => {
         if (selectedTeam) {
             setTeamId(selectedTeam.value);
@@ -102,19 +91,7 @@ function DonationUpdatePageBoard() {
     }, [userId]);
 
     useEffect(() => {
-        axios.get("http://localhost:8080/main/storytypes")
-        .then(response => {
-            const options = response.data.map(mainTag => ({
-                value: mainTag.mainCategoryId,
-                label: mainTag.mainCategoryName
-            }));
-            setMainTagOptions(options);
-            setSelectedMainTag(options.filter(option => option.value === donationData.mainCategoryId)[0]);
-        })
-        .catch(error => {
-            console.error(error);
-        });
-        
+                
         axios.get("http://localhost:8080/main/donationtag")
         .then(response => {
             const options = response.data.map(secondTag => ({
@@ -122,83 +99,73 @@ function DonationUpdatePageBoard() {
                 label: secondTag.donationTagName
             }));
             setSecondTagOptions(options);
-            setSelectedSecondTag(options.filter(option => option.value === donationData.donationTagId)[0]);
-            // setSelectedSecondTag();
+            setSelectedSecondTag(options.filter(option => option.value === donationPage.donationTagId)[0]);
         })
         .catch(error => {
             console.error(error);
         });
         
-    }, [donationData]);
-
+    }, [donationPage]);
     
     useEffect(() => {
-        console.log(selectedMainTag);
-        console.log(selectedSecondTag);
-    }, [selectedMainTag, selectedSecondTag]);
+    }, [selectedSecondTag]);
+
+    const [goalAmount, setGoalAmount] = useState(0);
 
     useEffect(() => {
         const fetchData = async () => {
-            try {
-                const response = await axios.get(`http://localhost:8080/main/donation/update/${donationPageId}`);
-                const data = response.data;
-    
-                // API 응답이 비어있는 경우에 대한 처리
-                if (!data) {
-                    console.error("API 응답이 비어있습니다.");
-                    return;
+            if (donationPageId) {
+                try {
+                    const response = await updateDonationPageResponse({ donationPageId });
+                    console.log(response.data)
+                    if (response.status === 200) {
+                        const data = response.data;
+                        setStoryImages(data.donationImages);
+                        setDonationPage(data);
+                        setTeamId(data.teamId);
+                        setTitle(data.storyTitle);
+                        setContent(data.storyContent);
+                        setMainImg(data.mainImgUrl);
+                        setStartDate(new Date(data.createDate));
+                        setEndDate(new Date(data.endDate));
+                        setGoalAmount(data.goalAmount !== null ? data.goalAmount : 0);
+                        setSelectedTeam({ value: data.teamId, label: data.teamName });
+                        // setStoryImages(data.donationImages);
+                    }
+                } catch (error) {
+                    console.error('Error fetching challenge page:', error);
                 }
-    
-                // donationData 설정
-                setDonationData(data);
-                setTeamId(data.teamId)
-                setTitle(data.storyTitle);
-                setContent(data.storyContent);
-                setMainImg(data.mainImgUrl);
-                setStartDate(new Date(data.createDate));
-                setEndDate(new Date(data.endDate));
-                setgoalAmount(data.goalAmount !== null ? data.goalAmount : 0);
-    
-                console.log(selectedMainTag);
-                console.log(selectedSecondTag);
-    
-                console.log(data);
-                console.log(response);
-            } catch (error) {
-                console.error(error);
+            } else {
+                console.error('No valid challengePageId provided');
             }
         };
-        fetchData(); 
+        fetchData();
     }, [donationPageId]);
     
-
     const handleSubmitButton = () => {
-
-        axios.put(`http://localhost:8080/main/donation/update/${donationPageId}`, {
-            donationPageId: donationPageId,
+        // API 호출 시 teamId 사용
+        const data =  {
+            donationPageId: 1,
             teamId: teamId,
-            mainCategoryId: selectedMainTag.value,
             pageCategoryId: 1,
             createDate: startDate,
             endDate: endDate,
-            goalAmount : goalAmount,
+            goalAmount : amount,
             storyTitle: title,
             storyContent: content,
             mainImgUrl: mainImg,
             donationTagId: selectedSecondTag ? selectedSecondTag.value : null,
-            donationPageShow: null
-            
-        })
-        .then(response => {
-            alert("저장 성공");
-            console.log(response)
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+            donationPageShow: 2,
+            // 이미지 등록 후에 mutation이 완료된 후에 이미지 정보를 사용할 수 있도록 함
+            donationImages: uploadedUrls.map((url, index) => ({
+                donationImageNumber: index + 1,
+                donationImageURL: url.url,
+                userId: userId,
+                createDate: new Date(),
+            }))
+        };
+        updatePageRequest.mutate(data); 
     };
-
-
     
     const handleMainTagChange = (selectedOption) => {
         setSelectedMainTag(selectedOption);
@@ -218,30 +185,12 @@ function DonationUpdatePageBoard() {
         };
         reader.readAsDataURL(file);
     };
-
-    const modules = useMemo(() => {
-        return {
-            toolbar: [
-                [{ font: [] }],
-                [{ header: [1, 2, 3, 4, 5, 6, false] }],
-                [{ color: [] }, { background: [] }],
-                ["bold", "italic", "underline", "strike", "blockquote"],
-                [{ list: "ordered" }, { list: "bullet" }, { indent: "-1" }, { indent: "+1" }],
-                ["link"],
-                ["clean"],
-            ]
-        };
-    }, []);
-
-    const formats = [
-        "font", "size", "header", "color", "background", "bold", "italic", "underline",
-        "strike", "blockquote", "list", "bullet", "indent", "link", "image"
-    ];
+    
 
     const handleCancelButton = () => {
         if (window.confirm("작성 중인 내용을 취소하시겠습니까?")) {
             setTitle("");
-            setgoalAmount(0);
+            setGoalAmount(0);
             setContent("");
             setMainImg("");
             alert("작성이 취소 되었습니다.");
@@ -251,11 +200,40 @@ function DonationUpdatePageBoard() {
     const handleHomeButton = () => {
         window.location.href = "/main";
     };
-
-
-    //삭제버튼
     
 
+    const imgFileRef = useRef();
+    const [uploadedUrls, setUploadedUrls] = useState([]);
+    const handleImageUpload = async (files) => {
+        console.log(files);
+        const uploads = files.map(file => {
+            return new Promise((resolve, reject) => {
+                const storageRef = ref(storage, `images/${uuid()}_${file.name}`);
+                const uploadTask = uploadBytesResumable(storageRef, file);
+    
+                uploadTask.on(
+                    "state_changed",
+                    (snapshot) => {
+                        const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+                        
+                    },
+                    reject,
+                    () => {
+                        getDownloadURL(storageRef).then((donationImageURL) => {
+                            const imageId = uuid(); // 각 이미지에 대한 고유 ID 생성
+                            resolve({ donationImageURL, imageId });
+                        }).catch(reject);
+                    }
+                );
+            });
+        });
+    
+        const uploadedImages = await Promise.all(uploads);
+        setUploadedUrls(uploadedImages); // 업로드된 이미지의 URL과 ID 저장
+        console.log(uploadedImages)
+        setStoryImages(uploadedImages); // 새로운 이미지로 대체
+        console.log(storyImages);
+    };
 
     return (
         <>
@@ -284,6 +262,7 @@ function DonationUpdatePageBoard() {
                 />
 
             <div>
+                <h3>대표이미지</h3>
             <label htmlFor="inputFile"></label>
                     <img src={mainImg} alt="Main" style={{ width: '300px', height: 'auto' }}/> 
                     <input  
@@ -295,15 +274,6 @@ function DonationUpdatePageBoard() {
                         onChange={fileChange} 
                     /> 
             </div>
-
-
-            <Select
-                options={mainTagOptions}
-                defaultValue={selectedMainTag}
-                value={selectedMainTag}
-                placeholder="종류를 선택해주세요"
-                onChange={handleMainTagChange}
-            />
 
             <Select 
                 options={secondTagOptions}
@@ -323,19 +293,15 @@ function DonationUpdatePageBoard() {
                 />
             </div>
 
-
-            <div css={textEditorLayout}>
-                <ReactQuill
-                    value={content}
-                    onChange={setContent}
-                    modules={modules}
-                    formats={formats}
-                    theme="snow"
-                    placeholder="내용을 입력해주세요."
-                    style={{ height: '500px', margin: "50px" }}
-                />
-
+            <div>
+                {/* 기존 이미지 보여주기 */}
+                {storyImages && storyImages.map((image, index) => (
+                    <img key={index} src={image.donationImageURL} alt={`Image ${index}`} />
+                ))}
             </div>
+
+            {/* TextEditor 컴포넌트 */}
+            <TextEditor content={content} setContent={setContent} onUploadImages={handleImageUpload} />
 
             <div>
                 <button onClick={handleSubmitButton}>수정 완료</button>
