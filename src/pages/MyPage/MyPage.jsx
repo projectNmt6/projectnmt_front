@@ -136,6 +136,7 @@ function MyPage(props) {
                                                 <Link to={"/team/write"}> 팀 만들기</Link>
                                             </div>
                                             : <div>
+                                                <span css={s.span}>메시지 리스트</span>
                                                 <MessagePage isTeam={0} />
                                             </div>
                             }

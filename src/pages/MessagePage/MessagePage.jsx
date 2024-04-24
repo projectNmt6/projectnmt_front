@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+/** @jsxImportSource @emotion/react */
+import * as s from "./style";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { deleteAllMessageRequest, getMessageListRequest } from '../../apis/api/Message';
 
@@ -34,26 +36,25 @@ function MessagePage({isTeam}) {
         }
     }
     return (
-        <div>{
+        <div css={s.div}>{
             messageList.length > 0 ?
             <>
-                <div>
-                    메세지 리스트
+                <div css={s.div6}>
+                    60일이 지난 메세지는 자동 삭제됩니다!!
                 </div>
                 {messageList.map(message => (
-                    <div key={message.messageId}>
-                        <img src={message.teamLogoUrl} alt="" />
-                        <div>{message.teamName}</div>
-                        <div>{message.message}</div>
-                        <div>{message.date}</div>
+                    <div css={s.div1} key={message.messageId}>
+                        <img css={s.img}src={message.teamLogoUrl} alt="" />
+                        <div css={s.div5}>
+                        <div css={s.div2}>{message.date}</div>
+                        <div css={s.div3}>{message.teamName}</div>
+                        <div css={s.div4}>{message.message}</div>
+                        </div> 
                     </div>
                 ))}
-                <div>
-                    60일이 지난 메세지는 자동 삭제됩니다.
-                </div>
-                <button onClick={deleteAllMessage}>전체 메세지 삭제</button>
+                <button css={s.button} onClick={deleteAllMessage}>전체 메세지 삭제</button>
             </>
-            : <div>
+            : <div css={s.div7}>
                 새로운 알림이 없습니다.
                 중요한 알림을 한꺼번에 모아서 확인할 수 있어요.
             </div>
