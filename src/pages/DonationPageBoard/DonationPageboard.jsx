@@ -8,7 +8,7 @@ import axios from 'axios';
 import Select from 'react-select';
 import { buttonBox } from './style';
 import { imgUrlBox } from './style';
-import { PostDonationImage, getDonationListRequest, getDonationTagRequest } from '../../apis/api/DonationAPI';
+import { PostDonationImage, getDonationListRequest, getDonationTagRequest, registerDonationPage } from '../../apis/api/DonationAPI';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import MainPage from '../MainPage/MainPage';
 import { Link } from 'react-router-dom';
@@ -141,9 +141,7 @@ function DonationPageboard() {
             };
             registerDonationImage.mutate(data); // 이미지 등록 mutation 호출
         });
-    };
-    
-    
+    };       
 
     const registerDonationImage = useMutation({
         mutationKey: "registerDonationImage",
@@ -155,10 +153,20 @@ function DonationPageboard() {
         onError: error => {}
     })
 
-
+    const PostDonationPage = useMutation({
+        mutationKey: "PostDonationPage",
+        mutationFn: registerDonationPage,
+        onSuccess: response => {
+            console.log("페이지 작성 성공"+response)
+        },
+        onError: error => {
+            console.log(error);
+        }
+    });
+    
     const handleSubmitButton = () => {
         // API 호출 시 teamId 사용
-        axios.post('http://localhost:8080/main/write', {
+        const data =  {
             donationPageId: 1,
             teamId: teamId,
             mainCategoryId: selectedMainTag.value,
@@ -172,21 +180,16 @@ function DonationPageboard() {
             donationTagId: selectedSecondTag ? selectedSecondTag.value : null,
             donationPageShow: 2,
             // 이미지 등록 후에 mutation이 완료된 후에 이미지 정보를 사용할 수 있도록 함
-            donationImages: uploadedUrls.map((_, index) => ({
+            donationImages: uploadedUrls.map((url, index) => ({
                 donationImageNumber: index + 1,
-                donationImageURL: `URL placeholder ${index + 1}`, // 실제 URL 대신 placeholder 사용
+                donationImageURL: url.url,
                 userId: userId,
                 createDate: new Date(),
             }))
-        })
-        .then(response => {
-            alert("저장 성공");
-            console.log(response);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+        };
+        PostDonationPage.mutate(data); 
     };
+    
 
     const handleCancelButton = () => {
         if (window.confirm("작성 중인 내용을 취소하시겠습니까?")) {
@@ -259,7 +262,7 @@ function DonationPageboard() {
     
         const uploadedImages = await Promise.all(uploads);
         setUploadedUrls(uploadedImages); // 업로드된 이미지의 URL과 ID 저장
-        console.log("image:" + uploadedImages)
+        console.log(uploadedImages)
     };
     return (
         <>
@@ -309,14 +312,12 @@ function DonationPageboard() {
                 onChange={handleMainTagChange}
             />
 
-            {selectedMainTag && selectedMainTag.value === mainTagOptions[0].value && ( 
-                <Select 
+            <Select 
                     options={secondTagOptions}
                     placeholder="기부 카테고리를 선택해주세요"
                     value={selectedSecondTag}
                     onChange={handleSecondTagChange}
-                />
-            )} 
+            />
 
             <div>
                 <h2>메인 이미지 추가</h2>

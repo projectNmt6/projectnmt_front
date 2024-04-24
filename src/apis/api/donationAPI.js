@@ -138,6 +138,6 @@ export const PostDonationImage = async (data) => {
     return await instance.post("/donation/image/upload", data);
 }
 
-export const getDonationImageList = async (donationPageId) => {
-    return await instance.get(`/donation/image/${donationPageId}`);
-}
+// export const getDonationImageList = async (data) => {
+//     return await instance.get(`/donation/image/${data}`);
+// }
