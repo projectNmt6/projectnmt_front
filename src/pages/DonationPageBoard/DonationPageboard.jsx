@@ -18,9 +18,11 @@ import "react-datepicker/dist/react-datepicker.css";
 import { getPrincipalRequest } from '../../apis/api/principal';
 import { getTeamInfoRequest, getTeamListRequest, getTeamMemberInfoRequest, getTeamMemberInfoRequest2 } from '../../apis/api/teamApi';
 import TextEditor from '../../components/TextEditor/TextEditor';
-import ChallengeAlbum from '../../components/TextEditor/ChallengeAlbum';
 import { useFileUpload } from '../../hooks/useFileUpload';
 
+import { v4 as uuid } from "uuid"
+import { storage } from '../../apis/filrebase/config/firebaseConfig';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 
 function DonationPageboard() {
     const [title, setTitle] = useState("");
@@ -31,11 +33,9 @@ function DonationPageboard() {
     const [mainTagOptions, setMainTagOptions] = useState([]);
     const [secondTagOptions, setSecondTagOptions] = useState([]);
     const [ teamId, setTeamId ] = useState();
-
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(null);
     const [projectDuration, setProjectDuration] = useState(null);
-
     const [userId, setUserId ] = useState();
     const [ amount, setAmount ] = useState();
     const handleAmountChange = (e) => {
@@ -43,7 +43,6 @@ function DonationPageboard() {
         const parsedValue = value ? parseInt(value) : null; // 입력된 값이 있는 경우에만 정수로 변환하고 그렇지 않으면 null로 설정
         setAmount(parsedValue); // 값 업데이트
     };
-
 
     const [teams, setTeams] = useState([]);
     const [selectedTeam, setSelectedTeam] = useState(null);
@@ -70,7 +69,6 @@ function DonationPageboard() {
         }
     }, [selectedTeam]);
 
-
     useEffect(() => {
         if (userId) {
             const fetchTeams = async () => {
@@ -94,11 +92,6 @@ function DonationPageboard() {
 
     const handleSelectTeam = (selectedOption) => {
         setSelectedTeam(selectedOption);
-    };
-
-    const handleSubmit = () => {
-        console.log("Selected Team ID:", selectedTeam?.value);
-        alert(`Selected Team ID: ${selectedTeam?.value}`);
     };
     
     useEffect(() => {
@@ -136,21 +129,20 @@ function DonationPageboard() {
     const handleSecondTagChange = (selectedOption) => {
         setSelectedSecondTag(selectedOption);
     }
-
         
     const handleSubmit2 = () => {
         const now = new Date();
         uploadedUrls.forEach(({ url }, index) => {
-            // 각 이미지에 대해 인덱스를 이용하여 고유한 정수 ID를 생성 (예제로 인덱스 활용)
-            const donationImageNumber = index + 1; // 예를 들어, 첫 번째 이미지는 ID 1을 가집니다.
+            const donationImageNumber = index + 1;
             const data = {
-                donationImageNumber, 
+                donationImageNumber,
                 donationImageURL: url,
                 createDate: now,
             };
-            registerDonationImage.mutate(data);
+            registerDonationImage.mutate(data); // 이미지 등록 mutation 호출
         });
     };
+    
     
 
     const registerDonationImage = useMutation({
@@ -178,7 +170,14 @@ function DonationPageboard() {
             storyContent: content,
             mainImgUrl: mainImg,
             donationTagId: selectedSecondTag ? selectedSecondTag.value : null,
-            donationPageShow: 2
+            donationPageShow: 2,
+            // 이미지 등록 후에 mutation이 완료된 후에 이미지 정보를 사용할 수 있도록 함
+            donationImages: uploadedUrls.map((_, index) => ({
+                donationImageNumber: index + 1,
+                donationImageURL: `URL placeholder ${index + 1}`, // 실제 URL 대신 placeholder 사용
+                userId: userId,
+                createDate: new Date(),
+            }))
         })
         .then(response => {
             alert("저장 성공");
@@ -202,7 +201,7 @@ function DonationPageboard() {
         window.location.href = "/main";
     };
 
-    const fileChange = (e) => {
+    const fileChange = (e) => { //main
         const file = e.target.files[0];
         const reader = new FileReader();
         reader.onload = () => {
@@ -228,24 +227,40 @@ function DonationPageboard() {
         }
     };
 
-    const [uploadedImages, setUploadedImages] = useState([]);
-
-    const handleFileChange = (e) => {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-  
-      reader.onloadend = () => {
-        setUploadedImages((prevImages) => [...prevImages, reader.result]);
-      };
-  
-      if (file) {
-        reader.readAsDataURL(file);
-      }
-    };
-
-    const { uploadProgress, uploadedUrls, handleImageUpload } = useFileUpload();
     const imgFileRef = useRef();
 
+
+    const [files, setFiles] = useState([]);
+    const [uploadedUrls, setUploadedUrls] = useState([]);
+    
+    const handleImageUpload = async (files) => {
+        console.log(files);
+        const uploads = files.map(file => {
+            return new Promise((resolve, reject) => {
+                const storageRef = ref(storage, `images/${uuid()}_${file.name}`);
+                const uploadTask = uploadBytesResumable(storageRef, file);
+    
+                uploadTask.on(
+                    "state_changed",
+                    (snapshot) => {
+                        const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+                        
+                    },
+                    reject,
+                    () => {
+                        getDownloadURL(storageRef).then((url) => {
+                            const imageId = uuid(); // 각 이미지에 대한 고유 ID 생성
+                            resolve({ url, imageId });
+                        }).catch(reject);
+                    }
+                );
+            });
+        });
+    
+        const uploadedImages = await Promise.all(uploads);
+        setUploadedUrls(uploadedImages); // 업로드된 이미지의 URL과 ID 저장
+        console.log("image:" + uploadedImages)
+    };
     return (
         <>
             <div>
@@ -260,7 +275,6 @@ function DonationPageboard() {
                 options={teams}
                 placeholder="Select your team..."
             />
-            <button onClick={handleSubmit}>확인</button>
         </div>
             
             <div>기부 프로젝트 시작일: </div>
@@ -322,13 +336,9 @@ function DonationPageboard() {
             </div>
 
             <h3>슬라이드</h3>
-            <ChallengeAlbum 
-                 uploadProgress={uploadProgress}
-                 uploadedUrls={uploadedUrls}
-                 handleImageUpload={handleImageUpload}
-            />
-
-            <TextEditor content={content} setContent={setContent} />
+ 
+            <TextEditor content={content} setContent={setContent} 
+                        onUploadImages={handleImageUpload}/>
 
             <div>
                 목표 금액:

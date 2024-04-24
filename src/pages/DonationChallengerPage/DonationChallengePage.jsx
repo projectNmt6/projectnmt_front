@@ -12,7 +12,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { getPrincipalRequest } from '../../apis/api/principal';
 import { getTeamListRequest } from '../../apis/api/teamApi';
-import ChallengeAlbum from '../../components/TextEditor/ChallengeAlbum';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import TextEditor from '../../components/TextEditor/TextEditor';
@@ -202,8 +201,6 @@ function DonationChallengePage() {
 
             
             <h1>슬라이드쇼</h1>
-            <input type="file" accept="image/*" onChange={handleFileChange} />
-            {uploadedImages.length > 0 && <ChallengeAlbum uploadedImages={uploadedImages} />}
 
             <TextEditor content={challengeContent} setContent={setChallengeContent} />
  

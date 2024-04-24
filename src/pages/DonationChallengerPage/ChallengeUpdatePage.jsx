@@ -6,7 +6,6 @@ import { getChallengePageRequest, getChallengeRequest, getUpdateChallengePageReq
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import TextEditor from '../../components/TextEditor/TextEditor';
-import ChallengeAlbum from '../../components/TextEditor/ChallengeAlbum';
 import DatePicker from "react-datepicker";
 import Select from 'react-select';
 import ReactQuill from "react-quill";
@@ -242,8 +241,6 @@ useEffect(() => {
 
             
             <h1>슬라이드쇼</h1>
-            <input type="file" accept="image/*" onChange={handleFileChange} />
-            {uploadedImages.length > 0 && <ChallengeAlbum uploadedImages={uploadedImages} />}
 
             <TextEditor content={challengeContent} setContent={setChallengeContent} />
  
