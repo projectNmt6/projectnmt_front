@@ -141,31 +141,50 @@ function DonationUpdatePageBoard() {
         };
         fetchData();
     }, [donationPageId]);
-    
-    const handleSubmitButton = () => {
-        // API 호출 시 teamId 사용
-        const data =  {
-            donationPageId: donationPageId,
-            teamId: teamId,
-            pageCategoryId: 1,
-            createDate: startDate,
-            endDate: endDate,
-            goalAmount : amount,
-            storyTitle: title,
-            storyContent: content,
-            mainImgUrl: mainImg,
-            donationTagId: selectedSecondTag ? selectedSecondTag.value : null,
-            donationPageShow: 2,
-            // 이미지 등록 후에 mutation이 완료된 후에 이미지 정보를 사용할 수 있도록 함
-            donationImages: uploadedUrls.map((donationImageURL, index) => ({
-                donationImageNumber: index + 1,
-                donationImageURL: donationImageURL.url,
-                userId: userId,
-                createDate: new Date(),
-            }))
-        };
-        updatePageRequest.mutate(data); 
+
+    // useMutation을 사용하여 mutation을 생성
+const mutation = useMutation(updatePageRequest);
+const UpdateDonationPage = useMutation({
+    mutationKey: "UpdateDonationPage",
+    mutationFn: updatePageRequest,
+    onSuccess: response => {
+        console.log("페이지 작성 성공"+response)
+    },
+    onError: error => {
+        console.log(error);
+    }
+});
+const handleSubmitButton = async () => {
+    // 이미지 업로드
+    console.log(uploadedImageUrls)
+
+    // API 호출 시 teamId 사용
+    const data =  {
+        donationPageId: donationPageId,
+        teamId: teamId,
+        mainCategoryId: 1,
+        pageCategoryId: 1,
+        createDate: startDate,
+        endDate: endDate,
+        goalAmount : amount,
+        storyTitle: title,
+        storyContent: content,
+        mainImgUrl: mainImg,
+        donationTagId: selectedSecondTag ? selectedSecondTag.value : null,
+        donationPageShow: 2,
+        donationImages: uploadedImageUrls.map((url, index) => ({
+            donationImageNumber: index + 1,
+            donationImageURL: url.donationImageURL,
+            userId: userId,
+            createDate: new Date(),
+        }))
     };
+
+    // 데이터베이스 업데이트 요청 보내기
+    UpdateDonationPage.mutate(data); 
+};
+
+
     
     const handleMainTagChange = (selectedOption) => {
         setSelectedMainTag(selectedOption);
@@ -203,7 +222,8 @@ function DonationUpdatePageBoard() {
     
 
     const imgFileRef = useRef();
-    const [uploadedUrls, setUploadedUrls] = useState([]);
+    const [uploadedImageUrls, setUploadedUrls] = useState([]);
+    
     const handleImageUpload = async (files) => {
         console.log(files);
         const uploads = files.map(file => {

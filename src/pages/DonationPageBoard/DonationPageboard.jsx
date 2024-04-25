@@ -130,18 +130,6 @@ function DonationPageboard() {
         setSelectedSecondTag(selectedOption);
     }
         
-    const handleSubmit2 = () => {
-        const now = new Date();
-        uploadedUrls.forEach(({ url }, index) => {
-            const donationImageNumber = index + 1;
-            const data = {
-                donationImageNumber,
-                donationImageURL: url,
-                createDate: now,
-            };
-            registerDonationImage.mutate(data); // 이미지 등록 mutation 호출
-        });
-    };       
 
     const registerDonationImage = useMutation({
         mutationKey: "registerDonationImage",
