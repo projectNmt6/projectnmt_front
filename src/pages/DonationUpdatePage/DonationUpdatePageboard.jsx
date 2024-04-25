@@ -145,7 +145,7 @@ function DonationUpdatePageBoard() {
     const handleSubmitButton = () => {
         // API 호출 시 teamId 사용
         const data =  {
-            donationPageId: 1,
+            donationPageId: donationPageId,
             teamId: teamId,
             pageCategoryId: 1,
             createDate: startDate,
@@ -157,9 +157,9 @@ function DonationUpdatePageBoard() {
             donationTagId: selectedSecondTag ? selectedSecondTag.value : null,
             donationPageShow: 2,
             // 이미지 등록 후에 mutation이 완료된 후에 이미지 정보를 사용할 수 있도록 함
-            donationImages: uploadedUrls.map((url, index) => ({
+            donationImages: uploadedUrls.map((donationImageURL, index) => ({
                 donationImageNumber: index + 1,
-                donationImageURL: url.url,
+                donationImageURL: donationImageURL.url,
                 userId: userId,
                 createDate: new Date(),
             }))
