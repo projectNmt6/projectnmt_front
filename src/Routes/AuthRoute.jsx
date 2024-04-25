@@ -10,11 +10,8 @@ import { getPrincipalRequest } from '../apis/api/principal';
 import RootHeader from '../components/rootHeader/RootHeader';
 import AuthPage from '../pages/AuthPage/AuthPage';
 import AdminRoute from '../pages/Admin/route/AdminRoute';
-import DonationPageboard2 from '../pages/DonationUpdatePage/DonationUpdatePageboard';
 import DonationStoryPage from '../pages/DonationStoryPage/DonationStoryPage';
-import ReviewPage from '../pages/ReviewPage/ReviewPage'
 import MessagePage from '../pages/MessagePage/MessagePage';
-import SignUpPage from '../pages/SignUpPage/SignUpPage';
 import NewsWrite from '../pages/DonationPageBoard/CategoryPage/NewsWrite';
 import NewsUpdatePage from '../pages/DonationStoryPage/CategoryPage/NewsUpdatePage'
 import MyDonation from '../pages/MyDonation/MyDonation';
@@ -61,7 +58,6 @@ function AuthRoute(props) {
                 <Route path="/account/mypage" element={<MyPage />} />
                 <Route path="/admin/*" element={ <AdminRoute/> } />
                 <Route path="/admin/search" element={<AdminSearchPage />} /> 
-                <Route path="/main/review" element={< ReviewPage/>} />
                 <Route path="/donation/*" element={<DonationStoryPage />} />
                 <Route path="/main/donation/update" element={<DonationUpdatePageBoard />} />
                 <Route path="/search" element={<SearchPage />} />

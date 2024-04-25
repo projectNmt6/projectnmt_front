@@ -50,21 +50,56 @@ function DonatorInfo({ setShowModal }) {
     const checkHandled = (checked) => {
         setChecked(checked);
     }
-
-    const handleDonationSubmit = (e) => {
-        const data = {
-            amount: money,
-            message: message,
-            anonymous: checked,
-            donationPageId: searchParams.get("page"),
-            userId: principalData?.data.userId
+    const handleDonationSubmit = () => {
+        if (!window.IMP) {
+            alert("결제 모듈이 로드되지 않았습니다.");
+            return;
         }
-        console.log(data);
-        donationSubmitMutation.mutate(data);
-        setShowModal(() => false)
-    }
+        window.IMP.init("imp18384567"); // 가맹점 식별코드로 변경하세요.
+        window.IMP.request_pay({
+            pg: 'kakaopay', // 변경 가능
+            pay_method: 'card',
+            merchant_uid: 'merchant_' + new Date().getTime(),
+            name: '기부금',
+            amount: money,
+            buyer_email: principalData?.data?.email,
+            buyer_name: principalData?.data?.name,
+        }, (response) => {
+            if (response.success) {
+                donationSubmitMutation.mutate({
+                    userId: principalData?.data?.userId,
+                    donationPageId: searchParams.get("page"),
+                    amount: money,
+                    message: message,
+                    anonymous: checked
+                });
+            } else {
+                alert(`결제 실패: ${response.error_msg}`);
+            }
+        });
+    };
+    // const handleDonationSubmit = (e) => {
+    //     const data = {
+    //         amount: money,
+    //         message: message,
+    //         anonymous: checked,
+    //         donationPageId: searchParams.get("page"),
+    //         userId: principalData?.data.userId
+    //     }
+    //     console.log(data);
+    //     donationSubmitMutation.mutate(data);
+    //     setShowModal(() => false)
+    // }
 
-
+    // 아임포트 모듈을 페이지에 추가
+    useEffect(() => {
+        const script = document.createElement('script');
+        script.src = "https://cdn.iamport.kr/js/iamport.payment-1.2.0.js";
+        document.body.appendChild(script);
+        return () => {
+            document.body.removeChild(script);
+        };
+    }, []);
     return (
         <>
             <div css={s.header}>
