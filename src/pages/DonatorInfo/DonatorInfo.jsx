@@ -78,20 +78,8 @@ function DonatorInfo({ setShowModal }) {
             }
         });
     };
-    // const handleDonationSubmit = (e) => {
-    //     const data = {
-    //         amount: money,
-    //         message: message,
-    //         anonymous: checked,
-    //         donationPageId: searchParams.get("page"),
-    //         userId: principalData?.data.userId
-    //     }
-    //     console.log(data);
-    //     donationSubmitMutation.mutate(data);
-    //     setShowModal(() => false)
-    // }
 
-    // 아임포트 모듈을 페이지에 추가
+    // 아임포트 모듈
     useEffect(() => {
         const script = document.createElement('script');
         script.src = "https://cdn.iamport.kr/js/iamport.payment-1.2.0.js";
@@ -100,6 +88,8 @@ function DonatorInfo({ setShowModal }) {
             document.body.removeChild(script);
         };
     }, []);
+
+
     return (
         <>
             <div css={s.header}>

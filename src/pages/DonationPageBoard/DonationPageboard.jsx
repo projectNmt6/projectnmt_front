@@ -157,7 +157,7 @@ function DonationPageboard() {
         const data =  {
             donationPageId: 1,
             teamId: teamId,
-            mainCategoryId: selectedMainTag.value,
+            mainCategoryId: 1,
             pageCategoryId: 1,
             createDate: startDate,
             endDate: endDate,
@@ -184,6 +184,7 @@ function DonationPageboard() {
             setTitle("");
             setContent("");
             setMainImg("");
+            setAmount(0);
             alert("작성이 취소 되었습니다.");
         }
     };
@@ -272,7 +273,7 @@ function DonationPageboard() {
                 onChange={handleStartDateChange} 
                 selectsStart
                 dateFormat="yyyy년 MM월 dd일"
-                // minDate={new Date()}
+                minDate={new Date()}
             />
 
             <div>기부 프로젝트 종료일: </div>
@@ -282,7 +283,7 @@ function DonationPageboard() {
                 selectsEnd
                 startDate={startDate}
                 endDate={endDate}
-                // minDate={startDate}
+                minDate={startDate}
                 dateFormat="yyyy년 MM월 dd일"
             />
             
@@ -290,14 +291,6 @@ function DonationPageboard() {
                 <div>프로젝트 기간: {projectDuration !== null ? `${projectDuration}일` : ''}</div>       
             </div>
                             
-            
-            <Select
-                options={mainTagOptions}
-                value={selectedMainTag}
-                placeholder="종류를 선택해주세요"
-                onChange={handleMainTagChange}
-            />
-
             <Select 
                     options={secondTagOptions}
                     placeholder="기부 카테고리를 선택해주세요"
