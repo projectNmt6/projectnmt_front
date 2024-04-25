@@ -5,7 +5,7 @@ export const getDonationListRequest = async (params) => {
 }
 
 export const getDonationTagRequest = async (params) => {
-    return await instance.get("/main/donationtag", { params });
+    return await instance.get("/tag/donationtag", { params });
 }
 
 export const registerDonationPage = async (data) => {
@@ -86,6 +86,7 @@ export const submitDonationData = async (data) => {
 export const deleteDonationPage = async (data) => {   
       return await instance.delete(`/main/donation/${data.donationPageId}`, { data });   
   };
+
 
 export const deleteChallengePage = async (data) => {
     return await instance.delete(`/main/challenge/${data.challengePageId}`, {data})

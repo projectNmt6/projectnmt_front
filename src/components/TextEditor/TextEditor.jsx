@@ -18,21 +18,7 @@ export const textEditorLayout = css`
 `;
 
 function TextEditor({ content, setContent, downloadURL }) {
-    // console.log("onUploadImages" +onUploadImages)
-    // const imageHandler = useCallback(() => {
-    //     const input = document.createElement('input');
-    //     input.setAttribute('type', 'file');
-    //     input.setAttribute('accept', 'image/*');
-    //     input.click();
-
-    //     input.onchange = () => {
-    //         const file = input.files[0];
-    //         if (file) {
-    //             onUploadImages(file); // 상위 컴포넌트로 파일 객체 전달
-    //         }
-    //     };
-    // }, [onUploadImages]);
-
+    
     const ReactQuillRef = useRef();
     const imageHandler = () =>{
       const input = document.createElement("input");
@@ -52,12 +38,6 @@ function TextEditor({ content, setContent, downloadURL }) {
       input.click();
     }
   
-
-    // const handleFileChange = (e) => {
-    //     const loadedFiles = Array.from(e.target.files);
-    //     onUploadImages(loadedFiles); // 상위 컴포넌트로 파일 데이터 전달
-    // };
-
     const modules = useMemo(
         () => ({
           imageActions: {},
@@ -65,11 +45,12 @@ function TextEditor({ content, setContent, downloadURL }) {
           // 툴바 설정
           toolbar: {
             container: [
-              [{ header: [1, 2, false] }], // header 설정
+              [{ header: [1, 2, 3, 4, false] }], 
+              [{ color: [] }, { background: [] }], // 정렬, 글자 색, 글자 배경색 설정
               ['bold', 'italic', 'underline', 'strike', 'blockquote'], // 굵기, 기울기, 밑줄 등 부가 tool 설정
-              [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }], // 리스트, 인덴트 설정
+              [{ align: [] },{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }], // 리스트, 인덴트 설정
               ['link', 'image'], // 링크, 이미지, 비디오 업로드 설정
-              [{ align: [] }, { color: [] }, { background: [] }], // 정렬, 글자 색, 글자 배경색 설정
+              
               ['clean'] // toolbar 설정 초기화 설정
             ],
     
@@ -88,33 +69,16 @@ function TextEditor({ content, setContent, downloadURL }) {
       );
 
     const formats = [
-        'header',
-        'bold',
-        'italic',
-        'underline',
-        'strike',
-        'blockquote',
-        'list',
-        'bullet',
-        'indent',
-        'link',
-        'image',
-        'align',
-        'color',
-        'background',
-        'float',
-        'height',
-        'width'
+        'header','bold','italic','underline','strike',
+        'align','color',
+        'blockquote','list','bullet','indent',
+        'link','image',
+        'background','float',
+        'height','width'
       ];
-
-
-    const imgFileRef = useRef();
 
     return (
         <div css={textEditorLayout}>
-            {/* <div>
-                <input type="file" multiple ref={imgFileRef} onChange={handleFileChange} />
-            </div> */}
             <ReactQuill
                 value={content}
                 onChange={setContent}
@@ -123,7 +87,7 @@ function TextEditor({ content, setContent, downloadURL }) {
                 theme="snow"
                 placeholder="내용을 입력해주세요."
                 ref={ReactQuillRef}
-                style={{ height: '500px', margin: "50px" }}
+                style={{ width: '700px', height: '700px', margin: "50px" }}
             />
         </div>
     );

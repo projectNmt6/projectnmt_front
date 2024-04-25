@@ -20,7 +20,7 @@ import { getTeamInfoRequest, getTeamListRequest, getTeamMemberInfoRequest, getTe
 import TextEditor from '../../components/TextEditor/TextEditor';
 import { useFileUpload } from '../../hooks/useFileUpload';
 
-import { v4 as uuid } from "uuid"
+import { v4 as uuid } from "uuid";
 import { storage } from '../../apis/filrebase/config/firebaseConfig';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 
@@ -28,9 +28,7 @@ function DonationPageboard() {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [mainImg, setMainImg] = useState("");
-    const [selectedMainTag, setSelectedMainTag] = useState(null);
     const [selectedSecondTag, setSelectedSecondTag] = useState(null);
-    const [mainTagOptions, setMainTagOptions] = useState([]);
     const [secondTagOptions, setSecondTagOptions] = useState([]);
     const [ teamId, setTeamId ] = useState();
     const [startDate, setStartDate] = useState(new Date());
@@ -38,6 +36,7 @@ function DonationPageboard() {
     const [projectDuration, setProjectDuration] = useState(null);
     const [userId, setUserId ] = useState();
     const [ amount, setAmount ] = useState();
+
     const handleAmountChange = (e) => {
         const value = e.target.value; // 입력된 값
         const parsedValue = value ? parseInt(value) : null; // 입력된 값이 있는 경우에만 정수로 변환하고 그렇지 않으면 null로 설정
@@ -62,6 +61,24 @@ function DonationPageboard() {
             }
         }
     );
+    
+    const donationCategoryRequest = useQuery(
+        ["donationCategoryRequest"], 
+    getDonationTagRequest, {
+            retry: 0,
+            refetchOnWindowFocus: false,
+            onSuccess: (response) => {
+                const options = response.map(secondTag => ({
+                    value: secondTag.donationTagId,
+                    label: secondTag.donationTagName
+                }));
+                
+                 setSecondTagOptions(options);
+                 console.log("secondTagOptions", options);
+            },
+        }
+    );
+    
 
     useEffect(() => {
         if (selectedTeam) {
@@ -82,20 +99,24 @@ function DonationPageboard() {
                         setTeams(formattedTeams);
                     }
                 } catch (error) {
-                    console.error('Failed to fetch teams', error);
+                    console.error(error);
                 }
             };
-
             fetchTeams();
         }
     }, [userId]);
 
+
+    const [selectedMainTag, setSelectedMainTag] = useState(null);
+    
+
     const handleSelectTeam = (selectedOption) => {
         setSelectedTeam(selectedOption);
-    };
-    
+    };    
+
+    const [mainTagOptions, setMainTagOptions] = useState([]);
     useEffect(() => {
-        axios.get("http://localhost:8080/main/storytypes")
+        axios.get("http://localhost:8080/tag/storytypes")
             .then(response => {
                 const options = response.data.map(mainTag => ({
                     value: mainTag.mainCategoryId,
@@ -108,19 +129,22 @@ function DonationPageboard() {
             });
     }, []);
 
-    useEffect(() => {
-        axios.get("http://localhost:8080/main/donationtag")
-            .then(response => {
-                const options = response.data.map(secondTag => ({
-                    value: secondTag.donationTagId,
-                    label: secondTag.donationTagName
-                }));
-                setSecondTagOptions(options);
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }, []);
+    // useEffect(() => {
+    //     axios.get("http://localhost:8080/tag/donationtag")
+    //         .then(response => {
+    //             const options = response.data.map(secondTag => ({
+    //                 value: secondTag.donationTagId,
+    //                 label: secondTag.donationTagName
+    //             }));
+    //             setSecondTagOptions(options);
+    //             console.log("secondTagOptions" + secondTagOptions);
+    //         })
+    //         .catch(error => {
+    //             console.error(error);
+                
+    //             console.log("secondTagOptions" + error);
+    //         });
+    // }, []);
 
     const handleMainTagChange = (selectedOption) => {
         setSelectedMainTag(selectedOption);
@@ -129,7 +153,7 @@ function DonationPageboard() {
     const handleSecondTagChange = (selectedOption) => {
         setSelectedSecondTag(selectedOption);
     }
-        
+
 
     const registerDonationImage = useMutation({
         mutationKey: "registerDonationImage",
@@ -167,7 +191,7 @@ function DonationPageboard() {
             mainImgUrl: mainImg,
             donationTagId: selectedSecondTag ? selectedSecondTag.value : null,
             donationPageShow: 2,
-            // 이미지 등록 후에 mutation이 완료된 후에 이미지 정보를 사용할 수 있도록 함
+            //이미지 등록 후에 mutation이 완료된 후에 이미지 정보를 사용할 수 있도록 함
             donationImages: uploadedUrls.map((url, index) => ({
                 donationImageNumber: index + 1,
                 donationImageURL: url.url,
@@ -219,8 +243,6 @@ function DonationPageboard() {
         }
     };
 
-    const imgFileRef = useRef();
-
     const [uploadedUrls, setUploadedUrls] = useState([]);
     
     const handleImageUpload = async (files) => {
@@ -251,6 +273,7 @@ function DonationPageboard() {
         setUploadedUrls(uploadedImages); // 업로드된 이미지의 URL과 ID 저장
         console.log(uploadedImages)
     };
+    
     return (
         <>
             <div>
@@ -265,7 +288,7 @@ function DonationPageboard() {
                 options={teams}
                 placeholder="Select your team..."
             />
-        </div>
+        </div>        
             
             <div>기부 프로젝트 시작일: </div>
             <DatePicker 
@@ -317,8 +340,7 @@ function DonationPageboard() {
 
             <h3>슬라이드</h3>
  
-            <TextEditor content={content} setContent={setContent} 
-                        onUploadImages={handleImageUpload}/>
+            <TextEditor content={content} setContent={setContent} downloadURL={setUploadedUrls} />
 
             <div>
                 목표 금액:

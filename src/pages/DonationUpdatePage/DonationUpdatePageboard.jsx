@@ -94,7 +94,19 @@ function DonationUpdatePageBoard() {
             fetchTeams();
         }
     }, [userId]);
-
+    useEffect(() => {
+        axios.get("http://localhost:8080/main/storytypes")
+            .then(response => {
+                const options = response.data.map(mainTag => ({
+                    value: mainTag.mainCategoryId,
+                    label: mainTag.mainCategoryName
+                }));
+                setMainTagOptions(options);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, []);
     useEffect(() => {
                 
         axios.get("http://localhost:8080/main/donationtag")
@@ -104,7 +116,7 @@ function DonationUpdatePageBoard() {
                 label: secondTag.donationTagName
             }));
             setSecondTagOptions(options);
-            setSelectedSecondTag(options.filter(option => option.value === donationPage.donationTagId)[0]);
+            // setSelectedSecondTag(options.filter(option => option.value === donationPage.donationTagId)[0]);
         })
         .catch(error => {
             console.error(error);
@@ -225,41 +237,9 @@ const handleSubmitButton = async () => {
         window.location.href = "/main";
     };
     
-
-    const imgFileRef = useRef();
     const [uploadedImageUrls, setUploadedUrls] = useState([]);
     console.log("uploadedImageUrls " + uploadedImageUrls.url)
-    
-    // const handleImageUpload = async (files) => {
-    //     console.log(files);
-    //     const uploads = files.map(file => {
-    //         return new Promise((resolve, reject) => {
-    //             const storageRef = ref(storage, `images/${uuid()}_${file.name}`);
-    //             const uploadTask = uploadBytesResumable(storageRef, file);
-    
-    //             uploadTask.on(
-    //                 "state_changed",
-    //                 (snapshot) => {
-    //                     const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-                        
-    //                 },
-    //                 reject,
-    //                 () => {
-    //                     getDownloadURL(storageRef).then((donationImageURL) => {
-    //                         const imageId = uuid(); // 각 이미지에 대한 고유 ID 생성
-    //                         resolve({ donationImageURL, imageId });
-    //                     }).catch(reject);
-    //                 }
-    //             );
-    //         });
-    //     });
-    
-    //     const uploadedImages = await Promise.all(uploads);
-    //     setUploadedUrls(uploadedImages); // 업로드된 이미지의 URL과 ID 저장
-    //     console.log(uploadedImages)
-    //     setStoryImages(uploadedImages); // 새로운 이미지로 대체
-    //     console.log(storyImages);
-    // };
+
 
     return (
         <>

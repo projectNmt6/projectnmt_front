@@ -3,8 +3,8 @@ import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 import axios from 'axios';
 import Select from 'react-select';
-import { getDonationListRequest, getDonationTagRequest } from '../../apis/api/DonationAPI';
-import { useQuery, useQueryClient } from 'react-query';
+import { getDonationListRequest, getDonationTagRequest, registerChallengePage } from '../../apis/api/DonationAPI';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import MainPage from '../MainPage/MainPage';
 import { Link } from 'react-router-dom';
 import { errorSelector } from 'recoil';
@@ -17,19 +17,22 @@ import * as s from "./style";
 import TextEditor from '../../components/TextEditor/TextEditor';
 import CommentSection from './CommentSection';
 
+import { v4 as uuid } from "uuid";
 
 function DonationChallengePage() {
     const [title, setTitle] = useState("");
     const [mainImg, setMainImg] = useState("");
-    const [teamId, setTeamId] = useState(null); 
+    const [teamId, setTeamId] = useState(""); 
     const [challengeContent, setChallengeContent] = useState("");
     const [overview, setOverview] = useState("");
-    const [userId, setUserId] = useState(null);
+    const [userId, setUserId] = useState();
     const [teams, setTeams] = useState([]);
     const [selectedTeam, setSelectedTeam] = useState(null);    
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(null);
-
+    
+    const queryClient = useQueryClient();    
+    const principalData = queryClient.getQueryData("principalQuery");
     const principalQuery = useQuery(
         ["principalQuery"], 
         getPrincipalRequest,
@@ -37,23 +40,20 @@ function DonationChallengePage() {
             retry: 0,
             refetchOnWindowFocus: false,
             onSuccess: (response) => {
-                console.log("챌린지페이지", response.data);
-                setUserId(response.data.userId);
+                console.log("Auth", response.data);
+                setUserId(response.data.userId); // 예제로 userId 설정
             },
             onError: (error) => {
                 console.error("Authentication error", error);
             }
         }
     );
-    
-    const queryClient = useQueryClient();    
-    const principalData = queryClient.getQueryData("principalQuery");
+
     useEffect(() => {
         if (selectedTeam) {
             setTeamId(selectedTeam.value);
         }
     }, [selectedTeam]);
-
 
     useEffect(() => {
         if (userId) {
@@ -71,22 +71,31 @@ function DonationChallengePage() {
                     console.error('Failed', error);
                 }
             };
-
             fetchTeams();
         }
     }, [userId]);
 
     const handleSelectTeam = (selectedOption) => {
         setSelectedTeam(selectedOption);
+        console.log(selectedTeam)
     };
 
+    const PostChallengePage = useMutation({
+        mutationKey: "PostChallengePage",
+        mutationFn: registerChallengePage,
+        onSuccess: response => {
+            console.log("페이지 작성 성공" + response)
+        },
+        onError: error => {
+            console.log("챌린지페이지에러:"+error)
+        }
+    })
 
     const handleSubmitButton = () => {
         // 현재 시간으로 startDate 업데이트
         const now = new Date();
-        setStartDate(now);
     
-        axios.post('http://localhost:8080/main/challenge/write', {
+        const data = {
             challengePageId: 1,
             teamId: teamId,
             mainCategoryId: 2,  // 챌린지
@@ -97,15 +106,9 @@ function DonationChallengePage() {
             challengeOverview : overview,
             challengeContent: challengeContent,
             challengeMainImg: mainImg,
-            challengePageShow: 2
-        })
-        .then(response => {
-            alert("저장 성공");
-            console.log(response);
-        })
-        .catch(error => {          
-            console.error('Error:', error);
-        });
+            challengePageShow: 2,            
+        };
+        PostChallengePage.mutate(data);
     };
     
 
@@ -129,26 +132,13 @@ function DonationChallengePage() {
         reader.readAsDataURL(file);
     };
 
-
-    const [uploadedImages, setUploadedImages] = useState([]);
-
-    const handleFileChange = (e) => {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-  
-      reader.onloadend = () => {
-        setUploadedImages((prevImages) => [...prevImages, reader.result]);
-      };
-  
-      if (file) {
-        reader.readAsDataURL(file);
-      }
-    };
-
     const handleEndDateChange = (date) => {
         setEndDate(date);
 
     };
+    
+    const [uploadedUrls, setUploadedUrls] = useState([]);
+
     return (
         <>
             <div>
@@ -194,17 +184,12 @@ function DonationChallengePage() {
                         style={{ display: "block" }}
                         onChange={fileChange} 
                     /> 
-                </div>                
+                </div>  
                 <button>이미지 제거 </button>
             </div>
 
-
-            
-            <h1>슬라이드쇼</h1>
-
             <TextEditor content={challengeContent} setContent={setChallengeContent} />
  
-
             <div css={s.buttonBox}>
                 <button onClick={handleSubmitButton}>작성완료</button>
                 <button onClick={handleCancelButton}>취소</button>

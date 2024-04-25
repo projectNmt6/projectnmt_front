@@ -32,6 +32,21 @@ function DonationStoryPage() {
     const [userId, setUserId ] = useState();
     const [ teamInfo, setTeamInfo ] = useState();
   
+    const principalQuery = useQuery(
+        ["principalQuery"], 
+        getPrincipalRequest,
+        {
+            retry: 0,
+            refetchOnWindowFocus: false,
+            onSuccess: (response) => {
+                console.log("Auth", response.data);
+                setUserId(response.data.userId);
+            },
+            onError: (error) => {
+                console.error("Authentication error", error);
+            }
+        }
+    );
     const getDonationStoryQuery = useQuery(
         ["getDonationPageQuery", donationPageId],
         async () => {
@@ -65,8 +80,12 @@ function DonationStoryPage() {
         onSuccess: response => {
             alert("삭제완료")
             window.location.replace("/main");
+        },
+        onError: error => {
+            alert("삭제 권한이 없습니다")
         }
     })
+
     const getTeamInfoMutation = useQuery(
         ["getTeamInfoMutation"],
         async () => {
@@ -83,9 +102,10 @@ function DonationStoryPage() {
             }
         }
     );
-    const handleDeleteButtonClick = () => {
-        deleteMutationButton.mutate({ donationPageId: donationPageId });
-    }
+const handleDeleteButtonClick = () => {
+    console.log("삭제 시도:", donationPageId);
+    deleteMutationButton.mutate({ donationPageId: donationPageId });
+}
 
     const handleCommentChange = (e) => {
         const value = e.target.value;
@@ -158,21 +178,6 @@ function DonationStoryPage() {
     const handleNewsUpdateButton = () => {
     }
 
-    const principalQuery = useQuery(
-        ["principalQuery"], 
-        getPrincipalRequest,
-        {
-            retry: 0,
-            refetchOnWindowFocus: false,
-            onSuccess: (response) => {
-                console.log("Auth", response.data);
-                setUserId(response.data.userId);
-            },
-            onError: (error) => {
-                console.error("Authentication error", error);
-            }
-        }
-    );
     
 
     // 카카오톡 공유 버튼 클릭 이벤트 핸들러 추가
