@@ -1,10 +1,12 @@
-/** @jsxImportSource @emotion/react */
+ /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useQuery } from "react-query";
 import Select from 'react-select';
 import { getDonationListRequest, searchDonationRequest } from "../../apis/api/DonationAPI";
+import { FiSearch } from "react-icons/fi";
+import { TiHome } from "react-icons/ti";
 
 function SearchPage(props) {
 
@@ -17,6 +19,8 @@ function SearchPage(props) {
     const [donationList, setDonationList] = useState([]);
     const [filteredDonations, setFilteredDonations] = useState([]);
     const [sortOrder, setSortOrder] = useState('');
+    const [state, setState] = useState('');
+
 
     const handleOnChange = (e) => {
             setSearchText(()=>e.target.value);
@@ -24,7 +28,6 @@ function SearchPage(props) {
 
     const searchSubmit = () => {
         setSearchValue(()=>searchText);
-        console.log(searchValue);
     }
 
 
@@ -60,7 +63,6 @@ function SearchPage(props) {
         setSelectedMainTag(selectedOption);
     };
 
-
     const searchDonationQuery = useQuery(
         ["searchDonationQuery", searchValue],
         async () => {
@@ -80,7 +82,7 @@ function SearchPage(props) {
         useEffect(() => {
             setFilteredDonations(selectedMainTag
             ? donationList.filter(
-                (donation) => donation.mainCategoryName === (selectedMainTag.label) 
+                (donation) => donation.mainCategoryName === (selectedMainTag) 
                 )
                 : donationList);
         }, [selectedMainTag, donationList]);
@@ -89,16 +91,18 @@ function SearchPage(props) {
     const handleSortChange = (event) => {
         setSortOrder(event.target.value);
     };
+    
+    const handleStateChange = (event) => {
+        setState(event.target.value);
+    };
 
-    // sortOrder 상태가 변경될 때 자동으로 정렬 실행
     useEffect(() => {
 
-            let sortDonations = filteredDonations; // 기존 목록을 복사
-            if (sortOrder === '최고금액순') {
+            let sortDonations = filteredDonations; 
+            if (sortOrder === '기부액순') {
                 sortDonations.sort((a, b) => parseInt(b.goalAmount) - parseInt(a.goalAmount));
-            } else if (sortOrder === '최저금액순') {
-                sortDonations.sort((a, b) => parseInt(a.goalAmount) - parseInt(b.goalAmount));        
-                // sortDonations.sort((a, b) => new Date(b.donationDate) - new Date(a.donationDate));
+            } else if (sortOrder === '최신순') {
+                sortDonations.sort((a, b) => new Date(b.createDate) - new Date(a.createDate));;        
             }
             setFilteredDonations([...sortDonations]);
         
@@ -109,42 +113,48 @@ function SearchPage(props) {
 
     return (
         <>
-        <div>
+        <div css={s.layout}>
             <div css={s.searchBar}>
+                <div css={s.searchInput} >
                 <input 
-                    css={s.searchInput} 
                     type="text" 
                     value={searchText}
+                    placeholder="검색어를 입력해주세요"
                     onChange={handleOnChange}
                 />
-                <button css={s.searchButton} onClick={() => searchSubmit()}>검색</button>
+                <button css={s.searchButton} onClick={() => searchSubmit()}><FiSearch size={30} color="Orange"/></button>
+                </div>
             </div>
         </div>
         <div css={s.searchSelect}>
-            <div css={s.searchCategory}>
-            <Select
-                    options={mainTagOptions}
-                    value={selectedMainTag}
-                    placeholder="종류를 선택해주세요"
-                    onChange={handleMainTagChange}
-                />
-            </div>
-            <div>
-                <select onChange={handleSortChange}>
-                    <option value="금액순">금액 순</option>
-                    <option value="최고금액순">최고 금액 순</option>
-                    <option value="최저금액순">최저 금액 순</option>
-                </select>
-                <select onChange={handleSortChange}>
-                    <option value="최신 순">최신 순</option>
-                    <option value="인기 순">인기 순(미완성)</option>
-                </select>
-            </div>
+   
+            {mainTagOptions.map(
+                    tag => (
+                    <button 
+                        key={tag.label} 
+                        css={s.tagButton}
+                        onClick={() => handleMainTagChange(tag.label)}
+                        aria-pressed={selectedMainTag === tag.label}
+                    >
+                        {tag.label}
+                    </button>
+                ))}
 
         </div>
-        <p>검색 결과 {filteredDonations.length} 건</p>
-        <div css={s.tagContainer}>
+        <div css={s.tagHeader}>
+            <div css={s.tagContainer}>
+                <p>검색 결과 <strong>{filteredDonations.length}</strong> 건</p>
             </div>
+            <div css={s.selectItems}>
+                <button css={s.rightButton} onClick={handleSortChange} value={"최신순"}>최신순</button>
+                <button css={s.rightButton} onClick={handleSortChange} value={"기부액순"}>기부액순</button>
+                <select onChange={handleStateChange} css={s.rightSelect}>
+                    <option value="전체">전체</option>
+                    <option value="진행중">진행중</option>
+                    <option value="종료">종료</option>
+                </select>
+            </div>
+        </div>
             <div css={s.donationList}>
                 {
                     filteredDonations.map(
@@ -160,11 +170,11 @@ function SearchPage(props) {
                                 </div>
                                 <div css={s.donationDetails}>
                                     <div css={s.donationText}>
-                                        <h2><strong>(진행중)</strong> {donation.storyTitle}</h2>
-                                        <p><strong>기관:</strong> {donation.teamName}</p>
+                                        <h2><strong>진행중</strong> {donation.storyTitle}</h2>
+                                        <p><TiHome color="gray"/> {!donation.teamName?"기관 없음":donation.teamName}</p>
                                     </div>
                                     <div css={s.donationAmount}>
-                                        <p><strong>₩</strong>{donation.goalAmount}</p>
+                                        <p><strong>₩</strong>{donation.goalAmount.toLocaleString()}</p>
                                     </div>
                                 </div>
                             </div>

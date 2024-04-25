@@ -4,6 +4,7 @@ import { useQuery, useQueryClient } from "react-query";
 import Select from "react-select";
 import { getDonatorList } from "../../apis/api/DonatorApi";
 import * as s from "./style";
+import { Link } from "react-router-dom";
 
 function MyDonation(props) {
     const queryClient = useQueryClient();
@@ -73,7 +74,7 @@ function MyDonation(props) {
                 donatorList.map((donator, index) => (
                     <th key={index}>
                         <td>기부날짜: {donator.donationDate}</td><br/>
-                        <td>타이틀: {donator.storyTitle}</td><br/>
+                        <Link to={`/donation?page=${donator.donationPageId}`}>타이틀: {donator.storyTitle}</Link><br/>
                         <td>기부금액: {donator.amount}</td>
                     </th>
                 ))

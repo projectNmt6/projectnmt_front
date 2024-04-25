@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { deleteAllMessageRequest, getMessageListRequest } from '../../apis/api/Message';
 
-function MessagePage(props) {
+function MessagePage({isTeam}) {
     const queryClient = useQueryClient();
     const principalData = queryClient.getQueryData("principalQuery");
     const [ messageList, setMessageList ] = useState([]);
@@ -24,11 +24,14 @@ function MessagePage(props) {
         onSuccess: response => {
             console.log(response);
             alert("삭제완료.");
+            window.location.reload();   
         },
         onError: error => {}
     })  
     const deleteAllMessage = () => {
-        deleteMessageMutation.mutate(principalData.data.userId)
+        if(isTeam === 0) {
+            deleteMessageMutation.mutate({"id":principalData.data.userId, isTeam})
+        }
     }
     return (
         <div>{

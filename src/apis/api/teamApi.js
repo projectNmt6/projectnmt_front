@@ -9,6 +9,9 @@ export const updateTeamRequest = async (data) => {
 export const getTeamListRequest = async (params) => {
     return await instance.get("/account/teams", {params});
 }
+export const getParticipationRequest = async (params) => {
+    return await instance.get("/account/mypage/participate", {params});
+}
 export const getTeamInfoRequest = async (params) => {
     return await instance.get("/team/info", {params});
 }

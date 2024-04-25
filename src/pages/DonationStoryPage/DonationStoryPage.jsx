@@ -15,6 +15,7 @@ import Donators from "./CategoryPage/Donators";
 import { getPrincipalRequest } from "../../apis/api/principal";
 import DonationComment from "./DonationComment";
 import DonatorInfo from "../DonatorInfo/DonatorInfo";
+import { getTeamInfoRequest } from "../../apis/api/teamApi";
 
 function DonationStoryPage() {
     const location = useLocation();
@@ -27,9 +28,10 @@ function DonationStoryPage() {
     const donationCommentId = queryParams.get('commentId')
     const [comment, setComment] = useState("");
     const [selectedTab, setSelectedTab] = useState('story'); // news, story 중 하나의 값을 가짐
-    const [ showModal , setshowModal ] = useState(false);
-    
+    const [ showModal , setshowModal ] = useState(false);    
     const [userId, setUserId ] = useState();
+    const [ teamInfo, setTeamInfo ] = useState();
+  
     const getDonationStoryQuery = useQuery(
         ["getDonationPageQuery", donationPageId],
         async () => {
@@ -39,6 +41,7 @@ function DonationStoryPage() {
         {
             refetchOnWindowFocus: false,
             onSuccess: (data) => {
+                console.log(data);
                 setDonationPage(data);
             }
         }
@@ -64,7 +67,22 @@ function DonationStoryPage() {
             window.location.replace("/main");
         }
     })
-
+    const getTeamInfoMutation = useQuery(
+        ["getTeamInfoMutation"],
+        async () => {
+            console.log(donationPage);
+            const response = await getTeamInfoRequest({ teamId: donationPage.teamId });
+            return response;
+        },
+        {
+            refetchOnWindowFocus: false,
+            enabled: !!donationPage.teamId,
+            onSuccess: response => {
+                console.log(response.data);
+                setTeamInfo(() => response.data);
+            }
+        }
+    );
     const handleDeleteButtonClick = () => {
         deleteMutationButton.mutate({ donationPageId: donationPageId });
     }
@@ -82,7 +100,6 @@ function DonationStoryPage() {
         {
             refetchOnWindowFocus: false,
             onSuccess: data => {
-                console.log(data.data);
                 setGoalAmount(data.data.goalAmount);
                 setCurrentAmount(data.data.addAmount);
             },
@@ -105,7 +122,6 @@ function DonationStoryPage() {
     };
 
     const handleCommentSubmit = () => {
-
         axios.post("http://localhost:8080/comment/upload", {
             donationCommentId: null,
             commentText: comment,
@@ -259,8 +275,13 @@ const handleShareKakao = () => {
                         </div>
                     </div>
                 </div>
+
             </>
         );
     }       
+
+               
+    
+
 
 export default DonationStoryPage;

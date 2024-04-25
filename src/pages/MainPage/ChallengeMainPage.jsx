@@ -31,13 +31,13 @@ function ChallengeMainPage() {
             <div>
                 <h1>Main Page</h1>
             </div>
-            <div css={s.upperRightMenu}>
+            <div >
                 <div css={s.sign}>
                     <Link to={"/signin"}>로그인</Link>
                     <Link to={"/signup"}>회원가입</Link>
                 </div>
                 <div>
-                    <Link to={"/search"} css={s.searchIcon}><FiSearch size={40}/></Link>
+                    <Link to={"/search"} ><FiSearch size={40}/></Link>
                 </div>
             </div>
             <div css={s.write}>

@@ -79,6 +79,7 @@ export const getDonationPageRequest = async (pageId) => {
     return await instance.get(`/main/donation/${pageId}`);
 }
 export const submitDonationData = async (data) => {
+    console.log(data);
     return await instance.post("/main/test", data); 
 }
 
@@ -132,7 +133,6 @@ export const getAllAmount = async (params) => {
     return await instance.get("/main/amount", {params});
 }
 export const getProgressAmount = async (params) => {
-    console.log(params);
     return await instance.get("/main/progress", {params});
 }
 

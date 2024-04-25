@@ -12,7 +12,7 @@ function CommentSection({ donationPageId }) {
     const [comment, setComment] = useState("");
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/comment/getcomment/${donationPageId}`)
+        axios.get(`http://localhost:8080/comment/getcomment/${donationPageId}`) 
             .then(response => setCommentList(response.data))
             .catch(console.error);
     }, [donationPageId]);

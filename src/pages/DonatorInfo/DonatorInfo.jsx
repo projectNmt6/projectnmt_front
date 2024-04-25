@@ -50,6 +50,7 @@ function DonatorInfo({ setShowModal }) {
     const checkHandled = (checked) => {
         setChecked(checked);
     }
+
     const handleDonationSubmit = () => {
         if (!window.IMP) {
             alert("결제 모듈이 로드되지 않았습니다.");
@@ -88,7 +89,6 @@ function DonatorInfo({ setShowModal }) {
             document.body.removeChild(script);
         };
     }, []);
-
 
     return (
         <>
