@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { css } from '@emotion/react';
-import ReactQuill from "react-quill";
+import ReactQuill, { Quill } from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 import axios from 'axios';
 import Select from 'react-select';
@@ -16,6 +16,11 @@ import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { storage } from '../../apis/filrebase/config/firebaseConfig';
 import { v4 as uuid } from "uuid"
 
+// import { ImageActions } from '@xeger/quill-image-actions';
+// import { ImageFormats } from '@xeger/quill-image-formats';
+
+// Quill.register('modules/imageActions', ImageActions);
+// Quill.register('modules/imageFormats', ImageFormats);
 
 function DonationUpdatePageBoard() {
    
@@ -174,7 +179,7 @@ const handleSubmitButton = async () => {
         donationPageShow: 2,
         donationImages: uploadedImageUrls.map((url, index) => ({
             donationImageNumber: index + 1,
-            donationImageURL: url.donationImageURL,
+            donationImageURL: url,
             userId: userId,
             createDate: new Date(),
         }))
@@ -223,37 +228,38 @@ const handleSubmitButton = async () => {
 
     const imgFileRef = useRef();
     const [uploadedImageUrls, setUploadedUrls] = useState([]);
+    console.log("uploadedImageUrls " + uploadedImageUrls.url)
     
-    const handleImageUpload = async (files) => {
-        console.log(files);
-        const uploads = files.map(file => {
-            return new Promise((resolve, reject) => {
-                const storageRef = ref(storage, `images/${uuid()}_${file.name}`);
-                const uploadTask = uploadBytesResumable(storageRef, file);
+    // const handleImageUpload = async (files) => {
+    //     console.log(files);
+    //     const uploads = files.map(file => {
+    //         return new Promise((resolve, reject) => {
+    //             const storageRef = ref(storage, `images/${uuid()}_${file.name}`);
+    //             const uploadTask = uploadBytesResumable(storageRef, file);
     
-                uploadTask.on(
-                    "state_changed",
-                    (snapshot) => {
-                        const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+    //             uploadTask.on(
+    //                 "state_changed",
+    //                 (snapshot) => {
+    //                     const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
                         
-                    },
-                    reject,
-                    () => {
-                        getDownloadURL(storageRef).then((donationImageURL) => {
-                            const imageId = uuid(); // 각 이미지에 대한 고유 ID 생성
-                            resolve({ donationImageURL, imageId });
-                        }).catch(reject);
-                    }
-                );
-            });
-        });
+    //                 },
+    //                 reject,
+    //                 () => {
+    //                     getDownloadURL(storageRef).then((donationImageURL) => {
+    //                         const imageId = uuid(); // 각 이미지에 대한 고유 ID 생성
+    //                         resolve({ donationImageURL, imageId });
+    //                     }).catch(reject);
+    //                 }
+    //             );
+    //         });
+    //     });
     
-        const uploadedImages = await Promise.all(uploads);
-        setUploadedUrls(uploadedImages); // 업로드된 이미지의 URL과 ID 저장
-        console.log(uploadedImages)
-        setStoryImages(uploadedImages); // 새로운 이미지로 대체
-        console.log(storyImages);
-    };
+    //     const uploadedImages = await Promise.all(uploads);
+    //     setUploadedUrls(uploadedImages); // 업로드된 이미지의 URL과 ID 저장
+    //     console.log(uploadedImages)
+    //     setStoryImages(uploadedImages); // 새로운 이미지로 대체
+    //     console.log(storyImages);
+    // };
 
     return (
         <>
@@ -321,7 +327,7 @@ const handleSubmitButton = async () => {
             </div>
 
             {/* TextEditor 컴포넌트 */}
-            <TextEditor content={content} setContent={setContent} onUploadImages={handleImageUpload} />
+            <TextEditor content={content} setContent={setContent} downloadURL={setUploadedUrls} />
 
             <div>
                 <button onClick={handleSubmitButton}>수정 완료</button>
