@@ -50,7 +50,6 @@ function HomePage() {
                 console.log(response.data);
                 if (Array.isArray(response.data)) {
                     setTotalDonationLength(response.data.length);
-
                 }
             }
         }
