@@ -5,7 +5,14 @@ export const header = css`
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    font-family: 'omyu_pretty';
     width: 100%;
+    @font-face {
+    font-family: 'omyu_pretty';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
 `;
 
 export const imgBox = css`
@@ -101,8 +108,9 @@ export const select = css`
 export const button = css`
     width: 400px;
     height: 40px;
+    font-family: 'omyu_pretty';
     margin-bottom:100px;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 600;
     color: gray;
     background-color: #FFD79999;

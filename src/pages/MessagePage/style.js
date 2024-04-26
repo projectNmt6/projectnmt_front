@@ -6,6 +6,7 @@ export const div = css`
     flex-direction: column;
     align-items: center;
     border: 1px solid #dbdbdb;
+    font-family: 'omyu_pretty';
     border-radius: 5px;
     margin-top: 50px;
     box-shadow: 1px 1px 4px #aaaaaac1;
@@ -17,6 +18,7 @@ export const div1 = css`
     box-sizing: border-box;
     height: auto;
     align-items: center;
+    font-family: 'omyu_pretty';
     justify-content: flex-start;
     width: 620px;
     height: 100px;
@@ -36,21 +38,25 @@ export const img = css`
 `;
 
 export const div2 = css`
-    font-size: 15px;
+    font-size: 17px;
+    font-family: 'omyu_pretty';
     color: #444;
 `;
 export const div3 = css`
     font-size: 17px;
     padding-top: 10px ;
+    font-family: 'omyu_pretty';
     color: #999999;
 `;
 export const div4 = css`
     font-size: 15px;
     color: #444;
+    font-family: 'omyu_pretty';
     padding: 10px 0px;
 `;
 export const div6 = css`
     padding: 25px 0px;
+    font-family: 'omyu_pretty';
     font-size: 21px;
     text-decoration: underline;
     color : red;
@@ -63,6 +69,8 @@ export const div7 = css`
 export const button = css`
     width: 400px;
     height: 35px;
+    font-family: 'omyu_pretty';
+    font-size: 20px;
     margin:30px 0px;
     border: none;
     border-radius: 5px;

@@ -71,7 +71,7 @@ function MyDonation(props) {
         </div>
         <table css={s.div1}>
             {donatorList.length === 0 ? (
-                <td>기부내역이 없습니다.</td>
+                <td css={s.td3}>기부내역이 없습니다.</td>
             ) : (
                 donatorList.map((donator, index) => (
                     <th css={s.table} key={index}>

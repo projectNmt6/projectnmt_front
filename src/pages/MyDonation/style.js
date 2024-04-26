@@ -5,17 +5,26 @@ export const div = css`
     align-items: center;
     height: 42px;
     padding-top: 25px;
+    @font-face {
+    font-family: 'omyu_pretty';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
 `;
 export const box = css`
     width: 150px;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 600;
     padding-right: 5px;
+    font-family: 'omyu_pretty';
 `;
 export const div1 = css`
     box-sizing: border-box;
     margin-top: 30px;
+    font-size: 25px;
     display: flex;
+    font-family: 'omyu_pretty';
     justify-content: center;
     flex-direction: column;
     align-items: center;
@@ -23,6 +32,10 @@ export const div1 = css`
     border-radius: 5px;
     box-shadow: 1px 1px 4px #aaaaaac1;
 `;
+export const td3 = css`
+    margin: 20px 0px;
+`;
+
 export const table = css`
     width: 620px;
     height: 100px;
@@ -34,12 +47,12 @@ export const table = css`
 export const td = css`
     display: flex;
     justify-content: flex-start;
-    font-size: 15px;
+    font-size: 17px;
     font-weight: normal;
 `;
 export const td1 = css`
     display: flex;
-    font-size: 17px;
+    font-size: 21px;
     color: #999999;
     justify-content: flex-start;
 `;
@@ -52,5 +65,5 @@ export const td2 = css`
     display: flex;
     justify-content: flex-start;
     padding-top: 6px;
-    font-size: 24px;
+    font-size: 28px;
 `;

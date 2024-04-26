@@ -5,9 +5,16 @@ export const container = css`
     width: 100%;
     flex-direction:column;
     display: flex;
+    font-family: 'omyu_pretty';
     justify-content: center;
     align-items: center;
     height: auto;
+    @font-face {
+    font-family: 'omyu_pretty';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
 `;
 export const header = css`
     display: flex;
@@ -81,7 +88,8 @@ export const button = css`
     width: 400px;
     height: 40px;
     margin: 40px;
-    font-size: 18px;
+    font-size: 22px;
+    font-family: 'omyu_pretty';
     font-weight: 600;
     color: gray;
     background-color: #FFD79999;

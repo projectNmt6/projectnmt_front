@@ -9,7 +9,13 @@ export const layout = css`
     align-items: center;
     width: 100%;
     height: 100%;
-`
+    @font-face {
+    font-family: 'omyu_pretty';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+`;
 export const header = css`
     box-sizing: border-box;
     display: flex;
@@ -48,24 +54,26 @@ export const propfileImg = css`
 `
 export const infoBox = css`
     box-sizing: border-box;
-    font-size: 18px;
+    font-size: 24px;
     display: flex;
+    font-family: 'omyu_pretty';
     flex-direction: column;
     font-weight: 600;
     color: #444;
 `
 export const infoText = css`
     margin-bottom: 10px;
-    font-size: 36px;    
+    font-size: 45px;    
 `
 export const button1 = css`
     border-radius:20px;
     background-color:#E0EBFF;
     height: 35px;
-    font-size: 16px;
+    font-size: 18px;
     margin-right: 10px;
     color: white;
     font-weight: 600;
+    font-family: 'omyu_pretty';
     border: none;
     box-shadow: 2px 2px 2px #aaaaaac1;
     cursor: pointer;
@@ -180,7 +188,9 @@ export const div4 = css`
     color: #505050c1;
 `;
 export const label = css`
-    padding: 30px 0px 10px 40px;
+    margin: 30px 0px 10px 40px;
+    font-family: 'omyu_pretty';
+    font-size: 25px;
 `;
 export const link = css`
     text-decoration-line: none;
@@ -193,8 +203,9 @@ export const div5 = css`
     border-radius: 5px;
     justify-content: center;
     align-items: center;
+    font-family: 'omyu_pretty';
     display: flex;
-    font-size: 18px;
+    font-size: 23px;
     font-weight: 600;
     color: gray;
     background-color: #FFD79999;
@@ -204,7 +215,7 @@ export const div5 = css`
     cursor: pointer;
     :hover {
         color: black;
-        font-size: 18px;
+        font-size: 23px;
         font-weight: 600;     
     }
     :active {
@@ -217,11 +228,13 @@ export const div6 = css`
     justify-content: space-around;
     width: 100%;
     height: 100px;
+    font-family: 'omyu_pretty';
 `;
 export const button =css`
     width: 300px;
     height: 60px;
-    font-size: 18px;
+    font-family: 'omyu_pretty';
+    font-size: 23px;
     font-weight: 600;
     background-color: #ff0c0c99;
     border: none;
@@ -231,7 +244,7 @@ export const button =css`
     cursor: pointer;
     :hover {
         color: black;
-        font-size: 18px;
+        font-size: 23px;
         font-weight: 600;     
     }
     :active {
@@ -241,7 +254,8 @@ export const button =css`
 export const span =css`
     box-sizing: border-box;
     display: flex;
-    font-size: 24px;
+    font-family: 'omyu_pretty';
+    font-size: 28px;
     font-weight: 600;
     padding-top: 20px;
     color: #444;
@@ -270,17 +284,19 @@ export const div8 = css`
     color: #aeaeaeff;
 `;
 export const span1 = css`
-    font-size: 23px;
+    font-size: 24px;
     color: #2e2e2ec1;
 `;
 export const div9 = css`
     padding-left: 10px;
+    font-family: 'omyu_pretty';
 `;
 
 export const link1 = css`
     text-decoration-line: none;
     color: white;
-    font-size: 20px;
+    font-size: 24px;
+    font-family: 'omyu_pretty';
     font-weight: 800;
     background-color: #98FB98;
     width: 200px;

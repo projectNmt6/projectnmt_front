@@ -3,11 +3,20 @@ export const container = css`
     display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute;
+    font-family: 'omyu_pretty';
     width: 100%;
+    @font-face {
+    font-family: 'omyu_pretty';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
 `;
 
 export const haeder = css`
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
     box-sizing: border-box;
     border: 1px solid #dbdbdb;
     border-radius: 5px;
@@ -35,7 +44,7 @@ export const check = css`
 export const div = css`
     box-sizing: border-box;
     padding: 40px 0px 0px 45px;
-    text-align: center;
+    text-align: start;
     width: 114px;
     font-size: 18px;
 `;
@@ -72,12 +81,13 @@ export const input = css`
 export const input2 = css`
     display: flex;
     width: 80px;
+    font-family: 'omyu_pretty';
     height: 28px;
     border-radius: 5px;
     color:#fff;
     background-color: #9bbbff;
     border: none;
-    font-size: 16px;
+    font-size: 19px;
     justify-content: center;
     align-items: center;
     box-shadow: 2px 2px 4px rgba(0,79,255,0.3);
@@ -130,7 +140,7 @@ export const div4 = css`
     box-sizing: border-box;
     width: 300px;
     height: 280px;
-    margin:0px 0px 30px 40px;
+    margin:0px 0px 30px 45px;
 `;
 export const div5 = css`
     box-sizing: border-box;
@@ -142,8 +152,9 @@ export const button = css`
     width: 120px;
     height: 40px;
     color:#fff;
+    font-family: 'omyu_pretty';
     background-color: #9bbbff;
-    font-size: 16px;
+    font-size: 18px;
     border: none;
     border-radius: 5px;
     box-shadow: 2px 2px 4px rgba(0,79,255,0.3);
@@ -212,8 +223,9 @@ export const button2 = css`
     width: 250px;
     height: 40px;
     color:#fff;
+    font-family: 'omyu_pretty';
     background-color: #ff8d8d;
-    font-size: 16px;
+    font-size: 19px;
     border: none;
     border-radius: 5px;
     margin: 80px 0px 0px 225px;
@@ -230,9 +242,10 @@ export const button3 = css`
     width: 400px;
     height: 40px;
     border: none;
+    font-family: 'omyu_pretty';
     border-radius: 5px;
     margin: 100px 0px 35px 200px;
-    font-size: 18px;
+    font-size: 22px;
     font-weight: 700;
     color: #6b6b6bc1;
     box-shadow: 2px 2px 4px #808080;
