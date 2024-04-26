@@ -5,7 +5,7 @@ import { useQuery, useQueryClient } from "react-query";
 import Progress from "../../components/progress/Progress";
 import { FaSackDollar } from "react-icons/fa6";
 import LikeButton from "../../components/LikeButton/LikeButton";
-import { getDonatorList, getDonators } from "../../apis/api/donatorApi";
+import { getDonators } from "../../apis/api/donatorApi";
 
 function DonationKing(props) {
     const [top3Donations, setTop3Donations] = useState([]);

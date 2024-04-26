@@ -109,8 +109,16 @@ export const donationText = css`
     font-size: 15px;
     padding: 5px 10px;
     border-radius: 3px;
-    background-color: #10c838;
-  }
+    &.active {
+        color: white;
+        background-color: #10c838;
+      }
+
+    &.finished {
+      color: white;
+      background-color: #ff4d4d;
+      }
+    }
 `;
 
 export const donationAmount = css`
