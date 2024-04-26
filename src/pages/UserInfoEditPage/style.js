@@ -57,7 +57,8 @@ export const input = css`
     font-size:16px;
     border:1px solid #b8b8b8c1;
     :focus {
-        border: none;
+        outline: none;
+        background-color: #dbdbdb;
     }
 `;
 export const div2 = css`
@@ -85,7 +86,8 @@ export const input2 = css`
     font-size:16px;
     border:1px solid #b8b8b8c1;
     :focus {
-        border: none;
+        outline: none;
+        background-color: #dbdbdb;
     }
 `;
 export const input3 = css`
@@ -98,7 +100,8 @@ export const input3 = css`
     font-size:16px;
     border:1px solid #b8b8b8c1;
     :focus {
-        border: none;
+        outline: none;
+        background-color: #dbdbdb;
     }
 `;
 export const select = css`

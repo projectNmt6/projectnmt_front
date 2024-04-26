@@ -57,7 +57,7 @@ export const link = css`
     background-color: #8ad0ff;
     border-radius: 5px;
     color: #fff;
-    box-shadow: 0 0 40px 40px $blue inset, 0 0 0 0 blue;
+    box-shadow: 0 0 40px 40px blue inset, 0 0 0 0 blue;
     transition: all 150ms ease-in-out;
     box-shadow: 2px 2px 2px #aaaaaac1;
   &:hover {
