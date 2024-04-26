@@ -88,18 +88,19 @@ function DonationComment({donationPageId}) {
                         value={comment}
                         onChange={handleCommentChange}
                     />
-                </div>
-                    <button onClick={handleCommentSubmit}>덧글 입력</button>
+                </div>                    
+                <button onClick={handleCommentSubmit}>덧글 입력</button>
+              
                 <div>
                 {commentList.map((comment, index) => (
-                <div key={index}>
-                    <p>{comment.commentText}
-                        <button onClick={() => handleCommentDeleteButton(comment.donationCommentId)}>
-                            덧글 삭제 <TbTrashXFilled />
-                        </button>
-                    </p>
-                </div>
-            ))}
+                    <div key={index}>
+                        <p>{comment.commentText}
+                            <button onClick={() => handleCommentDeleteButton(comment.donationCommentId)}>
+                                덧글 삭제 <TbTrashXFilled />
+                            </button>
+                        </p>
+                    </div>
+                ))}
                 </div>
             </div>
         </>

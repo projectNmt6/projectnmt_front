@@ -69,20 +69,7 @@ function RootHeader(props) {
                 }
 
             </div>
-            {
-                !isLogin ? 
-                <div css={s.noAccountItems}>
-                <Link css={s.account} to={"/auth/signin"}><FiUser /></Link>
-                <Link to={"/search"} css={s.searchIcon}><FiSearch color="black"/></Link>
-                </div>
-                : <div css={s.accountItems}>
-                    <button css={s.logout} onClick={handleLogoutClick}>
-                        <FiLogOut />
-                    </button> 
-                <Link css={s.account} to={"/account/mypage"}><FiUser /></Link>
-                <Link to={"/search"} css={s.searchIcon}><FiSearch color="black"/></Link>
-                </div> 
-            }
+
 
         </div>
     </>
