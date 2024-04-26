@@ -21,6 +21,7 @@ export const introStyle = css`
   display: flex;
   align-items: center;
   overflow: hidden;
+
     & > img {
         border-radius: 50%;
         width: 70px;
@@ -118,8 +119,6 @@ background-color: white;
 display:flex;
 justify-content: center;
 `
-
-
 
 
 ////////카드 CSS ////////////////
@@ -262,7 +261,6 @@ export const Top3goalAmount = css`
 display:flex;
 flex-direction: column;
 `;
-
 
 //////////// footer ////////////
 export const additionalContentStyle = css`

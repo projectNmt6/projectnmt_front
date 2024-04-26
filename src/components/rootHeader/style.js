@@ -1,5 +1,6 @@
 import {css} from "@emotion/react";
 
+
 export const header = css`
     position: relative;
     box-sizing: border-box;
@@ -9,13 +10,9 @@ export const header = css`
     border-bottom: 1px solid #dbdbdb;
     padding: 0px 10px;
     width: 100%;
-    height: 70px;
+    height: 50px;
 `
-export const header1 = css`
-    position: absolute;
-    display: flex;
-    margin: 0px 240px;
-`;
+
 export const menuButton = css`
     box-sizing: border-box;
     border: none;
@@ -30,7 +27,7 @@ export const account = css`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0px;
+    margin: 0px 8px;
     border: none;
     border-radius: 50%;
     width: 30px;
@@ -45,6 +42,7 @@ export const accountItems = css`
     display: flex;
     align-items: center;
     height: 100%;
+
 `
 
 export const logout = css`
@@ -74,7 +72,8 @@ export const adminbox = css`
         font-weight: bold;
         text-decoration: none; 
         color: inherit; 
-        align-items: center;     
+        align-items: center;
+             
     }
 
 `;
@@ -84,54 +83,36 @@ export const mainbox = css`
     border: none;
     padding: 10px;
     cursor: pointer;
-    margin-right: 10px;
-    :hover {
-        transform: scaleY(1.08);
-        transition: transform 250ms ease-in-out;
-        transform-origin:  50% 50%;
-        border-bottom: 1px solid #292929;
-    }
     & > * {
         font-size: 16px;   
         font-weight: bold;
         text-decoration: none; 
-        color: inherit;   
+        color: inherit; 
+             
     }
+
 `;
 export const challengebox = css`
      display: flex;
     justify-content: center;
     border: none;
     padding: 10px;
-    transition: transform 250ms ease-in-out;
     cursor: pointer;
-    :hover {
-        transform: scaleY(1.08);
-        transition: transform 250ms ease-in-out;
-        transform-origin:  50% 50%;
-        border-bottom: 1px solid #292929;
-    }
-    &::after{
-        transform-origin:  0% 50%;
-    }
     & > * {
         font-size: 16px;   
         font-weight: bold;  
         text-decoration: none; 
-        color: inherit;        
+        color: inherit; 
+             
     }
-`;
-export const div = css`
-    display: flex;
-    width: 130px;
-    justify-content: space-evenly;
-    align-items: center;
-`;
 
+`;
+export const noAccountItems = css`
+display: flex;
+align-items: center;
+`
 export const searchIcon=css`
-    display: flex;
-    justify-content: center;
-    width: 30px;
-    align-items: center;
-    height: 30px;
+display: flex;
+margin: 0 20px;
+justify-content: center;
 `;
