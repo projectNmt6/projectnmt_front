@@ -246,3 +246,55 @@ export const span =css`
     padding-top: 20px;
     color: #444;
 `;
+export const div7 = css`
+    display: flex;
+    margin: 15px 0px 25px 0px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    border: 1px solid #dbdbdb;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    box-shadow: 2px 2px 2px #aaaaaac1;
+`;
+
+export const div8 = css`
+    display: flex;
+    box-sizing: border-box;
+    padding-top: 25px;
+    border-bottom: 1px solid #dbdbdb;
+    width: 650px;
+    align-items: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: #aeaeaeff;
+`;
+export const span1 = css`
+    font-size: 23px;
+    color: #2e2e2ec1;
+`;
+export const div9 = css`
+    padding-left: 10px;
+`;
+
+export const link1 = css`
+    text-decoration-line: none;
+    color: white;
+    font-size: 20px;
+    font-weight: 800;
+    background-color: #98FB98;
+    width: 200px;
+    height: 35px;
+    margin: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    box-shadow: 2px 2px 2px #aaaaaac1;
+    :hover {
+        background-color: #7AF67A;   
+    }
+    :active {
+        background-color: #66EC66;   
+    }
+`;

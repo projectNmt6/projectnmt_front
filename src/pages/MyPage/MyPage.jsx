@@ -113,7 +113,7 @@ function MyPage(props) {
                                             <div css={s.div5}>
                                                 <Link css={s.link} to={"/account/mypage/edit"}>회원 정보 수정</Link>
                                             </div>
-                                        <button css={s.button} onClick={handleUserDeleteOnClick}>회원탈퇴</button>
+                                            <button css={s.button} onClick={handleUserDeleteOnClick}>회원탈퇴</button>
                                         </div>
                                     </div>
                                     : selectedTab === "donation"
@@ -122,18 +122,21 @@ function MyPage(props) {
                                             <MyDonation />
                                         </div>
                                         : selectedTab === "team"
-                                            ? <div>
+                                        ? <div css={s.div7}>
                                                 {temaList.map(team => {
                                                     return <>
-                                                        <div key={team.teamId}>
-                                                            <div>{team.teamName}</div>
+                                                        <div css={s.div8} key={team.teamId}>
                                                             <Link to={`/team/info?id=${team.teamId}`}>
                                                                 <img src={team.teamLogoImgUrl} alt="" />
                                                             </Link>
+                                                            <div css={s.div9}>
+                                                                <span css={s.span1}>프로젝트팀</span>
+                                                                <div>{team.teamName}</div>
+                                                            </div>
                                                         </div>
                                                     </>
                                                 })}
-                                                <Link to={"/team/write"}> 팀 만들기</Link>
+                                                <Link css={s.link1} to={"/team/write"}> 팀 만들기</Link>
                                             </div>
                                             : <div>
                                                 <span css={s.span}>메시지 리스트</span>
@@ -141,7 +144,6 @@ function MyPage(props) {
                                             </div>
                             }
                         </div>
-
                     </div>
                 </div>
             }
