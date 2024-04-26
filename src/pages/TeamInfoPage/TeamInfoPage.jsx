@@ -29,34 +29,34 @@ function TeamInfoPage(props) {
             },
         }
     );
-    const getDonationListRequest = useQuery(
-        [ "getDonationListByTeamIdRequest" ],
-        async () => {
-            return await getDonationListByTeamIdRequest({
-                teamId: teamId
-            })
-        },
-        {
-            refetchOnWindowFocus: false,
-            onSuccess: response => {
-                const today = new Date();
-                const month = today.getMonth()+1;
-                const year = today.getFullYear();
-                const date = today. getDate();
-                for(let arr of response.data) {
-                    console.log(arr);
-                    const endDate = arr.endDate.split("T")[0].split("-")[2];
-                    const endMonth = arr.endDate.split("T")[0].split("-")[1];
-                    const endYear = arr.endDate.split("T")[0].split("-")[0];
-                    if((endYear - year) * 12 * 30 + (endMonth - month) * 30 + (endDate - date) >= 0) {
-                        setDonationList(() => [...donationList, arr]);
-                    } else {
-                        setEndDonationList(() => [...endDonationList, arr]);
-                    }
-                }   
-            },
-        }
-    );
+    // const getDonationListRequest = useQuery(
+    //     [ "getDonationListByTeamIdRequest" ],
+    //     async () => {
+    //         return await getDonationListByTeamIdRequest({
+    //             teamId: teamId
+    //         })
+    //     },
+    //     {
+    //         refetchOnWindowFocus: false,
+    //         onSuccess: response => {
+    //             const today = new Date();
+    //             const month = today.getMonth()+1;
+    //             const year = today.getFullYear();
+    //             const date = today. getDate();
+    //             for(let arr of response.data) {
+    //                 console.log(arr);
+    //                 const endDate = arr.endDate.split("T")[0].split("-")[2];
+    //                 const endMonth = arr.endDate.split("T")[0].split("-")[1];
+    //                 const endYear = arr.endDate.split("T")[0].split("-")[0];
+    //                 if((endYear - year) * 12 * 30 + (endMonth - month) * 30 + (endDate - date) >= 0) {
+    //                     setDonationList(() => [...donationList, arr]);
+    //                 } else {
+    //                     setEndDonationList(() => [...endDonationList, arr]);
+    //                 }
+    //             }   
+    //         },
+    //     }
+    // );
     return (
         <div>
             <>  
@@ -69,7 +69,7 @@ function TeamInfoPage(props) {
                 <div>{teamInfo?.teamInfoText}</div>
             </>
             <>
-            <div><h2>진행중인 스토리</h2>
+            {/* <div><h2>진행중인 스토리</h2>
                 {
                     donationList.map(donation => <>
                         <Link to={`/donation?page=${donation.donationPageId}`}>
@@ -89,7 +89,7 @@ function TeamInfoPage(props) {
                     <div>{donation.storyTitle}</div>
                     </>)
                 }
-            </div>
+            </div>*/}
             </>
         </div>
     );

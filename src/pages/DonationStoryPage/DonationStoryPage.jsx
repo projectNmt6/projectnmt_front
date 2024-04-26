@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import Progress from "../../components/progress/Progress";
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { commentReqest, commentResponse, deleteDonationPage, getDonationNewsRequest, updatePageRequest, getDonationStoryRequest, getProgressAmount, updateDonationPageResponse } from '../../apis/api/DonationAPI';
+import { commentReqest, commentResponse, deleteDonationPage, getDonationNewsRequest, updatePageRequest, getDonationStoryRequest, getProgressAmount, updateDonationPageResponse, registerNewsPage } from '../../apis/api/DonationAPI';
 import DOMPurify from 'dompurify';
 import LikeButton from '../../components/LikeButton/LikeButton';
 import axios from 'axios';
@@ -47,6 +47,8 @@ function DonationStoryPage() {
             }
         }
     );
+
+    
     const getDonationStoryQuery = useQuery(
         ["getDonationPageQuery", donationPageId],
         async () => {
@@ -106,7 +108,7 @@ function DonationStoryPage() {
         }
     );
     const getUpdatePageBUtton = useMutation({
-        mutationKey: "",
+        mutationKey: "getUpdatePageBUtton",
         mutationFn: updateDonationPageResponse,
         onSuccess: response => {
             console.log(response)
@@ -239,6 +241,13 @@ const handleShareKakao = () => {
         }
     },[showModal])
 
+    
+    const handleNewsButtonClick = () => {
+        console.log('Attempting to mutate with ID:', donationPageId);
+        window.location.replace(`/main/donation/news?page=${donationPageId}`);
+    };
+    
+    
         return (
             <>
                 <div css={s.container1}>
@@ -247,15 +256,19 @@ const handleShareKakao = () => {
                             <div css={s.modal}><DonatorInfo setShowModal={setshowModal}/></div>
                         </div>
                     )}
+
                     <div css={s.container}>
                         <Link css={s.link} to={"/main"}>메인으로</Link>
                     </div>
+
                     <div css={s.header}>
-                        <Link css={s.button1} to={`/main/donation/donationnews?page=${donationPageId}`}>후기 작성하기</Link>
+                        <Link css={s.button1} to={`/main/donation/news?page=${donationPageId}`}>후기 작성하기</Link>
+                        <button onClick={handleNewsButtonClick}>후기작성버튼</button>
                         <Link css={s.button1} to={`/main/donation/news/update?page=${donationPageId}`}>후기수정하기</Link>
                         <button css={s.button2} onClick={handleUpdateButtonClick}>수정하기</button>
                         <button css={s.button3} onClick={handleDeleteButtonClick}>삭제하기</button>
                     </div>
+                    
                     <div css={s.storyHeader}>
                         <h1>Donation Stories</h1>
                         <p>page: {donationPageId}</p>

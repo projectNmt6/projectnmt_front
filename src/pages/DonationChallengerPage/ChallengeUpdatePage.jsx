@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { getPrincipalRequest } from '../../apis/api/principal';
-import { useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { getTeamListRequest } from '../../apis/api/teamApi';
 import { getChallengePageRequest, getChallengeRequest, getUpdateChallengePageRequest, updateChallengeRequest } from '../../apis/api/DonationAPI';
 /** @jsxImportSource @emotion/react */
@@ -46,14 +46,15 @@ function ChallengeUpdatePage(props) {
             }
         }
     );
-
    
 
     const principalData = queryClient.getQueryData("principalQuery");
+
     useEffect(() => {
         if (selectedTeam) {
             setTeamId(selectedTeam.value);
         }
+        console.log("teamId" + teamId)
     }, [selectedTeam]);
     
 
@@ -119,15 +120,26 @@ useEffect(() => {
         setSelectedTeam(selectedOption);
     };
 
-  
+    
+    const PostChallengeUpdate = useMutation({
+        mutationKey: "PostChallengeUpdate",
+        mutationFn: updateChallengeRequest
+        ,
+        onSuccess: response => {
+            console.log("페이지 작성 성공"+response)
+        },
+        onError: error => {
+            console.log(error);
+        }
+    });
 
     const handleSubmitButton = () => {
         // 현재 시간으로 startDate 업데이트
         const now = new Date();
         setStartDate(now);
     
-        axios.put(`http://localhost:8080/main/challenge/update/${challengePageId}`, {
-            challengePageId: 1,
+        const data = {
+            challengePageId: challengePageId,
             teamId: teamId,
             mainCategoryId: 2,  // 챌린지
             pageCategoryId: 4,   // 4.mission, 5.action, 6.news
@@ -138,14 +150,8 @@ useEffect(() => {
             challengeContent: challengeContent,
             challengeMainImg: mainImg,
             challengePageShow: 2
-        })
-        .then(response => {
-            alert("저장 성공");
-            console.log(response);
-        })
-        .catch(error => {          
-            console.error('Error:', error);
-        });
+        }
+        PostChallengeUpdate.mutate(data);
     };
     
 

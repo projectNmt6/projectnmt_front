@@ -25,7 +25,7 @@ import TeamRoutePage from '../pages/TeamRoutePage/TeamRoutePage';
 import TeamSelectPage from '../pages/DonationPageBoard/TeamSelectPage';
 import ChallengeMainPage from '../pages/MainPage/ChallengeMainPage';
 import DonationChallengePage from '../pages/DonationChallengerPage/DonationChallengePage';
-import ChallengePage from '../pages/DonationChallengerPage/ChallengePage';
+import ChallengePage from '../pages/DonationChallengerPage/ChallengePage/ChallengePage';
 
 import UserInfoEditPage from '../pages/UserInfoEditPage/UserInfoEditPage';
 import SelectTeam from '../pages/SelectTeam/SelectTeam';
@@ -62,7 +62,7 @@ function AuthRoute(props) {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/main" element={<MainPage />} />
                 <Route path="/main/write" element={<DonationPageboard/>} />
-                <Route path="/main/donation/donationnews" element={ <NewsWrite />} />
+                <Route path="/main/donation/news" element={ <NewsWrite />} />
                 <Route path="/account/mypage/edit" element={<UserInfoEditPage />} />
                 <Route path="/admin/*" element={ <AdminRoute/> } /> 
                 <Route path="/account/mypage" element={<MyPage />} />

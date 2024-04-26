@@ -92,6 +92,7 @@ function HomePage() {
 
                         
                     </div>
+                    
                     <div css={s.rightCardLayout}>
                         <div css={s.sidebarStyle}>
                             <div css={s.sidebarText}>
