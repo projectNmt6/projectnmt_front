@@ -36,6 +36,9 @@ export const button1 = css`
 `;
 
 export const button2 = css`
+
+    justify-content: center;
+    align-items: center;
     height: 40px;
     width: 80px;
     box-sizing: border-box;

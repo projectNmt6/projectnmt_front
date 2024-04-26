@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import Progress from "../../components/progress/Progress";
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { commentReqest, commentResponse, deleteDonationPage, getDonationNewsRequest, updatePageRequest, getDonationStoryRequest, getProgressAmount } from '../../apis/api/DonationAPI';
+import { commentReqest, commentResponse, deleteDonationPage, getDonationNewsRequest, updatePageRequest, getDonationStoryRequest, getProgressAmount, updateDonationPageResponse } from '../../apis/api/DonationAPI';
 import DOMPurify from 'dompurify';
 import LikeButton from '../../components/LikeButton/LikeButton';
 import axios from 'axios';
@@ -86,6 +86,9 @@ function DonationStoryPage() {
         }
     })
 
+
+
+
     const getTeamInfoMutation = useQuery(
         ["getTeamInfoMutation"],
         async () => {
@@ -102,10 +105,28 @@ function DonationStoryPage() {
             }
         }
     );
-const handleDeleteButtonClick = () => {
+    const getUpdatePageBUtton = useMutation({
+        mutationKey: "",
+        mutationFn: updateDonationPageResponse,
+        onSuccess: response => {
+            console.log(response)
+            window.location.replace(`/main/donation/update?page=${donationPageId}`)
+        },
+        onError: error => {
+            alert("잘못된 접근입니다.")
+            console.log(error)
+        }
+    })
+
+    const handleUpdateButtonClick = () => {
+        getUpdatePageBUtton.mutate({donationPageId : donationPageId})
+    }
+
+
+    const handleDeleteButtonClick = () => {
     console.log("삭제 시도:", donationPageId);
     deleteMutationButton.mutate({ donationPageId: donationPageId });
-}
+    }
 
     const handleCommentChange = (e) => {
         const value = e.target.value;
@@ -232,7 +253,7 @@ const handleShareKakao = () => {
                     <div css={s.header}>
                         <Link css={s.button1} to={`/main/donation/donationnews?page=${donationPageId}`}>후기 작성하기</Link>
                         <Link css={s.button1} to={`/main/donation/news/update?page=${donationPageId}`}>후기수정하기</Link>
-                        <Link css={s.button2} to={`/main/donation/update?page=${donationPageId}`}>수정하기</Link>
+                        <button css={s.button2} onClick={handleUpdateButtonClick}>수정하기</button>
                         <button css={s.button3} onClick={handleDeleteButtonClick}>삭제하기</button>
                     </div>
                     <div css={s.storyHeader}>

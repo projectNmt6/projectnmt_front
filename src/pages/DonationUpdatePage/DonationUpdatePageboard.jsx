@@ -16,12 +16,6 @@ import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { storage } from '../../apis/filrebase/config/firebaseConfig';
 import { v4 as uuid } from "uuid"
 
-// import { ImageActions } from '@xeger/quill-image-actions';
-// import { ImageFormats } from '@xeger/quill-image-formats';
-
-// Quill.register('modules/imageActions', ImageActions);
-// Quill.register('modules/imageFormats', ImageFormats);
-
 function DonationUpdatePageBoard() {
    
     const location = useLocation();
@@ -40,7 +34,6 @@ function DonationUpdatePageBoard() {
     const [ teamId, setTeamId ] = useState();
     const [mainTagOptions, setMainTagOptions] = useState([]);
     const [teams, setTeams] = useState([]);
-    const [ amount, setAmount ] = useState();
     const [secondTagOptions, setSecondTagOptions] = useState([]);
     const [selectedTeam, setSelectedTeam] = useState(null);
     const [ storyImages, setStoryImages] = useState([])
@@ -172,8 +165,6 @@ const UpdateDonationPage = useMutation({
     }
 });
 const handleSubmitButton = async () => {
-    // 이미지 업로드
-    console.log(uploadedImageUrls)
 
     // API 호출 시 teamId 사용
     const data =  {
@@ -183,20 +174,19 @@ const handleSubmitButton = async () => {
         pageCategoryId: 1,
         createDate: startDate,
         endDate: endDate,
-        goalAmount : amount,
+        goalAmount : goalAmount,
         storyTitle: title,
         storyContent: content,
         mainImgUrl: mainImg,
         donationTagId: selectedSecondTag ? selectedSecondTag.value : null,
         donationPageShow: 2,
-        donationImages: uploadedImageUrls.map((url, index) => ({
-            donationImageNumber: index + 1,
-            donationImageURL: url,
-            userId: userId,
-            createDate: new Date(),
-        }))
+        // donationImages: uploadedImageUrls.map((url, index) => ({
+        //     donationImageNumber: index + 1,
+        //     donationImageURL: url,
+        //     userId: userId,
+        //     createDate: new Date(),
+        // }))
     };
-
     // 데이터베이스 업데이트 요청 보내기
     UpdateDonationPage.mutate(data); 
 };
