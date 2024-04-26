@@ -71,3 +71,6 @@ export const linkStyle = css`
     color: inherit;
   }
 `;
+
+export const upperRightMenu = css`
+`;

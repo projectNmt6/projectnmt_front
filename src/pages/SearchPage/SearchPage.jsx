@@ -1,4 +1,4 @@
- /** @jsxImportSource @emotion/react */
+/** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
@@ -19,7 +19,8 @@ function SearchPage(props) {
     const [donationList, setDonationList] = useState([]);
     const [filteredDonations, setFilteredDonations] = useState([]);
     const [sortOrder, setSortOrder] = useState('');
-    const [state, setState] = useState('');
+    const [state, setState] = useState('전체');
+    const today = new Date();
 
 
     const handleOnChange = (e) => {
@@ -97,7 +98,23 @@ function SearchPage(props) {
     };
 
     useEffect(() => {
+        const filtered = donationList.filter(donation => {
+            let shouldInclude = true;
+    
+            if (state === '진행중') {
+                shouldInclude = shouldInclude && new Date(donation.endDate) > today;
+            } else if (state === '종료') {
+                shouldInclude = shouldInclude && new Date(donation.endDate) < today;
+            }
+    
+            return shouldInclude;
+        });
+    
+        setFilteredDonations(filtered);
+    }, [selectedMainTag, donationList, state]);
 
+
+    useEffect(() => {
             let sortDonations = filteredDonations; 
             if (sortOrder === '기부액순') {
                 sortDonations.sort((a, b) => parseInt(b.goalAmount) - parseInt(a.goalAmount));
@@ -170,7 +187,12 @@ function SearchPage(props) {
                                 </div>
                                 <div css={s.donationDetails}>
                                     <div css={s.donationText}>
-                                        <h2><strong>진행중</strong> {donation.storyTitle}</h2>
+                                        <h2>
+                                            <strong className={new Date(donation.endDate) > today ? 'active' : 'finished'}>
+                                            {new Date(donation.endDate) > today ? '진행중' : '종료'}
+                                            </strong> 
+                                            {'  '}{donation.storyTitle}
+                                        </h2>
                                         <p><TiHome color="gray"/> {!donation.teamName?"기관 없음":donation.teamName}</p>
                                     </div>
                                     <div css={s.donationAmount}>

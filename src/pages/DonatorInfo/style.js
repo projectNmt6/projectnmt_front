@@ -6,7 +6,7 @@ export const mainContainer = css`
     width: 100%;
     height: 100%;
     background-color: white;
-
+`
 export const header = css`
     display: flex;
     flex-direction: column;
