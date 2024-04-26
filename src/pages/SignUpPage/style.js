@@ -83,6 +83,9 @@ export const input = css`
     padding: 8px 0px;
     background-color: #FAFAFA;
     border: 2px solid #dbdbdb;
+    :focus {
+        outline: none;
+    }
 `;
 export const button = css`
     width: 400px;

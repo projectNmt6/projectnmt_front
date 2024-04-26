@@ -26,7 +26,7 @@ export const header = css`
     border: none;
     border-radius: 5px;
     padding: 10px 30px;
-    width: 60%;
+    width: 100%;
     height: 200px;
     background-color: white;
 `
