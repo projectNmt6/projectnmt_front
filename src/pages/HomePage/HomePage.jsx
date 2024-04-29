@@ -18,10 +18,7 @@ import { BsFillSearchHeartFill } from "react-icons/bs";
 import { GiSandsOfTime } from "react-icons/gi";
 import { FaSackDollar } from "react-icons/fa6";
 import { FaCrown } from "react-icons/fa6";
-<<<<<<< HEAD
-=======
 import LikeButton from "../../components/LikeButton/LikeButton";
->>>>>>> 9ba9d13bc0584fb9de9579892c0bfe6fe5dae12b
 
 function HomePage() {
     const [totalDonationAmount, setTotalDonationAmount] = useState(0);
@@ -101,7 +98,7 @@ function HomePage() {
                                 <h3> ₩ 총 기부금                               
                                     {totalDonationAmount.toLocaleString()}원</h3>
                             </div>
-<<<<<<< HEAD
+
                             {/* {upcomingDonation && (
                                 <div css={s.donationList}>
                                     <a href={`/donation?page=${upcomingDonation.donationPageId}`} key={upcomingDonation.donationPageId} css={s.linkStyle}>
@@ -130,8 +127,7 @@ function HomePage() {
                                     </a>
                                 </div>
                             )} */}
-=======
->>>>>>> 9ba9d13bc0584fb9de9579892c0bfe6fe5dae12b
+
                         </div>
 
                         <div css={s.sidebarStyle}>

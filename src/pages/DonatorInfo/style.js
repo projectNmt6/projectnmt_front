@@ -8,7 +8,6 @@ export const mainContainer = css`
     background-color: white;
 `;
 
-`;
 export const header = css`
     display: flex;
     flex-direction: column;

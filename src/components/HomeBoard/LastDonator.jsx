@@ -5,12 +5,8 @@ import { useQuery, useQueryClient } from "react-query";
 import Progress from "../../components/progress/Progress";
 import { BsFillSearchHeartFill } from "react-icons/bs";
 import LikeButton from "../../components/LikeButton/LikeButton";
-<<<<<<< HEAD
 import { getDonators } from "../../apis/api/DonatorApi";
-=======
-import { getDonators } from "../../apis/api/donatorApi";
 
->>>>>>> 9ba9d13bc0584fb9de9579892c0bfe6fe5dae12b
 function LastDonator(props) {
     const [closestToGoal, setClosestToGoal] = useState(null);
     const getDonatorQuery = useQuery(

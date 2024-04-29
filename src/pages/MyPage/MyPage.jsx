@@ -35,7 +35,7 @@ function MyPage(props) {
         mutationKey: "deleteUserMutation",
         mutationFn: deleteUserRequest,
         onSuccess: response => {
-            console.log("MyPage: "+response);
+            console.log(response);
             alert("삭제완료.");
         },
         onError: error => { }
@@ -83,28 +83,6 @@ function MyPage(props) {
                             </div>
                         </div>
                     </div>
-<<<<<<< HEAD
-                    <div css={s.infoBox}>
-                        <div css={s.infoText}>{!!principalData?.data.name ? principalData?.data.name : "MyProfile에서 회원정보를 업데이트 해주세요"}</div>
-                    </div>
-                </div>
-                <div>
-                    {temaList.map(team => {
-                        return <>
-                        <div key={team.teamId}>
-                            <div>{team.teamName}</div>
-                            <Link to={`/team/info?id=${team.teamId}`}>
-                                <img src={team.teamLogoImgUrl} alt=""/>
-                            </Link>
-                        </div>
-                        </>
-                    })}
-                    <Link to={"/team/write"}> 팀 만들기</Link>
-                    <Link to={"/account/mypage/edit"}>회원 정보 수정</Link>
-                    <Link to={"/account/mypage/donation"}>기부내역</Link>
-
-=======
->>>>>>> 9ba9d13bc0584fb9de9579892c0bfe6fe5dae12b
                     <div>
                         <div>
                             <div css={s.div}>

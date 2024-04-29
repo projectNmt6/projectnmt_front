@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import * as s from "./style";
 import { useRecoilState } from 'recoil';
 import { Link } from 'react-router-dom';
-import { FiLogOut, FiUser } from "react-icons/fi";
+import { FiLogOut, FiUser,FiSearch } from "react-icons/fi";
 import { FaHome } from "react-icons/fa";
 import { useQueryClient } from 'react-query';
 import instance from '../../apis/utils/instance';
@@ -69,11 +69,7 @@ function RootHeader(props) {
                 }
 
             </div>
-<<<<<<< HEAD
 
-
-=======
->>>>>>> 9ba9d13bc0584fb9de9579892c0bfe6fe5dae12b
         </div>
     );
 }

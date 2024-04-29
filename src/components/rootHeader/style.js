@@ -135,9 +135,7 @@ export const div = css`
     align-items: center;
 `;
 
-<<<<<<< HEAD
 
-=======
 export const searchIcon=css`
     display: flex;
     justify-content: center;
@@ -145,4 +143,3 @@ export const searchIcon=css`
     align-items: center;
     height: 30px;
 `;
->>>>>>> 9ba9d13bc0584fb9de9579892c0bfe6fe5dae12b
