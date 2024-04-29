@@ -78,7 +78,7 @@ function DonationKing(props) {
                                         </div>
                                     </div>
                                     <div>
-                                        <LikeButton />
+                                        <LikeButton donationPageId={donation.donationPageId}/>
                                     </div>
 
                                 </div>

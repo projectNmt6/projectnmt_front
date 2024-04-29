@@ -44,7 +44,7 @@ export const div1 = css`
     font-size: 20px;
     color: #3c3c3cc1;
     font-weight: 800;
-    border-bottom: 1px solid #cececec1 ;
+    border-top: 1px solid #cececec1 ;
 `;
 
 export const input = css`
@@ -70,11 +70,12 @@ export const div2 = css`
 
 export const div3 = css`
     display: flex;
-    justify-content: center;
+    justify-content: end;
     align-items: center;
     flex-direction: column;
     padding-bottom: 15px;
-    border-bottom:1px solid #b8b8b8c1;
+    width: 630px;
+    margin-left: 170px;
 `;
 export const input2 = css`
     width: 520px;
@@ -105,8 +106,8 @@ export const input3 = css`
     }
 `;
 export const select = css`
-    font-size: 20px;
-    width: 548px;
+    font-size: 25px;
+    width: 630px;
 `;
 export const button = css`
     width: 400px;
