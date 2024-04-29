@@ -56,8 +56,6 @@ export const donationCard = css`
   width: 100%; 
   height: 100%;
   border-radius: 8px; 
-  overflow-x: hidden; 
- 
 `;
 
 export const donationImage = css`
@@ -76,7 +74,7 @@ export const donationDetails = css`
   width: 100%;
   padding: 15px; 
   margin: 20px;
-
+  
   div {
     display: flex;
     justify-content: space-between;
@@ -88,6 +86,7 @@ export const donationDetails = css`
   p {
     margin: 5px 0; 
   }
+
 `;
 
 export const linkStyle = css`
@@ -107,6 +106,7 @@ export const LikeDonate = css`
   border-radius: 5px;
   width: 100%;
   margin: 20px;
+  text-align: center;
   display: flex;
   justify-content: center;
   &>a{
@@ -145,10 +145,11 @@ export const Top3donationCard = css`
 
 export const Top3donationImage = css`
   width: 250px; 
-  height: 150px; 
+  height: 150px;
   margin-left: 7px;
   & > img {
     width:100%;
+    border-radius: 5px;
     height: 150px;
   }
 `;
@@ -222,6 +223,32 @@ export const rankingNumber = css`
   background-color: #ffd700; /* 금색 */
   color: #fff;
 `;
+export const rankingNumber2 = css`
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  color: #333;
+  font-weight: bold;
+  text-align: center;
+  background-color: #c0c0c0; 
+  color: #fff;
+`;
+export const rankingNumber3 = css`
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  color: #333;
+  font-weight: bold;
+  text-align: center;
+  background-color: #B36700;
+  color: #fff;
+`;
 
 export const amountBar1 = (height) => css`
   height: ${height}px;
@@ -245,7 +272,15 @@ export const barAlign = css`
 display: flex;
 flex-direction: column;
 align-items: center;
+justify-content: center;
 &>p {
     font-weight: bold;
 }
-`
+`;
+export const div = css`
+  display: flex;
+  white-space: normal;
+  width: 123px;
+  text-align: center;
+  justify-content: center;
+`;

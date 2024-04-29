@@ -60,13 +60,13 @@ function HomePage() {
             <main css={s.mainLayout}>
                 <header css={s.rootheader}>
                     <div css={s.headerStyle}>
-                        <h1>세상을 위한 따뜻한 마음 <br />노먹튀와 함께해요 <img src={lion} alt="" width="7%" /></h1>
+                        <h1>세상을 위한 따뜻한 마음 <br />NMT와 함께해요 <img src={lion} alt="" width="7%" /></h1>
                     </div>
                     <div css={s.introStyle}>
                         <img src={introImg} />
                         <h3>총 기부 {totalDonationLength} 건</h3>
                         <img src={introImg2} />
-                        <h3>노먹튀 소개</h3>
+                        <h3>NMT 소개</h3>
                         <button><FaArrowCircleRight size="30" /></button>
                     </div>
                 </header>
