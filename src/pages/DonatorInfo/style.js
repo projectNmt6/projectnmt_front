@@ -6,10 +6,18 @@ export const mainContainer = css`
     width: 100%;
     height: 100%;
     background-color: white;
+`;
 
 export const header = css`
     display: flex;
     flex-direction: column;
+    font-family: 'omyu_pretty';
+    @font-face {
+    font-family: 'omyu_pretty';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
 `;
 
 export const button = css`
@@ -18,6 +26,7 @@ export const button = css`
     right: 0%;
     border: none;
     border-radius: 5px;
+    font-family: 'omyu_pretty';
     font-size:14px ;
     box-sizing: border-box;
     display: flex;
@@ -32,6 +41,7 @@ export const header1 = css`
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: 'omyu_pretty';
     font-size: 19px;
     font-weight: 800;
     padding-bottom: 15px;
@@ -49,6 +59,8 @@ export const div1 = css`
     margin-top: 10px 0px;
     display: flex;
     justify-content: center;
+    align-items: center;
+    font-family: 'omyu_pretty';
     font-size: 25px;
     color: #888888c1;
 `;
@@ -57,7 +69,10 @@ export const input = css`
     background-color: white;
     width: 70%;
     height: 30px;
+    font-family: 'omyu_pretty';
     font-size: 25px;
+    text-align: end;
+    margin-right: 10px;
     border-width: 0 0 1px;
     margin-bottom: 10px;
     :focus {
@@ -76,9 +91,10 @@ export const button1 = css`
     width: 90px;
     height: 35px;
     margin-bottom: 10px;
+    font-family: 'omyu_pretty';
     border: none;
     cursor: pointer;
-    font-size: 13px;
+    font-size: 16px;
     border-radius: 5px;
     color: #575757c1;
     box-shadow: 1px 1px 3px #cececec1;
@@ -101,6 +117,8 @@ export const input1 = css`
     width: 340px;
     height: 110px;
     border-radius: 5px;
+    font-family: 'omyu_pretty';
+    font-size: 18px;
     border: 1px solid #cececec1;
     box-shadow: 1px 1px 6px #cececec1;
     margin-bottom: 15px ;
@@ -119,7 +137,7 @@ export const div4 = css`
     border-bottom: 1px solid #dbdbdb ;
 `;
 export const div5 = css`
-    font-size: 14px;
+    font-size: 16px;
     color: #6e6e6ec1;
     font-weight: 600;
     padding: 20px 220px 20px 0px;
@@ -134,7 +152,8 @@ export const button2 = css`
     width: 380px;
     height: 40px;
     color: white;
-    font-size: 16px;
+    font-size: 20px;
+    font-family: 'omyu_pretty';
     font-weight: 600;
     border-radius: 5px;
     background-color: #ff3b3b;

@@ -8,7 +8,7 @@ export const submitDonatorEditData = async (data) => {
     return await instance.put("/account/mypage/edit", data)
 }
 export const getDonatorList = async (params) => { 
-    return await instance.get("/account/mypage/donation", {params});
+    return await instance.get("/account/mypage/myDonation", {params});
 }
 export const getDonators = async (params) => { 
     return await instance.get("/donator", {params});

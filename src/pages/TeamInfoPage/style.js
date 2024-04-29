@@ -1,102 +1,113 @@
 import {css} from "@emotion/react";
 
-export const layout = css`
-    box-sizing: border-box;
-    padding: 20px;
-    width: 100%;
-    height: 100%;
-`
-export const header = css`
+
+export const layout = css` 
+    flex-direction: column;
     box-sizing: border-box;
     display: flex;
-    margin-bottom: 20px;
+    width: 750px;
     border: 1px solid #dbdbdb;
-    border-radius: 3px;
-    padding: 10px 30px;
-    width: 100%;
-    height: 200px;
-    background-color: white;
-`
-export const imgBox = css`
-    box-sizing: border-box;
+    border-radius: 5px;
+    box-shadow: 2px 2px 2px #aaaaaac1;
+    @font-face {
+    font-family: 'omyu_pretty';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+`;
+export const img = css`
+    width: 150px;
+    height: 150px;
+    padding: 20px 20px 0px 40px;
+`;
+export const div1 = css`
     display: flex;
+    justify-content: flex-start;
+    font-size: 26px;
+    font-family: 'omyu_pretty';
+    align-items: center;
+    color: #202020;
+    font-weight: 900;
+`;
+export const span = css`
+    font-size: 22px;
+    font-weight: 900;
+    font-family: 'omyu_pretty';
+    color:#767676c1;
+`;
+
+export const button = css`
+    display: flex;
+    justify-content: flex-end;
+    font-family: 'omyu_pretty';
+    align-items: center;
+`;
+
+export const link = css`
+    text-decoration-line: none;
+    margin-right: 40px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 30px;
+    font-size: 18px;
+    background-color: #8ad0ff;
+    border-radius: 5px;
+    color: #fff;
+    box-shadow: 0 0 40px 40px blue inset, 0 0 0 0 blue;
+    transition: all 150ms ease-in-out;
+    box-shadow: 2px 2px 2px #aaaaaac1;
+  &:hover {
+    box-shadow: 0 0 10px 0 #8ad0ff inset, 0 0 10px 4px #8ad0ff;
+    background-color: white;
+    color: #cececec1;
+  }
+`;
+
+export const div2 = css`
+    text-align: left;
+    font-family: 'omyu_pretty';
+    align-items: flex-start;
+    width: 668px;
+    margin: 20px 40px;
+`;
+export const span2 = css`
+    padding-top: 20px;
+    font-size: 22px;
+    display: flex;
+    word-break:break-all;
+    width: 100%;
+    height: auto;
+`;
+
+export const div3 = css`
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    width: 668px;
+    font-family: 'omyu_pretty';
+    border-top: 2px solid #dbdbdb;
+    margin: 20px 40px;
+    padding-top: 15px;
+`;
+
+export const link1 = css`
+    width: 275px;
+    height: 190px;
+    margin: 15px 30px 0px 0px;  
+    border-radius: 3px;
+`;
+
+export const div4 = css`
+    display: flex;
+    font-family: 'omyu_pretty';
     justify-content: center;
     align-items: center;
-    width: 178px;
-    height: 178px;
-`
-export const propfileImg = css`
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid #dbdbdb;
-    border-radius: 50%;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    & > img {
-        height: 100%;
-    }
-`
-export const infoBox = css`
-    box-sizing: border-box;
-    margin-left: 30px;
-    padding-top: 30px;
-`
-export const infoText = css`
-    font-size: 14px;
-    margin-bottom: 10px;
-`
-export const emailBox = css`
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    & > div:nth-of-type(1) {
-        margin:0px 10px 0px 0px;
-    }
-`
-
-export const infoButton = css`
-    box-sizing: border-box;
-        border: 1px solid #dbdbdb;
-    border-radius: 3px;
-    padding: 5px;
-    background-color: white;
-    font-size: 12px;
-    cursor: pointer;
-
-    &:hover {
-        background-color: #fafafa;
-    }
-    &:active {
-        background-color: #eeeeee;
-    }
-`
-export const emailCheck = css`
-    display: flex;
-    align-items: center;
-    & > * {
-        color: #008734;
-    }
-`
-export const infoButtons = css`
-    box-sizing: border-box;
-    display: flex;
-    padding-top: 5px;
-    & > button:nth-of-type(1) {
-        margin-right: 5px;
-    }
-
-`
-export const bottom = css`
-    box-sizing: border-box;
-    display: flex;
-    margin-bottom: 20px;
-    border: 1px solid #dbdbdb;
-    border-radius: 3px;
-    padding: 10px;
-    width: 100%;
-    height: 250px;
-    background-color: white;
-`
+    font-size: 22px;
+    color: #202020;
+    font-weight: 600;
+`;

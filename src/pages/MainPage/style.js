@@ -1,11 +1,5 @@
 import { css } from "@emotion/react";
 
-export const upperRightMenu=css`
-display: flex;
-flex-direction: row;
-justify-content: flex-end;
-`;
-
 export const sign = css`
 display: flex;
 flex-direction: column;
@@ -15,16 +9,11 @@ export const write=css`
 margin-bottom: 30px;
 margin-left: 40px;
 `;
-export const searchIcon=css`
-display: flex;
-margin: 0 20px;
-justify-content: center;
-`;
 
 export const tagContainer = css`
   display: flex;
   justify-content: center;
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
 `;
 
 export const tagButton = css`
@@ -81,4 +70,7 @@ export const linkStyle = css`
     text-decoration: none;
     color: inherit;
   }
+`;
+
+export const upperRightMenu = css`
 `;

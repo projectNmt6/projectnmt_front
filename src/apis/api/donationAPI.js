@@ -63,7 +63,7 @@ export const deleteDonationPage = async (data) => {
       return await instance.delete(`/main/donation/${data.donationPageId}`, { data });   
   };
 
-export const commentRequest = async (data) => {
+  export const commentRequest = async (data) => {
     return await instance.post("/comment/upload", data);
 }
 

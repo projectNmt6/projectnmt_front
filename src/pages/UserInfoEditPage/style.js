@@ -5,7 +5,14 @@ export const header = css`
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    font-family: 'omyu_pretty';
     width: 100%;
+    @font-face {
+    font-family: 'omyu_pretty';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
 `;
 
 export const imgBox = css`
@@ -37,7 +44,7 @@ export const div1 = css`
     font-size: 20px;
     color: #3c3c3cc1;
     font-weight: 800;
-    border-bottom: 1px solid #cececec1 ;
+    border-top: 1px solid #cececec1 ;
 `;
 
 export const input = css`
@@ -50,7 +57,8 @@ export const input = css`
     font-size:16px;
     border:1px solid #b8b8b8c1;
     :focus {
-        border: none;
+        outline: none;
+        background-color: #dbdbdb;
     }
 `;
 export const div2 = css`
@@ -62,11 +70,12 @@ export const div2 = css`
 
 export const div3 = css`
     display: flex;
-    justify-content: center;
+    justify-content: end;
     align-items: center;
     flex-direction: column;
     padding-bottom: 15px;
-    border-bottom:1px solid #b8b8b8c1;
+    width: 630px;
+    margin-left: 170px;
 `;
 export const input2 = css`
     width: 520px;
@@ -78,7 +87,8 @@ export const input2 = css`
     font-size:16px;
     border:1px solid #b8b8b8c1;
     :focus {
-        border: none;
+        outline: none;
+        background-color: #dbdbdb;
     }
 `;
 export const input3 = css`
@@ -91,18 +101,20 @@ export const input3 = css`
     font-size:16px;
     border:1px solid #b8b8b8c1;
     :focus {
-        border: none;
+        outline: none;
+        background-color: #dbdbdb;
     }
 `;
 export const select = css`
-    font-size: 20px;
-    width: 548px;
+    font-size: 25px;
+    width: 630px;
 `;
 export const button = css`
     width: 400px;
     height: 40px;
+    font-family: 'omyu_pretty';
     margin-bottom:100px;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 600;
     color: gray;
     background-color: #FFD79999;

@@ -5,7 +5,14 @@ import { css } from "@emotion/react";
 export const mainLayout = css`
 /* padding : 20px; */
 background-color:  #F8F8F8;
+font-family: 'omyu_pretty';
 white-space: pre;
+@font-face {
+    font-family: 'omyu_pretty';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
 `
 export const rootheader = css`
   display: flex;
@@ -21,6 +28,7 @@ export const introStyle = css`
   display: flex;
   align-items: center;
   overflow: hidden;
+
     & > img {
         border-radius: 50%;
         width: 70px;
@@ -118,8 +126,6 @@ background-color: white;
 display:flex;
 justify-content: center;
 `
-
-
 
 
 ////////카드 CSS ////////////////
@@ -263,7 +269,6 @@ display:flex;
 flex-direction: column;
 `;
 
-
 //////////// footer ////////////
 export const additionalContentStyle = css`
   // styles for additional content
@@ -353,3 +358,6 @@ display: flex;
 flex-direction: column;
 align-items: center;
 `
+
+export const LikeDonate =css`
+`;

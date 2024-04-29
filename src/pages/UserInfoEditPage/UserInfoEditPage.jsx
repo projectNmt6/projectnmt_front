@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as s from "./style";
 import Select from "react-select";
 import { useInput } from "../../hooks/useInput";
@@ -8,12 +8,15 @@ import { submitDonatorEditData } from "../../apis/api/donatorApi";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { v4 as uuid } from 'uuid';
 import { storage } from "../../apis/filrebase/config/firebaseConfig";
+import AuthPageInput from "../../components/AuthPageInput/AuthPageInput";
 
 function UserInfoEditPage(props) {
     // useAuthCheck();
     const [oldPassword, handleOldPassword, oldMessage, setOldMessage] = useInput("oldPassword");
     const [newPassword, handleNewPassword, newMessage, setNewMessage] = useInput("newPassword");
     const [newPasswordCheck, handleNewPasswordCheck, newCheckMessage, setNewCheckMessage] = useInput("newPasswordCheck");
+    const [checkPasswordMessage, setCheckPasswordMessage] = useState("");
+    const [checkPassword, checkPasswordChange] = useInput("checkPassword");
     const [name, handleNewName] = useInput();
     const [email, handleNewEmail] = useInput();
     const [age, handleNewAge] = useInput();
@@ -58,6 +61,29 @@ function UserInfoEditPage(props) {
             }
         }
     });
+
+    useEffect(() => {
+        if (!newPassword || !newPasswordCheck) {
+            setCheckPasswordMessage(() => null);
+            return;
+        }
+
+        if (newPasswordCheck === newPassword) {
+            setCheckPasswordMessage(() => {
+                return {
+                    type: "success",
+                    text: ""
+                };
+            });
+        } else {
+            setCheckPasswordMessage(() => {
+                return {
+                    type: "error",
+                    text: "비밀번호가 일치하지 않습니다." 
+                };
+            });
+        }
+    }, [checkPassword, newPassword]);
 
     const handleImgFileChange = (e) => {
         const files = Array.from(e.target.files);
@@ -135,23 +161,23 @@ function UserInfoEditPage(props) {
                 <div css={s.div}>
                     <div css={s.div1}>
                         <label htmlFor={name}>닉네임</label>
-                        <input css={s.input} type="text" id={name} onChange={handleNewName} required />
+                        <AuthPageInput css={s.input} type="text" id={name} onChange={handleNewName} required />
                     </div>
                     <div css={s.div2}>
                         <label htmlFor={"password"}>비밀번호</label>
                         <div css={s.div3}>
-                            <input css={s.input2} type={"password"} id={oldPassword} onChange={handleOldPassword} placeholder={"현재 비밀번호를 입력하세요."} message={oldMessage} />
-                            <input css={s.input2} type={"password"} id={newPassword} onChange={handleNewPassword} placeholder={"새로운 비밀번호를 입력하세요."} message={newMessage} />
-                            <input css={s.input2} type={"password"} id={newPasswordCheck} onChange={handleNewPasswordCheck} placeholder={"새로운 비밀번호를 확인하세요."} message={newCheckMessage} />
+                            <AuthPageInput css={s.input2} type={"password"} id={oldPassword} onChange={handleOldPassword} placeholder={"현재 비밀번호를 입력하세요."} message={oldMessage} />
+                            <AuthPageInput css={s.input2} type={"password"} id={newPassword} onChange={handleNewPassword} placeholder={"새로운 비밀번호를 입력하세요."} message={newMessage} />
+                            <AuthPageInput css={s.input2} type={"password"} id={newPasswordCheck} onChange={handleNewPasswordCheck} placeholder={"새로운 비밀번호를 확인하세요."} message={newCheckMessage} />
                         </div>
                     </div>
                     <div css={s.div1}>
                         <label htmlFor={email}>이메일</label>
-                        <input css={s.input3} type="email" id={email} onChange={handleNewEmail} required />
+                        <AuthPageInput css={s.input3} type="email" id={email} onChange={handleNewEmail} required />
                     </div>
                     <div css={s.div1}>
                         <label htmlFor={age}>나이</label>
-                        <input css={s.input3} type="date" id={age} onChange={handleNewAge} required />
+                        <AuthPageInput css={s.input3} type="date" id={age} onChange={handleNewAge} required />
                     </div>
                     <div css={s.div1}>
                         <label htmlFor="gender">성별</label>
@@ -164,7 +190,7 @@ function UserInfoEditPage(props) {
                     </div>
                     <div css={s.div1}>
                         <label htmlFor={phonenumber}>전화번호</label>
-                        <input css={s.input3} type="text" id={phonenumber} onChange={handlePhoneNumber} required />
+                        <AuthPageInput css={s.input3} type="text" id={phonenumber} onChange={handlePhoneNumber} required />
                     </div>
                 </div>
                 <div>

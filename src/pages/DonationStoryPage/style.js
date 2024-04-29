@@ -26,7 +26,7 @@ export const button1 = css`
     background-color: #007bff;
     color: white;
     text-align: center;
-    font-size: 10px;
+    font-size: 15px;
     cursor: pointer;
     border-radius: 5px;
     text-decoration: none;
@@ -45,7 +45,7 @@ export const button2 = css`
     border: none;
     color: white;
     text-align: center;
-    font-size: 10px;
+    font-size: 15px;
     text-decoration: none;
     cursor: pointer;
     border-radius: 5px;
@@ -61,8 +61,9 @@ export const button3 = css`
     background-color: #dc3545;
     border: none;
     color: white;
+    font-family: 'omyu_pretty';
     text-align: center;
-    font-size: 10px;
+    font-size: 15px;
     cursor: pointer;
     border-radius: 5px;
     & :hover {
@@ -149,6 +150,7 @@ export const donation = css`
     text-align: center;
     background-color: #fc4d4d;
     color: white;
+    font-family: 'omyu_pretty';
     font-weight: 700;
     font-size: 20px;
     border-radius: 5px;
@@ -342,6 +344,13 @@ export const button5 = css`
 export const container1 = css`
     width: 100%;
     height: 100%;
+    font-family: 'omyu_pretty';
+    @font-face {
+    font-family: 'omyu_pretty';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
 `;
 
 export const container3 = css`

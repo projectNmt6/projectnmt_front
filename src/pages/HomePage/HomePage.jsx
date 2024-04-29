@@ -1,26 +1,24 @@
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from "react-query";
 import { getAllAmount, getDonationListRequest, getProgressAmount } from "../../apis/api/DonationAPI";
-import Progress from "../../components/progress/Progress";
 import introImg from '../../assets/introImg.png';
 import introImg2 from '../../assets/introImg2.jpeg';
 import { FaArrowCircleRight } from "react-icons/fa";
 import sideImg from '../../assets/sideImg.png';
-import { FaWonSign } from "react-icons/fa";
-import { BsEmojiHeartEyes } from "react-icons/bs";
-import LikeButton from "../../components/LikeButton/LikeButton";
 import DonatorKing from "../../components/HomeBoard/DonatorKing";
 import LastDonator from "../../components/HomeBoard/LastDonator";
 import DonationKing from "../../components/HomeBoard/DonationKing";
 import TimeOut from "../../components/HomeBoard/TimeOut";
+import { FaWonSign } from "react-icons/fa";
+import { BsEmojiHeartEyes } from "react-icons/bs";
 import lion from '../../assets/lion.gif';
 import { BsFillSearchHeartFill } from "react-icons/bs";
 import { GiSandsOfTime } from "react-icons/gi";
 import { FaSackDollar } from "react-icons/fa6";
 import { FaCrown } from "react-icons/fa6";
-import { getDonatorList, getDonators } from "../../apis/api/donatorApi";
+import LikeButton from "../../components/LikeButton/LikeButton";
 
 function HomePage() {
     const [totalDonationAmount, setTotalDonationAmount] = useState(0);
@@ -49,18 +47,9 @@ function HomePage() {
         {
             refetchOnWindowFocus: false,
             onSuccess: response => {
+                console.log(response.data);
                 if (Array.isArray(response.data)) {
                     setTotalDonationLength(response.data.length);
-                    const sortedDonations = response.data.sort((a, b) => {
-                        const timeRemainingA = new Date(a.endDate) - today;
-                        const timeRemainingB = new Date(b.endDate) - today;
-                        return timeRemainingA - timeRemainingB;
-                    });
-                    setUpcomingDonation(sortedDonations.find(donation => {
-                        const timeRemaining = new Date(donation.endDate) - today;
-                        return timeRemaining > 0;
-                    }))
-
                 }
             }
         }
@@ -71,13 +60,13 @@ function HomePage() {
             <main css={s.mainLayout}>
                 <header css={s.rootheader}>
                     <div css={s.headerStyle}>
-                        <h1>세상을 위한 따뜻한 마음 <br />노먹튀와 함께해요 <img src={lion} alt="" width="7%" /></h1>
+                        <h1>세상을 위한 따뜻한 마음 <br />NMT와 함께해요 <img src={lion} alt="" width="7%" /></h1>
                     </div>
                     <div css={s.introStyle}>
                         <img src={introImg} />
                         <h3>총 기부 {totalDonationLength} 건</h3>
                         <img src={introImg2} />
-                        <h3>노먹튀 소개</h3>
+                        <h3>NMT 소개</h3>
                         <button><FaArrowCircleRight size="30" /></button>
                     </div>
                 </header>
@@ -105,46 +94,7 @@ function HomePage() {
                             <div css={s.totalAmountBox}>
                                 <h3> ₩ 총 기부금                               {totalDonationAmount.toLocaleString()}원</h3>
                             </div>
-                            {upcomingDonation && (
-                                <div css={s.donationList}>
-                                    <a href={`/donation?page=${upcomingDonation.donationPageId}`} key={upcomingDonation.donationPageId} css={s.linkStyle}>
-                                        <div key={upcomingDonation.donationPageId} css={s.donationCard}>
-                                            <div css={s.donationImage}>
-                                                <img src={!upcomingDonation.mainImgUrl ? "https://www.shutterstock.com/image-vector/no-image-available-picture-coming-600nw-2057829641.jpg" : upcomingDonation.mainImgUrl} alt="" />
-                                            </div>
-                                            <div css={s.donationDetails}>
-                                                <h2>{upcomingDonation.storyTitle}</h2>
-                                                <Progress pageId={upcomingDonation.donationPageId}/>
-                                                <div>
-                                                    <div><p><strong>{upcomingDonation.goalAmount}원 목표</strong> </p></div>
-                                                    <div><p><strong>남은 시간:</strong> {calculateTimeRemaining(upcomingDonation.endDate)}</p></div>
-                                                </div>
-                                                <div css={s.LikeDonate}>
-                                                    <div>
-                                                        <LikeButton />
-                                                    </div>
-                                                    <div>
-                                                        <a href="">기부하기</a>
-                                                    </div>
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            )}
                         </div>
-                        <div css={s.cardStyle}>
-                            <h2>가장 많이 기부 중인 모금함</h2>
-
-
-                        </div>
-                        <div css={s.cardStyle}>
-                            <h2>오늘의 기부왕!</h2>
-
-
-                        </div>
-
 
                         <div css={s.sidebarStyle}>
                             <h2>따뜻한 후기</h2>
