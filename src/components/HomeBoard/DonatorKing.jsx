@@ -54,8 +54,10 @@ function DonatorKing(props) {
                                         <p>{Math.ceil((sortedDonorRankings[1].totalDonations) / 10000)}만원</p>
                                             <FaCrown color="#C0C0C0" />
                                             <div css={s.amountBar2(sortedDonorRankings[1].totalDonations*0.0001)}></div>
+                                            <div css={s.div}>
                                             <h3>{sortedDonorRankings[1].name} 님</h3>
-                                            <span css={s.rankingNumber}>2</span>
+                                            </div>
+                                            <span css={s.rankingNumber2}>2</span>
                                         </div>
                                     </div>
                                     )}
@@ -64,7 +66,9 @@ function DonatorKing(props) {
                                         <p>{Math.ceil((sortedDonorRankings[0].totalDonations) / 10000)}만원</p>
                                             <FaCrown color="#FFD700" />
                                             <div css={s.amountBar1(sortedDonorRankings[0].totalDonations*0.0001)}></div>
+                                            <div css={s.div}>
                                             <h3>{sortedDonorRankings[0].name} 님</h3>
+                                            </div>
                                             <span css={s.rankingNumber}>1</span>
                                         </div>
                                     </div>
@@ -74,8 +78,10 @@ function DonatorKing(props) {
                                             <p>{Math.ceil((sortedDonorRankings[2].totalDonations) / 10000)}만원</p>
                                             <FaCrown color="#B36700" />
                                             <div css={s.amountBar3(sortedDonorRankings[2].totalDonations*0.0001)}></div>
+                                            <div css={s.div}>
                                             <h3>{sortedDonorRankings[2].name} 님</h3>
-                                            <span css={s.rankingNumber}>3</span>
+                                            </div>
+                                            <span css={s.rankingNumber3}>3</span>
 
                                         </div>
                                     </div>

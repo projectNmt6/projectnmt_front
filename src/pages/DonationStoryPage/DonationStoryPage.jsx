@@ -196,7 +196,7 @@ function DonationStoryPage() {
                         <div css={s.dates}>
                             <div css={s.dates2}>기부 시작일: {donationPage.createDate ? donationPage.createDate.substring(0, 10) : ''}</div>
                             <div css={s.dates3}>기부 종료일: {calculateDaysRemaining(donationPage.createDate, donationPage.endDate)}</div>
-                            <div css={s.dates4}>●기부금은 100% 단체에 전달됩니다.</div>
+                            <div css={s.dates4}>o 기부금은 100% 단체에 전달됩니다.</div>
                             <div css={s.likebutton}>
                                 <button css={s.donation} onClick={() => setShowModal(() => !showModal)}>기부하기</button>
                                 <div css={s.likebutton1}>
