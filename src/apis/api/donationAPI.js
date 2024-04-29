@@ -76,8 +76,7 @@ export const commentResponse = async (params) => {
 }
 
 export const deleteComment = async (data) => {   
-    const { donationCommentId } = data; 
-    return await instance.delete(`/comment/delete/${donationCommentId}`); 
+    return await instance.delete(`/comment/delete/${data}`); 
 };
 
 export const getNowFundingRequest = async (data) => {
@@ -94,3 +93,4 @@ export const getAllAmount = async (params) => {
 export const getProgressAmount = async (params) => {
     return await instance.get("/main/progress", {params});
 }
+

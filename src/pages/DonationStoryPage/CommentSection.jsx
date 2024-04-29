@@ -1,6 +1,5 @@
-// CommentSection.jsx
-
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+/** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import axios from 'axios';
 import { useEffect, useState } from 'react';
@@ -36,8 +35,8 @@ function CommentSection({ donationPageId, isDonation }) {
             console.log(response);
             alert("등록완료.");
         },
-        onError: error => { }
-    })
+        onError: error => {}
+    }) 
     const handleCommentSubmit = async () => {
         postCommentMutation.mutate({
             commentText: comment,
@@ -62,6 +61,14 @@ function CommentSection({ donationPageId, isDonation }) {
         }
     });
 
+    const handleCommentReportPostButton = (donationCommentId) => {
+        postCommentReportMutation.mutate({ 
+            donationCommentId,
+            userId: principalData.data.userId,
+            isDonation: 1,
+            donationPageId 
+        });
+    };
     const handleCommentDeleteButton = (donationCommentId) => {
         deleteCommentMutation.mutate({ donationCommentId });
     };
@@ -89,7 +96,6 @@ function CommentSection({ donationPageId, isDonation }) {
                     {commentList.map((comment, index) => (
                         <div key={index}>
                             <p>{comment.commentText}
-                                <LikeButton donationPageId={donationPageId} commentId={comment.donationCommentId}/>
                                 {comment.userId === principalData?.data.userId ? (
                                     <button onClick={() => handleCommentDeleteButton(comment.donationCommentId)}>
                                         덧글 삭제 <TbTrashXFilled />

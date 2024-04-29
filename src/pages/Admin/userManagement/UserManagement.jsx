@@ -1,13 +1,62 @@
+/** @jsxImportSource @emotion/react */
+
+import * as s from "./style";
+import Select from "react-select";
 import React, { useEffect, useRef, useState } from 'react';
-import { deleteUsersRequest, getUserListRequest, postMessageRequest, updateDeleteUsersRequest } from '../../../apis/api/Admin'
+import { deleteUsersRequest, getUserCountRequest, getUserListRequest, postMessageRequest, postUserRoleRequest, updateDeleteUsersRequest } from '../../../apis/api/Admin'
 import { useMutation, useQuery } from 'react-query';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import Message from '../../../components/Message/Message';
+import CommentManagement from "../commentManagement/CommentManagement";
+import AdminSearchPageNumbers from "../../../components/AdminSearchPageNumbers/AdminSearchPageNumbers";
 
 function UserManagement() {
     const checkBoxRef = useRef();
+    const [ searchParams, setSearchParams ] = useSearchParams();
     const [ userList, setUserList ] = useState([]);
-    const userListQuery = useQuery(["userListQuery"], getUserListRequest, {
+    const [ searchText, setSearchText ] = useState("");
+    const [ selectedUser, setSelectedUser ] = useState({});
+    const [selectedTextOption, setSelectedTextOption] = useState({value: 0, label: "전체"});
+    const [selectedRoleoption, setSelectedRoleoption] = useState({value: 0, label: "전체"});
+    const searchCount = 10;
+    const handleSearchTextOnChange = (e) => {
+        setSearchText(() => e.target.value);
+    }
+    const handleOnChange = (e, setOption) => {
+        setOption(() => e);
+    }
+    const selectStyle1 = {
+        control: (baseStyles) => ({
+            ...baseStyles,
+            borderRadius: "0px",
+            border: "none",
+            width: "200px",
+            borderRight: "1px solid #dbdbdb",
+            outline: "none",
+            boxShadow: "none"
+        })
+    }
+    const selectStyle2 = {
+        control: (baseStyles) => ({
+            ...baseStyles,
+            borderRadius: "0px",
+            border: "none",
+            width: "200px",
+            outline: "none",
+            boxShadow: "none"
+        })
+    }
+    const userListQuery = useQuery(["userListQuery", selectedRoleoption, searchText, searchParams.get("page")], 
+    async () => { return await getUserListRequest(
+        {
+        searchCount,
+        selectedRoleoption: selectedRoleoption.value,
+        selectedTextOption: selectedTextOption.value,
+        searchText,
+        pageNumber: searchParams.get("page")
+    }
+    )}
+    , {
         retry: 3,
         refetchOnWindowFocus: false,
         onSuccess: response => {
@@ -17,7 +66,6 @@ function UserManagement() {
                     checked: false
                 }
             }));
-            console.log(response.data);
         }
     });
     const handleAllCheckOnChange = (e) => {
@@ -28,10 +76,50 @@ function UserManagement() {
             }
         }));
     }
+    const searchTextCategoryOption = [
+        {value: 0, label: " 전체 "},
+        {value: 1, label: " 유저번호 "},
+        {value: 2, label: " 아이디 "},
+        {value: 3, label: " 유저명 "},
+        {value: 4, label: " 전화번호 "},
+        {value: 5, label: " 이메일 "},
+    ]
+    const searchRoleCategoryOption = [
+        {value: 0, label: " 전체 "},
+        {value: 1, label: " 일반사용자 "},
+        {value: 2, label: " 팀 프로젝트 "},
+        {value: 3, label: " 관리자 "},
+        {value: 5, label: " 사용제한된 유저 "},
+    ]
+
+    const getCountQuery = useQuery(
+        ["getCountQuery", userListQuery.data],
+        async () => await getUserCountRequest({
+            searchCount,
+            selectedRoleoption: selectedRoleoption.value,
+            selectedTextOption: selectedTextOption.value,
+            searchText,
+            pageNumber: searchParams.get("page")
+        }),
+        {   
+            onSuccess: response => {
+                console.log(response);
+            },
+        }
+    )
+
+
+
     const handleCheckOnChange = (e) => {
         const userId = parseInt(e.target.value);
         setUserList(() =>userList.map(user => {
             if (userId === user.userId) {
+                if(e.target.checked) {
+                    console.log(user);
+                    setSelectedUser(() => user);
+                } else {
+                    setSelectedUser({});    
+                }
                 return {
                     ...user,
                     checked: e.target.checked
@@ -52,10 +140,17 @@ function UserManagement() {
             }
         }
         
-    },[userList])
+        },[userList])
+    // <Link to={`/admin/user?id=${user.userId}`}>
+    //                                         <img src={user.profileImg} alt="" />
+    //                                     </Link>
     
-    
-    
+    const searchSubmit = () => {
+        setSearchParams({
+            page: 1
+        })
+        userListQuery.refetch();
+    }
     const deleteUserMutation = useMutation({
         mutationKey: "deleteUserMutation",
         mutationFn: deleteUsersRequest,
@@ -77,51 +172,129 @@ function UserManagement() {
         }
         deleteUserMutation.mutate(userIds)
     }
+    const addUserRoleMutation = useMutation({
+        mutationKey: "addUserRoleMutation",
+        mutationFn: postUserRoleRequest,
+        onSuccess: response => {
+            console.log(response);
+            alert("등록완료.");
+        },
+        onError: error => {}
+    }) 
+    const handleAdminRoleClick = (roleId) => {
+        addUserRoleMutation.mutate({ userId: selectedUser?.userId, roleId: roleId})
+    }
     return (
-        <>
+        <div css={s.mainContainer}>
             <div>
                 유저관리
                 <Message list={userList} isTeam={0}/>
                 <button onClick={handleUserDeleteOnClick}>계정 삭제</button>
+                <Link to={`/admin/management/team?page=1&userId=${selectedUser.userId}`}>소속팀 보기</Link>
+                {selectedUser?.role?.roleId < 3 
+                        ? <button onClick={() => handleAdminRoleClick(3)}> 관리자 권한 부여 </button>
+                        : null}
+                        <button onClick={() => handleAdminRoleClick(5)}>사용 권한 제제</button>
             </div>
-            <div >
-                <table >
-                    <thead>
-                        <tr >
-                            <th><input type="checkbox" ref={checkBoxRef} onChange={handleAllCheckOnChange}/></th>
-                            <th>유저번호</th>
-                            <th>아이디</th>
-                            <th>유저명</th>
-                            <th>전화번호</th>
-                            <th>이메일</th>
-                            <th>성별</th>
-                            <th>권한</th>
-                            <th>표지URL</th>
-                            <th>상세정보 보기</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            userList.map(
-                                user => 
-                                <tr key={user.userId}>
-                                    <td><input type="checkbox" value={user.userId} checked={user.checked} onChange={handleCheckOnChange}/></td>
-                                    <td>{user.userId}</td>
-                                    <td>{user.username}</td>
-                                    <td>{user.name}</td>
-                                    <td>{user.phoneNumber}</td>
-                                    <td>{user.email}</td>
-                                    <td>{user.gender}</td>
-                                    <td>{user.role?.roleNameKor}</td>
-                                    <td><img src={user.profileImg} alt="" /></td>
-                                    <td><Link to={`/admin/user?id=${user.userId}`}>상세정보</Link></td>
-                                </tr>
-                            )
-                        }
-                    </tbody>
-                </table>
+            <div css={s.container}>
+                <table css={s.registerTable}>
+                        <tbody>
+                            <tr>
+                                <th css={s.registerTh}>유저번호</th>
+                                <td>
+                                    <div >{selectedUser?.userId}</div>
+                                </td>
+                                <th css={s.registerTh}>유저명</th>
+                                <td>
+                                    {selectedUser?.name}
+                                </td>
+                                <td rowSpan={3} style={{width:"200px", boxSizing:"border-box", padding:"5px"}}>
+                                    <div css={s.imgBox}>
+                                        <img src={selectedUser?.profileImg} alt="" />
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th css={s.registerTh}>이메일</th>
+                                <td >
+                                    {selectedUser?.email}
+                                </td>
+                                <th css={s.registerTh}>전화번호</th>
+                                <td>
+                                    {selectedUser.phoneNumber}
+                                </td>
+                            </tr>
+                            <tr>
+                            <th css={s.registerTh}>아이디</th>
+                                <td colSpan={3}>
+                                    {selectedUser?.username}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                <div css={s.searchBar}>
+                    <Select 
+                        options={searchRoleCategoryOption}
+                        defaultValue={selectedRoleoption}
+                        value={selectedRoleoption}
+                        styles={selectStyle1} 
+                        onChange={(e) => handleOnChange(e, setSelectedRoleoption)}
+                    />
+                    <div css={s.nullDiv}></div>
+
+                    <Select 
+                        options={searchTextCategoryOption}
+                        defaultValue={selectedTextOption}
+                        value={selectedTextOption}
+                        styles={selectStyle2} 
+                        onChange={(e) => handleOnChange(e, setSelectedTextOption)}
+                    />
+                    <input 
+                            css={s.searchInput} 
+                            type="text" 
+                            value={searchText}
+                            onChange={handleSearchTextOnChange}
+                            />
+                    <button css={s.searchButton} onClick={() => searchSubmit()}>검색하기</button>
+                </div>
+                <div css={s.tableLayout}>
+                    <table css={s.table} >
+                        <thead>
+                            <tr css={s.tableHeader} key={0}>
+                                <th><input type="checkbox" ref={checkBoxRef} onChange={handleAllCheckOnChange}/></th>
+                                <th>유저번호</th>
+                                <th>아이디</th>
+                                <th>유저명</th>
+                                <th>전화번호</th>
+                                <th>이메일</th>
+                                <th>권한</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                userList.map(
+                                    user => 
+                                    <>
+                                        <tr key={user.userId}>
+                                            <td><input type="checkbox" value={user.userId} checked={user.checked} onChange={handleCheckOnChange}/></td>
+                                            <td>{user.userId}</td>
+                                            <td>{user.username}</td>
+                                            <td>{user.name}</td>
+                                            <td>{user.phoneNumber}</td>
+                                            <td>{user.email}</td>
+                                            <td>{user.role[0].roleNameKor}</td>                                      
+                                        </tr>
+                                    </>
+                                )
+                                }
+                        </tbody>
+                    </table>
+                    <AdminSearchPageNumbers count={getCountQuery.data?.data} />
+                </div>
+                    <CommentManagement userId={selectedUser?.userId}/>    
+                    
             </div>
-        </>
+        </div>
     );
 
 }

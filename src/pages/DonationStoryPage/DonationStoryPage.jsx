@@ -210,17 +210,26 @@ function DonationStoryPage() {
                     <button css={s.button4} onClick={() => handleTabChange('news')}>news</button>
                     <button css={s.button4} onClick={() => handleTabChange('story')}>Story</button>
                     <div css={s.boxbox1}>
-                        <div>
-                            <h2>분리공간 </h2>
-                        {selectedTab === 'news' ? <NewsPage donationPageId={donationPageId} /> : <Story />}
-                        <div>
-                            <div css={s.teamInfo}>
-                                <div css={s.logoImg}>
-                                    <img src={teamInfo?.teamLogoImgUrl} alt="" />
+                        <div css={s.mainBox}>
+                            {selectedTab === 'news' ? <NewsPage donationPageId={donationPageId} /> : <Story />}
+                            <div css={s.teamNDonationBox}>
+                                <div css={s.teamInfo}>
+                                    <div>
+                                        <div css={s.logoImg}>
+                                            <img src={teamInfo?.teamLogoImgUrl} alt="" />
+                                        </div>
+                                        <div>{teamInfo?.teamName}</div>
+                                    </div>
+                                    <div css={s.teamInfoText}>{ teamInfo?.teamInfoText}</div>
+                                    <Link to={`/team/info?id=${teamInfo?.teamId}`}>
+                                        <div>자세히 보기 </div>
+                                    </Link>
                                 </div>
-                                <div>{teamInfo?.teamName}</div>
-                                    <div css={s.teamInfoText}>{teamInfo?.teamInfoText}</div>
-                                    <button>자세히 보기 </button>
+                                <div css={s.donationInfo}>
+                                    <h3>같이 기부해요</h3>
+                                    <div>
+
+                                    </div>
                                 </div>
                             </div>
                         </div>

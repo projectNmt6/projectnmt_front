@@ -37,6 +37,7 @@ function UpdateTeamPage(props) {
     const location = useLocation();
     const teamInfo = location.state.teamInfo;
     const navigate = useNavigate();
+    const accountIdRef = useRef(0);
     const [ teamPhoneNumber, setTeamPhoneNumber ] = useState(teamInfo.teamPhoneNumber);
     const [ teamEmail,  setTeamEmail ] = useState(teamInfo.teamEmail);
     const [ teamHomepage,  setTeamHomepage ] = useState(teamInfo.teamHomepage);
@@ -100,7 +101,9 @@ function UpdateTeamPage(props) {
         )
     }
     const handleAccountInfos = () => {
+        accountIdRef.current = accountIdRef.current + 1;
         const accountInfo = {
+            "accountId": accountIdRef.current,
             accountUsername,
             accountNumber,
             bankName,
@@ -114,6 +117,7 @@ function UpdateTeamPage(props) {
         setCreateAccount(() => false)
     }
     const handleDeleteAccountInfos = (id) => {
+        console.log(id);
         setAccountInfos(() => [...accountInfos.filter(accountInfo => accountInfo.accountId !== id)]);
     }
     return (
