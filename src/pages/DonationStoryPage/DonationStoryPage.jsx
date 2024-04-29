@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import Progress from "../../components/progress/Progress";
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -12,11 +12,11 @@ import NewsPage from './CategoryPage/NewsPage'; // NewsPage 경로 수정
 import Story from './CategoryPage/Story'; // Story 경로 수정
 import { shareKakao } from '../../apis/utils/shareKakaoLink';
 import Donators from "./CategoryPage/Donators";
-import { getPrincipalRequest } from "../../apis/api/principal";
-import DonationComment from "./DonationComment";
+import DonationComment from "../DonationStoryPage/DonationComment/DonationComment";
 import DonatorInfo from "../DonatorInfo/DonatorInfo";
 import { getTeamInfoRequest } from "../../apis/api/teamApi";
 
+import { getPrincipalRequest } from '../../apis/api/principal';
 function DonationStoryPage() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -31,12 +31,14 @@ function DonationStoryPage() {
     const [ showModal , setshowModal ] = useState(false);    
     const [userId, setUserId ] = useState();
     const [ teamInfo, setTeamInfo ] = useState();
-  
+    
+   
     const principalQuery = useQuery(
         ["principalQuery"], 
         getPrincipalRequest,
         {
             retry: 0,
+
             refetchOnWindowFocus: false,
             onSuccess: (response) => {
                 console.log("Auth", response.data);
@@ -296,10 +298,27 @@ const handleShareKakao = () => {
                                         </div>
                                     </div>
                                     </div>
+                                    
                                     </div>
                                     </div>
                                     </div>
-                                    </div>
+                                    <div css={s.container2}>
+                            <button css={s.button4} onClick={() => handleTabChange('story')}>Story</button>
+                            <button css={s.button4} onClick={() => handleTabChange('donators')}>Donators</button>
+                            <button css={s.button4} onClick={() => handleTabChange('news')}>News</button>
+                            <div css={s.boxbox1}>
+                                <div>
+                                    <h2>분리공간</h2>
+                                    {selectedTab === 'story' ? <Story />
+                                    : selectedTab === 'news' ? <NewsPage donationPageId={donationPageId} />
+                                    : <Donators donationPageId={donationPageId} />}
+                                </div>
+                            </div>
+                            <h3>덧글</h3>
+                                <DonationComment donationPageId={donationPageId} />
+                            
+                        </div>
+                    </div>
                 </div>
    
             </>

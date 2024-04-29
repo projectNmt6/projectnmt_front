@@ -94,7 +94,7 @@ export const deleteChallengePage = async (data) => {
     return await instance.delete(`/main/challenge/${data.challengePageId}`, {data})
 }
 
-export const commentRequest = async (data) => {
+export const donationCommentePost = async (data) => {
     return await instance.post(`/comment/upload/`, data);
 }
 

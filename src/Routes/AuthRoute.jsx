@@ -23,7 +23,7 @@ import NowFundingPage from '../pages/MainPage/fundings/NowFundingPage';
 import EndedFundingsPage from '../pages/MainPage/fundings/EndedFundings';
 import TeamRoutePage from '../pages/TeamRoutePage/TeamRoutePage';
 import TeamSelectPage from '../pages/DonationPageBoard/TeamSelectPage';
-import ChallengeMainPage from '../pages/MainPage/ChallengeMainPage';
+import ChallengeMainPage from '../pages/MainPage/ChallengeMain/ChallengeMainPage';
 import DonationChallengePage from '../pages/DonationChallengerPage/DonationChallengePage';
 import ChallengePage from '../pages/DonationChallengerPage/ChallengePage/ChallengePage';
 

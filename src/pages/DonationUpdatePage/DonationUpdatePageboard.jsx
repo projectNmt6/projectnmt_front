@@ -278,7 +278,6 @@ const handleSubmitButton = async () => {
                 onChange={handleSecondTagChange}
                 defaultValue={selectedSecondTag}
             />
-
             
             <div>
             <div>목표 금액: {goalAmount !== null && goalAmount}</div>

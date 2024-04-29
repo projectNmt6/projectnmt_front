@@ -1,21 +1,85 @@
 import { css } from "@emotion/react";
 
-export const container = css`
-    background: #f4f4f4;
-    padding: 20px;
+
+export const main = css`
+    display: flex;
+    justify-content: space-around;
+    width: 100%; 
+    background-color: aqua;
 `;
+
+// contentAreaStyle 수정
+export const contentAreaStyle = css`
+  display: flex;
+  justify-content: center;
+  max-width: 1200px; /* 전체 페이지의 최대 너비를 1200px로 제한합니다. */
+  margin: 0 auto; /* 가운데 정렬을 위해 추가 */
+`;
+
+// leftCardLayout 수정
+export const leftCardLayout = css`
+    display: flex;
+    width: 700px;
+    flex-direction: column;
+    flex-wrap: wrap;
+    position: sticky;
+`;
+
+export const rightCardLayout = css`
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 360px; /* 오른쪽 영역 너비를 조정합니다. */
+  position: sticky; /* 스크롤에 따라 고정됩니다. */
+  top: 20px; /* 부모 요소의 위쪽에서 일정한 거리만큼 떨어진 위치에 표시됩니다. */
+`;
+
+export const sidebarStyle = css`
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  background-color: #FFD79999;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  padding: 20px;
+  justify-content: space-between;
+  position: sticky; /* 오른쪽에 고정되도록 설정합니다. */
+  top: 20px; /* 부모 요소의 위쪽에서 일정한 거리만큼 떨어진 위치에 표시됩니다. */
+  right: 0; /* 오른쪽에 위치하도록 설정합니다. */
+`;
+
+
+
+
+// container2 수정
+export const container2 = css`
+    padding-top: 20px;
+    width: 100%; /* 분리 페이지 내의 요소가 가로 100%를 차지하도록 설정합니다. */
+    height: 100%;
+    background-color: white;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+`;
+
+
+
+
+
+
+export const boxbox1 = css`
+    display: flex;
+    justify-content: flex-start; /* 요소들을 왼쪽으로 정렬합니다. */
+    border-top: 2px solid #d2d0d0;
+    width: 100%;
+`;
+
 export const container1 = css`
     width: 100%;
     height: 100%;
     background-color: wheat;
 `;
-export const main = css`    
-    display: flex;
-    justify-content: space-around;
-    width: 1120px;
-    height: 480px;
-    background-color: aqua;
-`;
+
 
 export const container3 = css`
     position: absolute;
@@ -40,27 +104,6 @@ export const header = css`
     padding-bottom: 20px;
 `;
 
-export const contentAreaStyle = css`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-`;
-
-export const leftCardLayout = css`
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  width: 63%;
-  position: sticky;
-`;
-
-export const rightCardLayout = css`
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;  
-  overflow: hidden;
-  width: 100%;
-`;
 
 export const button4 = css`
     border: none;
@@ -120,61 +163,23 @@ export const modal = css`
 `;
 
 
-export const sidebarStyle = css`
-  display: flex;
-  flex-direction: column;
-  margin: 10px;
-  background-color: #FFD79999;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  border-radius: 10px;
-  padding: 20px;
-  justify-content: space-between;
-  overflow: hidden;
-
-  & > div > img {
-        width: 150px;
-        height: 150px;
-    }
-
-`;
-
-
-export const commentBox = css`
-
-  display: flex;
-  border: 1px solid #111111;
-  margin-bottom: 20px; /* 댓글 사이의 간격 */
-        padding: 5px;
-        border-bottom: 1px solid #ccc; 
-
-`;
-
-export const boxbox1 = css`
-    display: flex;
-    justify-content:space-between;
-    border-top:2px solid #d2d0d0;
-    width: 100%;
-    height: 100%;
-`;
-
-export const container2 = css`
-    padding-top: 20px;
-    width: 1120px;
-    height: 50%;
-    background-color: white;
-`;
-
 
 export const storyContent = css`
-    background: white;
-    padding: 20px;
+    background: wheat;
     border-radius: 5px;
     margin-bottom: 20px;
     display: flex;
     align-items: center;
     flex-direction: column;
 `;
-
+export const storyImage = css`
+    display: flex;
+    width: 700px;
+    height: 480px;
+    object-fit: cover;
+    border-radius: 10px;
+    
+`;
 export const storyHeader = css`
     text-align: center;
     margin-bottom: 20px;

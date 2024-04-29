@@ -1,14 +1,14 @@
 // CommentSection.jsx
 
 import { useMutation, useQuery } from 'react-query';
-import * as s from "./style";
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { TbTrashXFilled } from 'react-icons/tb';
 import { Link, useLocation, useParams } from 'react-router-dom';
-import { getPrincipalRequest } from '../../apis/api/principal';
-import { challengeCommentRequest, challengeCommentResponse, deleteChallengeComment } from '../../apis/api/DonationAPI';
+import { getPrincipalRequest } from '../../../../apis/api/principal';
+import { challengeCommentRequest, challengeCommentResponse, deleteChallengeComment } from '../../../../apis/api/DonationAPI';
 /** @jsxImportSource @emotion/react */
+import * as s from "./style";
 
 function CommentSection({ challengePageId }) {
 
@@ -40,21 +40,31 @@ function CommentSection({ challengePageId }) {
 
     const handleCommentChange = (e) => setComment(e.target.value);
 
+    const mutation = useMutation(challengeCommentRequest, {
+        onSuccess: () => {
+            console.log("덧글 전송 완료");
+        },
+        onError: (error) => {
+            console.error("덧글 전송 실패:", error);
+        }
+    });
+
+
+    
     const handleCommentSubmit = async () => {
         try {
-            const data = {
+            await mutation.mutateAsync({
                 commentText: comment,
-                challengePageId,
-                userId
-            };
-            const response = await challengeCommentRequest(data);
-            alert("전송 완료");
-            setCommentList([...commentList, response.data]);
-            setComment("");
+                challengePageId: challengePageId,
+                userId: userId
+            });
+            setComment(""); // 성공 시 입력 필드 초기화
         } catch (error) {
-            console.error(error);
+            console.error("덧글 전송 실패:", error);
+            // 에러 처리
         }
     };
+
     
     const handleCommentDeleteButton = (challengeCommentId) => {
         if (!userId) {
@@ -68,7 +78,6 @@ function CommentSection({ challengePageId }) {
         console.log("Deleting ID:", userId); // 로그로 ID 확인
         deleteCommentMutation.mutate({ challengeCommentId, userId });
     };
-    
     
 
     const deleteCommentMutation = useMutation({
@@ -85,16 +94,16 @@ function CommentSection({ challengePageId }) {
 
     return (
         <>
-            <div css={s.commentBox}>
+            <div css={s.commentBoxStyle}>
                 <div>
-                    <input css={s.inputbox}
+                    <input css={s.inputboxStyle}
                         type="text"
                         placeholder='따뜻한 댓글을 남겨주세요'
                         value={comment}
                         onChange={handleCommentChange}
                     />
                 </div>
-                    <button onClick={handleCommentSubmit}>덧글 입력</button>
+                    <button css={s.button5}  onClick={handleCommentSubmit}>덧글 입력</button>
                 <div>
                 {commentList.map((comment, index) => (
                 <div key={index}>

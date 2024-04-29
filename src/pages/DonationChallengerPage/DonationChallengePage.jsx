@@ -15,9 +15,10 @@ import { getTeamListRequest } from '../../apis/api/teamApi';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import TextEditor from '../../components/TextEditor/TextEditor';
-import CommentSection from './CommentSection';
+import CommentSection from './ChallengePage/ChallenegComment/CommentSection';
 
 import { v4 as uuid } from "uuid";
+import DOMPurify from 'dompurify';
 
 function DonationChallengePage() {
     const [title, setTitle] = useState("");
@@ -31,6 +32,7 @@ function DonationChallengePage() {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(null);
     
+
     const queryClient = useQueryClient();    
     const principalData = queryClient.getQueryData("principalQuery");
     const principalQuery = useQuery(

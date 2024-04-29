@@ -3,10 +3,10 @@ import { useMutation, useQuery } from 'react-query';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { deleteChallengePage, getChallengePageRequest } from '../../../apis/api/DonationAPI';
 import DOMPurify from 'dompurify';
-import CommentSection from '../CommentSection';
+import CommentSection from './ChallenegComment/CommentSection';
 import ChallengeStory from '../Challenge/ChallengeStory';
 import ChallengeNews from '../Challenge/ChallengeNews';
-import ActionBoard from '../Challenge/ActionBoard';
+import ActionBoard from '../Challenge/ActionBoard/ActionBoard';
 import { getPrincipalRequest } from '../../../apis/api/principal';
 import LoginRequiredModal from '../../../components/LoginRequiredModal/LoginRequiredModal';
 import ActionModal from '../Challenge/ActionModal/ActionModal';
@@ -19,7 +19,6 @@ function ChallengePage() {
     const queryParams = new URLSearchParams(location.search);
     const challengePageId = queryParams.get('page');
     const [challengePage, setChallengePage] = useState(null);
-    const navigate = useNavigate(); 
     const [userId, setUserId ] = useState();    
     const [ teamInfo, setTeamInfo ] = useState();
 
@@ -151,86 +150,82 @@ function ChallengePage() {
 
     return (
 
-        <div css={s.contentAreaStyle}>
-        <div css={s.leftCardLayout}>
-        <div css={s.container1}>
-                {showModal && (
+    <div css={s.contentAreaStyle}>
+            
+            <div css={s.leftCardLayout}>
+            {showModal && (
                     <div css={s.container3}>
                         <div css={s.modal}><LoginRequiredModal setShowModal={setShowModal} /></div>
                     </div>
                 )}
             
-            <div css={s.container}>
+            <div >
                 <Link css={s.link} to={"/main"}>메인으로 </Link>
             </div>
             
             <div >
-                <button><Link to={`update?page=${challengePageId}`}>수정하기</Link>
-                </button>
-
-                    <button onClick={handleDeleteButton}>삭제하기</button>
-                
-                    <button onClick={handleModalToggle}>행동하기!</button>
+                <button><Link to={`update?page=${challengePageId}`}>수정하기</Link></button>
+                <button onClick={handleDeleteButton}>삭제하기</button>
+                <button onClick={handleModalToggle}>행동하기!</button>
                     {showModal && (
                         <div css={s.cardStyle}>
                             <LoginRequiredModal setShowModal={setShowModal} />
                         </div>
                     )}
                     {showNewModal && (
-                    <div css={s.cardStyle}>
-                    <ActionModal setShowNewModal={setShowNewModal} challengePageId={challengePageId} />
-                </div>
+                <div css={s.cardStyle}>
+                <ActionModal setShowNewModal={setShowNewModal} challengePageId={challengePageId} />
+            </div>
                     )} 
             </div>
 
-            <div css={s.storyHeader}>
-          
 
-        <div css={s.storyContent}>
-        <h1>{challengeTitle}</h1>
-        <img src={challengeMainImg} alt="Challenge Main Image" />
-            
-        <div css={s.main}>
-            <p>{challengeOverview}</p>
-            <div dangerouslySetInnerHTML={{ __html: safeHTML }} />
-            <p>종료 날짜: {endDate}</p>
-        </div>
-                <div css={s.container2}>
+        <div>     
+            <div css={s.storyContent}>
+                <div css={s.main}>
+                <img src={challengeMainImg} alt="Challenge" css={s.storyImage} />
+
+ 
+                </div>
+            </div>
+                <div >
                     <button css={s.button4} onClick={() => handleTabChange('story')}>Story</button>
                     <button css={s.button4} onClick={() => handleTabChange('action')}>Action</button>
                     <button css={s.button4} onClick={() => handleTabChange('news')}>news</button>
-                   
                     <div css={s.boxbox1}>
+                    </div>       
                         <div>
-                            <h2>분리공간 </h2>
                             { selectedTab === 'story' ?
                             <ChallengeStory />
                             :selectedTab === 'news' ? 
                             <ChallengeNews challengePageId={challengePageId} /> 
                             : < ActionBoard challengePageId={challengePageId} />
                             }
-            
-                    <div css={s.commentBox}>
+                
+                <h3>덧글</h3>
                     <CommentSection challengePageId={challengePageId} />
-                    </div>
+                    
                 </div>
                         
-        </div>
-            </div>
-                    </div>
-
                 </div>
-            </div>
+                </div>
+        </div>
 
 
-            <div css={s.rightCardLayout}>                    
+
+        <div css={s.rightCardLayout}>                    
                 <div css={s.sidebarStyle}>
-                        aaaaa
-                    </div>
-            </div>
-        </div>
+                <div>
+
+<h1>{challengeTitle}</h1>                    
+<p>{challengeOverview}</p>
+{/* <div dangerouslySetInnerHTML={{ __html: safeHTML }} /> //content */}
+<p>종료 날짜: {endDate}</p>
+</div>
+                </div>
         </div>
 
+    </div>
 
         
     );

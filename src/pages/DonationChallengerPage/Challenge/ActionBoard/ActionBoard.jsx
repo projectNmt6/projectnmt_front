@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { getActionBoardList } from '../../../apis/api/ChallengeApi';
+import { getActionBoardList } from '../../../../apis/api/ChallengeApi';
 import { useMutation } from 'react-query';
-import { div } from '../../DonatorInfo/style';
-
+/** @jsxImportSource @emotion/react */
+import * as s from "./style";
+import Masonry from 'react-masonry-css';
 function ActionBoard({challengePageId}) {
 
     const [actionList, setActionList] = useState([]);
@@ -25,21 +26,20 @@ function ActionBoard({challengePageId}) {
         }
     }, [challengePageId]);
 
+    
     return (
         <div>
-        <h1>행동하기</h1>
-        {loading && <p>Loading...</p>}
-        {error && <p>Error: {error}</p>}
-        <div>
-            {actionList.map((action) => (
-                <div key={action.id}>
-                    <img src={action.imageURL} alt={`Action ${action.id}`} style={{ width: '200px', maxHeight: '200px' }} />
-                    <p>UserId: {action.userId}</p>
-                    <p>Content: {action.actionContent}</p>
-                </div>
-            ))}
+        <div css={s.actionBoardContainer}>
+                    {actionList.map((action) => (
+                        <div key={action.id} css={s.actionItem}>
+                            <img src={action.imageURL} alt={`Action ${action.id}`} css={s.actionImage} />
+                            <p>UserId: {action.userId}</p>
+                            <p>Content: {action.actionContent}</p>
+                        </div>
+                    ))}
+                </div>       
         </div>
-    </div>
+
     );
 }
 
