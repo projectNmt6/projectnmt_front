@@ -13,6 +13,7 @@ import ActionModal from '../Challenge/ActionModal/ActionModal';
 import { getTeamInfoRequest, getTeamListRequest } from '../../../apis/api/teamApi';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
+import { countActionBoard } from '../../../apis/api/ChallengeApi';
 
 function ChallengePage() {    
     const location = useLocation();
@@ -68,7 +69,23 @@ function ChallengePage() {
         fetchData();
     }, [challengePageId]);
 
-    const { challengeMainImg, challengeTitle, challengeOverview, endDate, challengeContent } = challengePage || {};
+    const [ actingHeadCount, setActingHeadCount ] = useState(0);
+    
+    useEffect(() => {
+        if (challengePageId) {
+            countActionBoard(challengePageId)
+            .then(response => {
+                console.log("API Response:", response.data); // 응답 로깅
+                setActingHeadCount(response.data);
+            })
+            .catch(error => {
+                console.error("actionError", error);
+            });
+        }
+    }, [challengePageId]);
+    
+
+    const { challengeMainImg, challengeTitle, challengeOverview, endDate, challengeContent, headCount } = challengePage || {};
     const [selectedTab, setSelectedTab] = useState('story'); // news, story 중 하나의 값을 가짐
     const handleTabChange = (tab) => {
         setSelectedTab(tab);
@@ -87,7 +104,6 @@ function ChallengePage() {
     }, [showModal, showNewModal]);
   
     const [teams, setTeams] = useState([]);
-    const [selectedTeam, setSelectedTeam] = useState(null);
     
     useEffect(() => {
         if (userId) {
@@ -148,6 +164,31 @@ function ChallengePage() {
         deleteMutationButton.mutate({ challengePageId: challengePageId });
         }
 
+        const [remainingDays, setRemainingDays] = useState('');
+
+        useEffect(() => {
+            if (challengePage && challengePage.endDate) {
+                const currentDate = new Date();
+                const endDate = new Date(challengePage.endDate);
+        
+                // 남은 시간(밀리초) 계산
+                const remainingTime = endDate.getTime() - currentDate.getTime();
+                
+                // 밀리초를 일수로 변환
+                const days = Math.max(0, Math.ceil(remainingTime / (1000 * 60 * 60 * 24)));
+        
+                // 상태 업데이트
+                setRemainingDays(days);
+            } else {
+                setRemainingDays('날짜 정보 없음');
+            }
+        }, [challengePage]);
+
+        const handleNewsButtonClick = () => {
+            window.location.replace(`/main/challenge/news?page=${challengePageId}`);
+        };
+        
+
     return (
 
     <div css={s.contentAreaStyle}>
@@ -164,6 +205,7 @@ function ChallengePage() {
             </div>
             
             <div >
+            <button onClick={handleNewsButtonClick}>후기작성버튼</button>
                 <button><Link to={`update?page=${challengePageId}`}>수정하기</Link></button>
                 <button onClick={handleDeleteButton}>삭제하기</button>
                 <button onClick={handleModalToggle}>행동하기!</button>
@@ -215,17 +257,18 @@ function ChallengePage() {
 
         <div css={s.rightCardLayout}>                    
                 <div css={s.sidebarStyle}>
+            <div>
+                <div>{remainingDays} 일 남음</div>
                 <div>
-
-<h1>{challengeTitle}</h1>                    
-<p>{challengeOverview}</p>
-{/* <div dangerouslySetInnerHTML={{ __html: safeHTML }} /> //content */}
-<p>종료 날짜: {endDate}</p>
-</div>
+                    {actingHeadCount} 명 행동중!
+                    {headCount}명 목표</div>
+                <h1>{challengeTitle}</h1>                    
+                <p>{challengeOverview}</p>
                 </div>
-        </div>
+                                </div>
+                        </div>
 
-    </div>
+                    </div>
 
         
     );

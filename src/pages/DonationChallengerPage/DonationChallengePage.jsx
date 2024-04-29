@@ -31,6 +31,7 @@ function DonationChallengePage() {
     const [selectedTeam, setSelectedTeam] = useState(null);    
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(null);
+    const [ headCount, setHaedCount] = useState();
     
 
     const queryClient = useQueryClient();    
@@ -108,7 +109,8 @@ function DonationChallengePage() {
             challengeOverview : overview,
             challengeContent: challengeContent,
             challengeMainImg: mainImg,
-            challengePageShow: 2,            
+            challengePageShow: 2,
+            headCount: headCount       
         };
         PostChallengePage.mutate(data);
     };
@@ -139,7 +141,11 @@ function DonationChallengePage() {
 
     };
     
-    const [uploadedUrls, setUploadedUrls] = useState([]);
+    const headCountChange = (e) => {
+        const value = e.target.value;
+        const parsedValue = value ? parseInt(value) : null;
+        setHaedCount(parsedValue);
+    }
 
     return (
         <>
@@ -189,7 +195,13 @@ function DonationChallengePage() {
                 </div>  
                 <button>이미지 제거 </button>
             </div>
-
+            <div>
+                목표 인원:
+                <input 
+                type="number"
+                value={headCount}
+                onChange={headCountChange} />
+            </div>
             <TextEditor content={challengeContent} setContent={setChallengeContent} />
  
             <div css={s.buttonBox}>
