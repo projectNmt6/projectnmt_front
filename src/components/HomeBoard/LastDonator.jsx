@@ -5,7 +5,12 @@ import { useQuery, useQueryClient } from "react-query";
 import Progress from "../../components/progress/Progress";
 import { BsFillSearchHeartFill } from "react-icons/bs";
 import LikeButton from "../../components/LikeButton/LikeButton";
+<<<<<<< HEAD
 import { getDonators } from "../../apis/api/DonatorApi";
+=======
+import { getDonators } from "../../apis/api/donatorApi";
+
+>>>>>>> 9ba9d13bc0584fb9de9579892c0bfe6fe5dae12b
 function LastDonator(props) {
     const [closestToGoal, setClosestToGoal] = useState(null);
     const getDonatorQuery = useQuery(
@@ -41,7 +46,7 @@ function LastDonator(props) {
         <>
             <div css={s.cardStyle}>
                 <h2>마지막 기부자를 찾습니다 <BsFillSearchHeartFill color="orange" /></h2>
-                <p>목표 달성까지 얼마 남지 않았어요! </p>
+                <p><strong>목표 달성까지 얼마 남지 않았어요! </strong></p>
                 {closestToGoal && (
                     <div css={s.donationList}>
                         <a href={`/donation?page=${closestToGoal.donationPageId}`} key={closestToGoal.donationPageId} css={s.linkStyle}>

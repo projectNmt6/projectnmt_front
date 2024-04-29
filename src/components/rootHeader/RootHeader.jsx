@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import * as s from "./style";
 import { useRecoilState } from 'recoil';
 import { Link } from 'react-router-dom';
-import { FiLogOut, FiSearch, FiUser } from "react-icons/fi";
+import { FiLogOut, FiUser } from "react-icons/fi";
 import { FaHome } from "react-icons/fa";
 import { useQueryClient } from 'react-query';
 import instance from '../../apis/utils/instance';
@@ -11,6 +11,7 @@ import instance from '../../apis/utils/instance';
 function RootHeader(props) {
     const [isLogin, setLogin] = useState(false);
     const queryClient = useQueryClient();
+    // const principal = queryClient.getQueryData("principalQuery");
     const principalState = queryClient.getQueryState("principalQuery");
     const [isAdmin, setIsAdmin] = useState();
     useEffect(() => {
@@ -31,10 +32,9 @@ function RootHeader(props) {
         window.location.replace("/auth/signin");
     }
     return (
-    <>
         <div css={s.header}>
             <Link css={s.account} to={"/"}>
-                <FaHome size={25}/>
+                <FaHome size={25} />
             </Link>
             <div css={s.header1}>
                 <div css={s.mainbox}>
@@ -43,36 +43,38 @@ function RootHeader(props) {
                 <div css={s.challengebox}>
                     <Link to={"/main/challenges"}>챌린지</Link>
                 </div>
-                <div css={s.adminbox}>
+                <div css={s.adminbox(true)}>
                     {isAdmin ? <Link to={"/admin/main"}> 관리자 </Link> : null}
-                </div>
+                </div> 
             </div>
 
             <div css={s.div}>
                 {
                     !isLogin ?
                         <div css={s.div}>
-                        <Link css={s.account} to={"/auth/signin"}>
-                            <FiUser size={22}/>
-                        </Link>
-                        <Link to={"/search"} css={s.searchIcon}><FiSearch size={22}/></Link>
+                            <Link css={s.account} to={"/auth/signin"}>
+                                <FiUser size={22} />
+                            </Link>
+                            <Link to={"/search"} css={s.searchIcon}><FiSearch size={22} /></Link>
                         </div>
                         : <div css={s.accountItems}>
                             <button css={s.logout} onClick={handleLogoutClick}>
-                                <FiLogOut size={22}/>
+                                <FiLogOut size={22} />
                             </button>
                             <Link css={s.account} to={"/account/mypage"}>
-                                <FiUser size={22}/>
+                                <FiUser size={22} />
                             </Link>
-                            <Link to={"/search"} css={s.searchIcon}><FiSearch size={22}/></Link>
+                            <Link to={"/search"} css={s.searchIcon}><FiSearch size={22} /></Link>
                         </div>
                 }
 
             </div>
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 9ba9d13bc0584fb9de9579892c0bfe6fe5dae12b
         </div>
-    </>
     );
 }
 

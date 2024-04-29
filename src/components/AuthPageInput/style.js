@@ -18,6 +18,10 @@ export const input = css`
     font-size: 16px;
     padding: 0px 13px;
     background-color: #FAFAFA;
+    :focus {
+        outline: none;
+        background-color: #dbdbdb;
+    }
 `;
 
 export const messageBox = (type) => css`

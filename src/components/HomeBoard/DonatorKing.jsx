@@ -4,7 +4,11 @@ import React, { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from "react-query";
 import { FaCrown } from "react-icons/fa6";
 import LikeButton from "../../components/LikeButton/LikeButton";
+<<<<<<< HEAD
 import { getDonators } from "../../apis/api/DonatorApi";
+=======
+import { getDonators } from "../../apis/api/donatorApi";
+>>>>>>> 9ba9d13bc0584fb9de9579892c0bfe6fe5dae12b
 
 function DonatorKing(props) {
     const [sortedDonorRankings,setSortedDonorRankings] = useState([]);
@@ -18,20 +22,21 @@ function DonatorKing(props) {
             refetchOnWindowFocus: false,
             onSuccess: response => {
                 const donations = response.data;
+                console.log(donations);
                              // 1. userId를 기준으로 그룹화
                              const donorGroups = donations.reduce((groups, donation) => {
-                                const { username, donationAmount } = donation;
-                                if (!groups[username]) {
-                                  groups[username] = [];
+                                const { name, donationAmount } = donation;
+                                if (!groups[name]) {
+                                  groups[name] = [];
                                 }
-                                groups[username].push(donation);
+                                groups[name].push(donation);
                                 return groups;
                               }, {});
                             
                               // 2. 각 그룹별로 총 기부 금액 계산
-                              const donorRankings = Object.entries(donorGroups).map(([username, donations]) => {
+                              const donorRankings = Object.entries(donorGroups).map(([name, donations]) => {
                                 const totalDonations = donations.reduce((sum, donation) => sum + donation.donationAmount, 0);
-                                return { username, totalDonations };
+                                return { name, totalDonations };
                               });
                             
                               // 3. 총 기부 금액 기준 내림차순 정렬
@@ -53,7 +58,7 @@ function DonatorKing(props) {
                                         <p>{Math.ceil((sortedDonorRankings[1].totalDonations) / 10000)}만원</p>
                                             <FaCrown color="#C0C0C0" />
                                             <div css={s.amountBar2(sortedDonorRankings[1].totalDonations*0.0001)}></div>
-                                            <h3>{sortedDonorRankings[1].username} 님</h3>
+                                            <h3>{sortedDonorRankings[1].name} 님</h3>
                                             <span css={s.rankingNumber}>2</span>
                                         </div>
                                     </div>
@@ -63,7 +68,7 @@ function DonatorKing(props) {
                                         <p>{Math.ceil((sortedDonorRankings[0].totalDonations) / 10000)}만원</p>
                                             <FaCrown color="#FFD700" />
                                             <div css={s.amountBar1(sortedDonorRankings[0].totalDonations*0.0001)}></div>
-                                            <h3>{sortedDonorRankings[0].username} 님</h3>
+                                            <h3>{sortedDonorRankings[0].name} 님</h3>
                                             <span css={s.rankingNumber}>1</span>
                                         </div>
                                     </div>
@@ -73,7 +78,7 @@ function DonatorKing(props) {
                                             <p>{Math.ceil((sortedDonorRankings[2].totalDonations) / 10000)}만원</p>
                                             <FaCrown color="#B36700" />
                                             <div css={s.amountBar3(sortedDonorRankings[2].totalDonations*0.0001)}></div>
-                                            <h3>{sortedDonorRankings[2].username} 님</h3>
+                                            <h3>{sortedDonorRankings[2].name} 님</h3>
                                             <span css={s.rankingNumber}>3</span>
 
                                         </div>

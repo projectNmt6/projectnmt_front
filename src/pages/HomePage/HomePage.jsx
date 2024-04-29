@@ -1,25 +1,27 @@
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from "react-query";
 import { getAllAmount, getDonationListRequest, getProgressAmount } from "../../apis/api/DonationAPI";
-import Progress from "../../components/progress/Progress";
 import introImg from '../../assets/introImg.png';
 import introImg2 from '../../assets/introImg2.jpeg';
 import { FaArrowCircleRight } from "react-icons/fa";
 import sideImg from '../../assets/sideImg.png';
-import { FaWonSign } from "react-icons/fa";
-import { BsEmojiHeartEyes } from "react-icons/bs";
-import LikeButton from "../../components/LikeButton/LikeButton";
 import DonatorKing from "../../components/HomeBoard/DonatorKing";
 import LastDonator from "../../components/HomeBoard/LastDonator";
 import DonationKing from "../../components/HomeBoard/DonationKing";
 import TimeOut from "../../components/HomeBoard/TimeOut";
+import { FaWonSign } from "react-icons/fa";
+import { BsEmojiHeartEyes } from "react-icons/bs";
 import lion from '../../assets/lion.gif';
 import { BsFillSearchHeartFill } from "react-icons/bs";
 import { GiSandsOfTime } from "react-icons/gi";
 import { FaSackDollar } from "react-icons/fa6";
 import { FaCrown } from "react-icons/fa6";
+<<<<<<< HEAD
+=======
+import LikeButton from "../../components/LikeButton/LikeButton";
+>>>>>>> 9ba9d13bc0584fb9de9579892c0bfe6fe5dae12b
 
 function HomePage() {
     const [totalDonationAmount, setTotalDonationAmount] = useState(0);
@@ -50,18 +52,9 @@ function HomePage() {
         {
             refetchOnWindowFocus: false,
             onSuccess: response => {
+                console.log(response.data);
                 if (Array.isArray(response.data)) {
                     setTotalDonationLength(response.data.length);
-                    const sortedDonations = response.data.sort((a, b) => {
-                        const timeRemainingA = new Date(a.endDate) - today;
-                        const timeRemainingB = new Date(b.endDate) - today;
-                        return timeRemainingA - timeRemainingB;
-                    });
-                    setUpcomingDonation(sortedDonations.find(donation => {
-                        const timeRemaining = new Date(donation.endDate) - today;
-                        return timeRemaining > 0;
-                    }))
-
                 }
             }
         }
@@ -108,6 +101,7 @@ function HomePage() {
                                 <h3> ₩ 총 기부금                               
                                     {totalDonationAmount.toLocaleString()}원</h3>
                             </div>
+<<<<<<< HEAD
                             {/* {upcomingDonation && (
                                 <div css={s.donationList}>
                                     <a href={`/donation?page=${upcomingDonation.donationPageId}`} key={upcomingDonation.donationPageId} css={s.linkStyle}>
@@ -136,18 +130,9 @@ function HomePage() {
                                     </a>
                                 </div>
                             )} */}
+=======
+>>>>>>> 9ba9d13bc0584fb9de9579892c0bfe6fe5dae12b
                         </div>
-                        <div css={s.cardStyle}>
-                            <h2>가장 많이 기부 중인 모금함</h2>
-
-
-                        </div>
-                        <div css={s.cardStyle}>
-                            <h2>오늘의 기부왕!</h2>
-
-
-                        </div>
-
 
                         <div css={s.sidebarStyle}>
                             <h2>따뜻한 후기</h2>

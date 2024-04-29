@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { css } from '@emotion/react';
+=======
+import React, { useEffect, useMemo, useState } from 'react';
+>>>>>>> 9ba9d13bc0584fb9de9579892c0bfe6fe5dae12b
 import ReactQuill from "react-quill";
+import { css } from '@emotion/react';
 import 'react-quill/dist/quill.snow.css';
 
 /** @jsxImportSource @emotion/react */

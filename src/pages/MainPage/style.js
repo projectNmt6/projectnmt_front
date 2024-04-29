@@ -13,7 +13,7 @@ margin-left: 40px;
 export const tagContainer = css`
   display: flex;
   justify-content: center;
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
 `;
 
 export const tagButton = css`
@@ -70,4 +70,7 @@ export const linkStyle = css`
     text-decoration: none;
     color: inherit;
   }
+`;
+
+export const upperRightMenu = css`
 `;
