@@ -1,8 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useQuery, useQueryClient } from "react-query";
-import { Link } from 'react-router-dom';
 import { getAllAmount, getDonationListRequest, getProgressAmount } from "../../apis/api/DonationAPI";
 import Progress from "../../components/progress/Progress";
 import introImg from '../../assets/introImg.png';
@@ -12,14 +11,20 @@ import sideImg from '../../assets/sideImg.png';
 import { FaWonSign } from "react-icons/fa";
 import { BsEmojiHeartEyes } from "react-icons/bs";
 import LikeButton from "../../components/LikeButton/LikeButton";
-
-
-
+import DonatorKing from "../../components/HomeBoard/DonatorKing";
+import LastDonator from "../../components/HomeBoard/LastDonator";
+import DonationKing from "../../components/HomeBoard/DonationKing";
+import TimeOut from "../../components/HomeBoard/TimeOut";
+import lion from '../../assets/lion.gif';
+import { BsFillSearchHeartFill } from "react-icons/bs";
+import { GiSandsOfTime } from "react-icons/gi";
+import { FaSackDollar } from "react-icons/fa6";
+import { FaCrown } from "react-icons/fa6";
+import { getDonatorList, getDonators } from "../../apis/api/donatorApi";
 
 function HomePage() {
-    const [ totalamount , setTotalamount ] = useState(0);
-    const [upcomingDonation, setUpcomingDonation] = useState(null);
-    const [remainingTime, setRemainingTime] = useState(null);
+    const [totalDonationAmount, setTotalDonationAmount] = useState(0);
+    const [totalDonationLength, setTotalDonationLength] = useState(0);
     const today = new Date();
     const formattedDate = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`;
 
@@ -31,11 +36,13 @@ function HomePage() {
         },
         {
             refetchOnWindowFocus: false,
-            onSuccess: data => {
-                setTotalamount(data.data.totalAmount);
-            },
-        }
+            onSuccess: response => {
+                setTotalDonationAmount(response.data.totalAmount);
+                const donations = response.data;
+            }
+        },
     );
+
     const getDonationListQuery = useQuery(
         "getDonationQuery",
         async () => await getDonationListRequest(),
@@ -43,69 +50,60 @@ function HomePage() {
             refetchOnWindowFocus: false,
             onSuccess: response => {
                 if (Array.isArray(response.data)) {
-                const sortedDonations = response.data.sort((a, b) => {
-                    const timeRemainingA = new Date(a.endDate) - today;
-                    const timeRemainingB = new Date(b.endDate) - today;
-                    return timeRemainingA - timeRemainingB;
-                });
-                setUpcomingDonation(sortedDonations.find(donation => {
-                    const timeRemaining = new Date(donation.endDate) - today;
-                    return timeRemaining > 0;
+                    setTotalDonationLength(response.data.length);
+                    const sortedDonations = response.data.sort((a, b) => {
+                        const timeRemainingA = new Date(a.endDate) - today;
+                        const timeRemainingB = new Date(b.endDate) - today;
+                        return timeRemainingA - timeRemainingB;
+                    });
+                    setUpcomingDonation(sortedDonations.find(donation => {
+                        const timeRemaining = new Date(donation.endDate) - today;
+                        return timeRemaining > 0;
                     }))
+
                 }
             }
         }
     );
-
-    const calculateTimeRemaining = (endDate) => {
-        const endDateObj = new Date(endDate);
-        const timeRemaining = endDateObj - today;
-        if (timeRemaining <= 0) {
-            return "기간 만료";
-        } else {
-            const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
-            return `${hours}시간 ${minutes}분 ${seconds}초`;
-        }
-    };
-
-    useEffect(() => {
-        const timer = setInterval(() => {
-            if (upcomingDonation) {
-                setRemainingTime(calculateTimeRemaining(upcomingDonation.endDate));
-            }
-        }, 1000);
-
-        return () => clearInterval(timer);
-    }, [upcomingDonation]);
 
     return (
         <>
             <main css={s.mainLayout}>
                 <header css={s.rootheader}>
                     <div css={s.headerStyle}>
-                        <h1>세상을 위한 따뜻한 마음 <br />노먹튀와 함께해요.</h1>
+                        <h1>세상을 위한 따뜻한 마음 <br />노먹튀와 함께해요 <img src={lion} alt="" width="7%" /></h1>
                     </div>
                     <div css={s.introStyle}>
                         <img src={introImg} />
-                        <h3>총 기부 52 건</h3>
+                        <h3>총 기부 {totalDonationLength} 건</h3>
                         <img src={introImg2} />
                         <h3>노먹튀 소개</h3>
                         <button><FaArrowCircleRight size="30" /></button>
-
                     </div>
                 </header>
-                
                 <div css={s.contentAreaStyle}>
                     <div css={s.leftCardLayout}>
-                        <div css={s.cardStyle}>
-            
-                            <div>
-                                <div css={s.cardText}> 
-                                    <h2>마지막 기부자를 찾습니다   <BsEmojiHeartEyes /></h2>
-                                    <p>기한 종료까지 얼마 남지 않았어요! </p>
+
+                        <TimeOut />
+                        <DonationKing />
+                        <LastDonator />
+                        <DonatorKing />
+
+                        
+                    </div>
+                    <div css={s.rightCardLayout}>
+                        <div css={s.sidebarStyle}>
+                            <div css={s.sidebarText}>
+                                <div>
+                                    <h2>우리가<br />같이 만든 변화들</h2>
+                                    <p>{formattedDate} 기준</p>
                                 </div>
+                                <div>
+                                    <img src={sideImg} />
+                                </div>
+                            </div>
+                            <div css={s.totalAmountBox}>
+                                <h3> ₩ 총 기부금                               {totalDonationAmount.toLocaleString()}원</h3>
                             </div>
                             {upcomingDonation && (
                                 <div css={s.donationList}>
@@ -146,37 +144,15 @@ function HomePage() {
 
 
                         </div>
+
+
+                        <div css={s.sidebarStyle}>
+                            <h2>따뜻한 후기</h2>
+                        </div>
+                        <div css={s.sidebarStyle}>
+                            <h2>놓치면 아까운 소식</h2>
+                        </div>
                     </div>
-
-
-
-
-                    <div css={s.rightCardLayout}>            
-                            <div css={s.sidebarStyle}>
-                                <div css={s.sidebarText}>
-                                    <div>
-                                        <h2>우리가<br />같이 만든 변화들</h2>
-                                        
-                                        <p>{formattedDate} 기준</p>
-                                    </div>
-                                    <div>
-                                        <img src={sideImg} />
-                                    </div>
-                                </div>
-                                <div css={s.totalAmountBox}> 
-                                <h3><FaWonSign /> 총 기부금           {totalamount}원</h3>
-                                </div>
-                            </div>
-                            <div css={s.sidebarStyle}>
-                                <h2>따뜻한 후기</h2>
-                            </div>
-                            <div css={s.sidebarStyle}>
-                                <h2>놓치면 아까운 소식</h2>
-                            </div>
-
-                    </div>
-                </div>    
-                <div css={s.additionalContentStyle}>
                 </div>
 
             </main>
@@ -187,7 +163,6 @@ function HomePage() {
                 <a href="">이용약관 </a>
                 <a href="">개인정보처리방침 </a>
             </footer>
-
         </>
     );
 }

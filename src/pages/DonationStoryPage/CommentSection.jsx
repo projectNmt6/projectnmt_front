@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 // CommentSection.jsx
 
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+=======
+/** @jsxImportSource @emotion/react */
+import { useMutation } from 'react-query';
+>>>>>>> dd429a997380275ee79804324d6af6f487b46c79
 import * as s from "./style";
 import axios from 'axios';
 import { useEffect, useState } from 'react';
@@ -62,6 +67,7 @@ function CommentSection({ donationPageId, isDonation}) {
     const handleCommentDeleteButton = (donationCommentId) => {        
         deleteCommentMutation.mutate({ donationCommentId });
     };
+<<<<<<< HEAD
     const handleCommentReportPostButton = (donationCommentId) => {
         postCommentReportMutation.mutate({ 
             donationCommentId,
@@ -70,26 +76,34 @@ function CommentSection({ donationPageId, isDonation}) {
             donationPageId 
         });
     };
+=======
+>>>>>>> dd429a997380275ee79804324d6af6f487b46c79
     return (
         <>
-            <div css={s.commentBox}>
+            <div css={s.commentBoxStyle}>
                 <div>
-                    <input css={s.inputbox}
+                    <input 
+                        css={s.inputboxStyle}
                         type="text"
-                        placeholder='따뜻한 댓글을 남겨주세요'
+                        placeholder='  따뜻한 댓글을 남겨주세요.'
                         value={comment}
                         onChange={handleCommentChange}
-                    />
+                        />
                 </div>
-                    <button onClick={handleCommentSubmit}>덧글 입력</button>
+                    <button css={s.button5} onClick={handleCommentSubmit}>등록</button>
                 <div>
                     {commentList.map((comment, index) => (
                         <div key={index}>
                             <p>{comment.commentText}
+<<<<<<< HEAD
                                 <button onClick={() => handleCommentDeleteButton(comment.donationCommentId)}>
                                     덧글 삭제 <TbTrashXFilled /></button>
                                 <button onClick={() => handleCommentReportPostButton(comment.donationCommentId)}>
                                     덧글 신고 </button>
+=======
+                                <button css={s.button5} onClick={() => handleCommentDeleteButton(comment.donationCommentId)}>
+                                    댓글 삭제 <TbTrashXFilled /></button>
+>>>>>>> dd429a997380275ee79804324d6af6f487b46c79
                             </p>
                         </div>
                     ))}
@@ -98,6 +112,5 @@ function CommentSection({ donationPageId, isDonation}) {
         </>
     );
 }
-
 
 export default CommentSection;

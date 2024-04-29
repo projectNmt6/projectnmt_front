@@ -1,18 +1,23 @@
 import { css } from "@emotion/react";
 
 export const inputBox = css`
-    position: relative;
-    box-sizing: border-box;
-    width: 100%;
+    display: flex;
+    height: auto;
+    flex-direction: column;
     margin-bottom: 10px;
+    align-items: center;
+    justify-content: center;
 `;
 
 export const input = css`
     background-color: transparent;
-    height: 27px;
-    width: 200px;
-    border: 2px solid rgba(0, 0, 0, 0.23);
+    height: 44px;
+    width: 600px;
+    border: 2px solid #dbdbdb;
     border-radius: 5px;
+    font-size: 16px;
+    padding: 0px 13px;
+    background-color: #FAFAFA;
 `;
 
 export const messageBox = (type) => css`

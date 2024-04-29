@@ -17,7 +17,6 @@ function Progress({pageId}) {
         {
             refetchOnWindowFocus: false,
             onSuccess: data => {
-                console.log(data.data);
                 setGoalAmount(data.data.goalAmount);
                 setCurrentAmount(data.data.addAmount);
             },
@@ -47,7 +46,7 @@ function Progress({pageId}) {
                             {isNaN(progressPercent) ? "" : ""}
                         </div>
                     </div>
-                    <div>{progressPercent}%</div>
+                    <div>{progressPercent} %</div>
                 </>
             )}
         </div>

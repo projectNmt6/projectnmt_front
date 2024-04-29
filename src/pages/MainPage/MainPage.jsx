@@ -57,13 +57,6 @@ function MainPage() {
                 <h1>Main Page</h1>
             </div>
             <div css={s.upperRightMenu}>
-                <div css={s.sign}>
-                    <Link to={"/signin"}>로그인 </Link>
-                    <Link to={"/signup"}>회원가입 </Link>
-                </div>
-                <div>
-                    <Link to={"/search"} css={s.searchIcon}><FiSearch size={40}/></Link>
-                </div>
             </div>
             <div css={s.write}>
                 <Link to={"/main/write"}>작성하기</Link>
@@ -117,7 +110,7 @@ function MainPage() {
                                     <p><strong>종료시간:</strong> {donation.endDate.split('T')[0]}</p> */}
 
 
-                                <LikeButton donationPageId = {donation.donationPageId} />
+                                {/* <LikeButton donationPageId = {donation.donationPageId} /> */}
                                 <Progress pageId={donation.donationPageId} />
 
                                 </div>
