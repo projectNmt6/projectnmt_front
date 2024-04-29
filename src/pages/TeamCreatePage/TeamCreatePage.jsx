@@ -22,6 +22,7 @@ const imgBox = css`
     width: 50px;
     overflow: hidden;
     & > img {
+        z-index: 1;
         height: 100%;
     }
 `
@@ -117,8 +118,9 @@ function TeamCreatePage(props) {
         )
     }
     const handleAccountInfos = () => {
+        accountRef.current =  accountRef.current + 1;
         const accountInfo = {
-            accountId: accountRef + 1,
+            "accountId": accountRef.current,
             accountUsername,
             accountNumber,
             bankName,
@@ -170,9 +172,9 @@ function TeamCreatePage(props) {
 
                 팀로고
             </div>
-            <div css={imgBox}>
+            <div css={imgBox} onClick={() => profileImgRef.current.click()}>
                 <input type="file" ref={profileImgRef} style={{display:"none"}} onChange={(e) => handlefileChange(e, setTeamLogoImgUrl)}/>
-                <img src={teamLogoImgUrl} onClick={() => profileImgRef.current.click()}/>
+                <img src={teamLogoImgUrl} alt="" />
             </div>
             <div>
             <textarea id="story" value={teamInfoText}  placeholder="팀 소개" onChange={(e) => setTeamInfoText(e.target.value)}  rows="20" cols="80"/>       

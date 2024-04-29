@@ -100,3 +100,41 @@ export const bottom = css`
     height: 250px;
     background-color: white;
 `
+
+export const nullDiv =css`
+    border: none;
+    border-right: 1px solid #dbdbdb;
+    width: 282px;
+`
+
+export const searchInput=css`
+    flex-grow: 1;
+    border: none;
+    border-left: 1px solid #dbdbdb;
+    padding: 10px;
+    outline: none;
+    background-color: #fdfdfd;
+    
+`
+export const searchBar = css`
+    display: flex;
+    box-sizing: border-box;
+    width:  1078px;
+    margin: 5px 0px;
+    border: 1px solid #dbdbdb;
+
+`
+export const searchButton = css`
+    box-sizing: border-box;
+    border: none;
+    border-left: 1px solid #dbdbdb;
+    width: 85px;
+    cursor: pointer;
+    background-color: white;
+    &:hover{
+        background-color: #fafafa;
+    }
+    &:active{
+        background-color: #eeeeee;
+    }
+`

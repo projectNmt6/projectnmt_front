@@ -11,9 +11,9 @@ import MyDonation from "../MyDonation/MyDonation";
 import MessagePage from "../MessagePage/MessagePage";
 function MyPage(props) {
     const [ temaList, setTeamList ] = useState([]);
-    const queryClient = useQueryClient();
     const [selectedTab, setSelectedTab] = useState('profile');
-    
+    const queryClient = useQueryClient();
+
     const principalData = queryClient.getQueryData("principalQuery");
     const getTeamListQuery = useQuery(
         [ "getTeamListQuery", principalData?.data ],
@@ -67,6 +67,7 @@ function MyPage(props) {
             },
         }
     );  
+    
     return (
         <>
         {

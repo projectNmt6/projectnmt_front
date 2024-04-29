@@ -67,13 +67,16 @@ export const commentRequest = async (data) => {
     return await instance.post("/comment/upload", data);
 }
 
-export const commentResponse = async () => {
-    return await instance.get("/comment/getcomment");
+export const commentReportRequest = async (data) => {
+    return await instance.post("/comment/report", data);
+}
+
+export const commentResponse = async (params) => {
+    return await instance.get(`/comment/getcomment/${params}`);
 }
 
 export const deleteComment = async (data) => {   
-    const { donationCommentId } = data; 
-    return await instance.delete(`/comment/delete/${donationCommentId}`); 
+    return await instance.delete(`/comment/delete/${data}`); 
 };
 
 export const getNowFundingRequest = async (data) => {
@@ -88,6 +91,6 @@ export const getAllAmount = async (params) => {
     return await instance.get("/main/amount", {params});
 }
 export const getProgressAmount = async (params) => {
-    console.log(params);
     return await instance.get("/main/progress", {params});
 }
+

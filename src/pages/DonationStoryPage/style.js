@@ -194,9 +194,19 @@ export const boxbox1 = css`
     justify-content:space-between;
     border-top:2px solid #d2d0d0;
     width: 100%;
-    height: 100%;
+    height: auto;
 `;
-
+export const mainBox = css`
+    display: flex;
+    width: 100%;
+    height: 100%; 
+`;
+export const teamNDonationBox = css`
+    position: sticky;
+    margin-left: 10px;
+    top: 0;
+    height: 860px;
+`;
 export const commentBox = css`
     display: flex;
     border-top:2px solid #d2d0d0;
@@ -209,21 +219,30 @@ export const inputbox = css`
     height: 40px;
 `;
 
+export const donationInfo = css`
+    box-sizing: border-box;
+    border:1px solid #dbdbdb;
+    border-radius: 5px;    
+    margin-top: 10px;
+    margin-right: 5px;
+    height: 550px;
+`;
+
 export const teamInfo = css`
-    margin-top: 20px;
-    margin-right: 15px;
-    width: 360px;
+    position: relative;
+    margin-top: 5px;
+    margin-right: 5px;
+    width: 350px;
     height: 260px;
     box-sizing: border-box;
     border:1px solid #dbdbdb;
     border-radius: 5px;
     color: black;
     background-color: white;
+    justify-content: space-between;
     text-align: center;
     display: flex;
     flex-direction: column;
-    align-items:center;
-
 `;
 export const logoImg = css`
     box-sizing: border-box;

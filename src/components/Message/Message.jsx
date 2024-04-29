@@ -49,7 +49,7 @@ function Message({list, isTeam}) {
     }
     return (
         <div>
-            <p><textarea placeholder="공지 사항 입력" value={message} onChange={handleTextareaOnchange}></textarea></p>
+            <p><textarea placeholder="공지 사항 입력" value={message} onChange={handleTextareaOnchange} ></textarea></p>
             <button onClick={handleMessageOnClick}>공지보내기</button>
         </div>
     );

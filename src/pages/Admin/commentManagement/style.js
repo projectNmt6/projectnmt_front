@@ -74,7 +74,7 @@ export const table =css`
     }
     & tr > td:nth-of-type(2),
     & tr > th:nth-of-type(2) {
-        min-width: 80px;
+        min-width: 110px;
     }
     & tr > td:nth-of-type(2) {
         text-align: right;
@@ -85,15 +85,15 @@ export const table =css`
     }
     & tr > td:nth-of-type(4),
     & tr > th:nth-of-type(4) {
-        min-width: 153px;
+        min-width: 100px;
     }
     & tr > td:nth-of-type(5),
     & tr > th:nth-of-type(5) {
-        min-width: 147px;
+        min-width: 300px;
     }
     & tr > td:nth-of-type(6),
     & tr > th:nth-of-type(6) {
-        min-width: 150px;
+        min-width: 100px;
     }
     & tr > td:nth-of-type(7),
     & tr > th:nth-of-type(7) {

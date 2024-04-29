@@ -1,37 +1,46 @@
 // CommentSection.jsx
 
-import { useMutation } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import * as s from "./style";
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { deleteComment } from '../../apis/api/DonationAPI';
+import { commentReportRequest, commentRequest, commentResponse, deleteComment, getCommentListRequest } from '../../apis/api/DonationAPI';
 import { TbTrashXFilled } from 'react-icons/tb';
 import { Link, useLocation, useParams } from 'react-router-dom';
 
-function CommentSection({ donationPageId }) {
+function CommentSection({ donationPageId, isDonation}) {
     const [commentList, setCommentList] = useState([]);
     const [comment, setComment] = useState("");
+    const queryClient = useQueryClient();
 
-    useEffect(() => {
-        axios.get(`http://localhost:8080/comment/getcomment/${donationPageId}`) 
-            .then(response => setCommentList(response.data))
-            .catch(console.error);
-    }, [donationPageId]);
-
+    const principalData = queryClient.getQueryData("principalQuery");
+    const commentListQuery = useQuery(["commentListQuery"], 
+    async () => { 
+    return await commentResponse(donationPageId)}
+    , {
+        retry: 3,
+        refetchOnWindowFocus: false,
+        onSuccess: response => {
+            setCommentList(() => response.data);
+        }
+    });
     const handleCommentChange = (e) => setComment(e.target.value);
 
+    const postCommentMutation = useMutation({
+        mutationKey: "postCommentMutation",
+        mutationFn: commentRequest,
+        onSuccess: response => {
+            console.log(response);
+            alert("등록완료.");
+        },
+        onError: error => {}
+    }) 
     const handleCommentSubmit = async () => {
-        try {
-            await axios.post("http://localhost:8080/comment/upload", {
-                commentText: comment,
-                donationPageId,
-            });
-            alert("전송 완료");
-            setCommentList([...commentList, { commentText: comment }]);
-            setComment("");
-        } catch (error) {
-            console.error(error);
-        }
+        postCommentMutation.mutate({
+            commentText: comment,
+            donationPageId,
+            userId: principalData.data.userId
+        });
     };
 
     const deleteCommentMutation = useMutation({
@@ -42,12 +51,25 @@ function CommentSection({ donationPageId }) {
             window.location.reload();
         }
     });
+    const postCommentReportMutation = useMutation({
+        mutationKey: "postCommentReportMutation",
+        mutationFn: commentReportRequest,
+        onSuccess: response => {
+            alert("신고완료")
+        }
+    });
 
-    const handleCommentDeleteButton = (donationCommentId) => {
-        console.log("Deleting comment with ID:", donationCommentId);
+    const handleCommentDeleteButton = (donationCommentId) => {        
         deleteCommentMutation.mutate({ donationCommentId });
     };
-
+    const handleCommentReportPostButton = (donationCommentId) => {
+        postCommentReportMutation.mutate({ 
+            donationCommentId,
+            userId: principalData.data.userId,
+            isDonation: 1,
+            donationPageId 
+        });
+    };
     return (
         <>
             <div css={s.commentBox}>
@@ -66,6 +88,8 @@ function CommentSection({ donationPageId }) {
                             <p>{comment.commentText}
                                 <button onClick={() => handleCommentDeleteButton(comment.donationCommentId)}>
                                     덧글 삭제 <TbTrashXFilled /></button>
+                                <button onClick={() => handleCommentReportPostButton(comment.donationCommentId)}>
+                                    덧글 신고 </button>
                             </p>
                         </div>
                     ))}
