@@ -63,12 +63,16 @@ export const deleteDonationPage = async (data) => {
       return await instance.delete(`/main/donation/${data.donationPageId}`, { data });   
   };
 
-export const commentRequest = async (data) => {
+  export const commentRequest = async (data) => {
     return await instance.post("/comment/upload", data);
 }
 
-export const commentResponse = async () => {
-    return await instance.get("/comment/getcomment");
+export const commentReportRequest = async (data) => {
+    return await instance.post("/comment/report", data);
+}
+
+export const commentResponse = async (params) => {
+    return await instance.get(`/comment/getcomment/${params}`);
 }
 
 export const deleteComment = async (data) => {   

@@ -5,10 +5,11 @@ import { FcLike } from "react-icons/fc";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { getLike, postLike } from "../../apis/api/Like";
 import { CiHeart } from "react-icons/ci";
+import { commentBox } from "../../pages/DonationStoryPage/style";
 
 
 
-function LikeButton({donationPageId}) {
+function LikeButton({donationPageId, commentId}) {
     const [likeStatus, setLikeStatus] = useState({ isLiked: 0, likeCount: 0});
     const queryClient = useQueryClient();
     const principalData = queryClient.getQueryData("principalQuery") || {};
@@ -16,15 +17,17 @@ function LikeButton({donationPageId}) {
         mutationKey: "postLikeQuery",
         mutationFn: postLike,
         onSuccess: response => {
-            alert("완료");
+            alert(response.data);
         },
-        onError: error => {}
+        onError: error => {
+
+        }
     })
 
     const getLikeQuery = useQuery(
-        ["getLikeQuery", donationPageId, principalData?.data?.userId ?? null],
+        ["getLikeQuery", donationPageId, principalData?.data?.userId ?? null, commentId],
         async () => {
-            const response = await getLike({ donationPageId, userId: principalData.data.userId});
+            const response = await getLike({ donationPageId, userId: principalData.data.userId , commentId});
             return response.data;
         },
         {
@@ -37,10 +40,11 @@ function LikeButton({donationPageId}) {
     );
 
     const handleLikeCount = () => {
-        if (principalData.data) {
-          postLikeQuery.mutate({ donationPageId, userId: principalData?.data.userId }, {
+        console.log(donationPageId);
+        if (!!principalData.data) {
+          postLikeQuery.mutate({ donationPageId, userId: principalData?.data.userId, commentId}, {
             onSuccess: (data) => {
-              getLikeQuery.refetch({ donationPageId, userId: principalData?.data.userId });
+              getLikeQuery.refetch({ donationPageId, userId: principalData?.data.userId , commentId});
             
             }
           });
