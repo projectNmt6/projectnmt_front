@@ -11,20 +11,6 @@ import { getTeamInfoRequest, getTeamListRequest } from '../../../apis/api/teamAp
 function ChallengeMainPage() {
     const [challengeList, setChallengeList] = useState([]);
 
-    const getChallengeQuery = useQuery(
-        "getChallengeQuery",
-        async () => await getChallengeList(),
-        {
-            refetchOnWindowFocus: false,
-            onSuccess: response => {
-                setChallengeList(response.data.map(challenge => ({
-                    ...challenge
-                    
-                })));
-                console.log(response.data)
-            }
-        }
-        );
         const [teamInfo, setTeamInfo] = useState();
         const [searchParams] = useSearchParams();
         const teamId = searchParams.get("id");
@@ -44,8 +30,28 @@ function ChallengeMainPage() {
                 },
             }
         );
-       
-   
+    const [teamsInfo, setTeamsInfo] = useState({});
+
+        const getChallengeQuery = useQuery(
+            "getChallengeQuery",
+            async () => await getChallengeList(),
+            {
+                refetchOnWindowFocus: false,
+                onSuccess: response => {
+                    setChallengeList(response.data);
+                    // 팀 정보를 가져오는 부분
+                    response.data.forEach(challenge => {
+                        getTeamInfoRequest({ teamId: challenge.teamId }).then(teamResponse => {
+                            setTeamsInfo(prev => ({
+                                ...prev,
+                                [challenge.teamId]: teamResponse.data
+                            }));
+                        });
+                    });
+                    console.log(response.data)
+                }
+            }
+        );
 
 
     return (
@@ -73,10 +79,15 @@ function ChallengeMainPage() {
                             : challenge.challengeMainImg 
                             } alt="" />
                         </div>
-                        <div css={s.donationDetails}>
-                        <a >{challenge.challengeTitle}</a>
-                            </div>
+                        <div css={s.title}>{challenge.challengeTitle}</div> 
+                        {teamsInfo[challenge.teamId] && (
+                        <div css={s.teamName}>
+                            <img css={s.teamLogo} src={teamsInfo[challenge.teamId].teamLogoImgUrl} alt="" />
+                            <div css={s.teamInfo}>{teamsInfo[challenge.teamId].teamName}</div>
+                        </div>
+                        )}
                         </a>
+                        
                     )
                     )
                 }

@@ -28,13 +28,25 @@ export const leftCardLayout = css`
 export const rightCardLayout = css`
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
+    flex-wrap: wrap;
   width: 360px; /* 오른쪽 영역 너비를 조정합니다. */
-  position: sticky; /* 스크롤에 따라 고정됩니다. */
   top: 20px; /* 부모 요소의 위쪽에서 일정한 거리만큼 떨어진 위치에 표시됩니다. */
+  padding-left: 30px;
 `;
 
 export const sidebarStyle = css`
+  display: flex;
+  margin: 10px; 
+  flex-direction: column; 
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  padding: 25px;
+  justify-content: flex-start;
+  position: sticky; // 오른쪽에 고정되도록 설정합니다.
+  top: 20px; // 부모 요소의 위쪽에서 일정한 거리만큼 떨어진 위치에 표시됩니다.
+`;
+
+export const sidebarStyle2 = css`
   display: flex;
   flex-direction: column;
   margin: 10px;
@@ -43,11 +55,51 @@ export const sidebarStyle = css`
   border-radius: 10px;
   padding: 20px;
   justify-content: space-between;
-  position: sticky; /* 오른쪽에 고정되도록 설정합니다. */
   top: 20px; /* 부모 요소의 위쪽에서 일정한 거리만큼 떨어진 위치에 표시됩니다. */
   right: 0; /* 오른쪽에 위치하도록 설정합니다. */
 `;
 
+export const teamInfo = css`
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  padding: 20px;
+  justify-content: space-between;
+  top: 20px; /* 부모 요소의 위쪽에서 일정한 거리만큼 떨어진 위치에 표시됩니다. */
+  right: 0; /* 오른쪽에 위치하도록 설정합니다. */
+`;
+export const teamName = css`
+ font-weight: 700;
+`;
+export const teamLogo = css`
+ width: 30px;
+ height: 30px;
+`;
+export const teamText = css`
+    margin-top: 10px;
+    padding: 10px;
+`;
+export const actionImage = css`
+ width: 50px;
+ height: 50px;
+ padding: 4px; 
+`;
+
+export const remainingDays = css`
+  align-self: flex-start; // Flex 컨테이너 내에서 자신만의 위치를 조정
+  border: 1px solid #ccc; // 테두리 추가
+  border-radius: 10px; // 모서리 둥글게 처리
+  background-color: #222222; // 배경색 추가
+  color: white; // 텍스트 색상 설정
+  font-size: 14px; // 텍스트 크기 설정
+  padding: 4px 8px; // 내용 주변에 적당한 패딩을 추가하여 내용을 감쌈
+  margin: 5px 0; // 상하 마진 추가, 좌우 마진은 제거
+  display: inline-flex; // Flex 아이템으로서 동작하면서 내부에서 inline으로 동작
+  justify-content: center; // 내부 텍스트 중앙 정렬
+  min-width: fit-content; // 내용에 딱 맞는 너비
+`;
 
 
 
@@ -183,4 +235,24 @@ export const storyImage = css`
 export const storyHeader = css`
     text-align: center;
     margin-bottom: 20px;
+`;
+export const actionText = css`
+    display: flex;
+    align-items: center; // 아이콘과 텍스트를 세로 중앙 정렬
+    padding-bottom: 15px;
+    font-weight: 700;
+    font-size: 16px;
+    
+    svg { // 아이콘에 대한 스타일
+        font-size: 20px; // 텍스트와 일치하는 크기
+        margin-right: 8px; // 아이콘과 텍스트 사이에 간격 추가
+    }
+`;
+
+export const actionProgressBar = css`
+    text-align: center;
+    margin-bottom: 20px;
+    width: 100%;
+    border: 1px solid #222222;
+    background-color: #dbdbdb;
 `;

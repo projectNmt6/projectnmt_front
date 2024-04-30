@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 export const mainLayout = css`
   display: flex;
   width: 1200px; // 페이지 넓이 조정
-  flex-wrap: wrap; // 필요에 따라 내용을 감싸기
+  flex-wrap: wrap; 
   justify-content: center; // 중앙 정렬
 `;
 
@@ -24,6 +24,8 @@ export const bigDonationCard = css`
   min-height: 330px; // 최소 높이 설정, 텍스트에 따라 늘어남
   border-radius: 10px;
   overflow: visible; // 내용이 넘칠 경우 보이도록 설정
+  text-decoration: none;
+  color: #000000; // 텍스트 색상을 검은색으로 설정
 `;
 
 export const smallDonationCard = css`
@@ -34,6 +36,9 @@ export const smallDonationCard = css`
   min-height: 265px; // 최소 높이 설정, 텍스트에 따라 늘어남
   border-radius: 10px;
   overflow: visible; // 내용이 넘칠 경우 보이도록 설정
+  text-decoration: none;
+  color: #000000; // 텍스트 색상을 검은색으로 설정
+  margin-top: 20px;
 `;
 
 export const donationImage = css`
@@ -49,15 +54,10 @@ export const donationImage = css`
   }
 `;
 
-
-export const donationDetails = css`
-  padding: 10px !important;
-
-  & > *  { // 모든 링크 상태에 적용
-    color: black !important; // 링크 색상 변경
-    text-decoration: none !important; // 밑줄 제거
-    font-size: 18px !important; // 폰트 크기 적용
-  }
+export const title = css`
+  padding-top: 15px;
+  font-weight: 700;
+  font-size: 16px; 
 `;
 
 export const sign = css`
@@ -94,4 +94,24 @@ export const linkStyle = css`
 `;
 
 export const upperRightMenu = css`
+`;
+export const teamInfo = css`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  
+`;
+
+export const teamName = css`
+  display: flex;
+  align-items: center; // 로고와 텍스트를 세로 중앙에 정렬
+  font-weight: 700;
+`;
+
+export const teamLogo = css`
+  width: auto;
+  height: 24px;
+  border-radius: 5px;
+  margin-right: 5px; // 텍스트와의 간격을 추가
 `;

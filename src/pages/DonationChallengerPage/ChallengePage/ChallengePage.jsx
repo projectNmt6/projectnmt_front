@@ -13,8 +13,9 @@ import ActionModal from '../Challenge/ActionModal/ActionModal';
 import { getTeamInfoRequest, getTeamListRequest } from '../../../apis/api/teamApi';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
-import { countActionBoard } from '../../../apis/api/ChallengeApi';
-
+import { countActionBoard, getActionBoardList } from '../../../apis/api/ChallengeApi';
+import { HiOutlineClock } from "react-icons/hi2";
+import { HiOutlineBadgeCheck } from "react-icons/hi";
 function ChallengePage() {    
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -35,7 +36,7 @@ function ChallengePage() {
                 setChallengePage(data);
             },
             onError: (error) => {
-                console.error('Failed to fetch challenge page:', error);
+                console.error(error);
                 setChallengePage(null);
             }
         }
@@ -82,8 +83,7 @@ function ChallengePage() {
                 console.error("actionError", error);
             });
         }
-    }, [challengePageId]);
-    
+    }, [challengePageId]);    
 
     const { challengeMainImg, challengeTitle, challengeOverview, endDate, challengeContent, headCount } = challengePage || {};
     const [selectedTab, setSelectedTab] = useState('story'); // news, story 중 하나의 값을 가짐
@@ -188,7 +188,31 @@ function ChallengePage() {
             window.location.replace(`/main/challenge/news?page=${challengePageId}`);
         };
         
+        const progressBarStyle = (percentage) => ({
+            height: '5px',
+            width: `${percentage}%`,
+            backgroundColor: 'red',
+            transition: 'width 0.5s ease-in-out'
+        });
+        const [actionList, setActionList] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
 
+    useEffect(() => {
+        if (challengePageId) {
+            setLoading(true);
+            getActionBoardList(challengePageId)
+            .then(response => {
+                setActionList(response.data);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error("actionError", error);
+                setError('Failed to fetch data');
+                setLoading(false);
+            });
+        }
+    }, [challengePageId]);
     return (
 
     <div css={s.contentAreaStyle}>
@@ -255,20 +279,50 @@ function ChallengePage() {
 
 
 
-        <div css={s.rightCardLayout}>                    
-                <div css={s.sidebarStyle}>
-            <div>
-                <div>{remainingDays} 일 남음</div>
+        <div css={s.rightCardLayout}>  
+            <div css={s.sidebarStyle2}>
+            <div css={s.remainingDays}><HiOutlineClock />{remainingDays} 일 남음</div>
                 <div>
                     {actingHeadCount} 명 행동중!
                     {headCount}명 목표</div>
-                <h1>{challengeTitle}</h1>                    
-                <p>{challengeOverview}</p>
-                </div>
-                                </div>
-                        </div>
 
+                    <div css={s.actionProgressBar}>
+                    <div style={progressBarStyle((actingHeadCount / headCount) * 100)}></div>
                     </div>
+            
+                <h1>{challengeTitle}</h1>   
+            </div>
+
+            <div css={s.teamInfo}>
+                <div css={s.teamName}>
+                <img css={s.teamLogo} src={teamInfo?.teamLogoImgUrl} alt="" />
+                    {teamInfo?.teamName}</div>
+                <div css={s.teamText}>{teamInfo?.teamInfoText}</div>
+            </div>
+
+            <div css={s.sidebarStyle2}>
+            <div>
+                <div>{challengeOverview}</div>
+            </div>
+            </div>
+
+            <div css={s.sidebarStyle}>
+            <div css={s.actionText}>
+            <HiOutlineBadgeCheck />행동하기 인증!
+            </div> 
+            <div >
+                    {actionList.map((action) => (
+                        <span key={action.id} >
+                            <img src={action.imageURL} alt={`Action ${action.id}`} css={s.actionImage} />
+                        </span>
+                    ))}
+                </div>       
+            </div>
+               
+               
+               </div>
+
+                </div>
 
         
     );

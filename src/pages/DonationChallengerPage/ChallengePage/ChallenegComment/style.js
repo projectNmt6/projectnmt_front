@@ -196,39 +196,6 @@ export const leftCardLayout = css`
   position: sticky;
 `;
 
-export const rightCardLayout = css`
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;  
-  overflow: hidden;
-  width: 30%;
-`;
-
-export const sidebarStyle = css`
-  display: flex;
-  flex-direction: column;
-  margin: 10px;
-  background-color: #FFD79999;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  border-radius: 10px;
-  padding: 20px;
-  justify-content: space-between;
-  overflow: hidden;
-
-  & > div > img {
-        width: 150px;
-        height: 150px;
-    }
-
-`;
-
-export const sidebarText = css`
-display: flex;
-flex-direction: row;
-justify-content: space-between;
-align-items: center;
-`
-
 export const likebutton1 = css`
     margin-top: 15px;
     margin-bottom: 15px;
@@ -300,6 +267,51 @@ export const inputbox = css`
 export const commentBoxStyle = css`
     width: 100%;
     height: 40px;
+`;
+export const userProfileImg = css`
+    width: 30px;
+`;
+export const comments = css`
+    border: 1px solid #222222;
+`;
+export const actionsContainer = css`
+   display: flex;
+        padding: 8px 0; // 상하 패딩
+   border-top: 1px solid #ccc; // 말풍선과 구분선
+`;
+export const profileIMG = css`
+    width: 30px;
+    height: 30px;
+    border-radius: 25px;
+`; 
+export const textSection = css`
+    display: flex;
+    flex-direction: column; // 상하 정렬
+    background-color: #f0f0f0; // 배경 색
+    padding: 10px; // 내부 패딩
+    border-radius: 10px; // 모서리 둥글게
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); // 그림자 효과
+    position: relative; // 상대적 위치
+    &:after { // 말풍선 꼬리 모양
+        content: "";
+        position: absolute;
+        top: 10px; // 위치 조정
+        left: -25px; // 꼬리 시작 위치 조정
+        width: 0;
+        height: 0;
+        border: 15px solid transparent; // 꼬리 크기 조정
+        border-right-color: #f0f0f0; // 배경색과 일치
+    }
+`;
+
+export const profileSection = css`
+        margin-right: 12px; // 이미지와 텍스트 사이의 간격
+`;
+export const commentContainer = css`
+        display: flex;
+        flex-direction: row; 
+        align-items: flex-start; // 상단 정렬
+        margin-bottom: 10px; // 코멘트 간 여백
 `;
 
 export const teamInfo = css`

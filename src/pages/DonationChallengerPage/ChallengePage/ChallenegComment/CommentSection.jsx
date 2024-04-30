@@ -4,12 +4,14 @@ import { useMutation, useQuery } from 'react-query';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { TbTrashXFilled } from 'react-icons/tb';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom';
 import { getPrincipalRequest } from '../../../../apis/api/principal';
 import { challengeCommentRequest, challengeCommentResponse, deleteChallengeComment } from '../../../../apis/api/DonationAPI';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
-
+import { getUserInfoRequest } from '../../../../apis/api/Admin';
+import { IoMdHeartEmpty } from "react-icons/io";
+import { IoMdHeart } from "react-icons/io";
 function CommentSection({ challengePageId }) {
 
     const [commentList, setCommentList] = useState([]);
@@ -34,15 +36,25 @@ function CommentSection({ challengePageId }) {
 
     useEffect(() => {
         challengeCommentResponse(challengePageId)
-            .then(response => setCommentList(response.data))
+            .then(response => {
+                console.log(response.data); // 데이터 구조 확인
+                setCommentList(response.data);
+            })
             .catch(console.error);
     }, [challengePageId]);
+    
 
     const handleCommentChange = (e) => setComment(e.target.value);
 
     const mutation = useMutation(challengeCommentRequest, {
         onSuccess: () => {
             console.log("덧글 전송 완료");
+            // 성공 후 코멘트 목록 새로고침
+            challengeCommentResponse(challengePageId)
+                .then(response => {
+                    setCommentList(response.data);
+                })
+                .catch(console.error);
         },
         onError: (error) => {
             console.error("덧글 전송 실패:", error);
@@ -91,7 +103,7 @@ function CommentSection({ challengePageId }) {
             alert("삭제할 권한이 없습니다.")
         }
     });
-
+    
     return (
         <>
             <div css={s.commentBoxStyle}>
@@ -105,16 +117,27 @@ function CommentSection({ challengePageId }) {
                 </div>
                     <button css={s.button5}  onClick={handleCommentSubmit}>덧글 입력</button>
                 <div>
-                {commentList.map((comment, index) => (
-                <div key={index}>
-                    <p>{comment.commentText}
-                        <button onClick={() => handleCommentDeleteButton(comment.challengeCommentId)}>
-                            덧글 삭제 <TbTrashXFilled />
-                        </button>
-                    </p>
-                </div>
-            ))}
-                </div>
+                    {commentList.map((comment, index) => (
+                    <div key={index} css={s.commentContainer}>
+                        <div css={s.profileSection}>
+                            <img src={comment.profileImg} css={s.profileIMG} />
+                        </div>
+                        <div css={s.textSection}>
+                            <div>{comment.name}</div>
+                            <div>{comment.commentText}</div>
+                        </div>
+                        <div css={s.actionsContainer}>
+                            <IoMdHeartEmpty /> <IoMdHeart />
+                            <button onClick={() => handleCommentDeleteButton(comment.challengeCommentId)}>
+                                <TbTrashXFilled />
+                            </button>
+                        </div>
+                    </div>
+                    
+                ))}
+
+</div>
+
             </div>
         </>
     );
