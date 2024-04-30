@@ -199,7 +199,7 @@ function TeamCreatePage(props) {
                         </div>
                         : null
 
-                팀로고
+                            }
             </div>
             <div css={imgBox} onClick={() => profileImgRef.current.click()}>
                 <input type="file" ref={profileImgRef} style={{display:"none"}} onChange={(e) => handlefileChange(e, setTeamLogoImgUrl)}/>

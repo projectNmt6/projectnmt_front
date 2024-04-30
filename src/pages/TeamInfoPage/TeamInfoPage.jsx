@@ -60,7 +60,7 @@ function TeamInfoPage(props) {
                     setDonationList(() => tempList);
                     setEndDonationList(() => tempEndList);
                 }
-            },
+            }
         }
     );
 
