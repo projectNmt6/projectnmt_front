@@ -117,24 +117,28 @@ function CommentSection({ challengePageId }) {
                 </div>
                     <button css={s.button5}  onClick={handleCommentSubmit}>덧글 입력</button>
                 <div>
-                    {commentList.map((comment, index) => (
-                    <div key={index} css={s.commentContainer}>
-                        <div css={s.profileSection}>
-                            <img src={comment.profileImg} css={s.profileIMG} />
-                        </div>
-                        <div css={s.textSection}>
-                            <div>{comment.name}</div>
-                            <div>{comment.commentText}</div>
-                        </div>
-                        <div css={s.actionsContainer}>
-                            <IoMdHeartEmpty /> <IoMdHeart />
-                            <button onClick={() => handleCommentDeleteButton(comment.challengeCommentId)}>
-                                <TbTrashXFilled />
-                            </button>
-                        </div>
-                    </div>
-                    
-                ))}
+                {commentList.map((comment, index) => (
+    <div key={index} css={s.commentContainer}>
+        <div css={s.profileAndTextContainer}>
+            <div css={s.profileSection}>
+                <img src={comment.profileImg} css={s.profileIMG} />
+            </div>
+            <div css={s.textAndActionsContainer}>
+                <div css={s.textSection}>
+                    <div>{comment.name}</div>
+                    <p>{comment.commentText}</p>
+                </div>
+                <div css={s.actionsContainer}>
+                    <IoMdHeartEmpty /> <IoMdHeart />
+                    <button onClick={() => handleCommentDeleteButton(comment.challengeCommentId)}>
+                        <TbTrashXFilled />
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+))}
+
 
 </div>
 

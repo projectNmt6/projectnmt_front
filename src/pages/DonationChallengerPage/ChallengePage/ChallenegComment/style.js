@@ -304,6 +304,16 @@ export const textSection = css`
     }
 `;
 
+export const profileAndTextContainer = css`
+    display: flex;
+    flex-direction: row;  // 프로필 이미지와 텍스트 컨테이너 수평 정렬
+`;
+
+export const textAndActionsContainer = css`
+    display: flex;
+    flex-direction: column;  // 텍스트 섹션과 액션 컨테이너 수직 정렬
+`;
+
 export const profileSection = css`
         margin-right: 12px; // 이미지와 텍스트 사이의 간격
 `;
