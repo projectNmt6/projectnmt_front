@@ -9,7 +9,7 @@ import axios from 'axios';
 import Select from 'react-select';
 import { buttonBox } from './style';
 import { imgUrlBox } from './style';
-import { PostDonationImage, getDonationListRequest, getDonationTagRequest, registerDonationPage } from '../../apis/api/DonationAPI';
+import { getDonationListRequest, getDonationTagRequest, registerDonationPage } from '../../apis/api/DonationAPI';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import MainPage from '../MainPage/MainPage';
 import { Link } from 'react-router-dom';
@@ -155,16 +155,6 @@ function DonationPageboard() {
         setSelectedSecondTag(selectedOption);
     }
 
-
-    const registerDonationImage = useMutation({
-        mutationKey: "registerDonationImage",
-        mutationFn: PostDonationImage,
-        onSuccess: response => {
-            console.log(response);
-            alert("등록완료.");
-        },
-        onError: error => {}
-    })
 
     const PostDonationPage = useMutation({
         mutationKey: "PostDonationPage",

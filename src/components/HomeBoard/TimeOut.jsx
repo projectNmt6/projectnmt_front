@@ -6,6 +6,7 @@ import { getAllAmount, getDonationListRequest, getProgressAmount } from "../../a
 import Progress from "../../components/progress/Progress";
 import LikeButton from "../../components/LikeButton/LikeButton";
 import timer from "../../assets/sandtimer.gif"
+import { donation } from "../../pages/DonationStoryPage/style";
 
 
 
@@ -93,7 +94,7 @@ function TimeOut(props) {
                                     </div>
                                     <div css={s.LikeDonate}>
                                         <div>
-                                            <LikeButton />
+                                            <LikeButton donationPageId={upcomingDonation.donationPageId}/>
                                         </div>
                                         <div>
                                             <a href="">기부하기</a>

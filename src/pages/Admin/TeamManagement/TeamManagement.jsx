@@ -1,16 +1,29 @@
 import React, { useEffect, useRef, useState } from 'react';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
+import Select from "react-select";
 import { useMutation, useQuery } from 'react-query';
 import { deleteTeamListRequest, getTeamListRequest, postMessageRequest } from '../../../apis/api/Admin';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
+import Message from '../../../components/Message/Message';
 
 function TeamManagement(props) {
     const [ teamList, setTeamList ] = useState([]);
-    const checkBoxRef = useRef();
+    const [ searchParams, setSearchParams ] = useSearchParams();
+    const [ searchText, setSearchText ] = useState("");
 
-    const getDonationListRequest = useQuery(
-        [ "getDonationListByTeamIdRequest" ],
+    const checkBoxRef = useRef();
+    const userId = searchParams.get("userId");
+    const handleSearchTextOnChange = (e) => {
+        setSearchText(() => e.target.value);
+    }
+    const searchSubmit = () => {
+        setSearchParams({
+            page: 1
+        })
+    }
+    const getTeamListQuery = useQuery(
+        [ "getTeamListQuery" ],
         async () => {
             return await getTeamListRequest()
         },
@@ -27,6 +40,25 @@ function TeamManagement(props) {
             }
         }
     );
+    const handleOnChange = (e, setOption) => {
+        setOption(() => e);
+    }
+    const searchTextCategoryOption = [
+        {value: 0, label: " 전체 "},
+        {value: 1, label: " 유저번호 "},
+        {value: 2, label: " 아이디 "},
+        {value: 3, label: " 유저명 "},
+        {value: 4, label: " 전화번호 "},
+        {value: 5, label: " 이메일 "},
+    ]
+    const searchRoleCategoryOption = [
+        {value: 0, label: " 전체 "},
+        {value: 1, label: " 일반사용자 "},
+        {value: 2, label: " 팀 프로젝트 "},
+        {value: 3, label: " 관리자 "},
+        {value: 5, label: " 사용제한된 유저 "},
+    ]
+
     const handleAllCheckOnChange = (e) => {
         setTeamList(() =>teamList.map(team => {
             return {
@@ -83,6 +115,26 @@ function TeamManagement(props) {
     return (
         <div >
             <button onClick={handleDeleteTeamsOnClick}>선택된 팀 삭제</button>
+            <Message list={teamList} isTeam={1}/>
+            <div css={s.searchBar}>
+                    <select 
+                        options={searchRoleCategoryOption}
+                        onChange={(e) => handleOnChange(e)}
+                    />
+                    <div css={s.nullDiv}></div>
+
+                    <Select 
+                        options={searchTextCategoryOption}
+                        onChange={(e) => handleOnChange(e)}
+                    />
+                    <input 
+                            css={s.searchInput} 
+                            type="text" 
+                            value={searchText}
+                            onChange={handleSearchTextOnChange}
+                            />
+                    <button css={s.searchButton} onClick={() => searchSubmit()}>검색하기</button>
+                </div>
                 <table >
                     <thead>
                         <tr >

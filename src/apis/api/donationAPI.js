@@ -80,6 +80,7 @@ export const searchDonationRequest = async (params) => {
 export const getDonationPageRequest = async (pageId) => {
     return await instance.get(`/main/donation/${pageId}`);
 }
+
 export const submitDonationData = async (data) => {
     console.log(data);
     return await instance.post("/main/test", data); 
@@ -88,7 +89,6 @@ export const submitDonationData = async (data) => {
 export const deleteDonationPage = async (data) => {   
       return await instance.delete(`/main/donation/${data.donationPageId}`, { data });   
   };
-
 
 export const deleteChallengePage = async (data) => {
     return await instance.delete(`/main/challenge/${data.challengePageId}`, {data})
@@ -113,10 +113,17 @@ export const challengeCommentResponse = async (challengePageId) => {
 export const donationGivingResponse = async (donationPageId) => {
     return await instance.get(`/main/donators/${donationPageId}`)
 }
+  export const commentRequest = async (data) => {
+    return await instance.post("/comment/upload", data);
+}
+
+export const commentReportRequest = async (data) => {
+    return await instance.post("/comment/report", data);
+}
+
 
 export const deleteComment = async (data) => {   
-    const { donationCommentId } = data; 
-    return await instance.delete(`/comment/delete/${donationCommentId}`); 
+    return await instance.delete(`/comment/delete/${data}`); 
 };
 
 export const deleteChallengeComment = async (data) => {
@@ -138,8 +145,3 @@ export const getAllAmount = async (params) => {
 export const getProgressAmount = async (params) => {
     return await instance.get("/main/progress", {params});
 }
-
-export const PostDonationImage = async (data) => {
-    return await instance.post("/donation/image/upload", data);
-}
-

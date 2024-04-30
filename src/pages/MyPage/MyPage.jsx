@@ -10,9 +10,9 @@ import instance from "../../apis/utils/instance";
 import MyDonation from "../MyDonation/MyDonation";
 import MessagePage from "../MessagePage/MessagePage";
 function MyPage(props) {
-    const [temaList, setTeamList] = useState([]);
-    const queryClient = useQueryClient();
+    const [ temaList, setTeamList ] = useState([]);
     const [selectedTab, setSelectedTab] = useState('profile');
+    const queryClient = useQueryClient();
 
     const principalData = queryClient.getQueryData("principalQuery");
     const getTeamListQuery = useQuery(

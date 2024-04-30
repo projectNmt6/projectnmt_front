@@ -20,6 +20,23 @@ const textEditorLayout = css`
     overflow-x: hidden;
 `;
 
+const header = css`
+    & > div{
+        max-width: 300px;
+        margin-bottom: 20px;
+    }
+`   
+const imgBox = css`
+    border: 1px solid #dbdbdb;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    overflow: hidden;
+    & > img {
+        z-index: 1;
+        height: 100%;
+    }
+`
 function TeamCreatePage(props) {
     const [isCompany, setIsCompany] = useState(true);
     const [teamTypeCategory, setTeamTypeCategory] = useState();
@@ -132,8 +149,9 @@ function TeamCreatePage(props) {
         )
     }
     const handleAccountInfos = () => {
+        accountRef.current =  accountRef.current + 1;
         const accountInfo = {
-            accountId: accountRef + 1,
+            "accountId": accountRef.current,
             accountUsername,
             accountNumber,
             bankName,
@@ -181,6 +199,38 @@ function TeamCreatePage(props) {
                         </div>
                         : null
 
+                            }
+            </div>
+            <div css={imgBox} onClick={() => profileImgRef.current.click()}>
+                <input type="file" ref={profileImgRef} style={{display:"none"}} onChange={(e) => handlefileChange(e, setTeamLogoImgUrl)}/>
+                <img src={teamLogoImgUrl} alt="" />
+            </div>
+            <div>
+            <textarea id="story" value={teamInfoText}  placeholder="팀 소개" onChange={(e) => setTeamInfoText(e.target.value)}  rows="20" cols="80"/>       
+            </div>
+            <div>
+                <input type="text" placeholder="email" value={teamEmail} 
+                    onChange={(e) => setTeamEmail(e.target.value)}/>
+                <input type="text" placeholder="전화번호" value={teamPhoneNumber} 
+                    onChange={(e) => setTeamPhoneNumber(e.target.value)}/>
+                <input type="url" placeholder="홈페이지" value={teamHomepage} 
+                    onChange={(e) => setTeamHomepage(e.target.value)}/>
+            </div>
+            <div>
+                <button onClick={accountCounter}>은행 계좌 등록</button>
+                
+                {createAccount ?  
+                    <div>  
+                        <input type="text" placeholder="예금주명"  value={accountUsername} 
+                            onChange={(e) => setAccountUsername(e.target.value)}/>
+                        <input type="text" placeholder="계좌번호"  value={accountNumber } 
+                            onChange={(e) => setAccount(e.target.value)}/>
+                        <input type="text"placeholder="은행명"  value={bankName} 
+                            onChange={(e) => setBankName(e.target.value)}/>   
+                        <input type="file" src="" alt="" onChange={(e) => handlefileChange(e, setAccountUrl)}/>
+                        <button onClick={handleAccountInfos}>은행 등록</button>
+                    </div>
+                    : null
                 }
                 <div css={s.div2}>
                     <span>팀 이름</span>

@@ -23,7 +23,7 @@ function SignInPage(props) {
             localStorage.setItem("AccessToken", accessToken);
             window.location.replace("/main");
         }).catch(error => {
-            // alert(error.response.data);
+            alert(error.response.data);
         }
         )
     }

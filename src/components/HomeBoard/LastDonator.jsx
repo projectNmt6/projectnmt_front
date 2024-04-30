@@ -60,7 +60,7 @@ function LastDonator(props) {
                                     </div>
                                     <div css={s.LikeDonate}>
                                         <div>
-                                            <LikeButton />
+                                            <LikeButton donationPageId={closestToGoal.donationPageId}/>
                                         </div>
                                         <div>
                                             <a href="">기부하기</a>

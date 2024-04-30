@@ -22,7 +22,6 @@ function OAuth2SignUpPage(props) {
         mutationKey: "oAuth2SignupMutation",
         mutationFn: oAuth2SignupRequest,
         onSuccess: response => {
-            console.log(response);
             localStorage.setItem("AccessToken", response.data);
             navigate("/account/mypage");
             window.location.reload();

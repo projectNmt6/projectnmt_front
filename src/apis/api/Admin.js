@@ -1,7 +1,11 @@
 import instance from "../utils/instance"
 
-export const getUserListRequest = async () => { 
-    return await instance.get("/admin/user/list");
+export const getUserListRequest = async (params) => { 
+    return await instance.get("/admin/user/list", {params});
+}
+
+export const getUserCountRequest = async (params) => { 
+    return await instance.get("/admin/user/count", {params});
 }
 export const getUserInfoRequest = async (params) => { 
     return await instance.get("/admin/user",{params});
@@ -9,8 +13,8 @@ export const getUserInfoRequest = async (params) => {
 export const getUserCommentListRequest = async (params) => { 
     return await instance.get("/admin/comment",{params});
 }
-export const getTeamListRequest = async () => { 
-    return await instance.get("/admin/teams");
+export const getTeamListRequest = async (params) => { 
+    return await instance.get("/admin/teams", {params});
 }
 export const deleteCommentRequest = async (data) => { 
     return await instance.delete("/admin/comment/delete",{data});

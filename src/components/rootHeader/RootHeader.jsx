@@ -5,8 +5,9 @@ import { useRecoilState } from 'recoil';
 import { Link } from 'react-router-dom';
 import { FiLogOut, FiUser,FiSearch } from "react-icons/fi";
 import { FaHome } from "react-icons/fa";
-import { useQueryClient } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import instance from '../../apis/utils/instance';
+import axios from 'axios';
 
 function RootHeader(props) {
     const [isLogin, setLogin] = useState(false);
@@ -22,6 +23,7 @@ function RootHeader(props) {
     const handleOpenMenuClick = (e) => {
         e.stopPropagation();
     }
+    
     const handleLogoutClick = () => {
         localStorage.removeItem("AccessToken");
         instance.interceptors.request.use((config) => {

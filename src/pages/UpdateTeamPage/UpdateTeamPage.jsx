@@ -11,17 +11,25 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from "react-router-dom";
 
 const header = css`
-    & > div{
-        max-width: 300px;
+        display: flex;
+        flex-direction: column;
+        width: 800px;
         margin-bottom: 20px;
-    }
-`   
+        font-family: 'omyu_pretty';
+        align-items: center;
+        font-size: 20px;
+        border: 1px solid #dbdbdb;
+        @font-face {
+    font-family: 'omyu_pretty';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}`;   
 const imgBox = css`
     & > img {
         border: 1px solid #dbdbdb;
-        border-radius: 50%;
-        height: 50px;
-        width: 50px;
+        height: 225px;
+        width: 225px;
         overflow: hidden;
     }
 `
@@ -29,6 +37,7 @@ function UpdateTeamPage(props) {
     const location = useLocation();
     const teamInfo = location.state.teamInfo;
     const navigate = useNavigate();
+    const accountIdRef = useRef(0);
     const [ teamPhoneNumber, setTeamPhoneNumber ] = useState(teamInfo.teamPhoneNumber);
     const [ teamEmail,  setTeamEmail ] = useState(teamInfo.teamEmail);
     const [ teamHomepage,  setTeamHomepage ] = useState(teamInfo.teamHomepage);
@@ -92,7 +101,9 @@ function UpdateTeamPage(props) {
         )
     }
     const handleAccountInfos = () => {
+        accountIdRef.current = accountIdRef.current + 1;
         const accountInfo = {
+            "accountId": accountIdRef.current,
             accountUsername,
             accountNumber,
             bankName,
@@ -106,10 +117,11 @@ function UpdateTeamPage(props) {
         setCreateAccount(() => false)
     }
     const handleDeleteAccountInfos = (id) => {
+        console.log(id);
         setAccountInfos(() => [...accountInfos.filter(accountInfo => accountInfo.accountId !== id)]);
     }
     return (
-        <div css={header}>
+        <div css={header}>       
             <div>
                 팀 정보수정
             </div>
@@ -117,7 +129,6 @@ function UpdateTeamPage(props) {
                 {teamInfo.teamName}
             </div>
             <div>
-
             팀로고
             </div>
             <div css={imgBox}>

@@ -1,7 +1,7 @@
 export const REGEX = {
     username: {
-        regexr: /^[A-Za-z0-9]{5,10}$/,
-        text: "영문자, 숫자 5 ~ 10자리 형식이어야 합니다"
+        regexr: /^[A-Za-z0-9]{5,15}$/,
+        text: "영문자, 숫자 5 ~ 15자리 형식이어야 합니다"
     },
     password: {
         regexr: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,128}$/,

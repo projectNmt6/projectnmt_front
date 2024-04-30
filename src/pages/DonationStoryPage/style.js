@@ -27,7 +27,7 @@ export const button1 = css`
     background-color: #007bff;
     color: white;
     text-align: center;
-    font-size: 10px;
+    font-size: 15px;
     cursor: pointer;
     border-radius: 5px;
     text-decoration: none;
@@ -49,7 +49,7 @@ export const button2 = css`
     border: none;
     color: white;
     text-align: center;
-    font-size: 10px;
+    font-size: 15px;
     text-decoration: none;
     cursor: pointer;
     border-radius: 5px;
@@ -65,8 +65,9 @@ export const button3 = css`
     background-color: #dc3545;
     border: none;
     color: white;
+    font-family: 'omyu_pretty';
     text-align: center;
-    font-size: 10px;
+    font-size: 15px;
     cursor: pointer;
     border-radius: 5px;
     & :hover {
@@ -153,6 +154,7 @@ export const donation = css`
     text-align: center;
     background-color: #fc4d4d;
     color: white;
+    font-family: 'omyu_pretty';
     font-weight: 700;
     font-size: 20px;
     border-radius: 5px;
@@ -288,35 +290,51 @@ export const boxbox1 = css`
     justify-content:space-between;
     border-top:2px solid #d2d0d0;
     width: 100%;
-    height: 100%;
+    height: auto;
 `;
-
-
-export const inputbox = css`
+export const mainBox = css`
+    display: flex;
     width: 100%;
-    height: 40px;
+    height: 100%; 
 `;
+export const teamNDonationBox = css`
+    position: sticky;
+    margin-left: 10px;
+    top: 0;
+    height: 860px;
+`;
+
+
 
 export const commentBoxStyle = css`
     width: 100%;
     height: 40px;
 `;
 
+export const donationInfo = css`
+    box-sizing: border-box;
+    border:1px solid #dbdbdb;
+    border-radius: 5px;    
+    margin-top: 10px;
+    margin-right: 5px;
+    height: 550px;
+`;
+
 export const teamInfo = css`
-    margin-top: 20px;
-    margin-right: 15px;
-    width: 360px;
+    position: relative;
+    margin-top: 5px;
+    margin-right: 5px;
+    width: 350px;
     height: 260px;
     box-sizing: border-box;
     border:1px solid #dbdbdb;
     border-radius: 5px;
     color: black;
     background-color: white;
+    justify-content: space-between;
     text-align: center;
     display: flex;
     flex-direction: column;
-    align-items:center;
-
 `;
 export const logoImg = css`
     box-sizing: border-box;
@@ -392,6 +410,13 @@ export const button5 = css`
 export const container1 = css`
     width: 100%;
     height: 100%;
+    font-family: 'omyu_pretty';
+    @font-face {
+    font-family: 'omyu_pretty';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
 `;
 
 export const container3 = css`

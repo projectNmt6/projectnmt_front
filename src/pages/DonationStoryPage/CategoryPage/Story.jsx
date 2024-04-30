@@ -1,3 +1,6 @@
+/** @jsxImportSource @emotion/react */
+
+import * as s from "./style";
 import DOMPurify from 'dompurify';
 import React, { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
@@ -29,7 +32,7 @@ function Story(props) {
     const safeHTML = DOMPurify.sanitize(donationPage.storyContent);
 
     return (
-        <div>
+        <div css={s.container}>
             Story
             <div>
                 {donationPage.donationImages && donationPage.donationImages.map((image, index) => (
