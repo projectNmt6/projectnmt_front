@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-
 import * as s from "./style";
 import DOMPurify from 'dompurify';
 import React, { useState } from 'react';

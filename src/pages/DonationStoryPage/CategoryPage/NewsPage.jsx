@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import NonePage from './NonePage';
 import DOMPurify from 'dompurify';
 /** @jsxImportSource @emotion/react */
+import * as s from "./style";
 
 function NewsPage({donationPageId}) {
     const [content, setContent] = useState({}); // 초기 상태를 null로 설정
@@ -23,7 +24,7 @@ function NewsPage({donationPageId}) {
 
     const safeHTML = DOMPurify.sanitize(content.newsContent);
     return (
-        <div>
+        <div css={s.container}>
             NewsPage
             
             <div> 

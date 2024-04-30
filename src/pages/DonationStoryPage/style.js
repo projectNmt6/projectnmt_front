@@ -12,9 +12,10 @@ export const header = css`
 `;
 
 export const link = css`
-    text-decoration: none ;
+    text-decoration: none;
     color: #007bff;
-    margin-right: 15px;
+    font-size: 20px;
+    margin: 30px;
     font-weight: bold;
 `;
 export const button1 = css`
@@ -123,6 +124,7 @@ export const storyImage = css`
 `;
 export const dates = css`
     margin-top: 20px;
+    margin-left: 15px;
     box-sizing: border-box;
     border:1px solid #dbdbdb;
     border-radius: 5px;
@@ -235,6 +237,7 @@ export const teamNDonationBox = css`
 `;
 export const commentBox = css`
     display: flex;
+    flex-direction:column;
     justify-content: center;
     width: 100%;
     border-top:2px solid #d2d0d0;
@@ -249,15 +252,56 @@ export const donationInfo = css`
     box-sizing: border-box;
     border:1px solid #dbdbdb;
     border-radius: 5px;    
-    margin-top: 10px;
-    margin-right: 5px;
-    height: 550px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    `;
+
+export const h3 = css`
+    display: flex;
+    width: 300px;
+    font-weight: 600;
+    margin-left: 15px;
+    height: 25px;
+    font-size: 25px;
+`;
+export const div5 = css`
+    display: flex;
+    width: 300px;
+    align-items: center;
+    margin: 10px 0px;
+    text-decoration: none;
+    color: #7e7e7ec1;
+    :hover {
+        font-size: 17px;
+        font-weight: 800;
+    }
+`;
+
+export const div6 = css`
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+    margin-left: 16px;
+    text-decoration-line: none;
+`;
+
+export const font = css`
+    color: #444;
+`;
+
+export const img = css`
+    width: 100px;
+    height: 100px;
+    border-radius: 5px;
 `;
 
 export const teamInfo = css`
     position: relative;
-    margin-top: 5px;
-    margin-right: 5px;
+    margin-top: 25px;
+    margin-bottom: 25px;
     width: 350px;
     height: 260px;
     box-sizing: border-box;
@@ -265,7 +309,8 @@ export const teamInfo = css`
     border-radius: 5px;
     color: black;
     background-color: white;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -284,28 +329,50 @@ export const logoImg = css`
         height: 100%;
     }
 `;
+export const div3 = css`
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 25px;
+    width: 350px;
+    margin-bottom: 25px;
+`;
 
 export const teamInfoText = css`
-        color: black;
-        width: 300px;
-        font-size: 16px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: normal;
-        line-height: 1.2;
+    color: black;
+    width: 300px;
+    font-size: 20px;
+    color: #a1a1a1c1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    line-height: 1.2;
 /*        height: 4.8em;*/
-        text-align: left;
-        word-wrap: break-word;
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
+    text-align: left;
+    word-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
     margin-top: 10px;
+    margin-bottom: 10px;
+`;
+
+export const link1 = css`
+    text-decoration-line: none;
+    color: #444;
+    cursor: pointer;
+    :hover {
+        font-size: 17px;
+        font-weight: 800;
+    }
 `;
 
 export const inputboxStyle = css`
     margin-top: 30px;
     width: 100%;
     height: 70px;
+    padding:0px 0px 23px 10px;
+
     box-sizing: border-box;
     border: 1px solid #d2d0d0;
     border-radius: 5px;
@@ -313,18 +380,17 @@ export const inputboxStyle = css`
     :focus {
         transition: all 0.3s ease-in-out;
         border: 1px solid pink;
-        outline: 1px solid pink;
+        outline: none;
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    }
-    :active {
-        background-color:#f3f2f2;
     }
 `;
 export const button5 = css`
     margin-top: 16px;
     background-color: #aaaaaa;
     color: white;
-    font-size: 14px;
+    width: 75px;
+    font-size: 18px;
+    font-family: 'omyu_pretty';
     height: 30px;
     box-sizing: border-box;
     border-radius: 20px;
@@ -359,6 +425,7 @@ export const container3 = css`
     height: 200%;
     top:0; left: 0; bottom: 0; right: 0;
     background: rgba(160, 160, 160, 0.6);
+    z-index: 3;
     overflow: hidden;
     
 `;
@@ -376,5 +443,72 @@ export const modal = css`
     border-radius: 5px;
     width: 400px;
     height: 500px;
+    z-index: 99;
     box-shadow: 0 0 6px 1px rgb(0 0 0 / 30%);
+`;
+
+export const div1 = css`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 15px 0px;
+`;
+
+export const div2 = css`
+    display: flex;
+    font-size: 18px;
+    font-family: 'omyu_pretty';
+    align-items: center;
+    text-align: center;
+`;
+export const div4 = css`
+    width: 1120px;
+    font-size: 22px;
+    font-weight: 600;
+    border-bottom: 1px solid #dbdbdb;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    padding: 20px 0px;
+`;
+
+export const button6 = css`
+    border-radius: 50px;
+    border: none;
+    margin-top: 20px;
+    font-size: 18px;
+    text-align: center;
+    font-family: 'omyu_pretty';
+    height: 30px;
+    background-color: #fae6d3;
+    color: #444;
+    transition: all 150ms ease-in-out;
+    box-shadow: 2px 2px 2px #aaaaaac1;
+    cursor: pointer;
+    &:hover {
+    box-shadow: 0 0 10px 0 #fae6d3 inset, 0 0 10px 4px #fae6d3;
+    background-color: white;
+    color:black;
+  }
+`;
+
+export const button7 = css`
+    border-radius: 50px;
+    margin-top: 20px;
+    border: none;
+    font-size: 18px;
+    text-align: center;
+    font-family: 'omyu_pretty';
+    height: 30px;
+    background-color: #fcbfbf;
+    color: #444;
+    transition: all 150ms ease-in-out;
+    box-shadow: 2px 2px 2px #aaaaaac1;
+    cursor: pointer;
+    &:hover {
+    box-shadow: 0 0 10px 0 #fcbfbf inset, 0 0 10px 4px #fcbfbf;
+    background-color: white;
+    color:black;
+  }
 `;

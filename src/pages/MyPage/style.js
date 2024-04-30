@@ -195,6 +195,7 @@ export const label = css`
 export const link = css`
     text-decoration-line: none;
     text-align: center;
+    padding: 18px 93px;
     color: inherit;
 `;
 export const div5 = css`
