@@ -3,8 +3,8 @@ import { css } from "@emotion/react";
 
 ////////홈 CSS ////////////////
 export const mainLayout = css`
-/* padding : 20px; */
 background-color:  #F8F8F8;
+width: 1200px;
 font-family: 'omyu_pretty';
 white-space: pre;
 @font-face {

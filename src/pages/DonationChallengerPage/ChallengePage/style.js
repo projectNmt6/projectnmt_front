@@ -8,7 +8,7 @@ export const main = css`
     background-color: aqua;
 `;
 
-// contentAreaStyle 수정
+
 export const contentAreaStyle = css`
   display: flex;
   justify-content: center;
@@ -26,6 +26,7 @@ export const leftCardLayout = css`
 `;
 
 export const rightCardLayout = css`
+    margin-top: 30px;
   display: flex;
   flex-direction: column;
     flex-wrap: wrap;
@@ -50,7 +51,7 @@ export const sidebarStyle2 = css`
   display: flex;
   flex-direction: column;
   margin: 10px;
-  background-color: #FFD79999;
+  background-color: #fff2df99;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   border-radius: 10px;
   padding: 20px;
@@ -86,6 +87,42 @@ export const actionImage = css`
  height: 50px;
  padding: 4px; 
 `;
+
+ 
+export const actionButton1 = css`
+
+    display: flex;
+    margin: 10px; 
+    border-radius: 10px;
+   align-items: center;
+   justify-content: center;
+    background-color: rgb(173, 76, 254);
+    color: white; /* 글자색 변경 */
+    width: 360px; /* 가로 크기 변경 */
+    height: 50px; /* 세로 크기 변경 */
+    border: none;
+    font-size: 17px;
+    text-decoration: none;
+    font-weight: 600;
+    font-family: 'NEXON Lv1 Gothic OTF';
+
+`;
+export const actionButton2 = css`
+    display: flex;
+    margin: 10px; 
+    border-radius: 10px;
+   align-items: center;
+   justify-content: center;
+    background-color: rgb(173, 76, 254);
+    height: 40px;
+    color: white; /* 글자색 변경 */
+    border: none;
+    font-size: 16px;
+    text-decoration: none;
+    font-weight: 500;
+    font-family: 'NEXON Lv1 Gothic OTF';
+`;
+
 
 export const remainingDays = css`
   align-self: flex-start; // Flex 컨테이너 내에서 자신만의 위치를 조정
@@ -156,27 +193,30 @@ export const header = css`
     padding-bottom: 20px;
 `;
 
+export const commentBorder = css`
+
+border-bottom: 1px solid #ccc; // 말풍선과 구분선
+`;
 
 export const button4 = css`
     border: none;
     font-size: 15px;
-    color: #606060;
     margin-right: 3px;
     border-radius: 5px;
     padding: 12px;
     font-weight: 600;
     cursor: pointer;
+    background-color: transparent; // 배경색 제거
+    color: rgb(136, 136, 136); // 초기 텍스트 색상 설정
+
     :focus {
         transition: all 0.3s ease-in-out;
-        background-color: #bfbdbd;
     }
     :hover {
-        background-color: #bfbdbd;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); 
+        color: #333; // 마우스 오버 시 텍스트 색상 변경
     }
     :active {
-        background-color: #bfbdbd;
-        box-shadow: inset 2px 2px 6px gray ;
+        color: #555; // 마우스 클릭 시 텍스트 색상 진하게 변경
     }
 `;
 

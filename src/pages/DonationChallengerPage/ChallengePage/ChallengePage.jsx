@@ -202,15 +202,18 @@ function ChallengePage() {
         if (challengePageId) {
             setLoading(true);
             getActionBoardList(challengePageId)
-            .then(response => {
-                setActionList(response.data);
-                setLoading(false);
-            })
-            .catch(error => {
-                console.error("actionError", error);
-                setError('Failed to fetch data');
-                setLoading(false);
-            });
+                .then(response => {
+                    const sortedActions = response.data.sort((a, b) => 
+                        new Date(b.createDate) - new Date(a.createDate)  // 내림차순 정렬
+                    );
+                    setActionList(sortedActions);
+                    setLoading(false);
+                })
+                .catch(error => {
+                    console.error("actionError", error);
+                    setError('Failed to fetch data');
+                    setLoading(false);
+                });
         }
     }, [challengePageId]);
     return (
@@ -230,9 +233,9 @@ function ChallengePage() {
             
             <div >
             <button onClick={handleNewsButtonClick}>후기작성버튼</button>
+            <button>후기 수정하기</button>
                 <button><Link to={`update?page=${challengePageId}`}>수정하기</Link></button>
                 <button onClick={handleDeleteButton}>삭제하기</button>
-                <button onClick={handleModalToggle}>행동하기!</button>
                     {showModal && (
                         <div css={s.cardStyle}>
                             <LoginRequiredModal setShowModal={setShowModal} />
@@ -267,8 +270,9 @@ function ChallengePage() {
                             <ChallengeNews challengePageId={challengePageId} /> 
                             : < ActionBoard challengePageId={challengePageId} />
                             }
-                
-                <h3>덧글</h3>
+                <div css={s.commentBorder}>
+                    <h3>댓글</h3>
+                </div>
                     <CommentSection challengePageId={challengePageId} />
                     
                 </div>
@@ -292,7 +296,13 @@ function ChallengePage() {
             
                 <h1>{challengeTitle}</h1>   
             </div>
-
+            <div css={s.sidebarStyle2}>
+                <div>{challengeOverview}</div>  
+            
+            </div>
+            <div>
+                <button onClick={handleModalToggle} css={s.actionButton1}>행동하기!</button>  
+            </div>
             <div css={s.teamInfo}>
                 <div css={s.teamName}>
                 <img css={s.teamLogo} src={teamInfo?.teamLogoImgUrl} alt="" />
@@ -300,23 +310,27 @@ function ChallengePage() {
                 <div css={s.teamText}>{teamInfo?.teamInfoText}</div>
             </div>
 
-            <div css={s.sidebarStyle2}>
-            <div>
-                <div>{challengeOverview}</div>
-            </div>
-            </div>
+
 
             <div css={s.sidebarStyle}>
             <div css={s.actionText}>
             <HiOutlineBadgeCheck />행동하기 인증!
             </div> 
             <div >
-                    {actionList.map((action) => (
-                        <span key={action.id} >
+            <div>
+            {actionList
+                    .slice(0, 25) // 첫 25개 요소 추출
+                    .map((action) => (
+                        <span key={action.id}>
                             <img src={action.imageURL} alt={`Action ${action.id}`} css={s.actionImage} />
                         </span>
-                    ))}
-                </div>       
+                    ))
+                }
+                </div>
+
+                </div>   
+                
+                <button onClick={handleModalToggle} css={s.actionButton2}>행동하기!</button>    
             </div>
                
                

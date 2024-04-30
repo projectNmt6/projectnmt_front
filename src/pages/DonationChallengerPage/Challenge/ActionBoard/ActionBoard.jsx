@@ -14,15 +14,18 @@ function ActionBoard({challengePageId}) {
         if (challengePageId) {
             setLoading(true);
             getActionBoardList(challengePageId)
-            .then(response => {
-                setActionList(response.data);
-                setLoading(false);
-            })
-            .catch(error => {
-                console.error("actionError", error);
-                setError('Failed to fetch data');
-                setLoading(false);
-            });
+                .then(response => {
+                    const sortedActions = response.data.sort((a, b) => 
+                        new Date(b.createDate) - new Date(a.createDate)  // 내림차순 정렬
+                    );
+                    setActionList(sortedActions);
+                    setLoading(false);
+                })
+                .catch(error => {
+                    console.error("actionError", error);
+                    setError('Failed to fetch data');
+                    setLoading(false);
+                });
         }
     }, [challengePageId]);
 

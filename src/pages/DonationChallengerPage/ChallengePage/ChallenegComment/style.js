@@ -277,7 +277,6 @@ export const comments = css`
 export const actionsContainer = css`
    display: flex;
         padding: 8px 0; // 상하 패딩
-   border-top: 1px solid #ccc; // 말풍선과 구분선
 `;
 export const profileIMG = css`
     width: 30px;
@@ -371,15 +370,18 @@ export const teamInfoText = css`
         -webkit-box-orient: vertical;
     margin-top: 10px;
 `;
-
 export const inputboxStyle = css`
     margin-top: 30px;
     width: 100%;
-    height: 70px;
+    height: 100px;
+    padding-bottom: 30px; /* 입력 부분과 버튼 사이의 간격을 주기 위해 padding 추가 */
     box-sizing: border-box;
     border: 1px solid #d2d0d0;
     border-radius: 5px;
-    font-size: inherit;    
+    border-bottom: 1px solid #ccc; /* 기존의 구분선 */
+    font-size: inherit;
+    position: relative; /* 상대 위치 설정 */
+
     :focus {
         transition: all 0.3s ease-in-out;
         border: 1px solid pink;
@@ -387,11 +389,22 @@ export const inputboxStyle = css`
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     }
     :active {
-        background-color:#f3f2f2;
+        background-color: #f3f2f2;
+    }
+
+    /* 구분선 추가 */
+    ::after {
+        content: '';
+        position: absolute;
+        bottom: 40px; /* 버튼의 높이 + 여백 고려 */
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background-color: #ccc;
     }
 `;
 export const button5 = css`
-    margin-top: 16px;
+    margin-top: 16px; /* 입력 박스와의 여백 조정 */
     background-color: #aaaaaa;
     color: white;
     font-size: 14px;
@@ -400,16 +413,17 @@ export const button5 = css`
     border-radius: 20px;
     border: none;
     cursor: pointer;
-    transition: background-color 0.5s, box-shadow 0.5s; 
+    transition: background-color 0.5s, box-shadow 0.5s;
 
     :hover {
         background-color: #828282;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); 
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     }
     :active {
         background-color: white;
     }
 `;
+
 
 export const container1 = css`
     width: 100%;

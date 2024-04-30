@@ -118,7 +118,7 @@ function CommentSection({ challengePageId }) {
                     <button css={s.button5}  onClick={handleCommentSubmit}>덧글 입력</button>
                 <div>
                 {commentList.map((comment, index) => (
-    <div key={index} css={s.commentContainer}>
+        <div key={index} css={s.commentContainer}>
         <div css={s.profileAndTextContainer}>
             <div css={s.profileSection}>
                 <img src={comment.profileImg} css={s.profileIMG} />
