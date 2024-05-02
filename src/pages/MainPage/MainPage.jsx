@@ -1,125 +1,41 @@
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import { useQuery } from "react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FiSearch } from "react-icons/fi";
 import LikeButton from "../../components/LikeButton/LikeButton";
 import { getDonationListRequest, getDonationTagRequest } from "../../apis/api/DonationAPI";
 import Progress from "../../components/progress/Progress";
 import NowFundingPage from "./fundings/NowFundingPage";
+import { FaPen } from "react-icons/fa6";
+import EndedDonationsPage from "./donations/EndedDonationsPage";
+import NowDonationPage from "./donations/NowDonationPage";
 
 function MainPage() {
-    const [donationTagList, setDonationTagList] = useState([]);
-    const [donationList, setDonationList] = useState([]);
-    const [selectedTag, setSelectedTag] = useState(null);
-    //donationTag
-    const getDonationTagQuery = useQuery(
-        "getDonationTagQuery",
-        async () => await getDonationTagRequest(),
-        {
-            refetchOnWindowFocus: false,
-            onSuccess: response => {
-                setDonationTagList(response.data.map(donationTag => ({
-                    ...donationTag
-                })));
-            }
-        }
-    );
-    const getDonationListQuery = useQuery(
-        "getDonationQuery",
-        async () => await getDonationListRequest(),
-        {
-            refetchOnWindowFocus: false,
-            onSuccess: response => {
-                setDonationList(response.data.map(donation => ({
-                    ...donation
-                })));
-            }
-        }
-        );
-        //handleTag
-        const handleTagClick = (tag) => {
-            setSelectedTag(tag);
-          };
-        const filteredDonations = selectedTag
-        ? donationList.filter(
-                        (donation) => donation.donationTagName 
-                        ? donation.donationTagName.includes(selectedTag) 
-                        : false
-                        )
-        : donationList;
-
-        return (
+    const [selectedCategory, setSelectedCategory] = useState(0);
+    const [selectedTab, setSelectedTab] = useState('now'); //news, story 중 하나의 값을 가짐
+    const handleTabChange = (tab) => {
+        setSelectedTab(tab);
+        }    
+    return (
         <>
-            <div>
-                <h1>Main Page</h1>
-            </div>
-            <div css={s.upperRightMenu}>
-            </div>
-            <div css={s.write}>
-                <Link to={"/main/write"}>작성하기</Link>
-            </div>
-
-            <div>
-                <button><Link to={'/main/donation/fundings/now'}>펀딩중</Link></button>
-                <button><Link to={'/main/donation/fundings/end'}>펀딩종료</Link></button>
-            </div>
-
-            <div css={s.tagContainer}>
-            <button 
-                key="alltag" 
-                
-                css={s.tagButton}
-                onClick={() => setSelectedTag(null)} 
-                aria-pressed={!selectedTag} 
-                >전체보기
-            </button>
-                {donationTagList.map(
-                    tag => (
-                        
-                    <button 
-                        key={tag.donationTagName} 
-                        css={s.tagButton}
-                        onClick={() => handleTagClick(tag.donationTagName)}
-                        aria-pressed={selectedTag === tag.donationTagName}
-                    >
-                        {tag.donationTagName}
-                    </button>
-                ))}
-            </div>
-            <div css={s.donationList}>
-                {
-                    filteredDonations.map(
-                        donation =>
-                        <a href={`/donation?page=${donation.donationPageId}`} key={donation.donationPageId}  css={s.linkStyle}>
-                            <div key={donation.donationPageId} css={s.donationCard}>
-                                <div css={s.donationImage}>
-                                    <img src={
-                                            ! donation.mainImgUrl
-                                            ? "https://www.shutterstock.com/image-vector/no-image-available-picture-coming-600nw-2057829641.jpg"
-                                            : donation.mainImgUrl
-                                        } alt="" />
-                                </div>
-                                <div css={s.donationDetails}>
-                                    <h2>{donation.storyTitle}</h2>
-                                    <p><strong>기관:</strong> {donation.teamName}</p>
-                                    <p><strong>목표금액:</strong> {donation.goalAmount}원</p>
-                                    {/* <p><strong>시작시간:</strong> {donation.createDate.split('T')[0]}</p>  
-                                    <p><strong>종료시간:</strong> {donation.endDate.split('T')[0]}</p> */}
-
-
-                                {/* <LikeButton donationPageId = {donation.donationPageId} /> */}
-                                <Progress pageId={donation.donationPageId} />
-
-                                </div>
-                            </div>
-                        </a>
-                    )
-                }
-            </div>
+            <header css={s.header}>
+                <div css={s.headerButton(selectedCategory)}>
+                    <button onClick={() => {handleTabChange('now'); setSelectedCategory(0);}}>모금중 </button>
+                    <button onClick={() => {handleTabChange('end'); setSelectedCategory(1);}}>모금종료 </button>
+                    {/* <a href='/main/donation/now' onClick={() => setSelectedCategory(0)}>모금중 </a>
+                    <a href='/main/donation/end' onClick={() => setSelectedCategory(1)}>모금종료 </a> */}
+                </div>
+                <div css={s.write}>
+                    <a href='/main/write'><FaPen color="#949494" size={14} /> 모금제안 </a>
+                </div>
+            </header>
+            <main css={s.main}>
+            {selectedTab === 'now' ? <NowDonationPage /> : <EndedDonationsPage />}
+            </main>
         </>
-        );
+    );
 }
 
 export default MainPage;

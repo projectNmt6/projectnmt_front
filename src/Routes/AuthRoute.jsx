@@ -30,6 +30,8 @@ import TeamRoutePage from '../pages/TeamRoutePage/TeamRoutePage';
 import SelectTeam from '../pages/SelectTeam/SelectTeam';
 import TeamList from '../components/TeamListForUser/TeamList';
 import AdminSearchPage from '../pages/Admin/AdminSearchPage/AdminSearchPage';
+import NowDonationPage from '../pages/MainPage/donations/NowDonationPage';
+import EndedDonationsPage from '../pages/MainPage/donations/EndedDonationsPage';
 
 
 function AuthRoute(props) {
@@ -69,12 +71,12 @@ function AuthRoute(props) {
                 <Route path="/donation/*" element={<DonationStoryPage />} />
                 <Route path="/main/donation/update" element={<DonationPageboard2 />} />
                 <Route path="/search" element={<SearchPage />} />
-                <Route path="/message" element={<MessagePage />} />
+                <Route path="/message" element={<MessagePage />} /> 
                 <Route path='/main/donations/challenge' element={ < MainPage2 />} />
                 <Route path='/main/donation/news/update' element={<NewsUpdatePage />} />       
                 <Route path="/account/mypage/donation" element={<MyDonation />} />        
-                <Route path="/main/donation/fundings/now" element= {  <NowFundingPage />} />
-                <Route path="/main/donation/fundings/end" element= {  <EndedFundingsPage />} />
+                <Route path="/main/donation/now" element= {  <NowDonationPage />} />
+                <Route path="/main/donation/end" element= {  <EndedDonationsPage />} />
                 <Route path='/team/*' element={ <TeamRoutePage /> } />
                 <Route path='/donation/select/team' element={ <SelectTeam /> } />
                 <Route path='/test' element={ <TeamList /> } />
