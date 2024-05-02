@@ -1,18 +1,18 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { getPrincipalRequest } from '../../apis/api/principal';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { getPrincipalRequest } from '../../../../apis/api/principal';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { getTeamListRequest } from '../../apis/api/teamApi';
-import { getChallengePageRequest, getChallengeRequest, getUpdateChallengePageRequest, updateChallengeRequest } from '../../apis/api/DonationAPI';
+import { getTeamListRequest } from '../../../../apis/api/teamApi';
+import { getChallengePageRequest, getChallengeRequest, getUpdateChallengePageRequest, updateChallengeRequest } from '../../../../apis/api/DonationAPI';
 /** @jsxImportSource @emotion/react */
-import * as s from "./style";
-import TextEditor from '../../components/TextEditor/TextEditor';
+import * as s from "../ChallengeUpdate/style";
+import TextEditor from '../../../../components/TextEditor/TextEditor';
 import DatePicker from "react-datepicker";
 import Select from 'react-select';
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
-
+import { format } from 'date-fns'; 
 function ChallengeUpdatePage(props) {
     const [title, setTitle] = useState("");
     const [mainImg, setMainImg] = useState("");
@@ -23,9 +23,12 @@ function ChallengeUpdatePage(props) {
     const [teams, setTeams] = useState([]);
     const [selectedTeam, setSelectedTeam] = useState(null);
     const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(null);
+    const [endDate, setEndDate] = useState(new Date());
     const [uploadedImages, setUploadedImages] = useState([]);
-    
+    const datePickerRef = useRef(null);
+    const [showDatePicker, setShowDatePicker] = useState(false); // Controls the visibility of the DatePicker
+    const [ headCount, setHaedCount] = useState();
+   
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const challengePageId = queryParams.get('page');
@@ -96,6 +99,7 @@ useEffect(() => {
                     setStartDate(new Date(data.startDate));
                     setEndDate(new Date(data.endDate));
                     setSelectedTeam({ value: data.teamId, label: data.teamName });
+                    setHaedCount(data.headCount);
                 }
             } catch (error) {
                 console.error('Error fetching challenge page:', error);
@@ -168,14 +172,22 @@ useEffect(() => {
 
     const fileChange = (e) => {
         const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = () => {
-            setMainImg(reader.result);
-        };
-        reader.readAsDataURL(file);
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                setMainImg(reader.result); // 이미지 데이터를 상태에 저장
+            };
+            reader.readAsDataURL(file);
+        }
     };
 
-
+    const toggleDatePicker = () => {
+        setShowDatePicker(prev => !prev);
+        // Optionally focus the DatePicker when it becomes visible
+        if (!showDatePicker && datePickerRef.current) {
+            datePickerRef.current.setFocus();
+        }
+    }
     const handleFileChange = (e) => {
       const file = e.target.files[0];
       const reader = new FileReader();
@@ -188,25 +200,40 @@ useEffect(() => {
         reader.readAsDataURL(file);
       }
     };
-
+    const headCountChange = (e) => {
+        const value = e.target.value;
+        const parsedValue = value ? parseInt(value) : null;
+        setHaedCount(parsedValue);
+    }
     const handleEndDateChange = (date) => {
         setEndDate(date);
 
     };
     return (
         <>
+        <div css={s.mainLayout}>
+        <div css={s.textTitle}>
+                프로젝트 제목
+            </div>
             <div>
                 <input type="text" placeholder='제목' 
-                value={title} onChange={(e) => setTitle(e.target.value)} />
+                value={title} 
+                onChange={(e) => setTitle(e.target.value)} 
+                css={s.inputField}
+                />
             </div>
 
             <div>
-                요약
-                <input type="text" placeholder='요약' value={overview} onChange={(e) => setOverview(e.target.value)} />
+            <div  css={s.textTitle}>프로젝트 요약</div>
+                <input type="text" 
+                css={s.inputField}
+                placeholder='요약' 
+                value={overview} 
+                onChange={(e) => setOverview(e.target.value)} />
             </div>
 
             <div>
-            <h3>프로젝트 팀</h3>
+            <div  css={s.textTitle}>프로젝트 팀</div>
             <Select
                 value={selectedTeam} // 현재 선택된 팀
                 onChange={handleSelectTeam} // 선택이 변경될 때 실행되는 함수
@@ -216,46 +243,72 @@ useEffect(() => {
 
         </div>
 
-        <div> <h4>프로젝트 진행 기간 </h4></div>
-            <DatePicker
+        <div  css={s.textTitle}>진행기간</div>
+        <div css={s.dateDisplayBox} onClick={toggleDatePicker}>
+                {format(endDate, "yyyy년 MM월 dd일")}
+                <span css={s.textTitle}> 까지</span>
+            </div>
+            {showDatePicker && (
+                <DatePicker
+                ref={datePickerRef}
                 selected={endDate}
-                onChange={handleEndDateChange }
+                onChange={date => {
+                    setEndDate(date);
+                    toggleDatePicker(); // Optionally hide after selection
+                }}
                 selectsEnd
                 startDate={startDate}
                 endDate={endDate}
                 dateFormat="yyyy년 MM월 dd일"
+                inline
+                locale="ko" // 한국어로 설정
+                showYearDropdown
+                showMonthDropdown
+                dropdownMode="select" // 드롭다운 모드 활성화
+                css={s.DatePickerCss}
             />
+            
+            )}
 
 
             <div>
                 <h2>메인 이미지 추가</h2>
-                <div css={s.imgUrlBox}>
-                    <label htmlFor="inputFile"></label>
-                    <img src={mainImg} alt="Main" style={{ width: '300px', height: 'auto' }}/> 
-                    <input  
-                        id="inputFile" 
-                        type="file" 
-                        name="file" 
-                        accept='image/*'
-                        style={{ display: "block" }}
-                        onChange={fileChange} 
-                    /> 
-                </div>                
-                <button>이미지 제거 </button>
+                <label css={s.imageUrlBox} htmlFor="inputFile">
+                {mainImg ? <img src={mainImg} alt="Uploaded" style={{ width: '300px', height: 'auto' }}/> : "사진 첨부"}
+                <input  
+                    id="inputFile" 
+                    type="file" 
+                    name="file" 
+                    accept="image/*"
+                    css={s.fileInputStyle}
+                    onChange={fileChange} 
+                />
+            </label>             
             </div>
 
-
-            
-            <h1>슬라이드쇼</h1>
-
+            <div  css={s.textTitle}>
+                목표 인원
+                </div>
+            <input 
+                css={s.inputField}
+                type="number"
+                value={headCount}
+                onChange={headCountChange} />
             <TextEditor content={challengeContent} setContent={setChallengeContent} />
  
 
             <div css={s.buttonBox}>
-                <button onClick={handleSubmitButton}>작성완료</button>
-                <button onClick={handleCancelButton}>취소</button>
-                <button onClick={handleHomeButton}>돌아가기</button>
-            </div>     
+            <button css={[s.buttonStyle, s.cancelButtonStyle]} onClick={handleCancelButton}>
+                취소
+            </button>
+            <button css={s.buttonStyle} onClick={handleSubmitButton}>
+                작성완료
+            </button>
+            <button css={[s.buttonStyle, s.backButtonStyle]} onClick={handleHomeButton}>
+                돌아가기
+            </button>    
+            </div>
+            </div>
         </>
     );
 }

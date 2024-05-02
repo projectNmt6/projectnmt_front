@@ -291,6 +291,7 @@ export const textSection = css`
     border-radius: 10px; // 모서리 둥글게
     box-shadow: 0 2px 4px rgba(0,0,0,0.1); // 그림자 효과
     position: relative; // 상대적 위치
+    z-index: 1;
     &:after { // 말풍선 꼬리 모양
         content: "";
         position: absolute;
@@ -380,7 +381,6 @@ export const inputboxStyle = css`
     border-radius: 5px;
     border-bottom: 1px solid #ccc; /* 기존의 구분선 */
     font-size: inherit;
-    position: relative; /* 상대 위치 설정 */
 
     :focus {
         transition: all 0.3s ease-in-out;
@@ -431,7 +431,6 @@ export const container1 = css`
 `;
 
 export const container3 = css`
-    position: absolute;
     width: 100%;
     height: 200%;
     top:0; left: 0; bottom: 0; right: 0;

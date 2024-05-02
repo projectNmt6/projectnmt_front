@@ -7,6 +7,7 @@ export const buttonBox = css`
     padding: '10px 20px'
 `;
 
+
 export const imageBox = css`
     box-sizing: border-box;
     display: flex;

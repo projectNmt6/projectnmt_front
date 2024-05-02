@@ -3,26 +3,26 @@ import React, { useEffect, useMemo, useState } from 'react';
 import ReactQuill from "react-quill";
 import { css } from '@emotion/react';
 import 'react-quill/dist/quill.snow.css';
-
+import * as s from "./style";
 /** @jsxImportSource @emotion/react */
 import axios from 'axios';
 import Select from 'react-select';
 import { buttonBox } from './style';
 import { imgUrlBox } from './style';
-import { getDonationListRequest, getDonationTagRequest, registerDonationPage } from '../../apis/api/DonationAPI';
+import { getDonationListRequest, getDonationTagRequest, registerDonationPage } from '../../../apis/api/DonationAPI';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import MainPage from '../MainPage/MainPage';
+import MainPage from '../../MainPage/MainPage';
 import { Link } from 'react-router-dom';
 import { errorSelector } from 'recoil';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { getPrincipalRequest } from '../../apis/api/principal';
-import { getTeamInfoRequest, getTeamListRequest, getTeamMemberInfoRequest, getTeamMemberInfoRequest2 } from '../../apis/api/teamApi';
-import TextEditor from '../../components/TextEditor/TextEditor';
-import { useFileUpload } from '../../hooks/useFileUpload';
+import { getPrincipalRequest } from '../../../apis/api/principal';
+import { getTeamInfoRequest, getTeamListRequest, getTeamMemberInfoRequest, getTeamMemberInfoRequest2 } from '../../../apis/api/teamApi';
+import TextEditor from '../../../components/TextEditor/TextEditor';
+import { useFileUpload } from '../../../hooks/useFileUpload';
 
 import { v4 as uuid } from "uuid";
-import { storage } from '../../apis/filrebase/config/firebaseConfig';
+import { storage } from '../../../apis/filrebase/config/firebaseConfig';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 
 function DonationPageboard() {
@@ -129,23 +129,6 @@ function DonationPageboard() {
                 console.error(error);
             });
     }, []);
-
-    // useEffect(() => {
-    //     axios.get("http://localhost:8080/tag/donationtag")
-    //         .then(response => {
-    //             const options = response.data.map(secondTag => ({
-    //                 value: secondTag.donationTagId,
-    //                 label: secondTag.donationTagName
-    //             }));
-    //             setSecondTagOptions(options);
-    //             console.log("secondTagOptions" + secondTagOptions);
-    //         })
-    //         .catch(error => {
-    //             console.error(error);
-                
-    //             console.log("secondTagOptions" + error);
-    //         });
-    // }, []);
 
     const handleMainTagChange = (selectedOption) => {
         setSelectedMainTag(selectedOption);

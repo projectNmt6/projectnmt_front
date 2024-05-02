@@ -15,7 +15,8 @@ import { getTeamInfoRequest, getTeamListRequest } from '../../../apis/api/teamAp
 import * as s from "./style";
 import { countActionBoard, getActionBoardList } from '../../../apis/api/ChallengeApi';
 import { HiOutlineClock } from "react-icons/hi2";
-import { HiOutlineBadgeCheck } from "react-icons/hi";
+import { HiBadgeCheck } from "react-icons/hi";
+
 function ChallengePage() {    
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -102,7 +103,11 @@ function ChallengePage() {
             document.body.style.overflow = 'auto';
         }
     }, [showModal, showNewModal]);
-  
+    const [showCommentSection, setShowCommentSection] = useState(false);
+
+    const handleCommentToggle = () => {
+        setShowCommentSection(!showCommentSection);
+    };
     const [teams, setTeams] = useState([]);
     
     useEffect(() => {
@@ -188,12 +193,7 @@ function ChallengePage() {
             window.location.replace(`/main/challenge/news?page=${challengePageId}`);
         };
         
-        const progressBarStyle = (percentage) => ({
-            height: '5px',
-            width: `${percentage}%`,
-            backgroundColor: 'red',
-            transition: 'width 0.5s ease-in-out'
-        });
+
         const [actionList, setActionList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -217,9 +217,8 @@ function ChallengePage() {
         }
     }, [challengePageId]);
     return (
-
     <div css={s.contentAreaStyle}>
-            
+
             <div css={s.leftCardLayout}>
             {showModal && (
                     <div css={s.container3}>
@@ -236,17 +235,18 @@ function ChallengePage() {
             <button>후기 수정하기</button>
                 <button><Link to={`update?page=${challengePageId}`}>수정하기</Link></button>
                 <button onClick={handleDeleteButton}>삭제하기</button>
+                <div className="modal-overlay">
                     {showModal && (
                         <div css={s.cardStyle}>
                             <LoginRequiredModal setShowModal={setShowModal} />
                         </div>
                     )}
                     {showNewModal && (
-                <div css={s.cardStyle}>
-                <ActionModal setShowNewModal={setShowNewModal} challengePageId={challengePageId} />
-            </div>
+                <div >
+                <ActionModal  setShowNewModal={setShowNewModal} challengePageId={challengePageId} />
+                </div>
                     )} 
-            </div>
+            </div></div>
 
 
         <div>     
@@ -286,19 +286,20 @@ function ChallengePage() {
         <div css={s.rightCardLayout}>  
             <div css={s.sidebarStyle2}>
             <div css={s.remainingDays}><HiOutlineClock />{remainingDays} 일 남음</div>
-                <div>
-                    {actingHeadCount} 명 행동중!
-                    {headCount}명 목표</div>
+                <h1>{challengeTitle}</h1> 
 
-                    <div css={s.actionProgressBar}>
-                    <div style={progressBarStyle((actingHeadCount / headCount) * 100)}></div>
-                    </div>
+                <div css={s.actingInfo}>
+                    <div css={s.actingCount}><HiBadgeCheck / >{actingHeadCount} 명 행동중!</div>
+                    <div css={s.headCountCss}>{headCount}명 목표</div>
+                </div>
+                <div css={s.actionProgressBar}>
+                        <div style={{ width: `${(actingHeadCount / headCount) * 100}%` }}></div>
+                </div>
             
-                <h1>{challengeTitle}</h1>   
             </div>
-            <div css={s.sidebarStyle2}>
+            <div css={s.sidebarStyle3}>
+            <div css={s.howToText}>How To!</div>
                 <div>{challengeOverview}</div>  
-            
             </div>
             <div>
                 <button onClick={handleModalToggle} css={s.actionButton1}>행동하기!</button>  
@@ -312,11 +313,10 @@ function ChallengePage() {
 
 
 
-            <div css={s.sidebarStyle}>
+        <div css={s.sidebarStyle}>
             <div css={s.actionText}>
-            <HiOutlineBadgeCheck />행동하기 인증!
-            </div> 
-            <div >
+                <HiBadgeCheck />행동하기 인증!</div> 
+           
             <div>
             {actionList
                     .slice(0, 25) // 첫 25개 요소 추출
@@ -326,12 +326,10 @@ function ChallengePage() {
                         </span>
                     ))
                 }
-                </div>
-
-                </div>   
+            </div>   
                 
                 <button onClick={handleModalToggle} css={s.actionButton2}>행동하기!</button>    
-            </div>
+        </div>
                
                
                </div>

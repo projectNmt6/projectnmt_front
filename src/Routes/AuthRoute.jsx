@@ -1,9 +1,8 @@
 import React from 'react';
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
+import { Global, css } from '@emotion/react';
 import * as s from "./style";
 import { Route, Routes } from 'react-router-dom';
-import DonationPageboard from "../pages/DonationPageBoard/DonationPageboard";
 import HomePage from "../pages/HomePage/HomePage";
 import MainPage from "../pages/MainPage/MainPage";
 import SearchPage from '../pages/SearchPage/SearchPage';
@@ -24,16 +23,20 @@ import EndedFundingsPage from '../pages/MainPage/fundings/EndedFundings';
 import TeamRoutePage from '../pages/TeamRoutePage/TeamRoutePage';
 import TeamSelectPage from '../pages/DonationPageBoard/TeamSelectPage';
 import ChallengeMainPage from '../pages/MainPage/ChallengeMain/ChallengeMainPage';
-import DonationChallengePage from '../pages/DonationChallengerPage/DonationChallengePage';
 import ChallengePage from '../pages/DonationChallengerPage/ChallengePage/ChallengePage';
 
 import UserInfoEditPage from '../pages/UserInfoEditPage/UserInfoEditPage';
 import SelectTeam from '../pages/SelectTeam/SelectTeam';
 import TeamList from '../components/TeamListForUser/TeamList';
 import AdminSearchPage from '../pages/Admin/AdminSearchPage/AdminSearchPage';
-import ChallengeUpdatePage from '../pages/DonationChallengerPage/ChallengeUpdatePage';
+import ChallengeUpdatePage from '../pages/DonationChallengerPage/ChallengePage/ChallengeUpdate/ChallengeUpdatePage';
 import DonationUpdatePageBoard from '../pages/DonationUpdatePage/DonationUpdatePageboard';
 import ChallengeNewsWrite from '../pages/DonationChallengerPage/Challenge/ChallengeNewsWirte/ChallengeNewsWrite';
+import ChallengeWrite from '../pages/DonationChallengerPage/ChallengePage/ChallengeWrite/ChallengeWritePage';
+import { GlobalStyles } from './GlobalStyles';
+import DonationPageboard from '../pages/DonationPageBoard/DonationWrite/DonationPageboard';
+
+
 function AuthRoute(props) {
 
     const principalQuery = useQuery(
@@ -55,6 +58,7 @@ function AuthRoute(props) {
     return (
         <>
 
+<Global styles={GlobalStyles} /> 
         <RootHeader/>
         <div css={s.container}>
         <Routes>
@@ -73,7 +77,7 @@ function AuthRoute(props) {
                 <Route path="/search" element={<SearchPage />} />
                 <Route path="/message" element={<MessagePage />} />
                 <Route path='/main/challenges' element={ < ChallengeMainPage />} />
-                <Route path='/main/challenge/write' element={< DonationChallengePage />} />
+                <Route path='/main/challenge/write' element={< ChallengeWrite />} />
                 <Route path='/main/challenge' element={< ChallengePage />} />
                 <Route path='/main/challenge/news' element={<ChallengeNewsWrite />} />
                 <Route path='/main/challenge/update' element={<ChallengeUpdatePage />} />

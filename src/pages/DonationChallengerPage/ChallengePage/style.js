@@ -6,6 +6,34 @@ export const main = css`
     justify-content: space-around;
     width: 100%; 
     background-color: aqua;
+    
+    @font-face {
+    font-family: 'NEXON Lv1 Gothic OTF';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+  font-family: 'RIDIBatang';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/RIDIBatang.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Cafe24Oneprettynight';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Oneprettynight.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+    font-family: 'BMYEONSUNG';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMYEONSUNG.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+    
 `;
 
 
@@ -23,6 +51,7 @@ export const leftCardLayout = css`
     flex-direction: column;
     flex-wrap: wrap;
     position: sticky;
+    
 `;
 
 export const rightCardLayout = css`
@@ -43,21 +72,31 @@ export const sidebarStyle = css`
   border-radius: 10px;
   padding: 25px;
   justify-content: flex-start;
-  position: sticky; // 오른쪽에 고정되도록 설정합니다.
-  top: 20px; // 부모 요소의 위쪽에서 일정한 거리만큼 떨어진 위치에 표시됩니다.
+  position: sticky; // 오른쪽
+  top: 20px;
+  z-index: 2000; /* 수정된 부분 */
 `;
 
 export const sidebarStyle2 = css`
   display: flex;
   flex-direction: column;
   margin: 10px;
-  background-color: #fff2df99;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   border-radius: 10px;
   padding: 20px;
   justify-content: space-between;
-  top: 20px; /* 부모 요소의 위쪽에서 일정한 거리만큼 떨어진 위치에 표시됩니다. */
-  right: 0; /* 오른쪽에 위치하도록 설정합니다. */
+  top: 20px;
+  right: 0;
+`;
+export const sidebarStyle3 = css`
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 20px;
+    justify-content: space-between;
+    background-color: #f2f2f2; /* 배경색을 연한 회색으로 설정 */
 `;
 
 export const teamInfo = css`
@@ -86,6 +125,7 @@ export const actionImage = css`
  width: 50px;
  height: 50px;
  padding: 4px; 
+ z-index: 1;
 `;
 
  
@@ -177,7 +217,7 @@ export const container3 = css`
     top:0; left: 0; bottom: 0; right: 0;
     background: rgba(160, 160, 160, 0.6);
     overflow: hidden;
-    
+    z-index: 100; /* 다른 요소보다 위에 위치하도록 설정 */
 `;
 
 export const link = css`
@@ -220,6 +260,10 @@ export const button4 = css`
     }
 `;
 
+export const actionmodal = css`
+     z-index: 15000; /* 더 높은 z-index 값 */
+`
+
 export const cardStyle = css`
   margin: 10px;
   background-color: #fff;
@@ -234,25 +278,27 @@ export const cardStyle = css`
     text-decoration: none;
     color: inherit;
     background-color:#faf9f7;
-    transition: background-color 0.5s ease,border-color 0.5s ease;
+    transition: background-color 0.5s ease,
+    border-color 0.5s ease;
   }
 `;
 
 export const modal = css`
     position: fixed;
-    background-color: white;
     top: 50%;
     left: 50%;
-    margin-left:-10%;
-    margin-top: -200px; 
-    display: flex;
-    flex-direction: column;
-    border: #d1d8dd;
-    border-radius: 5px;
+    transform: translate(-50%, -50%);
     width: 400px;
     height: 500px;
-    box-shadow: 0 0 6px 1px rgb(0 0 0 / 30%);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #d1d8dd;
+    border-radius: 5px;
+    box-shadow: 0 0 6px 1px rgba(0, 0, 0, 0.3);
+    background-color: white;
+    z-index: 1500; // 충분히 높은 z-index
 `;
+
 
 
 
@@ -282,7 +328,6 @@ export const actionText = css`
     padding-bottom: 15px;
     font-weight: 700;
     font-size: 16px;
-    
     svg { // 아이콘에 대한 스타일
         font-size: 20px; // 텍스트와 일치하는 크기
         margin-right: 8px; // 아이콘과 텍스트 사이에 간격 추가
@@ -291,8 +336,47 @@ export const actionText = css`
 
 export const actionProgressBar = css`
     text-align: center;
-    margin-bottom: 20px;
     width: 100%;
-    border: 1px solid #222222;
-    background-color: #dbdbdb;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    height: 5px;
+    width: 100%; /* 최대 너비 설정 */
+    transition: width 0.5s ease-in-out;
+    div {
+        height: 100%;
+        background-color: rgb(173, 76, 254);
+    border-radius: 5px;
+    }
+`;
+export const actingInfo = css`
+    display: flex;
+    justify-content: space-between; /* 요소들을 좌우 정렬 */
+    align-items: center; /* 요소들을 수직 정렬 */
+    padding: 10px 0px;
+`;
+
+export const actingCount = css`
+    display: flex;
+    align-items: center; // 아이콘과 텍스트를 세로 중앙 정렬
+    font-weight: 600;
+    font-size: 14px;
+    svg { // 아이콘에 대한 스타일
+        font-size: 20px; // 텍스트와 일치하는 크기
+        margin-right: 8px; // 아이콘과 텍스트 사이에 간격 추가
+        
+    color: rgb(173, 76, 254);
+    }
+`;
+export const headCountCss = css`
+    font-weight: 600;
+    font-size: 14px;
+
+`;
+
+export const howToText = css`
+    position: absolute; /* 절대 위치 설정 */
+    top: -13px; /* 상단으로 -15px 이동하여 박스 경계 부분에 겹치도록 */
+    left: 15%;
+    transform: translateX(-50%); /* 수평으로 가운데 정렬 */
+    font-weight: 700;
 `;
