@@ -1,5 +1,4 @@
 import { css } from "@emotion/react";
-
 export const sign = css`
 display: flex;
 flex-direction: column;

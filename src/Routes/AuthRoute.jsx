@@ -30,6 +30,7 @@ import TeamRoutePage from '../pages/TeamRoutePage/TeamRoutePage';
 import SelectTeam from '../pages/SelectTeam/SelectTeam';
 import TeamList from '../components/TeamListForUser/TeamList';
 import AdminSearchPage from '../pages/Admin/AdminSearchPage/AdminSearchPage';
+import PasswordEditPage from '../pages/UserInfoEditPage/PasswordEditPage';
 
 
 function AuthRoute(props) {
@@ -79,6 +80,7 @@ function AuthRoute(props) {
                 <Route path='/donation/select/team' element={ <SelectTeam /> } />
                 <Route path='/test' element={ <TeamList /> } />
                 <Route path='/account/mypage/edit' element= { <UserInfoEditPage />} />
+                <Route path='/account/mypage/edit/password' element={ <PasswordEditPage />}/>
            </Routes> 
         </div>
 

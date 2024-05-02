@@ -70,7 +70,6 @@ function DonationStoryPage() {
     const getTeamInfoMutation = useQuery(
         ["getTeamInfoMutation"],
         async () => {
-            console.log(donationPage);
             const response = await getTeamInfoRequest({ teamId: donationPage.teamId });
             return response;
         },

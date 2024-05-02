@@ -12,11 +12,6 @@ import AuthPageInput from "../../components/AuthPageInput/AuthPageInput";
 
 function UserInfoEditPage(props) {
     // useAuthCheck();
-    const [oldPassword, handleOldPassword, oldMessage, setOldMessage] = useInput("oldPassword");
-    const [newPassword, handleNewPassword, newMessage, setNewMessage] = useInput("newPassword");
-    const [newPasswordCheck, handleNewPasswordCheck, newCheckMessage, setNewCheckMessage] = useInput("newPasswordCheck");
-    const [checkPasswordMessage, setCheckPasswordMessage] = useState("");
-    const [checkPassword, checkPasswordChange] = useInput("checkPassword");
     const [name, handleNewName] = useInput();
     const [email, handleNewEmail] = useInput();
     const [age, handleNewAge] = useInput();
@@ -32,58 +27,16 @@ function UserInfoEditPage(props) {
         mutationFn: submitDonatorEditData,
         onSuccess: response => {
             console.log(response);
-            alert("정상적으로 변경하였습니다.\n다시 로그인 하세요.");
-            localStorage.removeItem("AccessToken");
-            // window.location.replace("/auth/signin");
+            alert("정상적으로 변경하였습니다.");
+            window.location.replace("/account/mypage");
         },
         onError: error => {
             if (error.response.status === 400) {
                 const errorMap = error.response.data;
                 const errorEntries = Object.entries(errorMap);
-                setOldMessage(null);
-                setNewMessage(null);
-                setNewCheckMessage(null);
-                for (let [k, v] of errorEntries) {
-                    const message = {
-                        type: "error",
-                        text: v
-                    }
-                    if (k === "oldPassword") {
-                        setOldMessage(() => message);
-                    }
-                    if (k === "newPassword") {
-                        setNewMessage(() => message);
-                    }
-                    if (k === "newPasswordCheck") {
-                        setNewCheckMessage(() => message);
-                    }
-                }
             }
         }
     });
-
-    useEffect(() => {
-        if (!newPassword || !newPasswordCheck) {
-            setCheckPasswordMessage(() => null);
-            return;
-        }
-
-        if (newPasswordCheck === newPassword) {
-            setCheckPasswordMessage(() => {
-                return {
-                    type: "success",
-                    text: ""
-                };
-            });
-        } else {
-            setCheckPasswordMessage(() => {
-                return {
-                    type: "error",
-                    text: "비밀번호가 일치하지 않습니다." 
-                };
-            });
-        }
-    }, [checkPassword, newPassword]);
 
     const handleImgFileChange = (e) => {
         const files = Array.from(e.target.files);
@@ -119,9 +72,6 @@ function UserInfoEditPage(props) {
         editMutation.mutate({
             userId: principalData?.data.userId,
             username: principalData?.data.username,
-            oldPassword,
-            newPassword,
-            newPasswordCheck,
             name,
             email,
             age,
@@ -162,14 +112,6 @@ function UserInfoEditPage(props) {
                     <div css={s.div1}>
                         <label htmlFor={name}>닉네임</label>
                         <AuthPageInput css={s.input} type="text" id={name} onChange={handleNewName} required />
-                    </div>
-                    <div css={s.div2}>
-                        <label htmlFor={"password"}>비밀번호</label>
-                        <div css={s.div3}>
-                            <AuthPageInput css={s.input2} type={"password"} id={oldPassword} onChange={handleOldPassword} placeholder={"현재 비밀번호를 입력하세요."} message={oldMessage} />
-                            <AuthPageInput css={s.input2} type={"password"} id={newPassword} onChange={handleNewPassword} placeholder={"새로운 비밀번호를 입력하세요."} message={newMessage} />
-                            <AuthPageInput css={s.input2} type={"password"} id={newPasswordCheck} onChange={handleNewPasswordCheck} placeholder={"새로운 비밀번호를 확인하세요."} message={newCheckMessage} />
-                        </div>
                     </div>
                     <div css={s.div1}>
                         <label htmlFor={email}>이메일</label>

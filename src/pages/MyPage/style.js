@@ -195,7 +195,7 @@ export const label = css`
 export const link = css`
     text-decoration-line: none;
     text-align: center;
-    padding: 18px 93px;
+    padding: 15px 23px;
     color: inherit;
 `;
 export const div5 = css`
@@ -209,9 +209,9 @@ export const div5 = css`
     font-size: 23px;
     font-weight: 600;
     color: gray;
-    background-color: #FFD79999;
-    width: 300px;
-    height: 60px;
+    background-color: #E0EBFF;
+    width: 160px;
+    height: 55px;
     box-shadow: 2px 2px 2px #aaaaaac1;
     cursor: pointer;
     :hover {
@@ -220,7 +220,32 @@ export const div5 = css`
         font-weight: 600;     
     }
     :active {
-        box-shadow: inset 5px 5px 10px #ffb44399 ;
+        box-shadow: inset 5px 5px 10px #c9d3e5 ;
+    }
+`;
+export const div10 = css`
+    box-sizing: border-box;
+    border: none;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    font-family: 'omyu_pretty';
+    display: flex;
+    font-size: 23px;
+    font-weight: 600;
+    color: gray;
+    background-color: #ebffe0;
+    width: 160px;
+    height: 55px;
+    box-shadow: 2px 2px 2px #d3e5c9;
+    cursor: pointer;
+    :hover {
+        color: black;
+        font-size: 23px;
+        font-weight: 600;     
+    }
+    :active {
+        box-shadow: inset 5px 5px 10px #d3e5c9 ;
     }
 `;
 export const div6 = css`
@@ -232,16 +257,16 @@ export const div6 = css`
     font-family: 'omyu_pretty';
 `;
 export const button =css`
-    width: 300px;
-    height: 60px;
+    width: 160px;
+    height: 55px;
     font-family: 'omyu_pretty';
     font-size: 23px;
     font-weight: 600;
-    background-color: #ff0c0c99;
+    background-color: #ffe0eb;
     border: none;
     color: gray;
     border-radius: 5px;
-    box-shadow: 2px 2px 2px #aaaaaac1;
+    box-shadow: 2px 2px 2px #e5c9d3;
     cursor: pointer;
     :hover {
         color: black;
@@ -249,7 +274,7 @@ export const button =css`
         font-weight: 600;     
     }
     :active {
-        box-shadow: inset 5px 5px 10px #48000099 ;
+        box-shadow: inset 5px 5px 10px #e5c9d3 ;
     }
 `;
 export const span =css`
