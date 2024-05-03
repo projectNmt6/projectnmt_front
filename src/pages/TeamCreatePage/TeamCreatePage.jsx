@@ -197,9 +197,7 @@ function TeamCreatePage(props) {
                             <button css={s.input2} onClick={() => fileRef.current.click()}>파일첨부</button>
                             <input css={s.input3} type="file" ref={fileRef} src="" alt="" onChange={(e) => handlefileChange(e, setCompanyRegisterNumberUrl)} />
                         </div>
-                        : null
-
-                            }
+                        : null}
             </div>
             <div css={imgBox} onClick={() => profileImgRef.current.click()}>
                 <input type="file" ref={profileImgRef} style={{display:"none"}} onChange={(e) => handlefileChange(e, setTeamLogoImgUrl)}/>

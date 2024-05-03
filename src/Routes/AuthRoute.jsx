@@ -34,6 +34,7 @@ import AdminSearchPage from '../pages/Admin/AdminSearchPage/AdminSearchPage';
 import ChallengeUpdatePage from '../pages/DonationChallengerPage/ChallengeUpdatePage';
 import DonationUpdatePageBoard from '../pages/DonationUpdatePage/DonationUpdatePageboard';
 import ChallengeNewsWrite from '../pages/DonationChallengerPage/Challenge/ChallengeNewsWirte/ChallengeNewsWrite';
+
 function AuthRoute(props) {
 
     const principalQuery = useQuery(
@@ -71,6 +72,10 @@ function AuthRoute(props) {
                 <Route path="/donation/*" element={<DonationStoryPage />} />
                 <Route path="/main/donation/update" element={<DonationUpdatePageBoard />} />
                 <Route path="/search" element={<SearchPage />} />
+                <Route path="/message" element={<MessagePage />} /> 
+                <Route path='/main/donations/challenge' element={ < MainPage2 />} />
+                <Route path='/main/donation/news/update' element={<NewsUpdatePage />} />       
+                <Route path="/account/mypage/donation" element={<MyDonation />} />        
                 <Route path="/message" element={<MessagePage />} />
                 <Route path='/main/challenges' element={ < ChallengeMainPage />} />
                 <Route path='/main/challenge/write' element={< DonationChallengePage />} />

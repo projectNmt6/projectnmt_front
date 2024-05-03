@@ -76,14 +76,14 @@ position: relative;
 `;
 
 export const donationDetails = css`
-  
-  h2 {
-    color: #202020;
-  }
   p {
   color: #888888;
   }
 `;
+export const donationTitle = css`
+  height: 40px;
+`;
+
 export const linkStyle = css`
   text-decoration: none; 
   color: inherit; 
@@ -96,7 +96,7 @@ export const linkStyle = css`
 
 export const headerButton = (selectedCategory) => css`
   display: flex;
-  &>button{
+  &>a{
     background-color: none;
     border: none;
     background-color: transparent; 
@@ -113,6 +113,30 @@ export const headerButton = (selectedCategory) => css`
       border-bottom: 2px solid black;
     }
     &:nth-child(1){
+      color: ${!selectedCategory ? "black" : "#949494" };
+      border-bottom: ${!selectedCategory ? "2px solid black" : "none" };
+    }
+  }
+  `;
+  export const headerButton2 = (selectedCategory) => css`
+  display: flex;
+  &>a{
+    background-color: none;
+    border: none;
+    background-color: transparent; 
+    color: #949494;
+    margin: 10px;
+    cursor: pointer;
+    font-size: 22px;
+    text-decoration-line: none;
+    font-weight: 1000;
+    line-height: 1.48;
+    &:focus{
+      font-weight: bold;
+      color: black;
+      border-bottom: 2px solid black;
+    }
+    &:nth-child(2){
       color: ${!selectedCategory ? "black" : "#949494" };
       border-bottom: ${!selectedCategory ? "2px solid black" : "none" };
     }
@@ -166,4 +190,13 @@ export const RunningOut = (timeOut) => css`
       color: white;
       display: ${timeOut ? "" : "none"};
 
+`;
+export const finished = css`
+      position: absolute;
+      margin: -45px 10px;
+      z-index: 2;
+      background-color: #3CB371;
+      padding: 5px;
+      border-radius: 5px;
+      color: white;
 `;
