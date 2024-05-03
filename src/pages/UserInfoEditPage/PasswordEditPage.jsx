@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import * as s from "./style";
 import { useEffect, useState } from "react";
 import { useInput } from "../../hooks/useInput";
@@ -12,8 +12,10 @@ function PasswordEditPage(props) {
     const [newPasswordCheck, handleNewPasswordCheck, newCheckMessage, setNewCheckMessage] = useInput("newPasswordCheck");
     const [checkPasswordMessage, setCheckPasswordMessage] = useState("");
     const [checkPassword, checkPasswordChange] = useInput("checkPassword");
+    const queryClient = useQueryClient();
+    const principalData = queryClient.getQueryData("principalQuery");
 
-    const passwordeditMutation = useMutation({
+    const editPasswordMutation = useMutation({
         mutationKey: "editMutation",
         mutationFn: passwordEditData,
         onSuccess: response => {
@@ -72,10 +74,12 @@ function PasswordEditPage(props) {
     }, [checkPassword, newPassword]);
 
     const handleEditSubmitClick = () => {
-        passwordeditMutation.mutate({
-            oldPassword,
-            newPassword,
-            newPasswordCheck
+        editPasswordMutation.mutate({
+            userId: principalData?.data.userId,
+            username: principalData?.data.username,
+            oldPassword:oldPassword,
+            newPassword:newPassword,
+            newPasswordCheck:newPasswordCheck
         });
     }
     return (
