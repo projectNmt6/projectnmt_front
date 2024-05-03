@@ -25,7 +25,7 @@ const header = css`
         max-width: 300px;
         margin-bottom: 20px;
     }
-`   
+`
 const imgBox = css`
     border: 1px solid #dbdbdb;
     border-radius: 50%;
@@ -149,7 +149,7 @@ function TeamCreatePage(props) {
         )
     }
     const handleAccountInfos = () => {
-        accountRef.current =  accountRef.current + 1;
+        accountRef.current = accountRef.current + 1;
         const accountInfo = {
             "accountId": accountRef.current,
             accountUsername,

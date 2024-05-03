@@ -122,8 +122,9 @@ export const commentReportRequest = async (data) => {
 }
 
 
-export const deleteComment = async (data) => {   
-    return await instance.delete(`/comment/delete/${data}`); 
+export const deleteComment = async (data) => {  
+    console.log(data);
+    return await instance.delete(`/comment/delete/${data.donationCommentId}`); 
 };
 
 export const deleteChallengeComment = async (data) => {

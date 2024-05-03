@@ -31,6 +31,7 @@ import UserInfoEditPage from '../pages/UserInfoEditPage/UserInfoEditPage';
 import SelectTeam from '../pages/SelectTeam/SelectTeam';
 import TeamList from '../components/TeamListForUser/TeamList';
 import AdminSearchPage from '../pages/Admin/AdminSearchPage/AdminSearchPage';
+import PasswordEditPage from '../pages/UserInfoEditPage/PasswordEditPage';
 import ChallengeUpdatePage from '../pages/DonationChallengerPage/ChallengeUpdatePage';
 import DonationUpdatePageBoard from '../pages/DonationUpdatePage/DonationUpdatePageboard';
 import ChallengeNewsWrite from '../pages/DonationChallengerPage/Challenge/ChallengeNewsWirte/ChallengeNewsWrite';
@@ -92,6 +93,7 @@ function AuthRoute(props) {
                 <Route path='/donation/select/team' element={ <SelectTeam /> } />
                 <Route path='/test' element={ <TeamList /> } />
                 <Route path='/account/mypage/edit' element= { <UserInfoEditPage />} />
+                <Route path='/account/mypage/edit/password' element={ <PasswordEditPage />}/>
            </Routes> 
         </div>
 
