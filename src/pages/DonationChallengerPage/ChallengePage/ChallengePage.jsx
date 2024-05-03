@@ -216,6 +216,8 @@ function ChallengePage() {
                 });
         }
     }, [challengePageId]);
+
+    
     return (
     <div css={s.contentAreaStyle}>
 

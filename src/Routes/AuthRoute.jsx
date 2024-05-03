@@ -32,8 +32,9 @@ import AdminSearchPage from '../pages/Admin/AdminSearchPage/AdminSearchPage';
 import ChallengeUpdatePage from '../pages/DonationChallengerPage/ChallengePage/ChallengeUpdate/ChallengeUpdatePage';
 import DonationUpdatePageBoard from '../pages/DonationUpdatePage/DonationUpdatePageboard';
 import ChallengeNewsWrite from '../pages/DonationChallengerPage/Challenge/ChallengeNewsWirte/ChallengeNewsWrite';
+
 import ChallengeWrite from '../pages/DonationChallengerPage/ChallengePage/ChallengeWrite/ChallengeWritePage';
-import { GlobalStyles } from './GlobalStyles';
+
 import DonationPageboard from '../pages/DonationPageBoard/DonationWrite/DonationPageboard';
 
 
@@ -58,7 +59,6 @@ function AuthRoute(props) {
     return (
         <>
 
-<Global styles={GlobalStyles} /> 
         <RootHeader/>
         <div css={s.container}>
         <Routes>
@@ -75,6 +75,9 @@ function AuthRoute(props) {
                 <Route path="/donation/*" element={<DonationStoryPage />} />
                 <Route path="/main/donation/update" element={<DonationUpdatePageBoard />} />
                 <Route path="/search" element={<SearchPage />} />
+                <Route path="/message" element={<MessagePage />} /> 
+                <Route path='/main/donation/news/update' element={<NewsUpdatePage />} />       
+                <Route path="/account/mypage/donation" element={<MyDonation />} />        
                 <Route path="/message" element={<MessagePage />} />
                 <Route path='/main/challenges' element={ < ChallengeMainPage />} />
                 <Route path='/main/challenge/write' element={< ChallengeWrite />} />

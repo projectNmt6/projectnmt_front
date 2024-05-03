@@ -264,10 +264,6 @@ export const inputbox = css`
     height: 40px;
 `;
 
-export const commentBoxStyle = css`
-    width: 100%;
-    height: 40px;
-`;
 export const userProfileImg = css`
     width: 30px;
 `;
@@ -371,58 +367,6 @@ export const teamInfoText = css`
         -webkit-box-orient: vertical;
     margin-top: 10px;
 `;
-export const inputboxStyle = css`
-    margin-top: 30px;
-    width: 100%;
-    height: 100px;
-    padding-bottom: 30px; /* 입력 부분과 버튼 사이의 간격을 주기 위해 padding 추가 */
-    box-sizing: border-box;
-    border: 1px solid #d2d0d0;
-    border-radius: 5px;
-    border-bottom: 1px solid #ccc; /* 기존의 구분선 */
-    font-size: inherit;
-
-    :focus {
-        transition: all 0.3s ease-in-out;
-        border: 1px solid pink;
-        outline: 1px solid pink;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    }
-    :active {
-        background-color: #f3f2f2;
-    }
-
-    /* 구분선 추가 */
-    ::after {
-        content: '';
-        position: absolute;
-        bottom: 40px; /* 버튼의 높이 + 여백 고려 */
-        left: 0;
-        width: 100%;
-        height: 1px;
-        background-color: #ccc;
-    }
-`;
-export const button5 = css`
-    margin-top: 16px; /* 입력 박스와의 여백 조정 */
-    background-color: #aaaaaa;
-    color: white;
-    font-size: 14px;
-    height: 30px;
-    box-sizing: border-box;
-    border-radius: 20px;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.5s, box-shadow 0.5s;
-
-    :hover {
-        background-color: #828282;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-    }
-    :active {
-        background-color: white;
-    }
-`;
 
 
 export const container1 = css`
@@ -471,4 +415,95 @@ export const modal = css`
     width: 400px;
     height: 500px;
     box-shadow: 0 0 6px 1px rgb(0 0 0 / 30%);
+`;
+
+
+export const commentBoxStyle = css`
+    width: 100%;
+    height: 40px;
+`;
+
+
+export const commentButtonContainer = css`
+    /* 버튼 컨테이너의 스타일 지정 */
+    display: flex; /* 내부 요소들을 가로로 정렬 */
+    justify-content: flex-end; /* 내부 요소들을 컨테이너의 오른쪽으로 정렬 */
+    margin-top: 16px; /* 상단 여백 */
+`;
+
+
+
+
+export const inputboxExpanded = css`
+    /* 입력 상태일 때 높이 증가 */
+    &:focus {
+        height: 100px; /* 포커스된 경우 높이 증가 */
+    }
+
+    /* 버튼 위치 및 표시 여부 설정 */
+    & + button {
+        display: none; /* 초기에는 버튼을 숨김 */
+        position: absolute;
+        bottom: 10px; /* 박스 하단으로 이동 */
+        right: 10px; /* 우측 정렬 */
+    }
+
+    /* 입력 상태일 때 버튼 표시 */
+    &:focus + button {
+        display: inline-block; /* 입력 상태일 때 버튼을 보이도록 설정 */
+    }
+`;
+export const textareaStyle = css`
+    /* textarea의 스타일 지정 */
+    width: calc(100% - 20px); /* 입력 상자와 버튼의 너비를 맞추기 위해 */
+    height: 40px; /* 기본 높이 */
+    padding: 10px; /* 내부 패딩 */
+    box-sizing: border-box; /* 패딩과 보더 포함하여 요소 크기 계산 */
+    border: 1px solid #d2d0d0; /* 테두리 스타일 */
+    border-radius: 5px; /* 테두리 모서리 둥글게 */
+    margin-top: 16px; /* 상단 여백 */
+    font-family: 'NEXON Lv1 Gothic OTF';
+    resize: none; /* 사용자 크기 조정 비활성화 */
+    transition: height 0.3s ease; /* 높이 전환 효과 */
+
+     &:focus {
+        height: 100px; /* 포커스된 경우 높이 증가 */
+    }
+
+    &:focus + button { /* 버튼을 보이도록 설정 */
+        display: inline-block;
+    }
+`
+
+
+;export const button5 = css`
+        margin-top: 16px;
+        background-color: #aaaaaa;
+        color: white;
+        font-size: 14px;
+        height: 30px;
+        width: 50px;
+        box-sizing: border-box;
+        border-radius: 20px;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.5s, box-shadow 0.5s;
+        position: absolute;
+        bottom: 15px;
+        right: 25px;
+        z-index: 1000;
+
+&:hover {
+    background-color: #828282;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+`;
+
+export const inputboxStyle = css`
+position: relative;
+width: 100%;
+
+&:focus + button { 
+    display: inline-block; 
+}
 `;

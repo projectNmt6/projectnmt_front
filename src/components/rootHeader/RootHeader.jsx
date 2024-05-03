@@ -12,9 +12,9 @@ import axios from 'axios';
 function RootHeader(props) {
     const [isLogin, setLogin] = useState(false);
     const queryClient = useQueryClient();
-    // const principal = queryClient.getQueryData("principalQuery");
     const principalState = queryClient.getQueryState("principalQuery");
     const [isAdmin, setIsAdmin] = useState();
+    const [headerLine, setHeaderLine] = useState("");
     useEffect(() => {
         setLogin(() => principalState.status === "success");
         setIsAdmin(() => !!principalState?.data?.data.authorities.filter(authority => authority.authority === "ROLE_ADMIN")[0])
@@ -33,20 +33,24 @@ function RootHeader(props) {
         queryClient.refetchQueries("principalQuery");
         window.location.replace("/auth/signin");
     }
+    const handleHeaderLine = (value) => {
+        setHeaderLine(value);
+    }
+    console.log(headerLine);
     return (
         <div css={s.header}>
             <Link css={s.account} to={"/"}>
                 <FaHome size={25} />
             </Link>
             <div css={s.header1}>
-                <div css={s.mainbox}>
-                    <Link to={"/main"} > 기부하기 </Link>
+                <div css={s.mainbox(headerLine)}>
+                    <Link to={"/main"} onClick={() => handleHeaderLine("기부")} > 기부하기 </Link>
                 </div>
-                <div css={s.challengebox}>
-                    <Link to={"/main/challenges"}>챌린지</Link>
+                <div css={s.challengebox(headerLine)}>
+                    <Link to={"/main/challenges"} onClick={() => handleHeaderLine("챌린지")}>챌린지</Link>
                 </div>
                 <div css={s.adminbox(true)}>
-                    {isAdmin ? <Link to={"/admin/main"}> 관리자 </Link> : null}
+                    {isAdmin ? <Link to={"/admin/main"} > 관리자 </Link> : null}
                 </div> 
             </div>
 

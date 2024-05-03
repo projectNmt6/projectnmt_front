@@ -1,22 +1,22 @@
-// CommentSection.jsx
-
+import { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
 import { TbTrashXFilled } from 'react-icons/tb';
 import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom';
 import { getPrincipalRequest } from '../../../../apis/api/principal';
 import { challengeCommentRequest, challengeCommentResponse, deleteChallengeComment } from '../../../../apis/api/DonationAPI';
 /** @jsxImportSource @emotion/react */
-import * as s from "./style";
+import * as s from "../ChallenegComment/style";
 import { getUserInfoRequest } from '../../../../apis/api/Admin';
 import { IoMdHeartEmpty } from "react-icons/io";
 import { IoMdHeart } from "react-icons/io";
+
 function CommentSection({ challengePageId }) {
 
     const [commentList, setCommentList] = useState([]);
     const [comment, setComment] = useState("");
     const [userId, setUserId ] = useState();
+    const [isExpanded, setIsExpanded] = useState(false);
 
     const principalQuery = useQuery(
         ["principalQuery"], 
@@ -43,9 +43,24 @@ function CommentSection({ challengePageId }) {
             .catch(console.error);
     }, [challengePageId]);
     
-
     const handleCommentChange = (e) => setComment(e.target.value);
 
+
+    const handleCommentSubmit = async () => {
+        console.log("버튼 클릭됨");
+        try {
+            await mutation.mutateAsync({
+                commentText: comment,
+                challengePageId: challengePageId,
+                userId: userId
+            });
+            setComment(""); // 성공 시 입력 필드 초기화
+        } catch (error) {
+            console.error("댓글 전송 실패:", error);
+        }
+    };
+    
+    
     const mutation = useMutation(challengeCommentRequest, {
         onSuccess: () => {
             console.log("덧글 전송 완료");
@@ -55,28 +70,14 @@ function CommentSection({ challengePageId }) {
                     setCommentList(response.data);
                 })
                 .catch(console.error);
+            setComment(""); // 성공 시 입력 필드 초기화
+            // setIsExpanded(false); // 전송 후 박스 크기를 원래대로 되돌림
         },
         onError: (error) => {
             console.error("덧글 전송 실패:", error);
         }
     });
-
-
     
-    const handleCommentSubmit = async () => {
-        try {
-            await mutation.mutateAsync({
-                commentText: comment,
-                challengePageId: challengePageId,
-                userId: userId
-            });
-            setComment(""); // 성공 시 입력 필드 초기화
-        } catch (error) {
-            console.error("덧글 전송 실패:", error);
-            // 에러 처리
-        }
-    };
-
     
     const handleCommentDeleteButton = (challengeCommentId) => {
         if (!userId) {
@@ -90,7 +91,6 @@ function CommentSection({ challengePageId }) {
         console.log("Deleting ID:", userId); // 로그로 ID 확인
         deleteCommentMutation.mutate({ challengeCommentId, userId });
     };
-    
 
     const deleteCommentMutation = useMutation({
         mutationKey: "deleteCommentMutation",
@@ -103,45 +103,43 @@ function CommentSection({ challengePageId }) {
             alert("삭제할 권한이 없습니다.")
         }
     });
-    
+
     return (
         <>
             <div css={s.commentBoxStyle}>
-                <div>
-                    <input css={s.inputboxStyle}
-                        type="text"
+                <div css={s.inputboxStyle}>
+                    <textarea css={s.textareaStyle}
                         placeholder='따뜻한 댓글을 남겨주세요'
                         value={comment}
                         onChange={handleCommentChange}
+                        onFocus={() => setIsExpanded(true)}
+                        onBlur={() => setIsExpanded(false)}
                     />
+                    <button css={s.button5} onClick={handleCommentSubmit}>입력</button>
                 </div>
-                    <button css={s.button5}  onClick={handleCommentSubmit}>덧글 입력</button>
                 <div>
-                {commentList.map((comment, index) => (
-        <div key={index} css={s.commentContainer}>
-        <div css={s.profileAndTextContainer}>
-            <div css={s.profileSection}>
-                <img src={comment.profileImg} css={s.profileIMG} />
-            </div>
-            <div css={s.textAndActionsContainer}>
-                <div css={s.textSection}>
-                    <div>{comment.name}</div>
-                    <p>{comment.commentText}</p>
+                    {commentList.map((comment, index) => (
+                        <div key={index} css={s.commentContainer}>
+                            <div css={s.profileAndTextContainer}>
+                                <div css={s.profileSection}>
+                                    <img src={comment.profileImg} css={s.profileIMG} />
+                                </div>
+                                <div css={s.textAndActionsContainer}>
+                                    <div css={s.textSection}>
+                                        <div>{comment.name}</div>
+                                        <p>{comment.commentText}</p>
+                                    </div>
+                                    <div css={s.actionsContainer}>
+                                        <IoMdHeartEmpty /> <IoMdHeart />
+                                        <button onClick={() => handleCommentDeleteButton(comment.challengeCommentId)}>
+                                            <TbTrashXFilled />
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
                 </div>
-                <div css={s.actionsContainer}>
-                    <IoMdHeartEmpty /> <IoMdHeart />
-                    <button onClick={() => handleCommentDeleteButton(comment.challengeCommentId)}>
-                        <TbTrashXFilled />
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-))}
-
-
-</div>
-
             </div>
         </>
     );
