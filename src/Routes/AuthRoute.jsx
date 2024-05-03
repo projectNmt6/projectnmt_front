@@ -26,18 +26,17 @@ import TeamSelectPage from '../pages/DonationPageBoard/TeamSelectPage';
 import ChallengeMainPage from '../pages/MainPage/ChallengeMain/ChallengeMainPage';
 import DonationChallengePage from '../pages/DonationChallengerPage/DonationChallengePage';
 import ChallengePage from '../pages/DonationChallengerPage/ChallengePage/ChallengePage';
-
 import UserInfoEditPage from '../pages/UserInfoEditPage/UserInfoEditPage';
 import SelectTeam from '../pages/SelectTeam/SelectTeam';
 import TeamList from '../components/TeamListForUser/TeamList';
 import AdminSearchPage from '../pages/Admin/AdminSearchPage/AdminSearchPage';
-import PasswordEditPage from '../pages/UserInfoEditPage/PasswordEditPage';
 import ChallengeUpdatePage from '../pages/DonationChallengerPage/ChallengeUpdatePage';
 import DonationUpdatePageBoard from '../pages/DonationUpdatePage/DonationUpdatePageboard';
 import ChallengeNewsWrite from '../pages/DonationChallengerPage/Challenge/ChallengeNewsWirte/ChallengeNewsWrite';
+import PasswordEditPage from '../pages/UserInfoEditPage/PasswordEditPage';
+
 
 function AuthRoute(props) {
-
     const principalQuery = useQuery(
         ["principalQuery"], 
         getPrincipalRequest,
@@ -65,19 +64,13 @@ function AuthRoute(props) {
                 <Route path="/main" element={<MainPage />} />
                 <Route path="/main/write" element={<DonationPageboard/>} />
                 <Route path="/main/donation/news" element={ <NewsWrite />} />
-                <Route path="/account/mypage/edit" element={<UserInfoEditPage />} />
                 <Route path="/admin/*" element={ <AdminRoute/> } /> 
                 <Route path="/account/mypage" element={<MyPage />} />
-                <Route path="/admin/*" element={ <AdminRoute/> } />
                 <Route path="/admin/search" element={<AdminSearchPage />} /> 
                 <Route path="/donation/*" element={<DonationStoryPage />} />
                 <Route path="/main/donation/update" element={<DonationUpdatePageBoard />} />
                 <Route path="/search" element={<SearchPage />} />
                 <Route path="/message" element={<MessagePage />} /> 
-                <Route path='/main/donations/challenge' element={ < MainPage2 />} />
-                <Route path='/main/donation/news/update' element={<NewsUpdatePage />} />       
-                <Route path="/account/mypage/donation" element={<MyDonation />} />        
-                <Route path="/message" element={<MessagePage />} />
                 <Route path='/main/challenges' element={ < ChallengeMainPage />} />
                 <Route path='/main/challenge/write' element={< DonationChallengePage />} />
                 <Route path='/main/challenge' element={< ChallengePage />} />
@@ -87,7 +80,6 @@ function AuthRoute(props) {
                 <Route path="/account/mypage/donation" element={<MyDonation />} />        
                 <Route path="/main/donation/fundings/now" element= {  <NowFundingPage />} />
                 <Route path="/main/donation/fundings/end" element= {  <EndedFundingsPage />} />
-                <Route path='/team/*' element={<TeamRoutePage />} />
                 <Route path='/team/select' element={<TeamSelectPage />} />
                 <Route path='/team/*' element={ <TeamRoutePage /> } />
                 <Route path='/donation/select/team' element={ <SelectTeam /> } />

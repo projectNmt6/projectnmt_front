@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from "react-query";
 import { FaCrown } from "react-icons/fa6";
 import LikeButton from "../../components/LikeButton/LikeButton";
-import { getDonators } from "../../apis/api/DonatorApi";
+import { getDonators } from "../../apis/api/donatorApi";
 
 function DonatorKing(props) {
     const [sortedDonorRankings,setSortedDonorRankings] = useState([]);

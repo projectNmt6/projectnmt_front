@@ -29,8 +29,6 @@ export const getDonationNewsRequest = async (page) => {
     return await instance.get(`/main/donation/news/${page}`);
 };
 
-
-
 export const getChallengeRequest = async (data) => {
     return await instance.get("/main/donations/challenge", data);
 };
@@ -120,7 +118,6 @@ export const donationGivingResponse = async (donationPageId) => {
 export const commentReportRequest = async (data) => {
     return await instance.post("/comment/report", data);
 }
-
 
 export const deleteComment = async (data) => {  
     console.log(data);

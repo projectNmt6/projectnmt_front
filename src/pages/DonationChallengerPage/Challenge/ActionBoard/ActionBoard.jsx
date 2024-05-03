@@ -5,7 +5,6 @@ import { useMutation } from 'react-query';
 import * as s from "./style";
 import Masonry from 'react-masonry-css';
 function ActionBoard({challengePageId}) {
-
     const [actionList, setActionList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');

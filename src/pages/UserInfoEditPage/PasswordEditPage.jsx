@@ -4,7 +4,7 @@ import * as s from "./style";
 import { useEffect, useState } from "react";
 import { useInput } from "../../hooks/useInput";
 import AuthPageInput from "../../components/AuthPageInput/AuthPageInput";
-import { passwordEditData, submitDonatorEditData } from "../../apis/api/donatorApi";
+import { passwordEditData } from "../../apis/api/donatorApi";
 
 function PasswordEditPage(props) {
     const [oldPassword, handleOldPassword, oldMessage, setOldMessage] = useInput("oldPassword");
@@ -31,11 +31,13 @@ function PasswordEditPage(props) {
                 setOldMessage(null);
                 setNewMessage(null);
                 setNewCheckMessage(null);
+                let errorMessage = "";
                 for (let [k, v] of errorEntries) {
                     const message = {
                         type: "error",
                         text: v
                     }
+                    errorMessage += v ;
                     if (k === "oldPassword") {
                         setOldMessage(() => message);
                     }                                               
@@ -46,6 +48,7 @@ function PasswordEditPage(props) {
                         setNewCheckMessage(() => message);
                     }
                 }
+                alert(JSON.stringify(errorMessage)); // 수정된 부분
             }
         }
     });
@@ -74,6 +77,17 @@ function PasswordEditPage(props) {
     }, [checkPassword, newPassword]);
 
     const handleEditSubmitClick = () => {
+        const checkFlags = [
+            oldMessage?.type,
+            newMessage?.type,
+            newCheckMessage?.type,
+        ];
+
+        if (checkFlags.includes("error") || checkFlags.includes(undefined) || checkFlags.includes(null)) {
+            alert("가입 정보를 다시 확인하세요.");
+            return;
+        }
+
         editPasswordMutation.mutate({
             userId: principalData?.data.userId,
             username: principalData?.data.username,

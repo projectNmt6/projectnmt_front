@@ -6,11 +6,9 @@ import { ImageActions } from '@xeger/quill-image-actions';
 import { ImageFormats } from '@xeger/quill-image-formats';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from '../../apis/filrebase/config/firebaseConfig';
-import { v4 as uuid } from "uuid"
-
+import { v4 as uuid } from "uuid";
 /** @jsxImportSource @emotion/react */
 Quill.register('modules/imageActions', ImageActions);
-Quill.register('modules/imageFormats', ImageFormats);
 
 export const textEditorLayout = css`
     overflow-y: auto;

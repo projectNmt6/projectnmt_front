@@ -4,7 +4,7 @@ import * as s from "./style";
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { commentResponse, deleteComment, donationCommentPost, commentReportRequest, donationCommentePost } from '../../../apis/api/DonationAPI';
-import { TbTrashXFilled } from 'react-icons/tb';
+import { HiTrash } from 'react-icons/hi2';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { getPrincipalRequest } from "../../../apis/api/principal";
 
@@ -90,7 +90,7 @@ function CommentSection({ donationPageId, isDonation }) {
                     <p>{comment.commentText}
                         {comment.userId === principalData?.data.userId && (
                             <button onClick={() => handleCommentDeleteButton(comment.donationCommentId)}>
-                                덧글 삭제 <TbTrashXFilled />
+                                덧글 삭제 <HiTrash />
                             </button>
                         )}
                     </p>

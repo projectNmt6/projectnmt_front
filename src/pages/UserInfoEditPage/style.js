@@ -64,6 +64,8 @@ export const div2 = css`
     padding-top: 100px;
     box-sizing: border-box;
     display: flex;
+    width: 800px;
+    height: 450px;
     justify-content: center;
     align-items: center;
     flex-direction: column;

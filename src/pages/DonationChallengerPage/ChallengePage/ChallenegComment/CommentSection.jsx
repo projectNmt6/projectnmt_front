@@ -3,7 +3,6 @@
 import { useMutation, useQuery } from 'react-query';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { TbTrashXFilled } from 'react-icons/tb';
 import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom';
 import { getPrincipalRequest } from '../../../../apis/api/principal';
 import { challengeCommentRequest, challengeCommentResponse, deleteChallengeComment } from '../../../../apis/api/DonationAPI';
@@ -12,6 +11,8 @@ import * as s from "./style";
 import { getUserInfoRequest } from '../../../../apis/api/Admin';
 import { IoMdHeartEmpty } from "react-icons/io";
 import { IoMdHeart } from "react-icons/io";
+import { HiTrash } from "react-icons/hi2";
+
 function CommentSection({ challengePageId }) {
 
     const [commentList, setCommentList] = useState([]);
@@ -131,7 +132,7 @@ function CommentSection({ challengePageId }) {
                 <div css={s.actionsContainer}>
                     <IoMdHeartEmpty /> <IoMdHeart />
                     <button onClick={() => handleCommentDeleteButton(comment.challengeCommentId)}>
-                        <TbTrashXFilled />
+                        <HiTrash />
                     </button>
                 </div>
             </div>

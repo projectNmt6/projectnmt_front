@@ -12,14 +12,6 @@ const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-  const jsKey = process.env.REACT_APP_KAKAO;
-  if (!window.Kakao.isInitialized()) {
-    // JavaScript key를 인자로 주고 SDK 초기화
-    window.Kakao.init(jsKey);
-    // SDK 초기화 여부를 확인하자.
-    console.log("kakao: " + window.Kakao.isInitialized());
-  }
 root.render(
   <QueryClientProvider client={queryClient}>
     <RecoilRoot>

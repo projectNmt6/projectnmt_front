@@ -12,11 +12,11 @@ import NewsPage from './CategoryPage/NewsPage'; // NewsPage 경로 수정
 import Story from './CategoryPage/Story'; // Story 경로 수정
 import { shareKakao } from '../../apis/utils/shareKakaoLink';
 import Donators from "./CategoryPage/Donators";
-import DonationComment from "../DonationStoryPage/DonationComment/DonationComment";
 import DonatorInfo from "../DonatorInfo/DonatorInfo";
 import { getTeamInfoRequest } from "../../apis/api/teamApi";
 import { getDonators } from "../../apis/api/donatorApi";
 import { getPrincipalRequest } from '../../apis/api/principal';
+import CommentSection from "../DonationStoryPage/DonationComment/DonationComment";
 
 function DonationStoryPage() {
     const location = useLocation();
@@ -295,7 +295,7 @@ const handleNewsButtonClick = () => {
             <div css={s.container1}>
                 {showModal && (
                     <div css={s.container3}>
-                        <div css={s.modal}><DonatorInfo setShowModal={setshowModal}/></div>
+                        <div css={s.modal}><DonatorInfo setShowModal={setShowModal}/></div>
                     </div>
                 )}
                 <div css={s.header}>
@@ -388,6 +388,6 @@ const handleNewsButtonClick = () => {
             </div>
         </div>
     </>
-);   
-
+)   
+};
 export default DonationStoryPage;

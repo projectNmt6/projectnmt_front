@@ -4,7 +4,7 @@ import * as s from "./style";
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { commentReportRequest, commentRequest, commentResponse, deleteComment, getCommentListRequest } from '../../apis/api/DonationAPI';
-import { TbTrashXFilled } from 'react-icons/tb';
+import { HiTrash } from 'react-icons/hi2';
 import { AiFillAlert } from "react-icons/ai";
 import { Link, useLocation, useParams } from 'react-router-dom';
 import LikeButton from '../../components/LikeButton/LikeButton';
@@ -85,7 +85,7 @@ function CommentSection({ donationPageId, isDonation }) {
                                 <LikeButton commentId={comment.donationCommentId} donationPageId={donationPageId}/>
                                 {comment.userId === principalData?.data.userId ? (
                                     <button css={s.button6} onClick={() => handleCommentDeleteButton(comment.donationCommentId)}>
-                                        삭제 <TbTrashXFilled />
+                                        삭제 <HiTrash />
                                     </button>
                                 ) : (
                                     <button css={s.button7} onClick={() => handleCommentReportPostButton(comment.donationCommentId)}>
