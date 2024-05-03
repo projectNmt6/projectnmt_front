@@ -1,68 +1,107 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { css } from '@emotion/react';
-import ReactQuill from "react-quill";
+import ReactQuill, { Quill } from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 import axios from 'axios';
 import Select from 'react-select';
-import { buttonBox } from '../DonationPageBoard/style';
-import { imgUrlBox } from '../DonationPageBoard/style';
-import { deleteDonationPage, getDonationListRequest, getDonationTagRequest } from '../../apis/api/DonationAPI';
-import { useMutation, useQuery } from 'react-query';
-import MainPage from '../MainPage/MainPage';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
-import { errorSelector } from 'recoil';
-
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
-const textEditorLayout = css`
-    overflow-y: auto;
-    margin-bottom: 20px;
-`;
+import { getPrincipalRequest } from '../../apis/api/principal';
+import { getTeamListRequest } from '../../apis/api/teamApi';
+import { updateDonationPageResponse, updatePageRequest } from '../../apis/api/DonationAPI';
+import TextEditor from '../../components/TextEditor/TextEditor';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
+import { storage } from '../../apis/filrebase/config/firebaseConfig';
+import { v4 as uuid } from "uuid"
 
 function DonationUpdatePageBoard() {
    
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const donationPageId = queryParams.get('page'); 
-    const [donationData, setDonationData] = useState();
+
+    const [donationPage, setDonationPage] = useState({});
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [mainImg, setMainImg] = useState('');
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(null);
-    const [goalAmount, setgoalAmount] = useState(0);
     const [selectedMainTag, setSelectedMainTag] = useState(null);
-    const [selectedSecondTag, setSelectedSecondTag] = useState(null);   
-    const [ pageCategoryId, setPageCategoryId] = useState(null);
-
+    const [selectedSecondTag, setSelectedSecondTag] = useState(null);
+    const [userId, setUserId ] = useState();
+    const [ teamId, setTeamId ] = useState();
     const [mainTagOptions, setMainTagOptions] = useState([]);
-    
-    const [ storyImgs, setStoryImgs ] = useState([]);
-
+    const [teams, setTeams] = useState([]);
     const [secondTagOptions, setSecondTagOptions] = useState([]);
-
+    const [selectedTeam, setSelectedTeam] = useState(null);
+    const [ storyImages, setStoryImages] = useState([])
 
     const handleAmountChange = (e) => {
         const value = e.target.value; // 입력된 값
         const parsedValue = value ? parseInt(value) : null; // 입력된 값이 있는 경우에만 정수로 변환하고 그렇지 않으면 null로 설정
-        setgoalAmount(parsedValue); // 값 업데이트
+        setGoalAmount(parsedValue); // 값 업데이트
     };
 
+    const principalQuery = useQuery(
+        ["principalQuery"], 
+        getPrincipalRequest,
+        {
+            retry: 0,
+            refetchOnWindowFocus: false,
+            onSuccess: (response) => {
+                console.log("Auth", response.data);
+                setUserId(response.data.userId); // 예제로 userId 설정
+            },
+            onError: (error) => {
+                console.error("Authentication error", error);
+            }
+        }
+    );
+
+    useEffect(() => {
+        if (selectedTeam) {
+            setTeamId(selectedTeam.value);
+        }
+    }, [selectedTeam]);
+
+
+    useEffect(() => {
+        if (userId) {
+            const fetchTeams = async () => {
+                try {
+                    const response = await getTeamListRequest({ userId });
+                    if (response.status === 200) {
+                        const formattedTeams = response.data.map(team => ({
+                            value: team.teamId,
+                            label: team.teamName
+                        }));
+                        setTeams(formattedTeams);
+                    }
+                } catch (error) {
+                    console.error('Failed to fetch teams', error);
+                }
+            };
+
+            fetchTeams();
+        }
+    }, [userId]);
     useEffect(() => {
         axios.get("http://localhost:8080/main/storytypes")
-        .then(response => {
-            const options = response.data.map(mainTag => ({
-                value: mainTag.mainCategoryId,
-                label: mainTag.mainCategoryName
-            }));
-            setMainTagOptions(options);
-            setSelectedMainTag(options.filter(option => option.value === donationData.mainCategoryId)[0]);
-        })
-        .catch(error => {
-            console.error(error);
-        });
-        
+            .then(response => {
+                const options = response.data.map(mainTag => ({
+                    value: mainTag.mainCategoryId,
+                    label: mainTag.mainCategoryName
+                }));
+                setMainTagOptions(options);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, []);
+    useEffect(() => {
+                
         axios.get("http://localhost:8080/main/donationtag")
         .then(response => {
             const options = response.data.map(secondTag => ({
@@ -70,84 +109,87 @@ function DonationUpdatePageBoard() {
                 label: secondTag.donationTagName
             }));
             setSecondTagOptions(options);
-            setSelectedSecondTag(options.filter(option => option.value === donationData.donationTagId)[0]);
-            // setSelectedSecondTag();
+            // setSelectedSecondTag(options.filter(option => option.value === donationPage.donationTagId)[0]);
         })
         .catch(error => {
             console.error(error);
         });
-
         
-        
-        
-    }, [donationData]);
-
+    }, [donationPage]);
     
     useEffect(() => {
-        console.log(selectedMainTag);
-        console.log(selectedSecondTag);
-    }, [selectedMainTag, selectedSecondTag]);
+    }, [selectedSecondTag]);
+
+    const [goalAmount, setGoalAmount] = useState(0);
 
     useEffect(() => {
         const fetchData = async () => {
-            try {
-                const response = await axios.get(`http://localhost:8080/main/donation/update/${donationPageId}`);
-                const data = response.data;
-    
-                // API 응답이 비어있는 경우에 대한 처리
-                if (!data) {
-                    console.error("API 응답이 비어있습니다.");
-                    return;
+            if (donationPageId) {
+                try {
+                    const response = await updateDonationPageResponse({ donationPageId });
+                    console.log(response.data)
+                    if (response.status === 200) {
+                        const data = response.data;
+                        setStoryImages(data.donationImages);
+                        setDonationPage(data);
+                        setTeamId(data.teamId);
+                        setTitle(data.storyTitle);
+                        setContent(data.storyContent);
+                        setMainImg(data.mainImgUrl);
+                        setStartDate(new Date(data.createDate));
+                        setEndDate(new Date(data.endDate));
+                        setGoalAmount(data.goalAmount !== null ? data.goalAmount : 0);
+                        setSelectedTeam({ value: data.teamId, label: data.teamName });
+                        // setStoryImages(data.donationImages);
+                    }
+                } catch (error) {
+                    console.error('Error fetching challenge page:', error);
                 }
-    
-                // donationData 설정
-                setDonationData(data);
-    
-                setTitle(data.storyTitle);
-                setContent(data.storyContent);
-                setMainImg(data.mainImgUrl);
-                setStartDate(new Date(data.createDate));
-                setEndDate(new Date(data.endDate));
-                setgoalAmount(data.goalAmount !== null ? data.goalAmount : 0);
-    
-                console.log(selectedMainTag);
-                console.log(selectedSecondTag);
-    
-                console.log(data);
-                console.log(response);
-            } catch (error) {
-                console.error(error);
+            } else {
+                console.error('No valid challengePageId provided');
             }
         };
-        fetchData(); 
+        fetchData();
     }, [donationPageId]);
-    
 
-    const handleSubmitButton = () => {
+    // useMutation을 사용하여 mutation을 생성
+const mutation = useMutation(updatePageRequest);
+const UpdateDonationPage = useMutation({
+    mutationKey: "UpdateDonationPage",
+    mutationFn: updatePageRequest,
+    onSuccess: response => {
+        console.log("페이지 작성 성공"+response)
+    },
+    onError: error => {
+        console.log(error);
+    }
+});
+const handleSubmitButton = async () => {
 
-        axios.put(`http://localhost:8080/main/donation/update/${donationPageId}`, {
-            donationPageId: donationPageId,
-            teamId: null,
-            mainCategoryId: selectedMainTag.value,
-            pageCategoryId: 1,
-            createDate: startDate,
-            endDate: endDate,
-            goalAmount : goalAmount,
-            storyTitle: title,
-            storyContent: content,
-            mainImgUrl: mainImg,
-            donationTagId: selectedSecondTag ? selectedSecondTag.value : null,
-            donationPageShow: null
-            
-        })
-        .then(response => {
-            alert("저장 성공");
-            console.log(response)
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+    // API 호출 시 teamId 사용
+    const data =  {
+        donationPageId: donationPageId,
+        teamId: teamId,
+        mainCategoryId: 1,
+        pageCategoryId: 1,
+        createDate: startDate,
+        endDate: endDate,
+        goalAmount : goalAmount,
+        storyTitle: title,
+        storyContent: content,
+        mainImgUrl: mainImg,
+        donationTagId: selectedSecondTag ? selectedSecondTag.value : null,
+        donationPageShow: 2,
+        // donationImages: uploadedImageUrls.map((url, index) => ({
+        //     donationImageNumber: index + 1,
+        //     donationImageURL: url,
+        //     userId: userId,
+        //     createDate: new Date(),
+        // }))
     };
+    // 데이터베이스 업데이트 요청 보내기
+    UpdateDonationPage.mutate(data); 
+};
 
 
     
@@ -169,38 +211,12 @@ function DonationUpdatePageBoard() {
         };
         reader.readAsDataURL(file);
     };
-
-    const fileChange2 = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = () => {
-            setStoryImgs(reader.result);
-        };
-        reader.readAsDataURL(file);
-    };
-    const modules = useMemo(() => {
-        return {
-            toolbar: [
-                [{ font: [] }],
-                [{ header: [1, 2, 3, 4, 5, 6, false] }],
-                [{ color: [] }, { background: [] }],
-                ["bold", "italic", "underline", "strike", "blockquote"],
-                [{ list: "ordered" }, { list: "bullet" }, { indent: "-1" }, { indent: "+1" }],
-                ["link"],
-                ["clean"],
-            ]
-        };
-    }, []);
-
-    const formats = [
-        "font", "size", "header", "color", "background", "bold", "italic", "underline",
-        "strike", "blockquote", "list", "bullet", "indent", "link", "image"
-    ];
+    
 
     const handleCancelButton = () => {
         if (window.confirm("작성 중인 내용을 취소하시겠습니까?")) {
             setTitle("");
-            setgoalAmount(0);
+            setGoalAmount(0);
             setContent("");
             setMainImg("");
             alert("작성이 취소 되었습니다.");
@@ -210,10 +226,9 @@ function DonationUpdatePageBoard() {
     const handleHomeButton = () => {
         window.location.href = "/main";
     };
-
-
-    //삭제버튼
     
+    const [uploadedImageUrls, setUploadedUrls] = useState([]);
+    console.log("uploadedImageUrls " + uploadedImageUrls.url)
 
 
     return (
@@ -243,6 +258,7 @@ function DonationUpdatePageBoard() {
                 />
 
             <div>
+                <h3>대표이미지</h3>
             <label htmlFor="inputFile"></label>
                     <img src={mainImg} alt="Main" style={{ width: '300px', height: 'auto' }}/> 
                     <input  
@@ -255,15 +271,6 @@ function DonationUpdatePageBoard() {
                     /> 
             </div>
 
-
-            <Select
-                options={mainTagOptions}
-                defaultValue={selectedMainTag}
-                value={selectedMainTag}
-                placeholder="종류를 선택해주세요"
-                onChange={handleMainTagChange}
-            />
-
             <Select 
                 options={secondTagOptions}
                 placeholder="기부 카테고리를 선택해주세요"
@@ -271,7 +278,6 @@ function DonationUpdatePageBoard() {
                 onChange={handleSecondTagChange}
                 defaultValue={selectedSecondTag}
             />
-
             
             <div>
             <div>목표 금액: {goalAmount !== null && goalAmount}</div>
@@ -282,19 +288,15 @@ function DonationUpdatePageBoard() {
                 />
             </div>
 
-
-            <div css={textEditorLayout}>
-                <ReactQuill
-                    value={content}
-                    onChange={setContent}
-                    modules={modules}
-                    formats={formats}
-                    theme="snow"
-                    placeholder="내용을 입력해주세요."
-                    style={{ height: '500px', margin: "50px" }}
-                />
-
+            <div>
+                {/* 기존 이미지 보여주기 */}
+                {storyImages && storyImages.map((image, index) => (
+                    <img key={index} src={image.donationImageURL} alt={`Image ${index}`} />
+                ))}
             </div>
+
+            {/* TextEditor 컴포넌트 */}
+            <TextEditor content={content} setContent={setContent} downloadURL={setUploadedUrls} />
 
             <div>
                 <button onClick={handleSubmitButton}>수정 완료</button>

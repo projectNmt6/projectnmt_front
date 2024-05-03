@@ -1,4 +1,8 @@
 import { css } from "@emotion/react"
+export const DonatorBox = css`
+    display: flex;
+    border: 1px solid #222222;
+`;
 
 export const container = css`
 box-sizing: border-box;
@@ -8,4 +12,3 @@ box-sizing: border-box;
     font-size: 20px;
     white-space: break-word ;
 `;
-

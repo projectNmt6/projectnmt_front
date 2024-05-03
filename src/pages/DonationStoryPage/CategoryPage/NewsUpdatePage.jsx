@@ -6,6 +6,9 @@ import NonePage from './NonePage';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import 'react-quill/dist/quill.snow.css';
+import { getPrincipalRequest } from '../../../apis/api/principal';
+import { getTeamListRequest } from '../../../apis/api/teamApi';
+import { useQuery } from 'react-query';
 
 const textEditorLayout = css`
     overflow-y: auto;
@@ -21,6 +24,45 @@ function NewsUpdatePage() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const donationPageId = queryParams.get('page');    
+    const [ teamId, setTeamId ] = useState();
+    const [teams, setTeams] = useState([]);
+    const [selectedTeam, setSelectedTeam] = useState(null);
+
+    const principalQuery = useQuery(
+        ["principalQuery"], 
+        getPrincipalRequest,
+        {
+            retry: 0,
+            refetchOnWindowFocus: false,
+            onSuccess: (response) => {
+                console.log("Auth", response.data);
+                setUserId(response.data.userId); // 예제로 userId 설정
+            },
+            onError: (error) => {
+                console.error("Authentication error", error);
+            }
+        }
+    );
+
+    useEffect(() => {
+        if (userId) {
+            const fetchTeams = async () => {
+                try {
+                    const response = await getTeamListRequest({ userId });
+                    if (response.status === 200) {
+                        const formattedTeams = response.data.map(team => ({
+                            value: team.teamId,
+                            label: team.teamName
+                        }));
+                        setTeams(formattedTeams);
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+            };
+            fetchTeams();
+        }
+    }, [userId]);
 
     const modules = useMemo(() => {
         return {
@@ -50,7 +92,7 @@ function NewsUpdatePage() {
                 const data = response.data;
                 console.log("Response Data:", data);
                 setContent(data.newsContent);
-                setUserId(data.userId);
+                setTeamId(data.teamId);
                 setPageCategoryId(data.pageCategoryId);
                 setDonationNewsPageId(data.donationNewsPageId);
             } catch (error) {

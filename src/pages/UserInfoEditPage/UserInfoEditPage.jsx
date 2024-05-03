@@ -4,11 +4,12 @@ import * as s from "./style";
 import Select from "react-select";
 import { useInput } from "../../hooks/useInput";
 import { useMutation, useQueryClient } from 'react-query';
-import { submitDonatorEditData } from "../../apis/api/donatorApi";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { v4 as uuid } from 'uuid';
 import { storage } from "../../apis/filrebase/config/firebaseConfig";
+import { submitDonatorEditData } from "../../apis/api/DonatorApi";
 import AuthPageInput from "../../components/AuthPageInput/AuthPageInput";
+
 
 function UserInfoEditPage(props) {
     // useAuthCheck();

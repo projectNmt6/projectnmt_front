@@ -1,144 +1,216 @@
-
-import React, { useEffect, useState } from 'react';
-import { useMutation, useQuery } from 'react-query';
-import {Link, useLocation, useParams } from 'react-router-dom';
-import { commentReqest, commentResponse, deleteDonationPage, getChallengeRequest, getDonationStoryRequest, updatePageRequest } from '../../apis/api/DonationAPI';
-import DOMPurify from 'dompurify';
+import React, { useEffect, useMemo, useState } from 'react';
+import ReactQuill from "react-quill";
+import 'react-quill/dist/quill.snow.css';
+import axios from 'axios';
+import Select from 'react-select';
+import { getDonationListRequest, getDonationTagRequest, registerChallengePage } from '../../apis/api/DonationAPI';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import MainPage from '../MainPage/MainPage';
+import { Link } from 'react-router-dom';
+import { errorSelector } from 'recoil';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { getPrincipalRequest } from '../../apis/api/principal';
+import { getTeamListRequest } from '../../apis/api/teamApi';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
-import axios from 'axios';
-import CommentSection from '../DonationStoryPage/CommentSection'; 
-import { FcLike } from "react-icons/fc";
+import TextEditor from '../../components/TextEditor/TextEditor';
+import CommentSection from './ChallengePage/ChallenegComment/CommentSection';
 
-function DonationStoryPage() {
-    const location = useLocation();
-    const queryParams = new URLSearchParams(location.search);
-    const donationPageId = queryParams.get('page'); 
-    const[donationPage, setDonationPage] = useState({});
-    const [ challengePage, setChallegePage ] = useState({});
-    const [ commentList, setCommentList ] = useState([]);
-    const donationCommentId = queryParams.get('commentId')
+import { v4 as uuid } from "uuid";
+import DOMPurify from 'dompurify';
 
-    const [comment, setComment ] = useState("");
+function DonationChallengePage() {
+    const [title, setTitle] = useState("");
+    const [mainImg, setMainImg] = useState("");
+    const [teamId, setTeamId] = useState(""); 
+    const [challengeContent, setChallengeContent] = useState("");
+    const [overview, setOverview] = useState("");
+    const [userId, setUserId] = useState();
+    const [teams, setTeams] = useState([]);
+    const [selectedTeam, setSelectedTeam] = useState(null);    
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(null);
+    const [ headCount, setHaedCount] = useState();
+    
 
-    const getDonationChallengeQuery = useQuery(
-        ["getDonationChallengeQuery", donationPageId], 
-        async () => {
-            const response = await getChallengeRequest({ page: donationPageId });
-            return response.data; 
-        },
+    const queryClient = useQueryClient();    
+    const principalData = queryClient.getQueryData("principalQuery");
+    const principalQuery = useQuery(
+        ["principalQuery"], 
+        getPrincipalRequest,
         {
+            retry: 0,
             refetchOnWindowFocus: false,
-            onSuccess: (data) => {setChallegePage(data);
+            onSuccess: (response) => {
+                console.log("Auth", response.data);
+                setUserId(response.data.userId); // 예제로 userId 설정
+            },
+            onError: (error) => {
+                console.error("Authentication error", error);
             }
         }
     );
 
+    useEffect(() => {
+        if (selectedTeam) {
+            setTeamId(selectedTeam.value);
+        }
+    }, [selectedTeam]);
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/comment/getcomment/${donationPageId}`)
-            .then(response => setCommentList(response.data))
-            .catch(console.error);
-    }, [donationPageId]);
-    
+        if (userId) {
+            const fetchTeams = async () => {
+                try {
+                    const response = await getTeamListRequest({ userId });
+                    if (response.status === 200) {
+                        const formattedTeams = response.data.map(team => ({
+                            value: team.teamId,
+                            label: team.teamName
+                        }));
+                        setTeams(formattedTeams);
+                    }
+                } catch (error) {
+                    console.error('Failed', error);
+                }
+            };
+            fetchTeams();
+        }
+    }, [userId]);
 
-    
+    const handleSelectTeam = (selectedOption) => {
+        setSelectedTeam(selectedOption);
+        console.log(selectedTeam)
+    };
 
-
-    const { storyContent, storyTitle, mainImgUrl, createDate, endDate } = challengePage || {};
-
-    const safeHTML = DOMPurify.sanitize(challengePage.storyContent);
-    
-    const deleteMutationButton = useMutation({
-        mutationKey: "deleteMutationButton",
-        mutationFn: deleteDonationPage,
+    const PostChallengePage = useMutation({
+        mutationKey: "PostChallengePage",
+        mutationFn: registerChallengePage,
         onSuccess: response => {
-            alert("삭제완료")
-            window.location.replace("/main");
+            console.log("페이지 작성 성공" + response)
+        },
+        onError: error => {
+            console.log("챌린지페이지에러:"+error)
         }
     })
 
-    const handleDeleteButtonClick = () => {
-        deleteMutationButton.mutate({ donationPageId: donationPageId });
-    }
-
-
-    const handleCommentChange = (e) => {
-        const value = e.target.value;
-        setComment(value);
-    }
-
-    const handleCommentSubmit = () => {
-
-        axios.post("http://localhost:8080/comment/upload", {
-            donationCommentId: null,
-            commentText : comment,
-            donationPageId: donationPageId,
-            userId: null
-        })
-        .then(response => {
-            alert("전송 완료")
-            console.log(response)
-        })
-        .catch(error => {
-            console.log(error);
-        })
-    }
- 
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await getChallengeRequest({ page: donationPageId });
-                setChallegePage(response.data);
-            } catch (error) {
-                console.error('Error fetching donation page:', error);
-            }
-        };
-        fetchData();
-    }, [donationPageId]);
-
+    const handleSubmitButton = () => {
+        // 현재 시간으로 startDate 업데이트
+        const now = new Date();
     
+        const data = {
+            challengePageId: 1,
+            teamId: teamId,
+            mainCategoryId: 2,  // 챌린지
+            pageCategoryId: 4,   // 4.mission, 5.action, 6.news
+            createDate: now,
+            endDate: endDate,
+            challengeTitle: title,
+            challengeOverview : overview,
+            challengeContent: challengeContent,
+            challengeMainImg: mainImg,
+            challengePageShow: 2,
+            headCount: headCount       
+        };
+        PostChallengePage.mutate(data);
+    };
+    
+
+    const handleCancelButton = () => {
+        if (window.confirm("작성 중인 내용을 취소하시겠습니까?")) {
+            setMainImg("");
+            alert("작성이 취소 되었습니다.");
+        }
+    };
+
+    const handleHomeButton = () => {
+        window.location.href = "/main";
+    };
+
+    const fileChange = (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = () => {
+            setMainImg(reader.result);
+        };
+        reader.readAsDataURL(file);
+    };
+
+    const handleEndDateChange = (date) => {
+        setEndDate(date);
+
+    };
+    
+    const headCountChange = (e) => {
+        const value = e.target.value;
+        const parsedValue = value ? parseInt(value) : null;
+        setHaedCount(parsedValue);
+    }
+
     return (
         <>
-            <div>                
-             <Link to={"/main"}>메인으로 </Link>
-                </div>
-            
-                <div>
-                <Link to={`/main/donation/update?page=${donationPageId}`}>수정하기</Link>                
-                <button onClick={handleDeleteButtonClick} >삭제하기</button>
-            </div>
-
-
             <div>
-                <h1>Donation Stories</h1>
-                <p>page:{donationPageId}</p>
+                <input type="text" placeholder='제목' value={title} onChange={(e) => setTitle(e.target.value)} />
             </div>
 
             <div>
-                    <h2>{challengePage.storyTitle}</h2>                     
-                    <button> 좋아요<FcLike /></button>
-                    <img src={challengePage.mainImgUrl} alt="" />
-                    <p>기부 시작일: {challengePage.createDate}</p>
-                    <p>기부 종료일: {challengePage.endDate}</p>
-                    <div dangerouslySetInnerHTML={{ __html: safeHTML }} />
+                요약
+                <input type="text" placeholder='요약' value={overview} onChange={(e) => setOverview(e.target.value)} />
             </div>
 
+            <div>
+            <h3>프로젝트 팀</h3>
+            <Select
+                value={selectedTeam}
+                onChange={handleSelectTeam}
+                options={teams}
+                placeholder="등록할 팀을 선택해주세요"
+            />
+        </div>
+
+        <div> <h4>프로젝트 진행 기간 </h4></div>
+            <DatePicker
+                selected={endDate}
+                onChange={handleEndDateChange }
+                selectsEnd
+                startDate={startDate}
+                endDate={endDate}
+                dateFormat="yyyy년 MM월 dd일"
+            />
 
 
-                <h3>덧글</h3>
-                    <div css={s.commentBox}>
-
-                    <div>
-                        <CommentSection donationPageId={donationPageId}>                    
-                        </CommentSection>
-                    </div>
-
+            <div>
+                <h2>메인 이미지 추가</h2>
+                <div css={s.imgUrlBox}>
+                    <label htmlFor="inputFile"></label>
+                    <img src={mainImg} alt="Main" style={{ width: '300px', height: 'auto' }}/> 
+                    <input  
+                        id="inputFile" 
+                        type="file" 
+                        name="file" 
+                        accept='image/*'
+                        style={{ display: "block" }}
+                        onChange={fileChange} 
+                    /> 
+                </div>  
+                <button>이미지 제거 </button>
             </div>
-
+            <div>
+                목표 인원:
+                <input 
+                type="number"
+                value={headCount}
+                onChange={headCountChange} />
+            </div>
+            <TextEditor content={challengeContent} setContent={setChallengeContent} />
+ 
+            <div css={s.buttonBox}>
+                <button onClick={handleSubmitButton}>작성완료</button>
+                <button onClick={handleCancelButton}>취소</button>
+                <button onClick={handleHomeButton}>돌아가기</button>
+            </div>     
         </>
-    
-    )
+    );
 }
-export default DonationStoryPage;
+
+export default DonationChallengePage;

@@ -6,9 +6,12 @@ import axios from 'axios';
 import Select from 'react-select';
 import { buttonBox } from './style';
 import { imgUrlBox } from './style';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { Link, useLocation } from 'react-router-dom';
 import "react-datepicker/dist/react-datepicker.css";
+import { registerNewsPage, updateDonationPageResponse } from '../../../apis/api/DonationAPI';
+import { getPrincipalRequest } from '../../../apis/api/principal';
+import { getTeamListRequest } from '../../../apis/api/teamApi';
 
 const textEditorLayout = css`
     overflow-y: auto;
@@ -19,71 +22,97 @@ function NewsWrite() {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [mainImg, setMainImg] = useState("");
-    const [selectedMainTag, setSelectedMainTag] = useState(null);
-    const [selectedSecondTag, setSelectedSecondTag] = useState(null);
-    const [mainTagOptions, setMainTagOptions] = useState([]);
-    const [secondTagOptions, setSecondTagOptions] = useState([]);
-    const [createDate, setCreateDate] = useState(new Date()); // 현재 날짜로 초기화
-    const [donationData, setDonationData] = useState();
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(null);
-    const [goalAmount, setgoalAmount] = useState(0);
-    const [ pageCategoryId, setPageCategoryId] = useState(null);
     const [ storyImgs, setStoryImgs ] = useState([]);
-    const [projectDuration, setProjectDuration] = useState(null);
-    const [ donationNewsPageId, setDonationNewsPageId ] = useState("");
+    const [ teamId, setTeamId ] = useState();
+    const [teams, setTeams] = useState([]);
 
-    const [ amount, setAmount ] = useState();
+    const [ userId, setUserId] = useState();
+    const principalQuery = useQuery(
+        ["principalQuery"], 
+        getPrincipalRequest,
+        {
+            retry: 0,
+            refetchOnWindowFocus: false,
+            onSuccess: (response) => {
+                console.log("Auth", response.data);
+                setUserId(response.data.userId); // 예제로 userId 설정
+            },
+            onError: (error) => {
+                console.error("Authentication error", error);
+            }
+        }
+    );
+    
+    useEffect(() => {
+        if (userId) {
+            const fetchTeams = async () => {
+                try {
+                    const response = await getTeamListRequest({ userId });
+                    if (response.status === 200) {
+                        const formattedTeams = response.data.map(team => ({
+                            value: team.teamId,
+                            label: team.teamName
+                        }));
+                        setTeams(formattedTeams);
+                    }
+                } catch (error) {
+                    console.error('Failed to fetch teams', error);
+                }
+            };
 
-    const handleAmountChange = (e) => {
-        const value = e.target.value; // 입력된 값
-        const parsedValue = value ? parseInt(value) : null;
-        setAmount(parsedValue); 
-    };
+            fetchTeams();
+        }
+    }, [userId]);
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
-    const donationPageId = queryParams.get('page');    
-
+    const donationPageId = queryParams.get('page'); 
+    const [selectedTeam, setSelectedTeam] = useState(null);
+       
     useEffect(() => {
         const fetchData = async () => {
-            try {
-                const response = await axios.get(`http://localhost:8080/main/donation/update/${donationPageId}`);
-                const data = response.data;
-                setDonationData(data);
-                setTitle(data.storyTitle);
-                setMainImg(data.mainImgUrl);
-                setStartDate(new Date(data.createDate));
-                setEndDate(new Date(data.endDate));
-                console.log(selectedMainTag);
-                console.log(setContent);                
-                setgoalAmount(data.goalAmount !== null ? data.goalAmount : 0);
-                console.log(data);
-                console.log(response);
-            } catch (error) {
-                console.error(error);
+            if (donationPageId) {
+                try {
+                    const response = await updateDonationPageResponse({ donationPageId });
+                    console.log(response.data)
+                    if (response.status === 200) {
+                        const data = response.data;
+                        setTeamId(data.teamId);
+                        setSelectedTeam({ value: data.teamId, label: data.teamName });
+                     }
+                } catch (error) {
+                    console.error('Error fetching challenge page:', error);
+                }
+            } else {
+                console.error('No valid challengePageId provided');
             }
         };
-        fetchData(); 
+        fetchData();
     }, [donationPageId]);
-    
+    const PostDonationNews = useMutation({
+        mutationKey: "PostDonationNews",
+        mutationFn: registerNewsPage,
+        onSuccess: response => {
+            console.log("뉴스 작성 성공" + response)
+        },
+        onError: error=>{
+            console.log(error)
+        }
+    })
+    useEffect(() => {
+        if (selectedTeam) {
+            setTeamId(selectedTeam.value);
+        }
+    }, [selectedTeam]);
 
-    console.log("content: " + content)
     const handleSubmitButton = () => {
-
-        axios.post('http://localhost:8080/main/donation/donationnews', {
+        const data = {
             donationNewsPageId: 0,
-            donationPageId: donationPageId,
-            pageCategoryId: 3,
-            newsContent: content,
-            userId: null
-        })
-        .then(response => {
-            alert("저장 성공");
-            console.log(response)
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+                donationPageId: donationPageId,
+                pageCategoryId: 3,
+                newsContent: content,
+                teamId: teamId
+        }
+        PostDonationNews.mutate(data);
     };
 
     const handleCancelButton = () => {
@@ -132,24 +161,6 @@ function NewsWrite() {
             setStoryImgs(reader.result);
         };
         reader.readAsDataURL(file);
-    };
-
-
-  
-    const handleStartDateChange = (date) => {
-        setStartDate(date);
-        if (endDate) {
-            const duration = Math.round((endDate - date) / (1000 * 60 * 60 * 24));
-            setProjectDuration(duration);
-        }
-    };
-
-    const handleEndDateChange = (date) => {
-        setEndDate(date);
-        if (startDate) {
-            const duration = Math.round((date - startDate) / (1000 * 60 * 60 * 24));
-            setProjectDuration(duration);
-        }
     };
 
 

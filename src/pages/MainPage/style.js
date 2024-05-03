@@ -5,8 +5,13 @@ flex-direction: column;
 `;
 
 export const write=css`
-margin-bottom: 30px;
-margin-left: 40px;
+  padding: 5px;
+  &>a{
+    text-decoration-line: none;
+     color: #949494;
+     font-weight: 600;
+     line-height: 1.48;
+  }
 `;
 
 export const tagContainer = css`
@@ -16,50 +21,66 @@ export const tagContainer = css`
 `;
 
 export const tagButton = css`
-  background-color: #dbdbdb; 
-  border: none;
+  background-color: transparent; 
+  border: 0.2px solid #dbdbdb;
   border-radius: 20px; 
   padding: 10px 15px;
   margin: 0 5px;
   cursor: pointer;
   font-weight: bold;
+  font-size: 15px;
+  &:focus{
+    font-weight: bold;
+    background-color: black;
+    color: white;
+  }
 `;
+export const tagAllButton = (selectedTag) => css`
+  border: 0.2px solid #dbdbdb;
+  border-radius: 20px;
+  padding: 10px 15px;
+  margin: 0 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 15px;
+  background-color: ${selectedTag ? "white" : "black"};
+  color: ${selectedTag? "black" : "white"};
+`;
+
 
 export const donationList = css`
   display: flex;
   flex-wrap: wrap;
+  justify-content: flex-start;
   gap: 20px; 
 `;
 
 export const donationCard = css`
 
-  width: 267px; 
+  width: 283px; 
   height: 363px;
-  border: 1px solid #ccc; 
-  border-radius: 8px; 
+  /* border: 1px solid #ccc;  */
   overflow: hidden; 
-`;
+  `;
 
 export const donationImage = css`
 
-  width: 250px; 
-  height: 150px; 
-  margin-left: 7px;
-  & > img {
-    width:100%;
-    height: 150px;
+width: 100%; 
+position: relative;
+& > img {
+  width:100%;
+  height: 180px;
+  border-radius: 8px; 
   }
 `;
 
 export const donationDetails = css`
-  padding: 15px; 
   
   h2 {
-    margin-top: 0;
+    color: #202020;
   }
-
   p {
-    margin: 5px 0; 
+  color: #888888;
   }
 `;
 export const linkStyle = css`
@@ -71,5 +92,77 @@ export const linkStyle = css`
   }
 `;
 
-export const upperRightMenu = css`
+
+export const headerButton = (selectedCategory) => css`
+  display: flex;
+  &>button{
+    background-color: none;
+    border: none;
+    background-color: transparent; 
+    color: #949494;
+    margin: 10px;
+    cursor: pointer;
+    font-size: 22px;
+    text-decoration-line: none;
+    font-weight: 1000;
+    line-height: 1.48;
+    &:focus{
+      font-weight: bold;
+      color: black;
+      border-bottom: 2px solid black;
+    }
+    &:nth-child(1){
+      color: ${!selectedCategory ? "black" : "#949494" };
+      border-bottom: ${!selectedCategory ? "2px solid black" : "none" };
+    }
+  }
+  `;
+export const header = css`
+display: flex;
+justify-content: space-between;
+align-items: center;
+width: 1200px;
+padding: 30px 20px;
+`;
+
+export const main = css`
+display: flex;
+flex-direction: column;
+width: 1200px;
+flex-wrap: wrap;
+justify-content: center;
+`;
+
+export const selectItems = css`
+display: flex;
+justify-content: flex-end;
+padding: 20px;
+`
+
+export const rightButton = (sortOrder) => css`
+  background-color: transparent;
+  font-size: 18px;
+  font-weight: ${!sortOrder? "bold" : " none"};
+  border: none;
+  color: ${!sortOrder? "black": "gray"};
+  cursor: pointer;
+  border-left: ${!sortOrder? "3px dotted red" : "none"};
+
+  &:focus{
+    color: black;
+    border-left: 3px dotted red;
+    border-collapse: none;
+    font-weight: bold;
+  }
+`
+export const RunningOut = (timeOut) => css`
+      position: absolute;
+      margin: -45px 10px;
+      z-index: 2;
+      background-color: #FF4050;
+      padding: 5px;
+      border-radius: 5px;
+      color: white;
+      display: ${timeOut ? "" : "none"};
+
 `;

@@ -23,6 +23,8 @@ import LikeButton from "../../components/LikeButton/LikeButton";
 function HomePage() {
     const [totalDonationAmount, setTotalDonationAmount] = useState(0);
     const [totalDonationLength, setTotalDonationLength] = useState(0);
+    const [ upcomingDonation , setUpcomingDonation] = useState();
+
     const today = new Date();
     const formattedDate = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`;
 
@@ -79,6 +81,7 @@ function HomePage() {
                         <DonatorKing />
 
                     </div>
+                    
                     <div css={s.rightCardLayout}>
                         <div css={s.sidebarStyle}>
                             <div css={s.sidebarText}>
@@ -91,8 +94,39 @@ function HomePage() {
                                 </div>
                             </div>
                             <div css={s.totalAmountBox}>
-                                <h3> ₩ 총 기부금                               {totalDonationAmount.toLocaleString()}원</h3>
+                                <h3> ₩ 총 기부금                               
+                                    {totalDonationAmount.toLocaleString()}원</h3>
                             </div>
+
+                            {/* {upcomingDonation && (
+                                <div css={s.donationList}>
+                                    <a href={`/donation?page=${upcomingDonation.donationPageId}`} key={upcomingDonation.donationPageId} css={s.linkStyle}>
+                                        <div key={upcomingDonation.donationPageId} css={s.donationCard}>
+                                            <div css={s.donationImage}>
+                                                <img src={!upcomingDonation.mainImgUrl ? "https://www.shutterstock.com/image-vector/no-image-available-picture-coming-600nw-2057829641.jpg" : upcomingDonation.mainImgUrl} alt="" />
+                                            </div>
+                                            <div css={s.donationDetails}>
+                                                <h2>{upcomingDonation.storyTitle}</h2>
+                                                <Progress pageId={upcomingDonation.donationPageId}/>
+                                                <div>
+                                                    <div><p><strong>{upcomingDonation.goalAmount}원 목표</strong> </p></div>
+                                                    <div><p><strong>남은 시간:</strong> {calculateTimeRemaining(upcomingDonation.endDate)}</p></div>
+                                                </div>
+                                                <div css={s.LikeDonate}>
+                                                    <div>
+                                                        <LikeButton />
+                                                    </div>
+                                                    <div>
+                                                        <a href="">기부하기</a>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            )} */}
+
                         </div>
 
                         <div css={s.sidebarStyle}>

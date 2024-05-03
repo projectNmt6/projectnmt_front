@@ -264,12 +264,27 @@ export const Top3linkStyle = css`
   }
 `;
 
+// export const LikeDonate = css`
+//   &>div{
+//   padding: 10px;
+//   border: 1px solid #dbdbdb;
+//   border-radius: 5px;
+//   width: 100%;
+//   margin: 20px;
+//   display: flex;
+//   justify-content: center;
+//   &>a{
+//     color: black;
+//     text-decoration-line: none;
+//   }
+// }
+// `;
+
 export const Top3goalAmount = css`
 display:flex;
 flex-direction: column;
 `;
 
-//////////// footer ////////////
 export const additionalContentStyle = css`
   // styles for additional content
 `;

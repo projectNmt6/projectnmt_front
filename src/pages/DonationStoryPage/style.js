@@ -1,5 +1,6 @@
 import { css } from "@emotion/react"
 
+
 export const container = css`
     background: #f4f4f4;
     padding: 20px;
@@ -37,6 +38,9 @@ export const button1 = css`
 `;
 
 export const button2 = css`
+
+    justify-content: center;
+    align-items: center;
     height: 40px;
     width: 80px;
     box-sizing: border-box;
@@ -175,6 +179,60 @@ export const likebutton = css`
     margin-top: 30px;
 `
 
+export const contentAreaStyle = css`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`;
+
+////////홈 CSS ////////////////
+export const mainLayout = css`
+/* padding : 20px; */
+border: 1px solid #222222;
+background-color:  #F8F8F8;
+white-space: pre;
+`
+export const leftCardLayout = css`
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 63%;
+  position: sticky;
+`;
+
+export const rightCardLayout = css`
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;  
+  overflow: hidden;
+  width: 30%;
+`;
+
+export const sidebarStyle = css`
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  background-color: #FFD79999;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  padding: 20px;
+  justify-content: space-between;
+  overflow: hidden;
+
+  & > div > img {
+        width: 150px;
+        height: 150px;
+    }
+
+`;
+
+export const sidebarText = css`
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+align-items: center;
+`
+
 export const likebutton1 = css`
     margin-top: 15px;
     margin-bottom: 15px;
@@ -185,7 +243,7 @@ export const likebutton1 = css`
 export const container2 = css`
     padding-top: 20px;
     width: 1120px;
-    height: 480px;
+    height: 50%;
     background-color: white;
 `;
 
@@ -214,8 +272,20 @@ export const button4 = css`
 
 export const sanitizeHtml = css`
     display: flex;
-    margin-bottom: 20px;
-`;
+    margin-bottom: 20px;`
+
+
+export const commentBox = css`
+  display: flex;
+  border: 1px solid #111111;
+  width: 100%;
+  height: 100%;
+  margin-bottom: 20px; /* 댓글 사이의 간격 */
+        padding: 10px;
+        border-bottom: 1px solid #ccc; 
+
+    margin-bottom: 20px;`
+
 
 export const boxbox1 = css`
     display: flex;
@@ -235,6 +305,7 @@ export const teamNDonationBox = css`
     top: 0;
     height: 860px;
 `;
+
 export const commentBox = css`
     display: flex;
     flex-direction:column;
@@ -243,6 +314,7 @@ export const commentBox = css`
     border-top:2px solid #d2d0d0;
     margin-bottom: 20px;
 `;
+
 export const commentBoxStyle = css`
     width: 100%;
     height: 40px;
@@ -430,6 +502,24 @@ export const container3 = css`
     
 `;
 
+export const cardStyle = css`
+  margin: 10px;
+  background-color: #fff;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 10px;
+  width: 100%;
+  &:hover {
+    text-decoration: none;
+    color: inherit;
+    background-color:#faf9f7;
+    transition: background-color 0.5s ease,border-color 0.5s ease;
+  }
+`;
+
 export const modal = css`
     position: fixed;
     background-color: white;
@@ -512,3 +602,4 @@ export const button7 = css`
     color:black;
   }
 `;
+

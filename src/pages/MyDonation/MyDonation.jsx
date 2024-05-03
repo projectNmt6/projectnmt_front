@@ -2,9 +2,9 @@
 import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import Select from "react-select";
-import { getDonatorList } from "../../apis/api/donatorApi";
 import * as s from "./style";
 import { Link } from "react-router-dom";
+import { getDonatorList } from "../../apis/api/DonatorApi";
 
 function MyDonation(props) {
     const queryClient = useQueryClient();

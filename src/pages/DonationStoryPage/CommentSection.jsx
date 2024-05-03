@@ -65,14 +65,7 @@ function CommentSection({ donationPageId, isDonation }) {
     const handleCommentDeleteButton = (donationCommentId) => {
         deleteCommentMutation.mutate({ donationCommentId });
     };
-    const handleCommentReportPostButton = (donationCommentId) => {
-        postCommentReportMutation.mutate({
-            donationCommentId,
-            userId: principalData.data.userId,
-            isDonation: 1,
-            donationPageId
-        });
-    };
+
     return (
         <>
             <div css={s.commentBox}>
