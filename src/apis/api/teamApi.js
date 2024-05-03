@@ -21,6 +21,12 @@ export const getTeamMemberInfoRequest = async (params) => {
 export const getDonationListByTeamIdRequest = async (params) => { 
     return await instance.get("/team/donations", {params});
 }
+
+export const getTeamMemberInfoRequest2 = async (params) => {
+    return await instance.get('/team/member', { params });
+}
+
+
 /**
  * 
  * post 요청(주소, 데이터(객체=>Json화), {headers:{}, config})

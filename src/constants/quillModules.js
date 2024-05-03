@@ -5,8 +5,17 @@ export const QUILL_MODULES = {
         [{ 'color': [] }, { 'background': [] }],   
         [{ 'align': [] }],
         ['image'],
-        ['code-block']
+        ['code-block'],
+
+        formats = [
+            "font", "size", "header", "color", "background", "bold", "italic", "underline",
+            "strike", "blockquote", "list", "bullet", "indent", "link", "image"
+        ]
     ]
+
+    
+
+    
     
 }
 

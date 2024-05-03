@@ -140,6 +140,7 @@ export const div = css`
     align-items: center;
 `;
 
+
 export const searchIcon=css`
     display: flex;
     justify-content: center;

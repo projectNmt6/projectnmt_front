@@ -34,6 +34,7 @@ function MainPage() {
             <main css={s.main}>
             {selectedTab === 'now' ? <NowDonationPage /> : <EndedDonationsPage />}
             </main>
+
         </>
     );
 }

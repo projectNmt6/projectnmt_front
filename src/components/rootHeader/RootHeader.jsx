@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import * as s from "./style";
 import { useRecoilState } from 'recoil';
 import { Link } from 'react-router-dom';
-import { FiLogOut, FiUser } from "react-icons/fi";
+import { FiLogOut, FiUser,FiSearch } from "react-icons/fi";
 import { FaHome } from "react-icons/fa";
 import { useQuery, useQueryClient } from 'react-query';
 import { FiSearch } from "react-icons/fi";
@@ -54,6 +54,7 @@ function RootHeader(props) {
                     {isAdmin ? <Link to={"/admin/main"} > 관리자 </Link> : null}
                 </div> 
             </div>
+
             <div css={s.div}>
                 {
                     !isLogin ?
@@ -73,7 +74,9 @@ function RootHeader(props) {
                             <Link to={"/search"} css={s.searchIcon}><FiSearch size={22} /></Link>
                         </div>
                 }
+
             </div>
+
         </div>
     );
 }
