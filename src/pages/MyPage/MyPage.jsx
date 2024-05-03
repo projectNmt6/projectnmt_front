@@ -113,6 +113,9 @@ function MyPage(props) {
                                             <div css={s.div5}>
                                                 <Link css={s.link} to={"/account/mypage/edit"}>회원 정보 수정</Link>
                                             </div>
+                                            <div css={s.div10}>
+                                                <Link css={s.link} to={'/account/mypage/edit/password'}>비밀번호 변경</Link>
+                                            </div>
                                             <button css={s.button} onClick={handleUserDeleteOnClick}>회원탈퇴</button>
                                         </div>
                                     </div>

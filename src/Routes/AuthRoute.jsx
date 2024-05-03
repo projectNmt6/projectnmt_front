@@ -30,6 +30,9 @@ import SelectTeam from '../pages/SelectTeam/SelectTeam';
 import TeamList from '../components/TeamListForUser/TeamList';
 import AdminSearchPage from '../pages/Admin/AdminSearchPage/AdminSearchPage';
 import ChallengeUpdatePage from '../pages/DonationChallengerPage/ChallengePage/ChallengeUpdate/ChallengeUpdatePage';
+
+import PasswordEditPage from '../pages/UserInfoEditPage/PasswordEditPage';
+
 import DonationUpdatePageBoard from '../pages/DonationUpdatePage/DonationUpdatePageboard';
 import ChallengeNewsWrite from '../pages/DonationChallengerPage/Challenge/ChallengeNewsWirte/ChallengeNewsWrite';
 
@@ -92,8 +95,10 @@ function AuthRoute(props) {
                 <Route path='/team/select' element={<TeamSelectPage />} />
                 <Route path='/team/*' element={ <TeamRoutePage /> } />
                 <Route path='/donation/select/team' element={ <SelectTeam /> } />
+                
                 <Route path='/test' element={ <TeamList /> } />
                 <Route path='/account/mypage/edit' element= { <UserInfoEditPage />} />
+                <Route path='/account/mypage/edit/password' element={ <PasswordEditPage />}/>
            </Routes> 
         </div>
 

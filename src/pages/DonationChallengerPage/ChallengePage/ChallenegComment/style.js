@@ -421,6 +421,7 @@ export const modal = css`
 export const commentBoxStyle = css`
     width: 100%;
     height: 40px;
+    
 `;
 
 
@@ -468,15 +469,17 @@ export const textareaStyle = css`
 
      &:focus {
         height: 100px; /* 포커스된 경우 높이 증가 */
+        
     }
 
     &:focus + button { /* 버튼을 보이도록 설정 */
         display: inline-block;
+        opacity: 1;
     }
 `
 
-
 ;export const button5 = css`
+        opacity: 0;
         margin-top: 16px;
         background-color: #aaaaaa;
         color: white;
@@ -493,9 +496,11 @@ export const textareaStyle = css`
         right: 25px;
         z-index: 1000;
 
+
 &:hover {
     background-color: #828282;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+   
 }
 `;
 
@@ -505,5 +510,6 @@ width: 100%;
 
 &:focus + button { 
     display: inline-block; 
+    
 }
 `;

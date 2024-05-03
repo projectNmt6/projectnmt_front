@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import axios from 'axios';
 import { TbTrashXFilled } from 'react-icons/tb';
@@ -45,19 +45,15 @@ function CommentSection({ challengePageId }) {
     
     const handleCommentChange = (e) => setComment(e.target.value);
 
-
     const handleCommentSubmit = async () => {
-        console.log("버튼 클릭됨");
-        try {
+        
             await mutation.mutateAsync({
                 commentText: comment,
                 challengePageId: challengePageId,
                 userId: userId
             });
             setComment(""); // 성공 시 입력 필드 초기화
-        } catch (error) {
-            console.error("댓글 전송 실패:", error);
-        }
+        
     };
     
     
@@ -103,6 +99,19 @@ function CommentSection({ challengePageId }) {
             alert("삭제할 권한이 없습니다.")
         }
     });
+    useEffect(() => {
+        const commentBox = document.querySelector('.commentBoxStyle');  // 댓글 박스 선택
+        if (commentBox) {
+            commentBox.style.height = `${Math.max(500, commentList.length * 100)}px`;  // 댓글 수에 따라 높이 조정
+        }
+    }, [commentList]); 
+    const containerRef = useRef(null);  // 컨테이너 참조 생성
+
+useEffect(() => {
+    if (containerRef.current) {
+        containerRef.current.style.height = `${Math.max(500, commentList.length * 100)}px`;  // 컨테이너 높이 조정
+    }
+}, [commentList]);  // 댓글 목록이 변경될 때마다 실행
 
     return (
         <>

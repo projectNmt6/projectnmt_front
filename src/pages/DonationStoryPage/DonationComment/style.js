@@ -196,39 +196,6 @@ export const leftCardLayout = css`
   position: sticky;
 `;
 
-export const rightCardLayout = css`
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;  
-  overflow: hidden;
-  width: 30%;
-`;
-
-export const sidebarStyle = css`
-  display: flex;
-  flex-direction: column;
-  margin: 10px;
-  background-color: #FFD79999;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  border-radius: 10px;
-  padding: 20px;
-  justify-content: space-between;
-  overflow: hidden;
-
-  & > div > img {
-        width: 150px;
-        height: 150px;
-    }
-
-`;
-
-export const sidebarText = css`
-display: flex;
-flex-direction: row;
-justify-content: space-between;
-align-items: center;
-`
-
 export const likebutton1 = css`
     margin-top: 15px;
     margin-bottom: 15px;
@@ -297,9 +264,60 @@ export const inputbox = css`
     height: 40px;
 `;
 
-export const commentBoxStyle = css`
-    width: 100%;
-    height: 40px;
+export const userProfileImg = css`
+    width: 30px;
+`;
+export const comments = css`
+    border: 1px solid #222222;
+`;
+export const actionsContainer = css`
+   display: flex;
+        padding: 8px 0; // 상하 패딩
+`;
+export const profileIMG = css`
+    width: 30px;
+    height: 30px;
+    border-radius: 25px;
+`; 
+export const textSection = css`
+    display: flex;
+    flex-direction: column; // 상하 정렬
+    background-color: #f0f0f0; // 배경 색
+    padding: 10px; // 내부 패딩
+    border-radius: 10px; // 모서리 둥글게
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); // 그림자 효과
+    position: relative; // 상대적 위치
+    z-index: 1;
+    &:after { // 말풍선 꼬리 모양
+        content: "";
+        position: absolute;
+        top: 10px; // 위치 조정
+        left: -25px; // 꼬리 시작 위치 조정
+        width: 0;
+        height: 0;
+        border: 15px solid transparent; // 꼬리 크기 조정
+        border-right-color: #f0f0f0; // 배경색과 일치
+    }
+`;
+
+export const profileAndTextContainer = css`
+    display: flex;
+    flex-direction: row;  // 프로필 이미지와 텍스트 컨테이너 수평 정렬
+`;
+
+export const textAndActionsContainer = css`
+    display: flex;
+    flex-direction: column;  // 텍스트 섹션과 액션 컨테이너 수직 정렬
+`;
+
+export const profileSection = css`
+        margin-right: 12px; // 이미지와 텍스트 사이의 간격
+`;
+export const commentContainer = css`
+        display: flex;
+        flex-direction: row; 
+        align-items: flex-start; // 상단 정렬
+        margin-bottom: 10px; // 코멘트 간 여백
 `;
 
 export const teamInfo = css`
@@ -350,44 +368,6 @@ export const teamInfoText = css`
     margin-top: 10px;
 `;
 
-export const inputboxStyle = css`
-    margin-top: 30px;
-    width: 100%;
-    height: 70px;
-    box-sizing: border-box;
-    border: 1px solid #d2d0d0;
-    border-radius: 5px;
-    font-size: inherit;    
-    :focus {
-        transition: all 0.3s ease-in-out;
-        border: 1px solid pink;
-        outline: 1px solid pink;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    }
-    :active {
-        background-color:#f3f2f2;
-    }
-`;
-export const button5 = css`
-    margin-top: 16px;
-    background-color: #aaaaaa;
-    color: white;
-    font-size: 14px;
-    height: 30px;
-    box-sizing: border-box;
-    border-radius: 20px;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.5s, box-shadow 0.5s; 
-
-    :hover {
-        background-color: #828282;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); 
-    }
-    :active {
-        background-color: white;
-    }
-`;
 
 export const container1 = css`
     width: 100%;
@@ -395,7 +375,6 @@ export const container1 = css`
 `;
 
 export const container3 = css`
-    position: absolute;
     width: 100%;
     height: 200%;
     top:0; left: 0; bottom: 0; right: 0;
@@ -436,4 +415,95 @@ export const modal = css`
     width: 400px;
     height: 500px;
     box-shadow: 0 0 6px 1px rgb(0 0 0 / 30%);
+`;
+
+
+export const commentBoxStyle = css`
+    width: 100%;
+    height: 40px;
+`;
+
+
+export const commentButtonContainer = css`
+    /* 버튼 컨테이너의 스타일 지정 */
+    display: flex; /* 내부 요소들을 가로로 정렬 */
+    justify-content: flex-end; /* 내부 요소들을 컨테이너의 오른쪽으로 정렬 */
+    margin-top: 16px; /* 상단 여백 */
+`;
+
+
+
+
+export const inputboxExpanded = css`
+    /* 입력 상태일 때 높이 증가 */
+    &:focus {
+        height: 100px; /* 포커스된 경우 높이 증가 */
+    }
+
+    /* 버튼 위치 및 표시 여부 설정 */
+    & + button {
+        display: none; /* 초기에는 버튼을 숨김 */
+        position: absolute;
+        bottom: 10px; /* 박스 하단으로 이동 */
+        right: 10px; /* 우측 정렬 */
+    }
+
+    /* 입력 상태일 때 버튼 표시 */
+    &:focus + button {
+        display: inline-block; /* 입력 상태일 때 버튼을 보이도록 설정 */
+    }
+`;
+export const textareaStyle = css`
+    /* textarea의 스타일 지정 */
+    width: calc(100% - 20px); /* 입력 상자와 버튼의 너비를 맞추기 위해 */
+    height: 40px; /* 기본 높이 */
+    padding: 10px; /* 내부 패딩 */
+    box-sizing: border-box; /* 패딩과 보더 포함하여 요소 크기 계산 */
+    border: 1px solid #d2d0d0; /* 테두리 스타일 */
+    border-radius: 5px; /* 테두리 모서리 둥글게 */
+    margin-top: 16px; /* 상단 여백 */
+    font-family: 'NEXON Lv1 Gothic OTF';
+    resize: none; /* 사용자 크기 조정 비활성화 */
+    transition: height 0.3s ease; /* 높이 전환 효과 */
+
+     &:focus {
+        height: 100px; /* 포커스된 경우 높이 증가 */
+    }
+
+    &:focus + button { /* 버튼을 보이도록 설정 */
+        display: inline-block;
+    }
+`
+
+
+;export const button5 = css`
+        margin-top: 16px;
+        background-color: #aaaaaa;
+        color: white;
+        font-size: 14px;
+        height: 30px;
+        width: 50px;
+        box-sizing: border-box;
+        border-radius: 20px;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.5s, box-shadow 0.5s;
+        position: absolute;
+        bottom: 15px;
+        right: 25px;
+        z-index: 1000;
+
+&:hover {
+    background-color: #828282;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+`;
+
+export const inputboxStyle = css`
+position: relative;
+width: 100%;
+
+&:focus + button { 
+    display: inline-block; 
+}
 `;

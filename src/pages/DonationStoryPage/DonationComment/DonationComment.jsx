@@ -7,17 +7,22 @@ import { commentResponse, deleteComment, donationCommentPost, commentReportReque
 import { TbTrashXFilled } from 'react-icons/tb';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { getPrincipalRequest } from "../../../apis/api/principal";
+import { IoMdHeartEmpty } from "react-icons/io";
+import { IoMdHeart } from "react-icons/io";
 
 
-function CommentSection({ donationPageId, isDonation }) {
+function CommentSection({ donationPageId }) {
     const [commentList, setCommentList] = useState([]);
     const [comment, setComment] = useState("");
     const queryClient = useQueryClient();
 
+    const [userId, setUserId ] = useState();
+    const [isExpanded, setIsExpanded] = useState(false);
+
     useEffect(() => {
         commentResponse(donationPageId)
-            .then(response => setCommentList(response.data))
-            .catch(console.error);
+        .then(response => setCommentList(response.data))
+        .catch(console.error);
     }, [donationPageId]);
 
     const { data: principalData } = useQuery(
@@ -70,32 +75,54 @@ function CommentSection({ donationPageId, isDonation }) {
     });
 
     const handleCommentDeleteButton = (donationCommentId) => {
-        deleteCommentMutation.mutate({ donationCommentId });
+        if (!userId) {
+            alert("로그인이 필요합니다.");
+            return;
+        }
+        if (typeof donationCommentId === 'undefined') {
+            console.error('댓글 ID가 정의되지 않았습니다.');
+            return;
+        }
+        console.log("Deleting ID:", userId); // 로그로 ID 확인
+        deleteCommentMutation.mutate({ donationCommentId, userId });
     };
-    
 
     return (
         <>
-        <div css={s.commentBox}>
-            <input
-                css={s.inputboxStyle}
-                type="text"
-                placeholder='따뜻한 댓글을 남겨주세요'
-                value={comment}
-                onChange={handleCommentChange}
-            />
-            <button css={s.button5} onClick={handleCommentSubmit}>등록</button>
-            {commentList.map((comment, index) => (
-                <div key={index}>
-                    <p>{comment.commentText}
-                        {comment.userId === principalData?.data.userId && (
-                            <button onClick={() => handleCommentDeleteButton(comment.donationCommentId)}>
-                                덧글 삭제 <TbTrashXFilled />
-                            </button>
-                        )}
-                    </p>
-                </div>
-            ))}
+        <div css={s.commentBoxStyle}>
+            <div css={s.inputboxStyle}>
+                <textarea css={s.textareaStyle}
+                    placeholder='따뜻한 댓글을 남겨주세요'
+                    value={comment}
+                    onChange={handleCommentChange}
+                    onFocus={() => setIsExpanded(true)}
+                    onBlur={() => setIsExpanded(false)}
+                />
+                <button css={s.button5} onClick={handleCommentSubmit}>입력</button>
+            </div>
+            <div>
+                {commentList.map((comment, index) => (
+                    <div key={index} css={s.commentContainer}>
+                        <div css={s.profileAndTextContainer}>
+                            <div css={s.profileSection}>
+                                <img src={comment.profileImg} css={s.profileIMG} />
+                            </div>
+                            <div css={s.textAndActionsContainer}>
+                                <div css={s.textSection}>
+                                    <div>{comment.name}</div>
+                                    <p>{comment.commentText}</p>
+                                </div>
+                                <div css={s.actionsContainer}>
+                                    <IoMdHeartEmpty /> <IoMdHeart />
+                                    <button onClick={() => handleCommentDeleteButton(comment.challengeCommentId)}>
+                                        <TbTrashXFilled />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
         </div>
     </>
     );

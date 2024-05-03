@@ -195,7 +195,7 @@ function TextEditor({ content, setContent, downloadURL }) {
                 theme="snow"
                 placeholder="내용을 입력해주세요."
                 ref={ReactQuillRef}
-                style={{ width: '700px', height: '500px', margin: "50px" }}
+                style={{ width: '700px', height: '500px' }}
             />
         </div>
     );

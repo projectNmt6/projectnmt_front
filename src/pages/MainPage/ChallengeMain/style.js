@@ -66,9 +66,13 @@ flex-direction: column;
 `;
 
 export const write=css`
-margin-bottom: 30px;
-font-size: 20px;
-color: black;
+  padding: 5px;
+  &>a{
+    text-decoration-line: none;
+     color: black;
+     font-weight: 600;
+     line-height: 1.48;
+  }
 `;
 
 export const tagContainer = css`
@@ -85,15 +89,6 @@ export const donationCard = css`
 `;
 
 
-
-export const linkStyle = css`
-  text-decoration: none; 
-  color: inherit; 
-  &:hover, &:active, &:visited {
-    text-decoration: none;
-    color: inherit;
-  }
-`;
 
 export const upperRightMenu = css`
 `;
@@ -129,12 +124,15 @@ export const writeStyles = css`
 `;
 
 export const linkStyles = css`
-  display: flex;
-  align-items: center;
-  font-size: 17px;
-  color: black;
-  text-decoration: none;
-  font-weight: 700;
+
+  padding: 5px;
+
+  &>a{
+    text-decoration-line: none;
+     color: #949494;
+     font-weight: 600;
+     line-height: 1.48;
+  }
 `;
 
 export const iconStyles = css`

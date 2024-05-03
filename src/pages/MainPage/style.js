@@ -1,5 +1,4 @@
 import { css } from "@emotion/react";
-
 export const sign = css`
 display: flex;
 flex-direction: column;
@@ -9,7 +8,7 @@ export const write=css`
   padding: 5px;
   &>a{
     text-decoration-line: none;
-     color: #949494;
+     color: black;
      font-weight: 600;
      line-height: 1.48;
   }

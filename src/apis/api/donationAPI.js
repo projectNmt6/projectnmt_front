@@ -48,9 +48,6 @@ export const registerNewsPage = async (data) => {
 export const registerDonationNews = async (data) => {
     return await instance.post('/main/donation/donationnews', data);
 }
-export const getAllDonationTag = async () => {
-    return await instance.get("/main/storytypes")
-}
 
 export const updatePageRequest = async (data) => {
     return await instance.put(`main/donation/update/${data.donationPageId}`, data);
@@ -122,8 +119,9 @@ export const commentReportRequest = async (data) => {
 }
 
 
-export const deleteComment = async (data) => {   
-    return await instance.delete(`/comment/delete/${data}`); 
+export const deleteComment = async (data) => {  
+    console.log(data);
+    return await instance.delete(`/comment/delete/${data.donationCommentId}`); 
 };
 
 export const deleteChallengeComment = async (data) => {

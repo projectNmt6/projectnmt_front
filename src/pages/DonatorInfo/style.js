@@ -69,6 +69,7 @@ export const input = css`
     background-color: white;
     width: 70%;
     height: 30px;
+    padding-right: 5px;
     font-family: 'omyu_pretty';
     font-size: 25px;
     text-align: end;

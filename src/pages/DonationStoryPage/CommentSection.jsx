@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { commentReportRequest, commentRequest, commentResponse, deleteComment, getCommentListRequest } from '../../apis/api/DonationAPI';
 import { TbTrashXFilled } from 'react-icons/tb';
+import { AiFillAlert } from "react-icons/ai";
 import { Link, useLocation, useParams } from 'react-router-dom';
 import LikeButton from '../../components/LikeButton/LikeButton';
 import { logDOM } from '@testing-library/react';
@@ -61,14 +62,6 @@ function CommentSection({ donationPageId, isDonation }) {
         }
     });
 
-    const handleCommentReportPostButton = (donationCommentId) => {
-        postCommentReportMutation.mutate({ 
-            donationCommentId,
-            userId: principalData.data.userId,
-            isDonation: 1,
-            donationPageId 
-        });
-    };
     const handleCommentDeleteButton = (donationCommentId) => {
         deleteCommentMutation.mutate({ donationCommentId });
     };
@@ -77,28 +70,29 @@ function CommentSection({ donationPageId, isDonation }) {
         <>
             <div css={s.commentBox}>
                 <div>
-                    <input css={null}
+                    <input css={s.inputboxStyle}
                         type="text"
                         placeholder='따뜻한 댓글을 남겨주세요'
                         value={comment}
                         onChange={handleCommentChange}
                     />
                 </div>
-                <button onClick={handleCommentSubmit}>덧글 입력</button>
-                <div>
+                <button css={s.button5} onClick={handleCommentSubmit}>댓글 입력</button>
+                <div css={s.div1}>
                     {commentList.map((comment, index) => (
-                        <div key={index}>
-                            <p>{comment.commentText}
+                        <div css={s.div2} key={index}>
+                            <div css={s.div4}>{comment.commentText}
+                                <LikeButton commentId={comment.donationCommentId} donationPageId={donationPageId}/>
                                 {comment.userId === principalData?.data.userId ? (
-                                    <button onClick={() => handleCommentDeleteButton(comment.donationCommentId)}>
-                                        덧글 삭제 <TbTrashXFilled />
+                                    <button css={s.button6} onClick={() => handleCommentDeleteButton(comment.donationCommentId)}>
+                                        삭제 <TbTrashXFilled />
                                     </button>
                                 ) : (
-                                    <button onClick={() => handleCommentReportPostButton(comment.donationCommentId)}>
-                                        덧글 신고
+                                    <button css={s.button7} onClick={() => handleCommentReportPostButton(comment.donationCommentId)}>
+                                        신고 <AiFillAlert />
                                     </button>
                                 )}
-                            </p>
+                            </div>
                         </div>
                     ))}
                 </div>

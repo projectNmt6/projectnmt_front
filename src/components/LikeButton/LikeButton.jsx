@@ -23,7 +23,6 @@ function LikeButton({donationPageId, commentId}) {
 
         }
     })
-
     const getLikeQuery = useQuery(
         ["getLikeQuery", donationPageId, principalData?.data?.userId ?? null, commentId],
         async () => {

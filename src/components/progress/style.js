@@ -16,18 +16,18 @@ export const header = css`
 
 export const progressbar = css`
     width: 100%;
-    height: 10px;
+    height: 5px;
     background-color: #dbecf7;
     border-radius: 4px;
     overflow: hidden;
     font-family: 'omyu_pretty';
     font-size: 15px;
-    margin-bottom: 5px;
+    margin-top: 5px;
 `;
 export const progress = css`
     height: 100%;
-    font-family: 'omyu_pretty';
-    background-color: #007bff;
+    font-family: 'omyu_pretty';    
+    background-color: rgb(173, 76, 254);
     transition: width 0.3s ease-in-out;
 `;
 

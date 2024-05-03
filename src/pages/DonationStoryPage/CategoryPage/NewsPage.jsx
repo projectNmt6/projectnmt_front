@@ -6,6 +6,7 @@ import DOMPurify from 'dompurify';
 import { useMutation } from 'react-query';
 import { getDonationNewsRequest } from '../../../apis/api/DonationAPI';
 /** @jsxImportSource @emotion/react */
+import * as s from "./style";
 
 function NewsPage({ donationPageId }) {
     const [content, setContent] = useState(null); // 초기 상태를 null로 설정
@@ -33,7 +34,7 @@ function NewsPage({ donationPageId }) {
     const safeHTML = content ? DOMPurify.sanitize(content.newsContent) : '';
     console.log(content)
     return (
-        <div>
+        <div css={s.container}>
             NewsPage
             <div>
                 {content && content.newsContent ? (                    
