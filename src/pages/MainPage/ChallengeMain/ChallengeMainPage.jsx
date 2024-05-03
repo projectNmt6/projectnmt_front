@@ -7,7 +7,7 @@ import * as s from "./style";
 import { getChallengeList } from '../../../apis/api/DonationAPI';
 import { useQuery, useQueryClient } from 'react-query';
 import { getTeamInfoRequest, getTeamListRequest } from '../../../apis/api/teamApi';
-
+import { PiPencilLineThin } from "react-icons/pi";
 function ChallengeMainPage() {
     const [challengeList, setChallengeList] = useState([]);
 
@@ -57,15 +57,14 @@ function ChallengeMainPage() {
     return (
         <>
         <div css={s.mainLayout}>
-        
-            <div >
-                <div>
-                    <Link to={"/search"} ><FiSearch size={40}/></Link>
-                </div>
+
+            <div css={s.writeStyles}>
+                <Link to="/main/challenge/write" css={s.linkStyles}>
+                    <PiPencilLineThin css={s.iconStyles} />
+                    작성하기
+                </Link>
             </div>
-            <div css={s.write}>
-                <Link to={"/main/challenge/write"}>작성하기</Link>
-            </div>
+            
             <div css={s.donationList}>
                 {
                     challengeList.map(

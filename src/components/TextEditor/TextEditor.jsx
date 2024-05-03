@@ -33,12 +33,6 @@ const globalStyles = css`
   font-weight: normal;
   font-style: normal;
 }
-@font-face {
-  font-family: 'Cafe24Oneprettynight';
-  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Oneprettynight.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
 
 @font-face {
     font-family: 'BMYEONSUNG';

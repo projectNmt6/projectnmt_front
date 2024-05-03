@@ -67,6 +67,8 @@ flex-direction: column;
 
 export const write=css`
 margin-bottom: 30px;
+font-size: 20px;
+color: black;
 `;
 
 export const tagContainer = css`
@@ -114,4 +116,29 @@ export const teamLogo = css`
   height: 24px;
   border-radius: 5px;
   margin-right: 5px; // 텍스트와의 간격을 추가
+`;
+
+
+export const writeStyles = css`
+  display: flex;
+  margin: 20px;
+  padding-right: 20px;
+
+  justify-content: flex-end; 
+  width: 100%; /* 작성하기 요소가 전체 너비를 차지하도록 설정 */
+`;
+
+export const linkStyles = css`
+  display: flex;
+  align-items: center;
+  font-size: 17px;
+  color: black;
+  text-decoration: none;
+  font-weight: 700;
+`;
+
+export const iconStyles = css`
+  width: 20px;
+  height: 20px;
+  margin-right: 5px; /* 조정 가능 */
 `;

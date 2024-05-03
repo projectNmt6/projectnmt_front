@@ -16,7 +16,7 @@ import * as s from "./style";
 import { countActionBoard, getActionBoardList } from '../../../apis/api/ChallengeApi';
 import { HiOutlineClock } from "react-icons/hi2";
 import { HiBadgeCheck } from "react-icons/hi";
-
+import { PiPencilLineThin } from "react-icons/pi";
 function ChallengePage() {    
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);

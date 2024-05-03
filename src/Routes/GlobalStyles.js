@@ -28,7 +28,9 @@ export const GlobalStyles = css`
     font-weight: normal;
     font-style: normal;
 }
-
+.challenge-story-container {
+    font-family: 'NEXON Lv1 Gothic OTF', 'RIDIBatang', 'BMYEONSUNG', sans-serif;
+}
 body, html {
   font-family: 'NEXON Lv1 Gothic OTF', 'RIDIBatang', 'BMYEONSUNG', sans-serif; /* 기본 글꼴 설정 */
 }
