@@ -10,16 +10,20 @@ import * as s from "../ChallenegComment/style";
 import { getUserInfoRequest } from '../../../../apis/api/Admin';
 import { IoMdHeartEmpty } from "react-icons/io";
 import { IoMdHeart } from "react-icons/io";
+import { FaTrash } from "react-icons/fa";
 
 function CommentSection({ challengePageId }) {
 
     const [commentList, setCommentList] = useState([]);
     const [comment, setComment] = useState("");
-    const [userId, setUserId ] = useState();
-    const [isExpanded, setIsExpanded] = useState(false);
+    const [userId, setUserId] = useState();
+    const [startIdx, setStartIdx] = useState(0); // 시작 인덱스
+    const [count, setCount] = useState(10); // 한 번에 표시할 덧글 수
+    const commentContainerRef = useRef(null);
+    const textareaRef = useRef(null);
 
     const principalQuery = useQuery(
-        ["principalQuery"], 
+        ["principalQuery"],
         getPrincipalRequest,
         {
             retry: 0,
@@ -35,28 +39,31 @@ function CommentSection({ challengePageId }) {
     );
 
     useEffect(() => {
-        challengeCommentResponse(challengePageId)
+        challengeCommentResponse(challengePageId, startIdx, count) // 시작 인덱스와 덧글 수 전달
             .then(response => {
                 console.log(response.data); // 데이터 구조 확인
-                setCommentList(response.data);
+                setCommentList(prevCommentList => [...prevCommentList, ...response.data]);
             })
             .catch(console.error);
-    }, [challengePageId]);
-    
-    const handleCommentChange = (e) => setComment(e.target.value);
+    }, [challengePageId, startIdx, count]);
 
-    const handleCommentSubmit = async () => {
-        
-            await mutation.mutateAsync({
-                commentText: comment,
-                challengePageId: challengePageId,
-                userId: userId
-            });
-            setComment(""); // 성공 시 입력 필드 초기화
-        
+    const handleCommentChange = (e) => setComment(e.target.value);
+    const handleCommentSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            await challengeCommentRequest({ commentText: comment, challengePageId, userId });
+            setComment("");
+            setIsExpanded(false); // 전송 후 확대 상태 해제
+            setStartIdx(0); // 다시 처음부터 불러오기
+            const response = await challengeCommentResponse(challengePageId, startIdx, count);
+            setCommentList(response.data);
+        } catch (error) {
+            console.error("덧글 전송 실패:", error);
+        }
     };
-    
-    
+
+
     const mutation = useMutation(challengeCommentRequest, {
         onSuccess: () => {
             console.log("덧글 전송 완료");
@@ -67,14 +74,13 @@ function CommentSection({ challengePageId }) {
                 })
                 .catch(console.error);
             setComment(""); // 성공 시 입력 필드 초기화
-            // setIsExpanded(false); // 전송 후 박스 크기를 원래대로 되돌림
         },
         onError: (error) => {
             console.error("덧글 전송 실패:", error);
         }
     });
-    
-    
+
+
     const handleCommentDeleteButton = (challengeCommentId) => {
         if (!userId) {
             alert("로그인이 필요합니다.");
@@ -99,35 +105,55 @@ function CommentSection({ challengePageId }) {
             alert("삭제할 권한이 없습니다.")
         }
     });
+
+
+    const [isExpanded, setIsExpanded] = useState(false); // 확대 상태 관리
     useEffect(() => {
-        const commentBox = document.querySelector('.commentBoxStyle');  // 댓글 박스 선택
-        if (commentBox) {
-            commentBox.style.height = `${Math.max(500, commentList.length * 100)}px`;  // 댓글 수에 따라 높이 조정
-        }
-    }, [commentList]); 
-    const containerRef = useRef(null);  // 컨테이너 참조 생성
+        const handleClickOutside = (event) => {
+            if (commentContainerRef.current && !commentContainerRef.current.contains(event.target)) {
+                // 댓글 입력 중에는 확대된 상태를 유지합니다.
+                if (!comment.trim()) {
+                    setIsExpanded(false); // 댓글 입력 값이 없을 때만 확대 상태 해제
+                }
+            }
+        };
 
-useEffect(() => {
-    if (containerRef.current) {
-        containerRef.current.style.height = `${Math.max(500, commentList.length * 100)}px`;  // 컨테이너 높이 조정
-    }
-}, [commentList]);  // 댓글 목록이 변경될 때마다 실행
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [comment]);
 
+    const handleFocus = () => {
+        setIsExpanded(true); // textarea 클릭 시 확대 상태 설정
+    };
+
+    const handleLoadMoreComments = () => {
+        setStartIdx(prevStartIdx => prevStartIdx + count); // 시작 인덱스를 현재 시작 인덱스에서 덧글 수만큼 증가시킴
+    };
     return (
         <>
             <div css={s.commentBoxStyle}>
+
                 <div css={s.inputboxStyle}>
-                    <textarea css={s.textareaStyle}
-                        placeholder='따뜻한 댓글을 남겨주세요'
-                        value={comment}
-                        onChange={handleCommentChange}
-                        onFocus={() => setIsExpanded(true)}
-                        onBlur={() => setIsExpanded(false)}
-                    />
-                    <button css={s.button5} onClick={handleCommentSubmit}>입력</button>
+                    <form onSubmit={handleCommentSubmit}>
+                        <div ref={commentContainerRef}>
+                            <textarea
+                                ref={textareaRef}
+                                css={isExpanded ? s.textareaFocusStyle : s.textareaNormalStyle}
+                                placeholder="댓글을 입력하세요"
+                                value={comment}
+                                onChange={handleCommentChange}
+                                onFocus={handleFocus}
+                            />
+                            {(isExpanded || comment.trim().length > 0) && (
+                                <button css={s.commentSubmitButton} type="submit">등록</button>
+                            )}
+                        </div>
+                    </form>
                 </div>
                 <div>
-                    {commentList.map((comment, index) => (
+                {commentList.map((comment, index) => (
                         <div key={index} css={s.commentContainer}>
                             <div css={s.profileAndTextContainer}>
                                 <div css={s.profileSection}>
@@ -141,7 +167,7 @@ useEffect(() => {
                                     <div css={s.actionsContainer}>
                                         <IoMdHeartEmpty /> <IoMdHeart />
                                         <button onClick={() => handleCommentDeleteButton(comment.challengeCommentId)}>
-                                            <TbTrashXFilled />
+                                            <FaTrash />
                                         </button>
                                     </div>
                                 </div>
@@ -149,6 +175,9 @@ useEffect(() => {
                         </div>
                     ))}
                 </div>
+                {commentList.length >= 10 && ( // 덧글이 10개 이상일 때만 '더보기' 버튼을 표시
+                    <button onClick={handleLoadMoreComments}>더보기</button>
+                )}
             </div>
         </>
     );

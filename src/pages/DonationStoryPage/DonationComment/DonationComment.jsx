@@ -115,7 +115,7 @@ function CommentSection({ donationPageId }) {
                                 <div css={s.actionsContainer}>
                                     <IoMdHeartEmpty /> <IoMdHeart />
                                     <button onClick={() => handleCommentDeleteButton(comment.challengeCommentId)}>
-                                        <TbTrashXFilled />
+                                        {/* <TbTrashXFilled /> */}
                                     </button>
                                 </div>
                             </div>

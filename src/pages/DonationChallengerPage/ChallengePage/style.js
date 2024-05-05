@@ -7,37 +7,15 @@ export const main = css`
     width: 100%; 
     height: 100%;
     background-color: aqua;
-    
-    /* @font-face {
-    font-family: 'NEXON Lv1 Gothic OTF';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-  font-family: 'RIDIBatang';
-  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/RIDIBatang.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-    font-family: 'BMYEONSUNG';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMYEONSUNG.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-} */
-    
+        
 `;
 
 
 export const contentAreaStyle = css`
   display: flex;
-  justify-content: center;
   max-width: 1200px; /* 전체 페이지의 최대 너비를 1200px로 제한합니다. */
-  margin: 0 auto; /* 가운데 정렬을 위해 추가 */
-  flex-grow: 1;
+  margin: 0 auto; /* 가운데 정렬을 위해 추가 */  
+  height: 100%; // 뷰포트 높이를 차지하도록 설정
 `;
 
 // leftCardLayout 수정
@@ -46,35 +24,43 @@ export const leftCardLayout = css`
     width: 700px;
     flex-direction: column;
     flex-wrap: wrap;
-    position: relative;  // sticky를 relative로 변경해보세요.
-    border: 1px solid black;
-    min-height: 100vh;  // 최소 높이 설정
-    flex-grow: 1;  // 남은 공간 채우기
+    position: relative; 
 `;
 
 export const rightCardLayout = css`
     margin-top: 30px;
-  display: flex;
-  position: relative;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
-  width: 360px; /* 오른쪽 영역 너비를 조정합니다. */
-  top: 20px; /* 부모 요소의 위쪽에서 일정한 거리만큼 떨어진 위치에 표시됩니다. */
-  padding-left: 30px;
+    width: 360px;
+    padding-left: 30px;
 `;
 
+
 export const sidebarStyle = css`
-  display: flex;
-  margin: 10px; 
-  flex-direction: column; 
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  border-radius: 10px;
-  padding: 25px;
-  justify-content: flex-start;
-  position: sticky; // 오른쪽
-  top: 20px;
-  z-index: 2000; /* 수정된 부분 */
+margin: 0px;
+font: inherit;
+vertical-align: baseline;
+padding: 34px 25px 0px;
+order: 1;
+position: sticky;
+top: 84px;
+border: 1px solid rgb(221, 221, 221);
+border-radius: 8px;
+margin-top: 40px;
+background-color: rgb(255, 255, 255);
 `;
+// export const sidebarStyle = css`
+//   display: flex;
+//   margin: 10px; 
+//   flex-direction: column; 
+//   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+//   border-radius: 10px;
+//   padding: 25px;
+//   position: sticky; // 오른쪽
+//   top: 20px;
+//   z-index: 2000; /* 수정된 부분 */
+// `;
 
 export const sidebarStyle2 = css`
   display: flex;

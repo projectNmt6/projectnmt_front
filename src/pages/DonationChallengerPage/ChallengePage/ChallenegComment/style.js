@@ -419,7 +419,6 @@ export const modal = css`
 
 
 export const commentBoxStyle = css`
-    width: 100%;
     height: 40px;
     
 `;
@@ -428,8 +427,6 @@ export const commentBoxStyle = css`
 export const commentButtonContainer = css`
     /* 버튼 컨테이너의 스타일 지정 */
     display: flex; /* 내부 요소들을 가로로 정렬 */
-    justify-content: flex-end; /* 내부 요소들을 컨테이너의 오른쪽으로 정렬 */
-    margin-top: 16px; /* 상단 여백 */
 `;
 
 
@@ -477,24 +474,49 @@ export const textareaStyle = css`
         opacity: 1;
     }
 `
+export const textareaNormalStyle = css`
+    width: calc(100% - 20px); /* 입력 상자와 버튼의 너비를 맞추기 위해 */
+    height: 40px; /* 기본 높이 */
+    padding: 10px; /* 내부 패딩 */
+    box-sizing: border-box; /* 패딩과 보더 포함하여 요소 크기 계산 */
+    border: 1px solid #d2d0d0; /* 테두리 스타일 */
+    border-radius: 5px; /* 테두리 모서리 둥글게 */
+    margin-top: 16px; /* 상단 여백 */
+    font-family: 'NEXON Lv1 Gothic OTF';
+    resize: none; /* 사용자 크기 조정 비활성화 */
+`;
 
-;export const button5 = css`
-        opacity: 0;
+// 확장된 상태의 textarea 스타일
+export const textareaFocusStyle = css`
+    width: calc(100% - 20px); /* 입력 상자와 버튼의 너비를 맞추기 위해 */
+    height: 100px; /* 포커스된 경우 높이 증가 */
+    padding: 10px; /* 내부 패딩 */
+    box-sizing: border-box; /* 패딩과 보더 포함하여 요소 크기 계산 */
+    border: 1px solid #007bff; /* 포커스된 경우 테두리 색상 변경 */
+    border-radius: 5px; /* 테두리 모서리 둥글게 */
+    margin-top: 16px; /* 상단 여백 */
+    font-family: 'NEXON Lv1 Gothic OTF';
+    resize: none; /* 사용자 크기 조정 비활성화 */
+`;
+
+export const commentSubmitButton = css`
+        opacity: 1;
         margin-top: 16px;
-        background-color: #aaaaaa;
+        background-color: black;
         color: white;
-        font-size: 14px;
+        font-size: 143x;
+        font-weight: 700;
         height: 30px;
         width: 50px;
         box-sizing: border-box;
         border-radius: 20px;
         border: none;
         cursor: pointer;
-        transition: background-color 0.5s, box-shadow 0.5s;
         position: absolute;
         bottom: 15px;
         right: 25px;
         z-index: 1000;
+        font-family: 'Pretendard-Regular';
 
 
 &:hover {

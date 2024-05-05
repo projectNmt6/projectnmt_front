@@ -35,66 +35,46 @@ const globalStyles = css`
 }
 
 @font-face {
-    font-family: 'BMYEONSUNG';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMYEONSUNG.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'Pretendard-Regular';
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
 }
-  .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="10px"]::before,
-  .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="10px"]::before {
-      content: '10px';
-  }
 
-  .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="12px"]::before,
-  .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="12px"]::before {
-      content: '12px';
-  }
+@font-face {
+  font-family: 'D2Coding';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_three@1.0/D2Coding.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 
-  .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="14px"]::before,
-  .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="14px"]::before {
-      content: '14px';
-  }
 
-  .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="16px"]::before,
-  .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="16px"]::before {
-      content: '16px';
-  }
-
-  .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="18px"]::before,
-  .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="18px"]::before {
-      content: '18px';
-  }
-  .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="20px"]::before,
-  .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="20px"]::before {
-      content: '20px';
-  }
-  .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="24px"]::before,
-  .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="24px"]::before {
-      content: '24px';
-  }
-  .ql-snow .ql-picker.ql-size .ql-picker-label[data-value="36px"]::before,
-  .ql-snow .ql-picker.ql-size .ql-picker-item[data-value="36px"]::before {
-      content: '36px';
-  }
-  .ql-font-nexon-gothic-otf {
+.ql-font-nexon-gothic-otf {
     content: 'NEXON Lv1 Gothic OTF';
     font-family: 'NEXON Lv1 Gothic OTF', sans-serif;
 }
+
 .ql-font-ridibatang {
     font-family: 'RIDIBatang', serif;
 }
 
-.ql-font-bmyeonsung {
-  content: 'BMYEONSUNG';
-    font-family: 'BMYEONSUNG', sans-serif;
+.ql-font-pretendard-regular {
+  content: 'Pretendard-Regular';
+    font-family: 'Pretendard-Regular', serif;
+}
+
+.ql-font-d2coding {
+  content: 'D2Coding';
+    font-family: 'D2Coding', sans-serif;
 }
 
 
     // 폰트 스타일 정의
+
   .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="nexon-gothic-otf"]::before,
   .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="nexon-gothic-otf"]::before {
       content: 'NEXON Lv1';
-      font-family: 'NEXON Lv1 Gothic OTF', sans-serif;
+      font-family: 'NEXON Lv1 Gothic OTF', serif;
   }
 
 
@@ -104,25 +84,28 @@ const globalStyles = css`
       font-family: 'RIDIBatang', serif;
   }
   
-  .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="bmyeonsung"]::before,
-  .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="bmyeonsung"]::before {
-      content: 'bmyeonsung';
-      font-family: 'bmyeonsung', sans-serif;
+  .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="pretendard-pegular"]::before,
+  .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="pretendard-pegular"]::before {
+      content: 'Pretendard';
+      font-family: 'Pretendard-Regular', serif;
+  }
+
+  .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="d2coding"]::before,
+  .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="d2coding"]::before {
+      content: 'D2Coding';
+      font-family: 'D2Coding', sans-serif;
   }
   
   
 `;
 
-const Size = Quill.import('attributors/style/size');
-Size.whitelist = ['10px', '12px', '14px', '16px', '18px', '20px', '24px', '36px'];
-Quill.register(Size, true);
+
 const Font = Quill.import('formats/font');
-Font.whitelist = ['nexon-gothic-otf', 'ridibatang','bmyeonsung']; // 폰트 이름을 class 이름과 동일하게 설정
+Font.whitelist = ['nexon-gothic-otf', 'ridibatang','pretendard-pegular', 'd2coding']; // 폰트 이름을 class 이름과 동일하게 설정
 Quill.register(Font, true);
 
 
 function TextEditor({ content, setContent, downloadURL }) {
-
 
     const ReactQuillRef = useRef();
     const imageHandler = () =>{
@@ -149,8 +132,8 @@ function TextEditor({ content, setContent, downloadURL }) {
           // 툴바 설정
           toolbar: {
             container: [
-              [{ font: ['sans-serif', 'serif', 'nexon-gothic-otf', 'ridibatang', 'bmyeonsung'] }],
-              [{ size: ['10px', '12px', '14px', '16px', '18px', '20px', '24px', '36px'] }],
+              [{ font: ['sans-serif', 'serif', 'nexon-gothic-otf', 'ridibatang', 'pretendard-pegular', 'd2coding'] }],
+              [{ header: [1, 2, 3, 4, 5, 6, false] }],
               [{ color: [] }, { background: [] }], // 정렬, 글자 색, 글자 배경색 설정
               ['bold', 'italic', 'underline', 'strike', 'blockquote'], // 굵기, 기울기, 밑줄 등 부가 tool 설정
               [{ align: [] },{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }], // 리스트, 인덴트 설정
@@ -175,7 +158,7 @@ function TextEditor({ content, setContent, downloadURL }) {
 
     const formats = [
         'font',
-        'size','bold','italic','underline','strike',
+        'header','bold','italic','underline','strike',
         'align','color',
         'blockquote','list','bullet','indent',
         'link','image',
@@ -187,6 +170,7 @@ function TextEditor({ content, setContent, downloadURL }) {
         <div css={textEditorLayout}>
            <Global styles={globalStyles} />
             <ReactQuill
+            
             
                 value={content}
                 onChange={setContent}

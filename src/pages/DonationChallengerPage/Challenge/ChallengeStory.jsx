@@ -10,8 +10,6 @@ function ChallengeStory() {
     const queryParams = new URLSearchParams(location.search);
     const challengePageId = queryParams.get('page'); 
     const [challengePage, setChallengePage] = useState({});
-    const [userId, setUserId ] = useState();    
-    const [ teamInfo, setTeamInfo ] = useState();
   
     const safeHTML = DOMPurify.sanitize(challengePage.challengeContent);
     
