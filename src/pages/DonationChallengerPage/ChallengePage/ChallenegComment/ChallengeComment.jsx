@@ -6,13 +6,13 @@ import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom'
 import { getPrincipalRequest } from '../../../../apis/api/principal';
 import { challengeCommentRequest, challengeCommentResponse, deleteChallengeComment } from '../../../../apis/api/DonationAPI';
 /** @jsxImportSource @emotion/react */
-import * as s from "../ChallenegComment/style";
+import * as s from "./style";
 import { getUserInfoRequest } from '../../../../apis/api/Admin';
 import { IoMdHeartEmpty } from "react-icons/io";
 import { IoMdHeart } from "react-icons/io";
 import { FaTrash } from "react-icons/fa";
 
-function CommentSection({ challengePageId }) {
+function ChallengeComment({ challengePageId }) {
 
     const [commentList, setCommentList] = useState([]);
     const [comment, setComment] = useState("");
@@ -183,4 +183,4 @@ function CommentSection({ challengePageId }) {
     );
 }
 
-export default CommentSection;
+export default ChallengeComment;

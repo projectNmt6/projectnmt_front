@@ -11,7 +11,7 @@ export const main = css`
 `;
 export const sidebarFixedStyle = css`
     position: sticky;
-    top: 0; // 화면 상단에서 고정
+    right: 0;
     margin-top: 20px; // 필요에 따라 조정하여 초기 위치 결정
     background-color: white; // 배경색
     padding: 20px; // 패딩

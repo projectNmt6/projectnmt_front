@@ -116,6 +116,13 @@ export const headerButton = (selectedCategory) => css`
       border-bottom: ${!selectedCategory ? "2px solid black" : "none" };
     }
   }
+  @font-face {
+    font-family: 'NEXON Lv1 Gothic OTF';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON%20Lv1%20Gothic%20OTF') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
   `;
 export const header = css`
 display: flex;
@@ -123,6 +130,13 @@ justify-content: space-between;
 align-items: center;
 width: 1200px;
 padding: 30px 20px;
+font-family: 'NEXON Lv1 Gothic OTF';
+@font-face {
+  font-family: 'NEXON Lv1 Gothic OTF';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON%20Lv1%20Gothic%20OTF') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 `;
 
 export const main = css`
@@ -131,6 +145,13 @@ flex-direction: column;
 width: 1200px;
 flex-wrap: wrap;
 justify-content: center;
+
+@font-face {
+  font-family: 'NEXON Lv1 Gothic OTF';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON%20Lv1%20Gothic%20OTF') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 `;
 
 export const selectItems = css`

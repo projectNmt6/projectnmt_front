@@ -321,7 +321,7 @@ function DonationStoryPage() {
                                         <span>
                                             <LikeButton donationPageId={donationPageId} />
                                         </span >
-                                        <span ><RxShare2 size={20} /></span>
+                                        <span ><RxShare2 size={20} />공유</span>
                                     </div>
                                 </div>
                             

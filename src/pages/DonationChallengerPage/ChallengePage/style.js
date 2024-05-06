@@ -15,7 +15,7 @@ export const contentAreaStyle = css`
   display: flex;
   max-width: 1200px; /* 전체 페이지의 최대 너비를 1200px로 제한합니다. */
   margin: 0 auto; /* 가운데 정렬을 위해 추가 */  
-  height: 100%; // 뷰포트 높이를 차지하도록 설정
+  min-height: 500px;
 `;
 
 // leftCardLayout 수정
@@ -33,6 +33,7 @@ export const rightCardLayout = css`
     flex-direction: column;
     flex-wrap: wrap;
     width: 360px;
+    min-height: 1000px;
     padding-left: 30px;
 `;
 

@@ -14,12 +14,19 @@ Quill.register('modules/imageActions', ImageActions);
 Quill.register('modules/imageFormats', ImageFormats);
 
 export const textEditorLayout = css`
-    overflow-y: auto;
-    margin-bottom: 20px;
+    position: relative;
+    height: 500px; // 전체 컨테이너 높이 설정
+    overflow-y: auto; // 내부 스크롤 활성화
 `;
 
-const globalStyles = css`
 
+const globalStyles = css`
+.ql-toolbar {
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 1000;
+}
 @font-face {
     font-family: 'NEXON Lv1 Gothic OTF';
     src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff') format('woff');
@@ -165,23 +172,34 @@ function TextEditor({ content, setContent, downloadURL }) {
         'background','float',
         'height','width'
       ];
-
+      const editorContainerStyle = css`
+      position: relative; // 컨테이너를 상대 위치로 설정
+      height: 500px; // 전체 컨테이너의 높이 설정
+      overflow-y: auto; // 내부 스크롤 활성화
+    `;
+    
+    const toolbarStyle = css`
+      .ql-toolbar {
+        position: sticky; // 툴바를 상단에 고정
+        top: 0; // 가장 상단에 위치
+        background: white; // 스크롤 시 배경이 투명해지는 것을 방지
+        z-index: 1; // 다른 요소들 위에 오도록 설정
+      }
+    `;
     return (
-        <div css={textEditorLayout}>
-           <Global styles={globalStyles} />
-            <ReactQuill
-            
-            
-                value={content}
-                onChange={setContent}
-                modules={modules}
-                formats={formats}
-                theme="snow"
-                placeholder="내용을 입력해주세요."
-                ref={ReactQuillRef}
-                style={{ width: '700px', height: '500px' }}
-            />
-        </div>
+      <div css={textEditorLayout}>
+      <Global styles={globalStyles} />
+       <ReactQuill
+           value={content}
+           onChange={setContent}
+           modules={modules}
+           formats={formats}
+           theme="snow"
+           placeholder="내용을 입력해주세요."
+           ref={ReactQuillRef}
+           style={{ width: '700px', height: '400px' }} // 에디터 영역 높이 수정
+       />
+   </div>
     );
 }
 

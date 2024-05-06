@@ -3,7 +3,6 @@ import { useMutation, useQuery } from 'react-query';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { deleteChallengePage, getChallengePageRequest } from '../../../apis/api/DonationAPI';
 import DOMPurify from 'dompurify';
-import CommentSection from './ChallenegComment/CommentSection';
 import ChallengeStory from '../Challenge/ChallengeStory';
 import ChallengeNews from '../Challenge/ChallengeNews';
 import ActionBoard from '../Challenge/ActionBoard/ActionBoard';
@@ -18,6 +17,7 @@ import { HiOutlineClock } from "react-icons/hi2";
 import { HiBadgeCheck } from "react-icons/hi";
 import TopButton from '../../../components/TopButton/TopButton';
 import ActionPhoto from './ActionPhoto/ActionPhoto';
+import ChallengeComment from './ChallenegComment/ChallengeComment';
 function ChallengePage() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -277,7 +277,7 @@ function ChallengePage() {
                             <div css={s.commentBorder}>
                                 <h3>댓글</h3>
                             </div>
-                            <CommentSection challengePageId={challengePageId} />
+                            <ChallengeComment challengePageId={challengePageId} />
 
                         </div>
 
@@ -312,7 +312,6 @@ function ChallengePage() {
                         {teamInfo?.teamName}</div>
                     <div css={s.teamText}>{teamInfo?.teamInfoText}</div>
                 </div>
-                <ActionPhoto />
                 <div css={s.sidebarStyle}>
                     
                     <div css={s.actionText}>
@@ -331,9 +330,12 @@ function ChallengePage() {
 
                     <button onClick={handleModalToggle} css={s.actionButton2}>행동하기!</button>
                 </div>
+                
+            <ActionPhoto />
             </div>
 
             <TopButton />
+            
         </div>
 
 
