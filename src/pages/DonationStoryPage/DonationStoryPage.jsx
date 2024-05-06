@@ -17,6 +17,7 @@ import DonatorInfo from "../DonatorInfo/DonatorInfo";
 import { getTeamInfoRequest } from "../../apis/api/teamApi";
 import { RxShare2 } from "react-icons/rx";
 import { getPrincipalRequest } from '../../apis/api/principal';
+import ShareButton from "../../components/ShareModal/ShareButton";
 function DonationStoryPage() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -321,7 +322,7 @@ function DonationStoryPage() {
                                         <span>
                                             <LikeButton donationPageId={donationPageId} />
                                         </span >
-                                        <span ><RxShare2 size={20} />공유</span>
+                                        <span ><ShareButton/> 공유</span>
                                     </div>
                                 </div>
                             
