@@ -9,7 +9,7 @@ import { commentBox } from "../../pages/DonationStoryPage/style";
 
 
 
-function LikeButton({donationPageId, commentId}) {
+function LikeButton({challengePageId, donationPageId, commentId}) {
     const [likeStatus, setLikeStatus] = useState({ isLiked: 0, likeCount: 0});
     const queryClient = useQueryClient();
     const principalData = queryClient.getQueryData("principalQuery") || {};

@@ -10,16 +10,18 @@ import { getPrincipalRequest } from "../../../apis/api/principal";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { IoMdHeart } from "react-icons/io";
 import { FaTrash } from "react-icons/fa";
+import LikeButton from '../../../components/LikeButton/LikeButton';
 
 function CommentSection({ donationPageId }) {
     const [commentList, setCommentList] = useState([]);
     const [comment, setComment] = useState("");
     const queryClient = useQueryClient();
     const [userId, setUserId] = useState();
-    const [startIdx, setStartIdx] = useState(0); // 시작 인덱스
-    const [count, setCount] = useState(10); // 한 번에 표시할 덧글 수
+    const [startIdx, setStartIdx] = useState(0);
+    const [count, setCount] = useState(10);
     const commentContainerRef = useRef(null);
     const textareaRef = useRef(null);
+    const [loadingMore, setLoadingMore] = useState(false);
 
     const principalQuery = useQuery(
         ["principalQuery"],
@@ -37,6 +39,9 @@ function CommentSection({ donationPageId }) {
         }
     );
 
+    const [totalComments, setTotalComments] = useState(0);  // 총 댓글 수를 상태로 관리합니다.
+
+  
     useEffect(() => {
         commentResponse(donationPageId, startIdx, count)
         .then(response => {
@@ -44,9 +49,44 @@ function CommentSection({ donationPageId }) {
         })
         .catch(console.error);
     }, [donationPageId, startIdx, count]);
+    
+    const handleLoadMoreComments = () => {
+        if (loadingMore || commentList.length >= totalComments) return; // 추가적인 댓글이 없을 때는 더 이상 가져오지 않음
+        setLoadingMore(true);
+        commentResponse(donationPageId, startIdx, count)
+        .then(response => {
+            setCommentList(prevComments => [...prevComments, ...response.data]);
+            setStartIdx(prevIdx => prevIdx + response.data.length);
+            setLoadingMore(false);
+        })
+        .catch(error => {
+            console.error("Error loading more comments:", error);
+            setLoadingMore(false);
+        });
+    };
+    
 
-    const handleCommentChange = (e) => setComment(e.target.value);
+    const handleCommentChange = (event) => {
+        const newComment = event.target.value;
+        if (newComment.length <= 500) {
+            setComment(newComment);
+        }
+    };
 
+    // const handleCommentSubmit = async (e) => {
+    //     e.preventDefault();
+
+    //     try {
+    //         await donationCommentePost({ commentText: comment, donationPageId, userId });
+    //         setComment("");
+    //         setIsExpanded(false); // 전송 후 확대 상태 해제
+    //         setStartIdx(0); // 다시 처음부터 불러오기
+    //         const response = await donationCommentePost(donationPageId, startIdx, count);
+    //         setCommentList(response.data);
+    //     } catch (error) {
+    //         console.error("덧글 전송 실패:", error);
+    //     }
+    // };
     const handleCommentSubmit = async (e) => {
         e.preventDefault();
 
@@ -55,17 +95,15 @@ function CommentSection({ donationPageId }) {
             setComment("");
             setIsExpanded(false); // 전송 후 확대 상태 해제
             setStartIdx(0); // 다시 처음부터 불러오기
-            const response = await donationCommentePost(donationPageId, startIdx, count);
+            const response = await commentResponse(donationPageId, 0, count); // 처음부터 다시 불러오기
             setCommentList(response.data);
         } catch (error) {
             console.error("덧글 전송 실패:", error);
         }
     };
-
     const postCommentMutation = useMutation(donationCommentePost, {
-        onSuccess: () => {
-            console.log("Comment posted successfully");
-            alert("등록완료.");
+        onSuccess: (data) => {
+            setCommentList(oldComments => [...oldComments, data]); // 새 댓글을 기존 댓글 목록에 추가
             setComment("");
             queryClient.invalidateQueries(["commentListQuery"]);
         },
@@ -74,6 +112,18 @@ function CommentSection({ donationPageId }) {
             alert("등록 실패");
         }
     });
+    // const postCommentMutation = useMutation(donationCommentePost, {
+    //     onSuccess: () => {
+    //         console.log("Comment posted successfully");
+    //         alert("등록완료.");
+    //         setComment("");
+    //         queryClient.invalidateQueries(["commentListQuery"]);
+    //     },
+    //     onError: (error) => {
+    //         console.error("Failed to post comment:", error);
+    //         alert("등록 실패");
+    //     }
+    // });
 
 
     const deleteCommentMutation = useMutation(deleteComment, {
@@ -99,6 +149,7 @@ function CommentSection({ donationPageId }) {
         console.log("Deleting ID:", userId); // 로그로 ID 확인
         deleteCommentMutation.mutate({ donationCommentId, userId });
     };
+
     const [isExpanded, setIsExpanded] = useState(false); // 확대 상태 관리
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -120,15 +171,12 @@ function CommentSection({ donationPageId }) {
         setIsExpanded(true); // textarea 클릭 시 확대 상태 설정
     };
 
-    const handleLoadMoreComments = () => {
-        setStartIdx(prevStartIdx => prevStartIdx + count); // 시작 인덱스를 현재 시작 인덱스에서 덧글 수만큼 증가시킴
-    };
     return (
         <>
         <div css={s.commentBoxStyle}>
         <div css={s.inputboxStyle}>
                     <form onSubmit={handleCommentSubmit}>
-                        <div ref={commentContainerRef}>
+                        <div css={s.commentContainer} ref={commentContainerRef}>
                             <textarea
                                 ref={textareaRef}
                                 css={isExpanded ? s.textareaFocusStyle : s.textareaNormalStyle}
@@ -137,16 +185,20 @@ function CommentSection({ donationPageId }) {
                                 onChange={handleCommentChange}
                                 onFocus={handleFocus}
                             />
+                                
                             {(isExpanded || comment.trim().length > 0) && (
-                                <button css={s.commentSubmitButton} type="submit">등록</button>
-                            )}
+                        <div  css={s.commentControls}>
+                            <span >{comment.length}/500</span>
+                            <button css={s.commentSubmitButton} type="submit">등록</button>
+                        </div>
+                    )}
                         </div>
                     </form>
                 </div>
 
                 <div>
                 {commentList.map((comment, index) => (
-                        <div key={index} css={s.commentContainer}>
+                        <div key={index} css={s.commentContainer2}>
                             <div css={s.profileAndTextContainer}>
                                 <div css={s.profileSection}>
                                     <img src={comment.profileImg} css={s.profileIMG} />
@@ -157,7 +209,8 @@ function CommentSection({ donationPageId }) {
                                         <p>{comment.commentText}</p>
                                     </div>
                                     <div css={s.actionsContainer}>
-                                        <IoMdHeartEmpty /> <IoMdHeart />
+                                        <LikeButton commentId={comment.donationCommentId}/>
+                                        
                                         <button onClick={() => handleCommentDeleteButton(comment.challengeCommentId)}>
                                             <FaTrash />
                                         </button>
@@ -166,10 +219,15 @@ function CommentSection({ donationPageId }) {
                             </div>
                         </div>
                     ))}
-                </div>
-                {commentList.length >= 10 && ( // 덧글이 10개 이상일 때만 '더보기' 버튼을 표시
+                <div>
+                    </div>
+                    
+
+
+                    {commentList.length >= 10 && ( // 덧글이 10개 이상일 때만 '더보기' 버튼을 표시
                     <button onClick={handleLoadMoreComments}>더보기</button>
                 )}
+        </div>
         </div>
     </>
     );

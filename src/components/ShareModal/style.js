@@ -1,5 +1,7 @@
 import { css } from '@emotion/react';
 
+import kakaoIcon from './icon/free-icon-kakao-talk-4494622.png';
+import linkIcon from './icon/free-icon-link-8265293.png';
 export const modalBackground = css`
     position: fixed;
     top: 0;
@@ -17,7 +19,7 @@ export const modalContainer = css`
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    width: 200px;
     text-align: center;
 `;
 
@@ -66,6 +68,29 @@ export const loginButton = css`
         border-radius: 5px;
         cursor: pointer;
 `;
+export const kakaobutton = css`
+  /* 카카오 버튼 스타일 */
+  background-image: url(${kakaoIcon});
+  background-size: cover;
+  width: 30px; /* 원형 버튼 크기 설정 */
+  height: 30px; /* 원형 버튼 크기 설정 */
+  border-radius: 50%; /* 동그란 모양으로 설정 */
+  border: none;
+  cursor: pointer;
+  margin: 10px;
+`;
+export const linkbutton = css`
+  /* 카카오 버튼 스타일 */
+  background-image: url(${linkIcon});
+  background-size: cover;
+  width: 30px; /* 원형 버튼 크기 설정 */
+  height: 30px; /* 원형 버튼 크기 설정 */
+  border-radius: 50%; /* 동그란 모양으로 설정 */
+  border: none;
+  cursor: pointer;
+  margin: 10px;
+`;
+
 
 export const closeButton = css`
  background-color: gray;

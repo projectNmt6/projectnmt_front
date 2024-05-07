@@ -7,7 +7,6 @@ import { FiSearch } from "react-icons/fi";
 import LikeButton from "../../components/LikeButton/LikeButton";
 import { getDonationListRequest, getDonationTagRequest } from "../../apis/api/DonationAPI";
 import Progress from "../../components/progress/Progress";
-import NowFundingPage from "./fundings/NowFundingPage";
 import { FaPen } from "react-icons/fa6";
 import EndedDonationsPage from "./donations/EndedDonationsPage";
 import NowDonationPage from "./donations/NowDonationPage";
