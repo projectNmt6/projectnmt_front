@@ -35,20 +35,26 @@ function DonationKing(props) {
                     const totalDonations = donations.reduce((sum, donation) => sum + donation.donationAmount, 0);
                     return { donationPageId, totalDonations };
                 });
-                // 3. 총 기부 금액 기준 내림차순 정렬
-                setSortedRankings(donationRankings.sort((a, b) => b.totalDonations - a.totalDonations));
+
                 const uniqueDonations = donations.reduce((acc, curr) => {
                     if (!acc.some(item => item.donationPageId === curr.donationPageId)) {
                         acc.push(curr);
                     }
                     return acc;
-                }, []);
-                const sortedDonations = uniqueDonations.sort((a, b) => {
-                    const aPageId = sortedRankings.findIndex(item => item.donationPageId === a.donationPageId.toString());
-                    const bPageId = sortedRankings.findIndex(item => item.donationPageId === b.donationPageId.toString());
-                    return aPageId - bPageId;
-                });
+                 }, []);
 
+                const donationsWithTotal = uniqueDonations.map(donation => {
+                    const rankingData = donationRankings.find(ranking => ranking.donationPageId === String(donation.donationPageId));
+                    return {
+                      ...donation,
+                      totalDonations: rankingData ? rankingData.totalDonations : 0
+                    };
+                  });
+                  
+                  const sortedDonations = donationsWithTotal.sort((a, b) => b.totalDonations - a.totalDonations);
+                  
+           
+              
                 setTop3Donations(sortedDonations.slice(0, 3));
             }
         },
@@ -74,7 +80,7 @@ function DonationKing(props) {
                                     <div>
                                         <div css={s.Top3goalAmount}>
                                             <p><strong>{donation.goalAmount}원 목표</strong> </p>
-                                            <p>모인 금액: {donation.addAmount.toLocaleString()} 원</p>
+                                            <p>모인 금액: {donation.addAmount} 원</p>
                                         </div>
                                     </div>
                                     <div>
