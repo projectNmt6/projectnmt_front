@@ -376,3 +376,44 @@ align-items: center;
 
 export const LikeDonate =css`
 `;
+
+export const nmtbutton = css`
+cursor : pointer;
+`
+export const buttonLayout = css`
+display: flex;
+flex-wrap: wrap;
+
+`
+export const button = (color) => css`
+  display: flex;
+  flex-direction: column;
+  height: 150px;
+  width: 150px;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  background-color: ${color === "gray" ? "#FFC107" : "#BDBDBD"};
+  color: ${color === "gray" ? "white" : "black"};
+  word-wrap: break-word;
+  flex-wrap: wrap;
+  position: relative;
+  white-space: normal;
+`;
+
+export const NoticeText = css`
+    font-size: 20px;
+    font-weight: bold;
+    box-sizing: border-box;
+
+
+`;
+export const icon = css`
+  position: absolute;
+  top: 130px;
+  right: 20px;
+  font-size: 24px;
+  margin-top: 10px; 
+`;

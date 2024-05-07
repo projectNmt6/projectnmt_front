@@ -2,7 +2,7 @@
 import * as s from "./style";
 import React, { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from "react-query";
-import { getAllAmount, getDonationListRequest, getProgressAmount } from "../../apis/api/DonationAPI";
+import { commentResponse, getAllAmount, getDonationListRequest, getDonationStoryRequest, getProgressAmount } from "../../apis/api/DonationAPI";
 import introImg from '../../assets/introImg.png';
 import introImg2 from '../../assets/introImg2.jpeg';
 import { FaArrowCircleRight } from "react-icons/fa";
@@ -11,19 +11,15 @@ import DonatorKing from "../../components/HomeBoard/DonatorKing";
 import LastDonator from "../../components/HomeBoard/LastDonator";
 import DonationKing from "../../components/HomeBoard/DonationKing";
 import TimeOut from "../../components/HomeBoard/TimeOut";
-import { FaWonSign } from "react-icons/fa";
-import { BsEmojiHeartEyes } from "react-icons/bs";
 import lion from '../../assets/lion.gif';
-import { BsFillSearchHeartFill } from "react-icons/bs";
-import { GiSandsOfTime } from "react-icons/gi";
-import { FaSackDollar } from "react-icons/fa6";
-import { FaCrown } from "react-icons/fa6";
-import LikeButton from "../../components/LikeButton/LikeButton";
+import CommentShow from "../../components/HomeBoard/CommentShow";
+import { FaRegArrowAltCircleRight } from "react-icons/fa";
+
 
 function HomePage() {
     const [totalDonationAmount, setTotalDonationAmount] = useState(0);
     const [totalDonationLength, setTotalDonationLength] = useState(0);
-    const [ upcomingDonation , setUpcomingDonation] = useState();
+    
 
     const today = new Date();
     const formattedDate = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`;
@@ -49,14 +45,27 @@ function HomePage() {
         {
             refetchOnWindowFocus: false,
             onSuccess: response => {
-                console.log(response.data);
                 if (Array.isArray(response.data)) {
                     setTotalDonationLength(response.data.length);
                 }
             }
         }
     );
+    
+    const handleNmtButton = () => {
+        window.location.href = '/aboutNMT';
+    }
 
+    const NoticeButton = ({ label, color }) => {
+        return (
+          <div css={s.button(color)}>
+            <p css={s.NoticeText}>{label}</p>
+            <div css={s.icon}><FaRegArrowAltCircleRight /></div>
+          </div>
+        );
+      };
+      
+    
     return (
         <>
             <main css={s.mainLayout}>
@@ -69,7 +78,7 @@ function HomePage() {
                         <h3>총 기부 {totalDonationLength} 건</h3>
                         <img src={introImg2} />
                         <h3>NMT 소개</h3>
-                        <button><FaArrowCircleRight size="30" /></button>
+                        <button css={s.nmtbutton} onClick = {handleNmtButton}><FaArrowCircleRight size="30" /></button>
                     </div>
                 </header>
                 <div css={s.contentAreaStyle}>
@@ -95,50 +104,26 @@ function HomePage() {
                                 </div>
                             </div>
                             <div css={s.totalAmountBox}>
-                                <h3> ₩ 총 기부금                               
-                                    {totalDonationAmount.toLocaleString()}원</h3>
+                                <h3> ₩ 총 기부금     {totalDonationAmount.toLocaleString()}원</h3>
                             </div>
-
-                            {/* {upcomingDonation && (
-                                <div css={s.donationList}>
-                                    <a href={`/donation?page=${upcomingDonation.donationPageId}`} key={upcomingDonation.donationPageId} css={s.linkStyle}>
-                                        <div key={upcomingDonation.donationPageId} css={s.donationCard}>
-                                            <div css={s.donationImage}>
-                                                <img src={!upcomingDonation.mainImgUrl ? "https://www.shutterstock.com/image-vector/no-image-available-picture-coming-600nw-2057829641.jpg" : upcomingDonation.mainImgUrl} alt="" />
-                                            </div>
-                                            <div css={s.donationDetails}>
-                                                <h2>{upcomingDonation.storyTitle}</h2>
-                                                <Progress pageId={upcomingDonation.donationPageId}/>
-                                                <div>
-                                                    <div><p><strong>{upcomingDonation.goalAmount}원 목표</strong> </p></div>
-                                                    <div><p><strong>남은 시간:</strong> {calculateTimeRemaining(upcomingDonation.endDate)}</p></div>
-                                                </div>
-                                                <div css={s.LikeDonate}>
-                                                    <div>
-                                                        <LikeButton />
-                                                    </div>
-                                                    <div>
-                                                        <a href="">기부하기</a>
-                                                    </div>
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            )} */}
-
                         </div>
 
                         <div css={s.sidebarStyle}>
                             <h2>따뜻한 후기</h2>
+                            <CommentShow donationPageId={97} />  
                         </div>
+                        
                         <div css={s.sidebarStyle}>
                             <h2>놓치면 아까운 소식</h2>
+                            <div css={s.buttonLayout}>
+                                <NoticeButton label="카카오톡 채널을 추가해보세요!" color="gray" />
+                                <NoticeButton label="참여만으로 기부에 참여할 수 있어요!" color="yellow" />
+                                <NoticeButton label="모금을 제안하고 싶은 당신을 위한 꿀팁!" color="yellow" />
+                                <NoticeButton label="NMT를 통해 어떤 변화가 이루어질까요?" color="gray" />
+                            </div>
                         </div>
                     </div>
-                </div>
-
+                    </div>
             </main>
             <footer css={s.footerStyle}>
                 <p>© 2024 ProjectNMT</p>
