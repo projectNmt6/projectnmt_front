@@ -5,7 +5,7 @@ import { useQuery, useQueryClient } from "react-query";
 import Progress from "../../components/progress/Progress";
 import { BsFillSearchHeartFill } from "react-icons/bs";
 import LikeButton from "../../components/LikeButton/LikeButton";
-import { getDonators } from "../../apis/api/DonatorApi";
+import { getDonators } from "../../apis/api/donatorApi";
 
 function LastDonator(props) {
     const [closestToGoal, setClosestToGoal] = useState(null);
@@ -19,8 +19,8 @@ function LastDonator(props) {
             refetchOnWindowFocus: false,
             onSuccess: response => {
                 const donations = response.data;
-
-                const uniqueDonations = donations.reduce((acc, curr) => {
+                const filteredDonations = donations.filter(donation => donation.goalAmount !== 0);
+                const uniqueDonations = filteredDonations.reduce((acc, curr) => {
                     if (!acc.some(item => item.donationPageId === curr.donationPageId)) {
                         acc.push(curr);
                     }

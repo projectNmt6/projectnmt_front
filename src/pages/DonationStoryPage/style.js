@@ -277,15 +277,18 @@ export const sanitizeHtml = css`
 
 export const commentBox = css`
   display: flex;
+  flex-direction:column;
+    justify-content: center;
   border: 1px solid #111111;
   width: 100%;
   height: 100%;
   margin-bottom: 20px; /* 댓글 사이의 간격 */
-        padding: 10px;
-        border-bottom: 1px solid #ccc; 
+    padding: 10px;
+    border-bottom: 1px solid #ccc; 
+    border-top:2px solid #d2d0d0;
 
-    margin-bottom: 20px;`
-
+    margin-bottom: 20px;
+`
 
 export const boxbox1 = css`
     display: flex;
@@ -306,14 +309,7 @@ export const teamNDonationBox = css`
     height: 860px;
 `;
 
-export const commentBox = css`
-    display: flex;
-    flex-direction:column;
-    justify-content: center;
-    width: 100%;
-    border-top:2px solid #d2d0d0;
-    margin-bottom: 20px;
-`;
+
 
 export const commentBoxStyle = css`
     width: 100%;

@@ -74,7 +74,6 @@ function AuthRoute(props) {
                 <Route path="/main/donation/update" element={<DonationUpdatePageBoard />} />
                 <Route path="/search" element={<SearchPage />} />
                 <Route path="/message" element={<MessagePage />} /> 
-                <Route path='/main/donations/challenge' element={ < MainPage2 />} />
                 <Route path='/main/donation/news/update' element={<NewsUpdatePage />} />       
                 <Route path="/account/mypage/donation" element={<MyDonation />} />        
                 <Route path="/message" element={<MessagePage />} />

@@ -17,6 +17,7 @@ import DonatorInfo from "../DonatorInfo/DonatorInfo";
 import { getTeamInfoRequest } from "../../apis/api/teamApi";
 import { getDonators } from "../../apis/api/donatorApi";
 import { getPrincipalRequest } from '../../apis/api/principal';
+import CommentSection from "../DonationStoryPage/DonationComment/DonationComment";
 
 function DonationStoryPage() {
     const location = useLocation();
@@ -295,7 +296,7 @@ const handleNewsButtonClick = () => {
             <div css={s.container1}>
                 {showModal && (
                     <div css={s.container3}>
-                        <div css={s.modal}><DonatorInfo setShowModal={setshowModal}/></div>
+                        <div css={s.modal}><DonatorInfo setShowModal={setShowModal}/></div>
                     </div>
                 )}
                 <div css={s.header}>
@@ -389,5 +390,6 @@ const handleNewsButtonClick = () => {
         </div>
     </>
 );   
+}
 
 export default DonationStoryPage;
