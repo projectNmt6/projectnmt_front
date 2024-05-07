@@ -8,11 +8,16 @@ import DonatorInfo from '../../DonatorInfo/DonatorInfo';
 function DonationHeader({ donationPageId, selectedTab, handleTabChange, contentRef}) {
     const [isVisible, setIsVisible] = useState(false);
     const [showModal, setshowModal] = useState(false);
+
+function DonationHeader({ donationPageId, selectedTab, handleTabChange, contentRef }) {
+    const [isVisible, setIsVisible] = useState(false);
+
     useEffect(() => {
         const checkVisibility = () => {
             if (!contentRef.current) {
                 return; // contentRef가 없으면 함수를 종료합니다.
             }
+            console.log(contentRef)
             // contentRef 요소의 뷰포트 내 상단 위치를 계산
             const targetTop = contentRef.current.getBoundingClientRect().top;
 
@@ -72,6 +77,36 @@ function DonationHeader({ donationPageId, selectedTab, handleTabChange, contentR
     </span>
         </div> </div>
 );
+
+
+    return (
+        <div style={{ display: isVisible ? 'block' : 'none' }}>
+            <div css={[s.headerPanel2, { position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000 }]}>
+                <div css={s.buttonGroupContainer2}>
+                    <div css={s.buttonGroup2}>
+                        <button
+                            css={[s.tabButton2, selectedTab === 'story' && s.activeTabButton2]}
+                            onClick={() => handleTabChange('story')}
+                        >
+                        Story
+                        </button>
+                        <button
+                            css={[s.tabButton2, selectedTab === 'donators' && s.activeTabButton2]}
+                            onClick={() => handleTabChange('donators')}
+                        >
+                        Donators
+                        </button>
+                        <button
+                            css={[s.tabButton2, selectedTab === 'news' && s.activeTabButton2]}
+                            onClick={() => handleTabChange('news')}
+                        >
+                        News
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
 }
 
 export default DonationHeader;
