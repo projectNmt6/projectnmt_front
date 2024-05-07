@@ -86,7 +86,7 @@ function NowDonationPage() {
           case '최신순':
             return new Date(b.createDate) - new Date(a.createDate);
           case '추천순':
-            return b.likeCount - a.likeCount;
+            return b.countLike - a.countLike;
           case '종료임박순':
             return new Date(a.endDate) - new Date(b.endDate);
           default:

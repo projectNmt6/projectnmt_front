@@ -35,6 +35,7 @@ import PasswordEditPage from '../pages/UserInfoEditPage/PasswordEditPage';
 
 import DonationUpdatePageBoard from '../pages/DonationUpdatePage/DonationUpdatePageboard';
 import ChallengeNewsWrite from '../pages/DonationChallengerPage/Challenge/ChallengeNewsWirte/ChallengeNewsWrite';
+import AboutNMT from '../pages/HomePage/AboutNMT';
 
 import ChallengeWrite from '../pages/DonationChallengerPage/ChallengePage/ChallengeWrite/ChallengeWritePage';
 
@@ -67,6 +68,7 @@ function AuthRoute(props) {
         <Routes>
                 <Route path="/auth/*" element={ <AuthPage />}/>
                 <Route path="/" element={<HomePage />} />
+                <Route path="/aboutNMT" element={<AboutNMT />} />
                 <Route path="/main" element={<MainPage />} />
                 <Route path="/main/write" element={<DonationPageboard/>} />
                 <Route path="/main/donation/news" element={ <NewsWrite />} />
