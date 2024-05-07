@@ -66,7 +66,13 @@ flex-direction: column;
 `;
 
 export const write=css`
-margin-bottom: 30px;
+  padding: 5px;
+  &>a{
+    text-decoration-line: none;
+     color: black;
+     font-weight: 600;
+     line-height: 1.48;
+  }
 `;
 
 export const tagContainer = css`
@@ -83,15 +89,6 @@ export const donationCard = css`
 `;
 
 
-
-export const linkStyle = css`
-  text-decoration: none; 
-  color: inherit; 
-  &:hover, &:active, &:visited {
-    text-decoration: none;
-    color: inherit;
-  }
-`;
 
 export const upperRightMenu = css`
 `;
@@ -114,4 +111,32 @@ export const teamLogo = css`
   height: 24px;
   border-radius: 5px;
   margin-right: 5px; // 텍스트와의 간격을 추가
+`;
+
+
+export const writeStyles = css`
+  display: flex;
+  margin: 20px;
+  padding-right: 20px;
+
+  justify-content: flex-end; 
+  width: 100%; /* 작성하기 요소가 전체 너비를 차지하도록 설정 */
+`;
+
+export const linkStyles = css`
+
+  padding: 5px;
+
+  &>a{
+    text-decoration-line: none;
+     color: #949494;
+     font-weight: 600;
+     line-height: 1.48;
+  }
+`;
+
+export const iconStyles = css`
+  width: 20px;
+  height: 20px;
+  margin-right: 5px; /* 조정 가능 */
 `;

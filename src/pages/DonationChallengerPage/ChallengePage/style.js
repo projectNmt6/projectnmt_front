@@ -5,15 +5,17 @@ export const main = css`
     display: flex;
     justify-content: space-around;
     width: 100%; 
+    height: 100%;
     background-color: aqua;
+        
 `;
 
-// contentAreaStyle 수정
+
 export const contentAreaStyle = css`
   display: flex;
-  justify-content: center;
   max-width: 1200px; /* 전체 페이지의 최대 너비를 1200px로 제한합니다. */
-  margin: 0 auto; /* 가운데 정렬을 위해 추가 */
+  margin: 0 auto; /* 가운데 정렬을 위해 추가 */  
+  min-height: 500px;
 `;
 
 // leftCardLayout 수정
@@ -22,41 +24,65 @@ export const leftCardLayout = css`
     width: 700px;
     flex-direction: column;
     flex-wrap: wrap;
-    position: sticky;
+    position: relative; 
 `;
 
 export const rightCardLayout = css`
-  display: flex;
-  flex-direction: column;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
-  width: 360px; /* 오른쪽 영역 너비를 조정합니다. */
-  top: 20px; /* 부모 요소의 위쪽에서 일정한 거리만큼 떨어진 위치에 표시됩니다. */
-  padding-left: 30px;
+    width: 360px;
+    min-height: 1000px;
+    padding-left: 30px;
 `;
 
+
 export const sidebarStyle = css`
-  display: flex;
-  margin: 10px; 
-  flex-direction: column; 
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  border-radius: 10px;
-  padding: 25px;
-  justify-content: flex-start;
-  position: sticky; // 오른쪽에 고정되도록 설정합니다.
-  top: 20px; // 부모 요소의 위쪽에서 일정한 거리만큼 떨어진 위치에 표시됩니다.
+margin: 0px;
+font: inherit;
+vertical-align: baseline;
+padding: 34px 25px 0px;
+order: 1;
+position: sticky;
+top: 84px;
+border: 1px solid rgb(221, 221, 221);
+border-radius: 8px;
+margin-top: 40px;
+background-color: rgb(255, 255, 255);
 `;
+// export const sidebarStyle = css`
+//   display: flex;
+//   margin: 10px; 
+//   flex-direction: column; 
+//   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+//   border-radius: 10px;
+//   padding: 25px;
+//   position: sticky; // 오른쪽
+//   top: 20px;
+//   z-index: 2000; /* 수정된 부분 */
+// `;
 
 export const sidebarStyle2 = css`
   display: flex;
   flex-direction: column;
   margin: 10px;
-  background-color: #FFD79999;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   border-radius: 10px;
   padding: 20px;
   justify-content: space-between;
-  top: 20px; /* 부모 요소의 위쪽에서 일정한 거리만큼 떨어진 위치에 표시됩니다. */
-  right: 0; /* 오른쪽에 위치하도록 설정합니다. */
+  top: 20px;
+  right: 0;
+`;
+export const sidebarStyle3 = css`
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 20px;
+    justify-content: space-between;
+    background-color: #f2f2f2; /* 배경색을 연한 회색으로 설정 */
 `;
 
 export const teamInfo = css`
@@ -85,7 +111,44 @@ export const actionImage = css`
  width: 50px;
  height: 50px;
  padding: 4px; 
+ z-index: 1;
 `;
+
+ 
+export const actionButton1 = css`
+
+    display: flex;
+    margin: 10px; 
+    border-radius: 10px;
+   align-items: center;
+   justify-content: center;
+    background-color: rgb(173, 76, 254);
+    color: white; /* 글자색 변경 */
+    width: 360px; /* 가로 크기 변경 */
+    height: 50px; /* 세로 크기 변경 */
+    border: none;
+    font-size: 17px;
+    text-decoration: none;
+    font-weight: 600;
+    font-family: 'NEXON Lv1 Gothic OTF';
+
+`;
+export const actionButton2 = css`
+    display: flex;
+    margin: 10px; 
+    border-radius: 10px;
+   align-items: center;
+   justify-content: center;
+    background-color: rgb(173, 76, 254);
+    height: 40px;
+    color: white; /* 글자색 변경 */
+    border: none;
+    font-size: 16px;
+    text-decoration: none;
+    font-weight: 500;
+    font-family: 'NEXON Lv1 Gothic OTF';
+`;
+
 
 export const remainingDays = css`
   align-self: flex-start; // Flex 컨테이너 내에서 자신만의 위치를 조정
@@ -140,7 +203,7 @@ export const container3 = css`
     top:0; left: 0; bottom: 0; right: 0;
     background: rgba(160, 160, 160, 0.6);
     overflow: hidden;
-    
+    z-index: 100; /* 다른 요소보다 위에 위치하도록 설정 */
 `;
 
 export const link = css`
@@ -156,29 +219,36 @@ export const header = css`
     padding-bottom: 20px;
 `;
 
+export const commentBorder = css`
+
+border-bottom: 1px solid #ccc; // 말풍선과 구분선
+`;
 
 export const button4 = css`
     border: none;
     font-size: 15px;
-    color: #606060;
     margin-right: 3px;
     border-radius: 5px;
     padding: 12px;
     font-weight: 600;
     cursor: pointer;
+    background-color: transparent; // 배경색 제거
+    color: rgb(136, 136, 136); // 초기 텍스트 색상 설정
+
     :focus {
         transition: all 0.3s ease-in-out;
-        background-color: #bfbdbd;
     }
     :hover {
-        background-color: #bfbdbd;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); 
+        color: #333; // 마우스 오버 시 텍스트 색상 변경
     }
     :active {
-        background-color: #bfbdbd;
-        box-shadow: inset 2px 2px 6px gray ;
+        color: #555; // 마우스 클릭 시 텍스트 색상 진하게 변경
     }
 `;
+
+export const actionmodal = css`
+     z-index: 15000; /* 더 높은 z-index 값 */
+`
 
 export const cardStyle = css`
   margin: 10px;
@@ -194,25 +264,27 @@ export const cardStyle = css`
     text-decoration: none;
     color: inherit;
     background-color:#faf9f7;
-    transition: background-color 0.5s ease,border-color 0.5s ease;
+    transition: background-color 0.5s ease,
+    border-color 0.5s ease;
   }
 `;
 
 export const modal = css`
     position: fixed;
-    background-color: white;
     top: 50%;
     left: 50%;
-    margin-left:-10%;
-    margin-top: -200px; 
-    display: flex;
-    flex-direction: column;
-    border: #d1d8dd;
-    border-radius: 5px;
+    transform: translate(-50%, -50%);
     width: 400px;
     height: 500px;
-    box-shadow: 0 0 6px 1px rgb(0 0 0 / 30%);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #d1d8dd;
+    border-radius: 5px;
+    box-shadow: 0 0 6px 1px rgba(0, 0, 0, 0.3);
+    background-color: white;
+    z-index: 1500; // 충분히 높은 z-index
 `;
+
 
 
 
@@ -242,7 +314,6 @@ export const actionText = css`
     padding-bottom: 15px;
     font-weight: 700;
     font-size: 16px;
-    
     svg { // 아이콘에 대한 스타일
         font-size: 20px; // 텍스트와 일치하는 크기
         margin-right: 8px; // 아이콘과 텍스트 사이에 간격 추가
@@ -251,8 +322,47 @@ export const actionText = css`
 
 export const actionProgressBar = css`
     text-align: center;
-    margin-bottom: 20px;
     width: 100%;
-    border: 1px solid #222222;
-    background-color: #dbdbdb;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    height: 5px;
+    width: 100%; /* 최대 너비 설정 */
+    transition: width 0.5s ease-in-out;
+    div {
+        height: 100%;
+        background-color: rgb(173, 76, 254);
+    border-radius: 5px;
+    }
+`;
+export const actingInfo = css`
+    display: flex;
+    justify-content: space-between; /* 요소들을 좌우 정렬 */
+    align-items: center; /* 요소들을 수직 정렬 */
+    padding: 10px 0px;
+`;
+
+export const actingCount = css`
+    display: flex;
+    align-items: center; // 아이콘과 텍스트를 세로 중앙 정렬
+    font-weight: 600;
+    font-size: 14px;
+    svg { // 아이콘에 대한 스타일
+        font-size: 20px; // 텍스트와 일치하는 크기
+        margin-right: 8px; // 아이콘과 텍스트 사이에 간격 추가
+        
+    color: rgb(173, 76, 254);
+    }
+`;
+export const headCountCss = css`
+    font-weight: 600;
+    font-size: 14px;
+
+`;
+
+export const howToText = css`
+    position: absolute; /* 절대 위치 설정 */
+    top: -13px; /* 상단으로 -15px 이동하여 박스 경계 부분에 겹치도록 */
+    left: 15%;
+    transform: translateX(-50%); /* 수평으로 가운데 정렬 */
+    font-weight: 700;
 `;

@@ -163,6 +163,17 @@ display: flex;
 justify-content: flex-end;
 padding: 20px;
 `
+// style.js
+
+export const active = {
+  backgroundColor: '#f0f0f0', // Example active background color
+  color: '#333', // Example text color for active state
+};
+
+export const inactive = {
+  backgroundColor: '#fff', // Example inactive background color
+  color: '#bbb', // Example text color for inactive state
+};
 
 export const rightButton = (sortOrder) => css`
   background-color: transparent;
@@ -200,3 +211,4 @@ export const finished = css`
       border-radius: 5px;
       color: white;
 `;
+

@@ -26,7 +26,7 @@ function MainPage() {
                     <button onClick={() => {handleTabChange('end'); setSelectedCategory(1);}}>모금종료 </button>
                 </div>
                 <div css={s.write}>
-                    <a href='/main/write'><FaPen color="#949494" size={14} /> 모금제안 </a>
+                    <a href='/main/write'><FaPen color="black" size={14} /> 모금제안 </a>
                 </div>
             </header>
             <main css={s.main}>

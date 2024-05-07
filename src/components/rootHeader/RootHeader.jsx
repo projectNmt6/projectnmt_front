@@ -47,7 +47,7 @@ function RootHeader(props) {
                     <Link to={"/main"} onClick={() => handleHeaderLine("기부")} > 기부하기 </Link>
                 </div>
                 <div css={s.challengebox(headerLine)}>
-                    <Link to={"/main/donations/challenge"} onClick={() => handleHeaderLine("챌린지")}>챌린지</Link>
+                    <Link to={"/main/challenges"} onClick={() => handleHeaderLine("챌린지")}>챌린지</Link>
                 </div>
                 <div css={s.adminbox(true)}>
                     {isAdmin ? <Link to={"/admin/main"} > 관리자 </Link> : null}

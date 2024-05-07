@@ -3,14 +3,13 @@ import { useLocation } from 'react-router-dom';
 import { getChallengePageRequest } from '../../../apis/api/DonationAPI';
 import DOMPurify from 'dompurify';
 import { useQuery } from 'react-query';
-
+import * as s from './style';
+/** @jsxImportSource @emotion/react */
 function ChallengeStory() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const challengePageId = queryParams.get('page'); 
     const [challengePage, setChallengePage] = useState({});
-    const [userId, setUserId ] = useState();    
-    const [ teamInfo, setTeamInfo ] = useState();
   
     const safeHTML = DOMPurify.sanitize(challengePage.challengeContent);
     
@@ -35,7 +34,7 @@ function ChallengeStory() {
 
     return (
         <div>
-            <div dangerouslySetInnerHTML={{ __html: safeHTML }} /> 
+            <div css={s.challengeStory} dangerouslySetInnerHTML={{ __html: safeHTML }} /> 
         </div>
     );
 }

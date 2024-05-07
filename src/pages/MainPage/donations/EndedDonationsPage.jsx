@@ -10,7 +10,12 @@ import Progress from "../../../components/progress/Progress";
 function EndedDonationsPage(props) {
     const [donationTagList, setDonationTagList] = useState([]);
     const [donationList, setDonationList] = useState([]);
+    const [selectedTag, setSelectedTag] = useState(null);
+    const [sortOrder, setSortOrder] = useState('');
 
+    const [visibleDonations, setVisibleDonations] = useState([]);
+    const itemsPerPage = 30;
+    const [currentPage, setCurrentPage] = useState(0);
     //donationTag
     const getDonationTagQuery = useQuery(
         "getDonationTagQuery",
@@ -35,17 +40,44 @@ function EndedDonationsPage(props) {
                     const endDate = new Date(donation.endDate);
                     return endDate < today;
                 });
+                const updatedDonationList = validDonations.map(donation => {
+                    const endDate = new Date(donation.endDate);
+                    const timeDiff = endDate - today;
+                    const daysLeft = timeDiff / (1000 * 60 * 60 * 24);
+    
+                    return {
+                        ...donation,
+                        timeOut: daysLeft < 3,
+                    };
+                });
                 setDonationList(validDonations);
+                setVisibleDonations(updatedDonationList.slice(0, itemsPerPage));
             }
         }   
     );
 
 
+    
+
+  useEffect(() => {
+    const onScroll = () => {
+        if (window.innerHeight + document.documentElement.scrollTop + 1 >= document.documentElement.offsetHeight) {
+            const nextPage = currentPage + 1;
+            const nextItems = donationList.slice(nextPage * itemsPerPage, (nextPage + 1) * itemsPerPage);
+            setVisibleDonations(prev => [...prev, ...nextItems]);
+            setCurrentPage(nextPage);
+        }
+    };
+
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+}, [currentPage, donationList]);
     return (
         <>
                 <div css={s.donationList}>
                     {
-                        donationList.map(
+
+visibleDonations.map(
                             donation =>
                                 <a href={`/donation?page=${donation.donationPageId}`} key={donation.donationPageId} css={s.linkStyle}>
                                     <div key={donation.donationPageId} css={s.donationCard}>

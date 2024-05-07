@@ -3,7 +3,6 @@ import { useMutation, useQuery } from 'react-query';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { deleteChallengePage, getChallengePageRequest } from '../../../apis/api/DonationAPI';
 import DOMPurify from 'dompurify';
-import CommentSection from './ChallenegComment/CommentSection';
 import ChallengeStory from '../Challenge/ChallengeStory';
 import ChallengeNews from '../Challenge/ChallengeNews';
 import ActionBoard from '../Challenge/ActionBoard/ActionBoard';
@@ -15,14 +14,17 @@ import { getTeamInfoRequest, getTeamListRequest } from '../../../apis/api/teamAp
 import * as s from "./style";
 import { countActionBoard, getActionBoardList } from '../../../apis/api/ChallengeApi';
 import { HiOutlineClock } from "react-icons/hi2";
-import { HiOutlineBadgeCheck } from "react-icons/hi";
-function ChallengePage() {    
+import { HiBadgeCheck } from "react-icons/hi";
+import TopButton from '../../../components/TopButton/TopButton';
+import ActionPhoto from './ActionPhoto/ActionPhoto';
+import ChallengeComment from './ChallenegComment/ChallengeComment';
+function ChallengePage() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const challengePageId = queryParams.get('page');
     const [challengePage, setChallengePage] = useState(null);
-    const [userId, setUserId ] = useState();    
-    const [ teamInfo, setTeamInfo ] = useState();
+    const [userId, setUserId] = useState();
+    const [teamInfo, setTeamInfo] = useState();
 
     const getChallengePageQuery = useQuery(
         ["getChallengePageQuery", challengePageId],
@@ -43,7 +45,7 @@ function ChallengePage() {
     );
 
     const principalQuery = useQuery(
-        ["principalQuery"], 
+        ["principalQuery"],
         getPrincipalRequest,
         {
             retry: 0,
@@ -70,20 +72,20 @@ function ChallengePage() {
         fetchData();
     }, [challengePageId]);
 
-    const [ actingHeadCount, setActingHeadCount ] = useState(0);
-    
+    const [actingHeadCount, setActingHeadCount] = useState(0);
+
     useEffect(() => {
         if (challengePageId) {
             countActionBoard(challengePageId)
-            .then(response => {
-                console.log("API Response:", response.data); // 응답 로깅
-                setActingHeadCount(response.data);
-            })
-            .catch(error => {
-                console.error("actionError", error);
-            });
+                .then(response => {
+                    console.log("API Response:", response.data); // 응답 로깅
+                    setActingHeadCount(response.data);
+                })
+                .catch(error => {
+                    console.error("actionError", error);
+                });
         }
-    }, [challengePageId]);    
+    }, [challengePageId]);
 
     const { challengeMainImg, challengeTitle, challengeOverview, endDate, challengeContent, headCount } = challengePage || {};
     const [selectedTab, setSelectedTab] = useState('story'); // news, story 중 하나의 값을 가짐
@@ -93,7 +95,7 @@ function ChallengePage() {
     const safeHTML = DOMPurify.sanitize(challengeContent);
 
     const [showModal, setShowModal] = useState(false);
-    const [showNewModal, setShowNewModal] = useState(false); 
+    const [showNewModal, setShowNewModal] = useState(false);
 
     useEffect(() => {
         if (showModal || showNewModal) {
@@ -102,9 +104,13 @@ function ChallengePage() {
             document.body.style.overflow = 'auto';
         }
     }, [showModal, showNewModal]);
-  
+    const [showCommentSection, setShowCommentSection] = useState(false);
+
+    const handleCommentToggle = () => {
+        setShowCommentSection(!showCommentSection);
+    };
     const [teams, setTeams] = useState([]);
-    
+
     useEffect(() => {
         if (userId) {
             const fetchTeams = async () => {
@@ -162,39 +168,34 @@ function ChallengePage() {
     const handleDeleteButton = () => {
         console.log("삭제 시도:", challengePageId);
         deleteMutationButton.mutate({ challengePageId: challengePageId });
+    }
+
+    const [remainingDays, setRemainingDays] = useState('');
+
+    useEffect(() => {
+        if (challengePage && challengePage.endDate) {
+            const currentDate = new Date();
+            const endDate = new Date(challengePage.endDate);
+
+            // 남은 시간(밀리초) 계산
+            const remainingTime = endDate.getTime() - currentDate.getTime();
+
+            // 밀리초를 일수로 변환
+            const days = Math.max(0, Math.ceil(remainingTime / (1000 * 60 * 60 * 24)));
+
+            // 상태 업데이트
+            setRemainingDays(days);
+        } else {
+            setRemainingDays('날짜 정보 없음');
         }
+    }, [challengePage]);
 
-        const [remainingDays, setRemainingDays] = useState('');
+    const handleNewsButtonClick = () => {
+        window.location.replace(`/main/challenge/news?page=${challengePageId}`);
+    };
 
-        useEffect(() => {
-            if (challengePage && challengePage.endDate) {
-                const currentDate = new Date();
-                const endDate = new Date(challengePage.endDate);
-        
-                // 남은 시간(밀리초) 계산
-                const remainingTime = endDate.getTime() - currentDate.getTime();
-                
-                // 밀리초를 일수로 변환
-                const days = Math.max(0, Math.ceil(remainingTime / (1000 * 60 * 60 * 24)));
-        
-                // 상태 업데이트
-                setRemainingDays(days);
-            } else {
-                setRemainingDays('날짜 정보 없음');
-            }
-        }, [challengePage]);
 
-        const handleNewsButtonClick = () => {
-            window.location.replace(`/main/challenge/news?page=${challengePageId}`);
-        };
-        
-        const progressBarStyle = (percentage) => ({
-            height: '5px',
-            width: `${percentage}%`,
-            backgroundColor: 'red',
-            transition: 'width 0.5s ease-in-out'
-        });
-        const [actionList, setActionList] = useState([]);
+    const [actionList, setActionList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
@@ -202,129 +203,142 @@ function ChallengePage() {
         if (challengePageId) {
             setLoading(true);
             getActionBoardList(challengePageId)
-            .then(response => {
-                setActionList(response.data);
-                setLoading(false);
-            })
-            .catch(error => {
-                console.error("actionError", error);
-                setError('Failed to fetch data');
-                setLoading(false);
-            });
+                .then(response => {
+                    const sortedActions = response.data.sort((a, b) =>
+                        new Date(b.createDate) - new Date(a.createDate)  // 내림차순 정렬
+                    );
+                    setActionList(sortedActions);
+                    setLoading(false);
+                })
+                .catch(error => {
+                    console.error("actionError", error);
+                    setError('Failed to fetch data');
+                    setLoading(false);
+                });
         }
     }, [challengePageId]);
-    return (
 
-    <div css={s.contentAreaStyle}>
-            
+    return (
+        <div css={s.contentAreaStyle}>
+
+
+
             <div css={s.leftCardLayout}>
-            {showModal && (
+                {showModal && (
                     <div css={s.container3}>
                         <div css={s.modal}><LoginRequiredModal setShowModal={setShowModal} /></div>
                     </div>
                 )}
-            
-            <div >
-                <Link css={s.link} to={"/main"}>메인으로 </Link>
-            </div>
-            
-            <div >
-            <button onClick={handleNewsButtonClick}>후기작성버튼</button>
-                <button><Link to={`update?page=${challengePageId}`}>수정하기</Link></button>
-                <button onClick={handleDeleteButton}>삭제하기</button>
-                <button onClick={handleModalToggle}>행동하기!</button>
-                    {showModal && (
-                        <div css={s.cardStyle}>
-                            <LoginRequiredModal setShowModal={setShowModal} />
-                        </div>
-                    )}
-                    {showNewModal && (
-                <div css={s.cardStyle}>
-                <ActionModal setShowNewModal={setShowNewModal} challengePageId={challengePageId} />
-            </div>
-                    )} 
-            </div>
 
-
-        <div>     
-            <div css={s.storyContent}>
-                <div css={s.main}>
-                <img src={challengeMainImg} alt="Challenge" css={s.storyImage} />
-
- 
-                </div>
-            </div>
                 <div >
-                    <button css={s.button4} onClick={() => handleTabChange('story')}>Story</button>
-                    <button css={s.button4} onClick={() => handleTabChange('action')}>Action</button>
-                    <button css={s.button4} onClick={() => handleTabChange('news')}>news</button>
-                    <div css={s.boxbox1}>
-                    </div>       
+                    <Link css={s.link} to={"/main"}>메인으로 </Link>
+                </div>
+
+                <div >
+                    <button onClick={handleNewsButtonClick}>후기작성버튼</button>
+                    <button>후기 수정하기</button>
+                    <button><Link to={`update?page=${challengePageId}`}>수정하기</Link></button>
+                    <button onClick={handleDeleteButton}>삭제하기</button>
+                    <div className="modal-overlay">
+                        {showModal && (
+                            <div css={s.cardStyle}>
+                                <LoginRequiredModal setShowModal={setShowModal} />
+                            </div>
+                        )}
+                        {showNewModal && (
+                            <div >
+                                <ActionModal setShowNewModal={setShowNewModal} challengePageId={challengePageId} />
+                            </div>
+                        )}
+                    </div></div>
+
+
+                <div>
+                    <div css={s.storyContent}>
+                        <div css={s.main}>
+                            <img src={challengeMainImg} alt="Challenge" css={s.storyImage} />
+
+
+                        </div>
+                    </div>
+                    <div >
+                        <button css={s.button4} onClick={() => handleTabChange('story')}>Story</button>
+                        <button css={s.button4} onClick={() => handleTabChange('action')}>Action</button>
+                        <button css={s.button4} onClick={() => handleTabChange('news')}>news</button>
+                        <div css={s.boxbox1}>
+                        </div>
                         <div>
-                            { selectedTab === 'story' ?
-                            <ChallengeStory />
-                            :selectedTab === 'news' ? 
-                            <ChallengeNews challengePageId={challengePageId} /> 
-                            : < ActionBoard challengePageId={challengePageId} />
+                            {selectedTab === 'story' ?
+                                <ChallengeStory />
+                                : selectedTab === 'news' ?
+                                    <ChallengeNews challengePageId={challengePageId} />
+                                    : < ActionBoard challengePageId={challengePageId} />
                             }
-                
-                <h3>덧글</h3>
-                    <CommentSection challengePageId={challengePageId} />
+                            <div css={s.commentBorder}>
+                                <h3>댓글</h3>
+                            </div>
+                            <ChallengeComment challengePageId={challengePageId} />
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div css={s.rightCardLayout}>
+
+                {/* 오른쪽 영역 컨텐츠 */}
+                <div css={s.sidebarStyle2}>
                     
+                    <div css={s.remainingDays}><HiOutlineClock />{remainingDays} 일 남음</div>
+                    <h1>{challengeTitle}</h1>
+
+                    <div css={s.actingInfo}>
+                        <div css={s.actingCount}><HiBadgeCheck />{actingHeadCount} 명 행동중!</div>
+                        <div css={s.headCountCss}>{headCount}명 목표</div>
+                    </div>
+                    <div css={s.actionProgressBar}>
+                        <div style={{ width: `${(actingHeadCount / headCount) * 100}%` }}></div>
+                    </div>
+
                 </div>
-                        
+                <div css={s.sidebarStyle3}>
+                    <div css={s.howToText}>How To!</div>
+                    <div>{challengeOverview}</div>
                 </div>
+                <div css={s.teamInfo}>
+                    <div css={s.teamName}>
+                        <img css={s.teamLogo} src={teamInfo?.teamLogoImgUrl} alt="" />
+                        {teamInfo?.teamName}</div>
+                    <div css={s.teamText}>{teamInfo?.teamInfoText}</div>
                 </div>
+                <div css={s.sidebarStyle}>
+                    
+                    <div css={s.actionText}>
+                        <HiBadgeCheck />행동하기 인증!</div>
+
+                    <div>
+                        {actionList
+                            .slice(0, 25) // 첫 25개 요소 추출
+                            .map((action) => (
+                                <span key={action.id}>
+                                    <img src={action.imageURL} alt={`Action ${action.id}`} css={s.actionImage} />
+                                </span>
+                            ))
+                        }
+                    </div>
+
+                    <button onClick={handleModalToggle} css={s.actionButton2}>행동하기!</button>
+                </div>
+                
+            <ActionPhoto />
+            </div>
+
+            <TopButton />
+            
         </div>
 
 
-
-        <div css={s.rightCardLayout}>  
-            <div css={s.sidebarStyle2}>
-            <div css={s.remainingDays}><HiOutlineClock />{remainingDays} 일 남음</div>
-                <div>
-                    {actingHeadCount} 명 행동중!
-                    {headCount}명 목표</div>
-
-                    <div css={s.actionProgressBar}>
-                    <div style={progressBarStyle((actingHeadCount / headCount) * 100)}></div>
-                    </div>
-            
-                <h1>{challengeTitle}</h1>   
-            </div>
-
-            <div css={s.teamInfo}>
-                <div css={s.teamName}>
-                <img css={s.teamLogo} src={teamInfo?.teamLogoImgUrl} alt="" />
-                    {teamInfo?.teamName}</div>
-                <div css={s.teamText}>{teamInfo?.teamInfoText}</div>
-            </div>
-
-            <div css={s.sidebarStyle2}>
-            <div>
-                <div>{challengeOverview}</div>
-            </div>
-            </div>
-
-            <div css={s.sidebarStyle}>
-            <div css={s.actionText}>
-            <HiOutlineBadgeCheck />행동하기 인증!
-            </div> 
-            <div >
-                    {actionList.map((action) => (
-                        <span key={action.id} >
-                            <img src={action.imageURL} alt={`Action ${action.id}`} css={s.actionImage} />
-                        </span>
-                    ))}
-                </div>       
-            </div>
-               
-               
-               </div>
-
-                </div>
-
-        
     );
 }
 

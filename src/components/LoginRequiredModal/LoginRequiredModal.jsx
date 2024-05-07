@@ -9,13 +9,12 @@ function LoginRequiredModal({ setShowModal }) {
     const handleCloseClick = () => {
         setShowModal(false);
     };
-
-    const navigate = useNavigate(); // useNavigate를 호출하여 navigate 함수를 얻습니다.
-
+    const navigate = useNavigate();
     const handleLoginClick = () => {
         navigate('/auth/signin'); // 로그인 페이지로 이동합니다.
         setShowModal(false); // 모달을 닫습니다.
     };
+    
     return (
         <>
             <div css={s.modalBackground}>

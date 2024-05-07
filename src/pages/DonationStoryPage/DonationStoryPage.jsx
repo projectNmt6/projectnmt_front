@@ -15,8 +15,9 @@ import Donators from "./CategoryPage/Donators";
 import DonationComment from "../DonationStoryPage/DonationComment/DonationComment";
 import DonatorInfo from "../DonatorInfo/DonatorInfo";
 import { getTeamInfoRequest } from "../../apis/api/teamApi";
-
+import { RxShare2 } from "react-icons/rx";
 import { getPrincipalRequest } from '../../apis/api/principal';
+import ShareButton from "../../components/ShareModal/ShareButton";
 function DonationStoryPage() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -28,13 +29,13 @@ function DonationStoryPage() {
     const donationCommentId = queryParams.get('commentId')
     const [comment, setComment] = useState("");
     const [selectedTab, setSelectedTab] = useState('story'); // news, story 중 하나의 값을 가짐
-    const [ showModal , setshowModal ] = useState(false);    
-    const [userId, setUserId ] = useState();
-    const [ teamInfo, setTeamInfo ] = useState();
-    
-   
+    const [showModal, setshowModal] = useState(false);
+    const [userId, setUserId] = useState();
+    const [teamInfo, setTeamInfo] = useState();
+
+
     const principalQuery = useQuery(
-        ["principalQuery"], 
+        ["principalQuery"],
         getPrincipalRequest,
         {
             retry: 0,
@@ -50,7 +51,7 @@ function DonationStoryPage() {
         }
     );
 
-    
+
     const getDonationStoryQuery = useQuery(
         ["getDonationPageQuery", donationPageId],
         async () => {
@@ -72,7 +73,7 @@ function DonationStoryPage() {
             .then(response => setCommentList(response.data))
             .catch(console.error);
     }, [donationPageId]);
-    
+
 
     const { storyContent, storyTitle, mainImgUrl, createDate, endDate } = donationPage || {};
 
@@ -123,13 +124,13 @@ function DonationStoryPage() {
     })
 
     const handleUpdateButtonClick = () => {
-        getUpdatePageBUtton.mutate({donationPageId : donationPageId})
+        getUpdatePageBUtton.mutate({ donationPageId: donationPageId })
     }
 
 
     const handleDeleteButtonClick = () => {
-    console.log("삭제 시도:", donationPageId);
-    deleteMutationButton.mutate({ donationPageId: donationPageId });
+        console.log("삭제 시도:", donationPageId);
+        deleteMutationButton.mutate({ donationPageId: donationPageId });
     }
 
     const handleCommentChange = (e) => {
@@ -203,19 +204,19 @@ function DonationStoryPage() {
     const handleNewsUpdateButton = () => {
     }
 
-    
+
 
     // 카카오톡 공유 버튼 클릭 이벤트 핸들러 추가
-const handleShareKakao = () => {
-    const route = window.location.href; // 현재 페이지 URL
-    const title = donationPage.storyTitle; // 기부 스토리 제목
-    const THU = mainImgUrl;
-    const content = "펀펀하게 펀딩하러 가기!"
-    const page = donationPageId;
+    const handleShareKakao = () => {
+        const route = window.location.href; // 현재 페이지 URL
+        const title = donationPage.storyTitle; // 기부 스토리 제목
+        const THU = mainImgUrl;
+        const content = "펀펀하게 펀딩하러 가기!"
+        const page = donationPageId;
 
-    shareKakao(route, title, THU, content, page);
-  };
-  
+        shareKakao(route, title, THU, content, page);
+    };
+
     useEffect(() => {
         const script = document.createElement("script");
         script.src = "https://developers.kakao.com/sdk/js/kakao.js";
@@ -223,7 +224,7 @@ const handleShareKakao = () => {
         document.body.appendChild(script);
         return () => document.body.removeChild(script);
     }, []);
-    
+
     useEffect(() => {
         if (donationPage && donationPage.endDate) {
             const endDate = new Date(donationPage.endDate);
@@ -233,7 +234,7 @@ const handleShareKakao = () => {
             }
         }
     }, [donationPage]);
-    
+
 
     useEffect(() => {
         if (showModal) {
@@ -241,88 +242,118 @@ const handleShareKakao = () => {
         } else {
             document.body.style.overflow = 'auto';
         }
-    },[showModal])
+    }, [showModal])
 
-    
+
     const handleNewsButtonClick = () => {
         console.log('Attempting to mutate with ID:', donationPageId);
         window.location.replace(`/main/donation/news?page=${donationPageId}`);
     };
-    
-    
-        return (
-            <>
-                <div>
-                    
-            <div css={s.container1}>
+
+
+    return (
+     
+            <div css={s.contentAreaStyle}>
+
+                <div css={s.leftCardLayout}>
                     {showModal && (
                         <div css={s.container3}>
-                            <div css={s.modal}><DonatorInfo setShowModal={setshowModal}/></div>
+                            <div css={s.modal}><DonatorInfo setShowModal={setshowModal} /></div>
                         </div>
                     )}
 
-                    <div css={s.container}>
+                    <div >
                         <Link css={s.link} to={"/main"}>메인으로</Link>
                     </div>
 
                     <div css={s.header}>
-                        <Link css={s.button1} to={`/main/donation/news?page=${donationPageId}`}>후기 작성하기</Link>
+                        <Link css={s.button4} to={`/main/donation/news?page=${donationPageId}`}>후기 작성하기</Link>
                         <button onClick={handleNewsButtonClick}>후기작성버튼</button>
-                        <Link css={s.button1} to={`/main/donation/news/update?page=${donationPageId}`}>후기수정하기</Link>
-                        <button css={s.button2} onClick={handleUpdateButtonClick}>수정하기</button>
-                        <button css={s.button3} onClick={handleDeleteButtonClick}>삭제하기</button>
-                    </div>
-                    
-                    <div css={s.storyHeader}>
-                        <h1>Donation Stories</h1>
-                        <p>page: {donationPageId}</p>
+                        <Link css={s.button4} to={`/main/donation/news/update?page=${donationPageId}`}>후기수정하기</Link>
+                        <button css={s.button4} onClick={handleUpdateButtonClick}>수정하기</button>
+                        <button css={s.button4} onClick={handleDeleteButtonClick}>삭제하기</button>
                     </div>
 
                     <div css={s.storyContent}>
                         <div css={s.main}>
                             <img src={donationPage.mainImgUrl} alt="Story" css={s.storyImage} />
-                            <div>
-                                <h2 css={s.donationtitle}>{donationPage.storyTitle}</h2>
-                                <div css={s.currentAmount}>{currentAmount}원</div>
-                                <div css={s.goalAmount}>{donationPage.goalAmount}원 목표</div>
-                                <button onClick={handleShareKakao}>카카오톡공유하기</button>
-                                <Progress pageId={donationPageId} />
-                                <div css={s.dates}>
-                                    <div css={s.dates2}>기부 시작일: {donationPage.createDate ? donationPage.createDate.substring(0, 10) : ''}</div>
-                                    <div css={s.dates3}>기부 종료일: {calculateDaysRemaining(donationPage.createDate, donationPage.endDate)}</div>
-                                    <div css={s.dates4}>기부금은 100% 단체에 전달됩니다.</div>
-                                    <div css={s.likebutton}>
-                                        <button css={s.donation} onClick={() => setshowModal(!showModal)}>기부하기</button>
-                                        <div css={s.likebutton1}>
-                                            <LikeButton donationPageId={donationPageId} />
-                                        </div>
-                                    </div>
-                                    </div>
-                                    
-                                    </div>
-                                    </div>
-                                    </div>
-                                    <div css={s.container2}>
-                            <button css={s.button4} onClick={() => handleTabChange('story')}>Story</button>
-                            <button css={s.button4} onClick={() => handleTabChange('donators')}>Donators</button>
-                            <button css={s.button4} onClick={() => handleTabChange('news')}>News</button>
-                            <div css={s.boxbox1}>
-                                <div>
-                                    <h2>분리공간</h2>
-                                    {selectedTab === 'story' ? <Story />
-                                    : selectedTab === 'news' ? <NewsPage donationPageId={donationPageId} />
-                                    : <Donators donationPageId={donationPageId} />}
-                                </div>
-                            </div>
-                            <h3>덧글</h3>
-                                <DonationComment donationPageId={donationPageId} />
-                            
+
                         </div>
                     </div>
+                    <div>
+                        <button css={s.button4} onClick={() => handleTabChange('story')}>Story</button>
+                        <button css={s.button4} onClick={() => handleTabChange('donators')}>Donators</button>
+                        <button css={s.button4} onClick={() => handleTabChange('news')}>News</button>
+                        <div >
+                            <div>
+
+                                {selectedTab === 'story' ?
+                                    <Story />
+                                    : selectedTab === 'news' ?
+                                        <NewsPage donationPageId={donationPageId} />
+                                        : <Donators donationPageId={donationPageId} />}
+                            </div>
+                        </div >
+                        <div css={s.commentBorder}>
+                            <h3>덧글</h3>
+                        </div>
+                        <DonationComment donationPageId={donationPageId} />
+
+                    </div>
                 </div>
-   
-            </>
-        );
-}                  
+
+
+                <div css={s.rightCardLayout}>
+                    <div css={s.sidebarStyle2}>
+                        
+                            <h1>{donationPage.storyTitle}</h1>
+                            <div css={s.actingCount}>{currentAmount}원</div>
+                            <div css={s.headCountCss}>{donationPage.goalAmount}원 목표</div>
+
+                            <button onClick={handleShareKakao}>카카오톡공유하기</button>
+                            <Progress pageId={donationPageId} />
+                            <div>
+                                <div >기부 시작일: {donationPage.createDate ? donationPage.createDate.substring(0, 10) : ''}</div>
+                                <div >기부 종료일: {calculateDaysRemaining(donationPage.createDate, donationPage.endDate)}</div>
+                                <div >기부금은 100% 단체에 전달됩니다.</div>
+                                <div css={s.likebutton}>
+                                    <button css={s.donation} onClick={() => setshowModal(!showModal)}>기부하기</button>
+                                    <div css={s.likebutton1}>
+                                        <span>
+                                            <LikeButton donationPageId={donationPageId} />
+                                        </span >
+                                        <span ><ShareButton/> 공유</span>
+                                    </div>
+                                </div>
+                            
+
+                        </div>
+                    </div>
+
+                    <div css={s.teamInfo}>
+                        <div css={s.teamName}>
+                            <img css={s.teamLogo} src={teamInfo?.teamLogoImgUrl} alt="" />
+                            {teamInfo?.teamName}</div>
+                        <div css={s.teamText}>{teamInfo?.teamInfoText}</div>
+                    </div>
+
+
+
+                    <div css={s.sidebarStyle}>
+                    <div css={s.actionText}> 같이 기부해요</div>
+                        
+                    </div>
+                
+           
+                        <div>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+    );
+}
 
 export default DonationStoryPage;

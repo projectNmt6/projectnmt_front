@@ -89,7 +89,6 @@ function HomePage() {
                         <LastDonator />
                         <DonatorKing />
 
-                        
                     </div>
                     
                     <div css={s.rightCardLayout}>
