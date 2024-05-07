@@ -393,11 +393,11 @@ export const dates4 = css`
     margin-top: 20px;
 `;
 export const donation = css`
-    padding: 10px 125px;
+    width: 300px;
+    height: 50px;
     text-align: center;
-    background-color: #fc4d4d;
+    background-color: rgba(255, 64, 80, 0.9);
     color: white;
-    font-family: 'omyu_pretty';
     font-weight: 700;
     font-size: 20px;
     border-radius: 5px;
