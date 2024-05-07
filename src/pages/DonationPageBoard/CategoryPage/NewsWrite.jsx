@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { css } from '@emotion/react';
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
-import axios from 'axios';
-import Select from 'react-select';
+import * as s from "./style";
+/** @jsxImportSource @emotion/react */
 import { buttonBox } from './style';
 import { imgUrlBox } from './style';
 import { useMutation, useQuery } from 'react-query';
@@ -12,6 +12,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { registerNewsPage, updateDonationPageResponse } from '../../../apis/api/DonationAPI';
 import { getPrincipalRequest } from '../../../apis/api/principal';
 import { getTeamListRequest } from '../../../apis/api/teamApi';
+import TextEditor from '../../../components/TextEditor/TextEditor';
 
 const textEditorLayout = css`
     overflow-y: auto;
@@ -126,34 +127,6 @@ function NewsWrite() {
         window.location.href = "/main";
     };
 
-    const modules = useMemo(() => {
-        return {
-            toolbar: [
-                [{ font: [] }],
-                [{ header: [1, 2, 3, 4, 5, 6, false] }],
-                [{ color: [] }, { background: [] }],
-                ["bold", "italic", "underline", "strike", "blockquote"],
-                [{ list: "ordered" }, { list: "bullet" }, { indent: "-1" }, { indent: "+1" }],
-                ["link"],
-                ["clean"],
-            ]
-        };
-    }, []);
-
-    const formats = [
-        "font", "size", "header", "color", "background", "bold", "italic", "underline",
-        "strike", "blockquote", "list", "bullet", "indent", "link", "image"
-    ];
-
-    const fileChange = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = () => {
-            setMainImg(reader.result);
-        };
-        reader.readAsDataURL(file);
-    };
-
     const fileChange2 = (e) => {
         const file = e.target.files[0];
         const reader = new FileReader();
@@ -166,42 +139,27 @@ function NewsWrite() {
 
     return (
         <>
-            <div>
-                <input type="text" placeholder='제목' value={title} onChange={(e) => setTitle(e.target.value)} />
-            </div>
-
-            <h2>후기</h2>
+        <div css={s.mainLayout}>
             
-            <div>
-                <h2>이미지 추가</h2>
-                <img src={storyImgs} alt="Main" style={{ width: '300px', height: 'auto' }}/> 
-                <input  
-                        id="inputFile" 
-                        type="file" 
-                        name="file" 
-                        accept='image/*'
-                        style={{ display: "block" }}
-                        onChange={fileChange2} 
-                    /> 
+            <div css={s.textTitle}>
+                    뉴스
             </div>
 
-            <div css={textEditorLayout}>
-                <ReactQuill
-                    value={content}
-                    onChange={setContent}
-                    modules={modules}
-                    formats={formats}
-                    theme="snow"
-                    placeholder="내용을 입력해주세요."
-                    style={{ height: '500px', margin: "50px" }}
-                />
-            </div>
+
+            <TextEditor content={content} setContent={setContent}  />
 
             <div style={buttonBox}>
-                <button onClick={handleSubmitButton}>작성완료</button>
-                <button onClick={handleCancelButton}>취소</button>
-                <button onClick={handleHomeButton}>돌아가기</button>
+            <button css={[s.buttonStyle, s.cancelButtonStyle]} onClick={handleCancelButton}>
+                        취소
+                    </button>
+                    <button css={s.buttonStyle} onClick={handleSubmitButton}>
+                        작성완료
+                    </button>
+                    <button css={[s.buttonStyle, s.backButtonStyle]} onClick={handleHomeButton}>
+                        돌아가기
+                    </button>
             </div>     
+            </div>
         </>
     );
 }

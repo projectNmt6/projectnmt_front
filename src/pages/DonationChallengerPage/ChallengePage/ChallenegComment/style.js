@@ -1,8 +1,8 @@
 import { css } from "@emotion/react"
 
 export const commentBoxStyle = css`
-    height: 40px;
-    
+    min-height: 40px;
+    overflow-y: auto;
 `;
 
 export const inputboxStyle = css`

@@ -32,11 +32,10 @@ function NewsPage({ donationPageId }) {
 
     // XSS 방지를 위한 콘텐츠 살균 처리
     const safeHTML = content ? DOMPurify.sanitize(content.newsContent) : '';
-    console.log(content)
+    
     return (
         <div css={s.container}>
-            NewsPage
-            <div>
+            <div css={s.content}>
                 {content && content.newsContent ? (                    
                     <div dangerouslySetInnerHTML={{ __html: safeHTML }} />
                 ) : (
