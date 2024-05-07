@@ -221,8 +221,6 @@ function ChallengePage() {
     return (
         <div css={s.contentAreaStyle}>
 
-
-
             <div css={s.leftCardLayout}>
                 {showModal && (
                     <div css={s.container3}>
@@ -279,7 +277,7 @@ function ChallengePage() {
                             </div>
                             <ChallengeComment challengePageId={challengePageId} />
 
-                        </div>
+                        </ div>
 
                     </div>
                 </div>

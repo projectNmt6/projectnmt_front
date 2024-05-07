@@ -17,9 +17,6 @@ import MessagePage from '../pages/MessagePage/MessagePage';
 import NewsWrite from '../pages/DonationPageBoard/CategoryPage/NewsWrite';
 import NewsUpdatePage from '../pages/DonationStoryPage/CategoryPage/NewsUpdatePage'
 import MyDonation from '../pages/MyDonation/MyDonation';
-import DonatorInfo from '../pages/DonatorInfo/DonatorInfo';
-import NowFundingPage from '../pages/MainPage/fundings/NowFundingPage';
-import EndedFundingsPage from '../pages/MainPage/fundings/EndedFundings';
 import TeamRoutePage from '../pages/TeamRoutePage/TeamRoutePage';
 import TeamSelectPage from '../pages/DonationPageBoard/TeamSelectPage';
 import ChallengeMainPage from '../pages/MainPage/ChallengeMain/ChallengeMainPage';
@@ -40,6 +37,8 @@ import AboutNMT from '../pages/HomePage/AboutNMT';
 import ChallengeWrite from '../pages/DonationChallengerPage/ChallengePage/ChallengeWrite/ChallengeWritePage';
 
 import DonationPageboard from '../pages/DonationPageBoard/DonationWrite/DonationPageboard';
+import NowDonationPage from '../pages/MainPage/donations/NowDonationPage';
+import EndedDonationsPage from '../pages/MainPage/donations/EndedDonationsPage';
 
 
 function AuthRoute(props) {
@@ -91,8 +90,8 @@ function AuthRoute(props) {
                 <Route path='/main/challenge/update' element={<ChallengeUpdatePage />} />
                 <Route path='/main/donation/news/update' element={<NewsUpdatePage />} />       
                 <Route path="/account/mypage/donation" element={<MyDonation />} />        
-                <Route path="/main/donation/fundings/now" element= {  <NowFundingPage />} />
-                <Route path="/main/donation/fundings/end" element= {  <EndedFundingsPage />} />
+                <Route path="/main/donation/fundings/now" element= {  <NowDonationPage />} />
+                <Route path="/main/donation/fundings/end" element= {  < EndedDonationsPage />} />
                 <Route path='/team/*' element={<TeamRoutePage />} />
                 <Route path='/team/select' element={<TeamSelectPage />} />
                 <Route path='/team/*' element={ <TeamRoutePage /> } />

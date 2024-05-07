@@ -11,6 +11,7 @@ import { getUserInfoRequest } from '../../../../apis/api/Admin';
 import { IoMdHeartEmpty } from "react-icons/io";
 import { IoMdHeart } from "react-icons/io";
 import { FaTrash } from "react-icons/fa";
+import LikeButton from '../../../../components/LikeButton/LikeButton';
 
 function ChallengeComment({ challengePageId }) {
 
@@ -165,6 +166,8 @@ function ChallengeComment({ challengePageId }) {
                                         <p>{comment.commentText}</p>
                                     </div>
                                     <div css={s.actionsContainer}>
+                                        <LikeButton 
+                                                    commentId={comment.commentId} />
                                         <IoMdHeartEmpty /> <IoMdHeart />
                                         <button onClick={() => handleCommentDeleteButton(comment.challengeCommentId)}>
                                             <FaTrash />
