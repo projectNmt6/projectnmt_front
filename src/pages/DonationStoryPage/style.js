@@ -44,8 +44,7 @@ export const sidebarStyle = css`
   padding: 25px;
   justify-content: flex-start;
   position: sticky; // 오른쪽
-  top: 20px;
-  z-index: 2000; /* 수정된 부분 */
+  top: 100px;
 `;
 
 export const sidebarStyle2 = css`
