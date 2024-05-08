@@ -52,30 +52,22 @@ export const textareaFocusStyle = css`
     border: none; // 통합된 테두리를 사용하기 때문에 테두리 제거
     resize: none;  
     border-radius: 5px; 
-    font-family: 'NEXON Lv1 Gothic OTF';  
-    /* width: 100%; 
-    height: 150px;
-    padding: 10px; 
-    box-sizing: border-box; 
-    border: 1px solid #007bff; 
-    border-radius: 5px; 
-    margin-top: 16px; 
-    font-family: 'NEXON Lv1 Gothic OTF';
-    resize: none;  */
+    font-family: 'NEXON Lv1 Gothic OTF'; 
+    outline: none; 
 `;
 
 // 하단 컨트롤 영역 스타일
 export const commentControls = css`
-   display: flex;
-    justify-content: space-between;
+    display: flex;
+    justify-content: flex-end; // 요소들을 컨테이너의 오른쪽 끝으로 정렬
     align-items: center;
     width: 100%;
     height: 50px;
     position: absolute; // 버튼 위치를 텍스트 입력 영역 하단에 고정
     bottom: 10px; // 하단에서 얼마나 떨어져 있는지
     left: 10px; // 왼쪽 패딩 고려
+    
 `;
-
 
 export const commentSubmitButton = css`
         opacity: 1;
@@ -93,7 +85,6 @@ export const commentSubmitButton = css`
         position: absolute;
         bottom: 15px;
         right: 25px;
-        z-index: 1000;
         font-family: 'Pretendard-Regular';
 
 
@@ -111,6 +102,11 @@ export const profileAndTextContainer = css`
 
 export const profileSection = css`
         margin-right: 12px; // 이미지와 텍스트 사이의 간격
+`;
+export const lengthStryle = css`
+        margin-right: 90px;
+        font-size: 13px;
+        color: #999;
 `;
 
 export const profileIMG = css`

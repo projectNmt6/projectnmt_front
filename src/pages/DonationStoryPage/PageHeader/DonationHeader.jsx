@@ -5,16 +5,14 @@ import ShareButton from '../../../components/ShareModal/ShareButton';
 import LikeButton from '../../../components/LikeButton/LikeButton';
 import DonatorInfo from '../../DonatorInfo/DonatorInfo';
 
-
-function DonationHeader({ donationPageId, selectedTab, handleTabChange, contentRef, showModal, setshowModal }) {
+function DonationHeader({ donationPageId, selectedTab, handleTabChange, contentRef }) {
     const [isVisible, setIsVisible] = useState(false);
-
+    const [showModal, setshowModal] = useState(false);
     useEffect(() => {
         const checkVisibility = () => {
             if (!contentRef.current) {
                 return; // contentRef가 없으면 함수를 종료합니다.
             }
-            console.log(contentRef)
             // contentRef 요소의 뷰포트 내 상단 위치를 계산
             const targetTop = contentRef.current.getBoundingClientRect().top;
 
@@ -42,9 +40,9 @@ function DonationHeader({ donationPageId, selectedTab, handleTabChange, contentR
     }, [showModal])
 
     return (
-        <div css={s.main}>
-        <div css={[s.headerPanel2, { display: isVisible ? 'block' : 'none', position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000 }]}>
-            <span css={s.buttonGroupContainer2}>
+        <div css={s.main }>
+        <div css={[s.headerPanel2, { display: isVisible ? 'flex' : 'none' }]}>
+            <div css={s.buttonGroupContainer2}>
                 <div css={s.buttonGroup2}>
                     <button css={[s.tabButton2, selectedTab === 'story' && s.activeTabButton2]} onClick={() => handleTabChange('story')}>
                         Story
@@ -56,25 +54,25 @@ function DonationHeader({ donationPageId, selectedTab, handleTabChange, contentR
                         News
                     </button>
                 </div>
-            </span>
-       
-        <span css={s.likebutton}>
-        <button css={s.donation} onClick={() => setshowModal(!showModal)}>기부하기</button>
-                           
-            <div css={s.likebutton1}>
-                <span>
-                    <LikeButton donationPageId={donationPageId} />
-                </span>
-                <span><ShareButton /> 공유</span>
             </div>
-            {showModal && (
-                    <div css={s.container3}>
-                        <div css={s.modal}><DonatorInfo setShowModal={setshowModal} /></div>
-                    </div>
-                )}
-    </span>
-        </div> </div>
-);
+            <div css={s.likebutton}>
+                <div css={s.socialButtons}>
+                    <LikeButton donationPageId={donationPageId} />
+                    <div className="divider"></div> 
+                    <ShareButton />
+                </div>
+                <button css={s.donation} onClick={() => setshowModal(!showModal)}>기부하기</button>
+            </div>
 
+
+            {showModal && (
+                <div css={s.container3}>
+                    <div css={s.modal}><DonatorInfo setShowModal={setshowModal} /></div>
+                </div>
+            )}
+        </div>
+        </div>
+    );
 }
+
 export default DonationHeader;

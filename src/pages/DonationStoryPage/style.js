@@ -37,7 +37,9 @@ flex-wrap: wrap;
 
 
 export const sidebarStyle = css`
+box-sizing: border-box;
 margin: 0px;
+width: 360px; 
 font: inherit;
 vertical-align: baseline;
 padding: 34px 25px 0px;
@@ -449,36 +451,46 @@ export const likebutton1 = css`
     }
 `;
 
-const tabMenu = css`
-  position: sticky;
-  top: 0;
-  background-color: white;
-  z-index: 1000;
+
+export const minidonationImage = css`
+
+position: relative;
+& > img {  
+width: 100px; 
+  height: 70px;
+  border-radius: 8px; 
+  }
 `;
 
-const tabList = css`
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
+export const donationCard = css`
+ display: flex;
+  height: 80px;
+  margin-bottom: 10px;
+  overflow: hidden; 
+  `;
+export const linkStyle = css`
+text-decoration: none; 
+color: inherit; 
+&:hover, &:active, &:visited {
+  text-decoration: none;
+  color: inherit;
+}
 `;
 
-const tabListItem = css`
-  margin-right: 10px;
-`;
 
-const tabButton = css`
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 5px 10px;
-  font-size: 16px;
-  color: #333;
-  outline: none;
-  transition: color 0.3s;
-`;
+export const donationDetails = css`
+  flex-direction: column; 
+  justify-content: space-around;
 
-const activeTabButton = css`
-  color: black;
-  font-weight: bold;
+`;
+export const donationTitle = css`
+  font-size: 14px;
+  margin-top: 5px;
+  margin-left: 15px;
+`;
+export const teamFont = css`
+  font-size: 13px;
+  margin-top: 5px;
+  margin-left: 15px;
+  color: #888888;
 `;

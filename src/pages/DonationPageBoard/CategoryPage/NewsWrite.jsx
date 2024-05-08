@@ -9,7 +9,7 @@ import { imgUrlBox } from './style';
 import { useMutation, useQuery } from 'react-query';
 import { Link, useLocation } from 'react-router-dom';
 import "react-datepicker/dist/react-datepicker.css";
-import { registerNewsPage, updateDonationPageResponse } from '../../../apis/api/DonationAPI';
+import { getDonationStoryRequest, registerNewsPage, updateDonationPageResponse } from '../../../apis/api/DonationAPI';
 import { getPrincipalRequest } from '../../../apis/api/principal';
 import { getTeamListRequest } from '../../../apis/api/teamApi';
 import TextEditor from '../../../components/TextEditor/TextEditor';
@@ -20,13 +20,13 @@ const textEditorLayout = css`
 `;
 
 function NewsWrite() {
-    const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
-    const [mainImg, setMainImg] = useState("");
-    const [ storyImgs, setStoryImgs ] = useState([]);
-    const [ teamId, setTeamId ] = useState();
+    const [teamId, setTeamId] = useState(null);
     const [teams, setTeams] = useState([]);
-
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const donationPageId = queryParams.get('page'); 
+    const [selectedTeam, setSelectedTeam] = useState(null);
     const [ userId, setUserId] = useState();
     const principalQuery = useQuery(
         ["principalQuery"], 
@@ -43,7 +43,22 @@ function NewsWrite() {
             }
         }
     );
-    
+    const getDonationStoryQuery = useQuery(
+        ["getDonationPageQuery", donationPageId],
+        async () => {
+            const response = await getDonationStoryRequest({ page: donationPageId });
+            return response.data;
+        },
+        {
+            refetchOnWindowFocus: false,
+            onSuccess: (data) => {
+                console.log(data);
+                setTeamId(data.teamId)
+            }
+        }
+    );
+
+    console.log("team"+teamId)
     useEffect(() => {
         if (userId) {
             const fetchTeams = async () => {
@@ -64,31 +79,9 @@ function NewsWrite() {
             fetchTeams();
         }
     }, [userId]);
-    const location = useLocation();
-    const queryParams = new URLSearchParams(location.search);
-    const donationTeamId = queryParams.get('teamId');    
-    const donationPageId = queryParams.get('page'); 
-    const [selectedTeam, setSelectedTeam] = useState(null);
-    useEffect(() => {
-        const fetchData = async () => {
-            if (donationPageId) {
-                try {
-                    const response = await updateDonationPageResponse({ donationPageId });
-                    console.log(response.data)
-                    if (response.status === 200) {
-                        const data = response.data;
-                        setTeamId(data.teamId);
-                        setSelectedTeam({ value: data.teamId, label: data.teamName });
-                     }
-                } catch (error) {
-                    console.error('Error fetching challenge page:', error);
-                }
-            } else {
-                console.error('No valid challengePageId provided');
-            }
-        };
-        fetchData();
-    }, [donationPageId]);
+
+       console.log("dddd"+donationPageId)
+
     const PostDonationNews = useMutation({
         mutationKey: "PostDonationNews",
         mutationFn: registerNewsPage,
@@ -99,11 +92,6 @@ function NewsWrite() {
             console.log(error)
         }
     })
-    useEffect(() => {
-        if (selectedTeam) {
-            setTeamId(selectedTeam.value);
-        }
-    }, [selectedTeam]);
 
     const handleSubmitButton = () => {
         const data = {
@@ -114,6 +102,9 @@ function NewsWrite() {
                 teamId: teamId
         }
         PostDonationNews.mutate(data);
+        console.log("donationPageId"+data.donationPageId)
+        console.log("newsContent"+data.content)
+        console.log("datateamId"+data.teamId)
     };
 
     const handleCancelButton = () => {
@@ -125,15 +116,6 @@ function NewsWrite() {
 
     const handleHomeButton = () => {
         window.location.href = "/main";
-    };
-
-    const fileChange2 = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = () => {
-            setStoryImgs(reader.result);
-        };
-        reader.readAsDataURL(file);
     };
 
 

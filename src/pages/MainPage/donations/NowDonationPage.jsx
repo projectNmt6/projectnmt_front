@@ -36,7 +36,7 @@ function NowDonationPage() {
 
 
     const getDonationListQuery = useQuery(
-        "getDonationQuery",
+        "getDonationListQuery",
         async () => await getDonationListRequest(),
         {
             refetchOnWindowFocus: false,
@@ -68,12 +68,12 @@ function NowDonationPage() {
         setSelectedTag(tag);
     };
     const filteredDonations = selectedTag
-        ? donationList.filter(
+        ? visibleDonations.filter(
             (donation) => donation.donationTagName
                 ? donation.donationTagName.includes(selectedTag)
                 : false
         )
-        : donationList;
+        : visibleDonations;
 
     const handleSortChange = (event) => {
         setSortOrder(event.target.value);
@@ -81,7 +81,7 @@ function NowDonationPage() {
 
 
 
-    const sortedDonations = [...filteredDonations].sort((a, b) => {
+    const sortedDonations = [...visibleDonations].sort((a, b) => {
         switch (sortOrder) {
           case '최신순':
             return new Date(b.createDate) - new Date(a.createDate);
