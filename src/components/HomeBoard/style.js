@@ -293,3 +293,79 @@ border-radius: 10px;
   padding-left: 10px;
 }
 `;
+
+
+
+//////////////AutoSlide///////////////
+
+export const autoSlideContainer = css`
+display:flex;
+flex-direction: column;
+justify-content:flex-start;
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+
+`;
+
+export const slideList = css`
+  padding: 0px;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s ease;
+  box-sizing: border-box;
+  
+`;
+
+export const slideLi = css`
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+`;
+
+export const prevButton = css`
+  position: absolute;
+  top: 45%;
+  left: 1%;
+  z-index: 10;
+  background-color: transparent;
+  border: none;
+  /* 이전 버튼 스타일 */
+`;
+
+export const nextButton = css`
+  position: absolute;
+  top: 45%;
+  right: 1%;
+  z-index: 10;
+  background-color: transparent;
+  border: none;
+  /* 다음 버튼 스타일 */
+`;
+
+export const overlay = css`
+  position: absolute;
+  background-color: gray;
+  /* 오버레이 스타일 */
+`;
+
+export const slideImage = css`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 60%;
+`;
+
+export const textOverlay = css`
+
+  position: absolute;
+  top: 50%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  color: #dbdbdb;
+  font-size: 24px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+  /* 추가 스타일 속성을 여기에 작성하세요 */
+  
+`;

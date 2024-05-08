@@ -7,7 +7,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { v4 as uuid } from 'uuid';
 import { storage } from "../../apis/filrebase/config/firebaseConfig";
-import { submitDonatorEditData } from "../../apis/api/DonatorApi";
+import { submitDonatorEditData } from "../../apis/api/donatorApi";
 import AuthPageInput from "../../components/AuthPageInput/AuthPageInput";
 
 
