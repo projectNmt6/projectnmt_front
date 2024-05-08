@@ -1,9 +1,8 @@
 import React from 'react';
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
+import { Global, css } from '@emotion/react';
 import * as s from "./style";
 import { Route, Routes } from 'react-router-dom';
-import DonationPageboard from "../pages/DonationPageBoard/DonationPageboard";
 import HomePage from "../pages/HomePage/HomePage";
 import MainPage from "../pages/MainPage/MainPage";
 import SearchPage from '../pages/SearchPage/SearchPage';
@@ -18,25 +17,32 @@ import MessagePage from '../pages/MessagePage/MessagePage';
 import NewsWrite from '../pages/DonationPageBoard/CategoryPage/NewsWrite';
 import NewsUpdatePage from '../pages/DonationStoryPage/CategoryPage/NewsUpdatePage'
 import MyDonation from '../pages/MyDonation/MyDonation';
-import DonatorInfo from '../pages/DonatorInfo/DonatorInfo';
-import NowFundingPage from '../pages/MainPage/fundings/NowFundingPage';
-import EndedFundingsPage from '../pages/MainPage/fundings/EndedFundings';
 import TeamRoutePage from '../pages/TeamRoutePage/TeamRoutePage';
 import TeamSelectPage from '../pages/DonationPageBoard/TeamSelectPage';
 import ChallengeMainPage from '../pages/MainPage/ChallengeMain/ChallengeMainPage';
-import DonationChallengePage from '../pages/DonationChallengerPage/DonationChallengePage';
 import ChallengePage from '../pages/DonationChallengerPage/ChallengePage/ChallengePage';
+
 import UserInfoEditPage from '../pages/UserInfoEditPage/UserInfoEditPage';
 import SelectTeam from '../pages/SelectTeam/SelectTeam';
 import TeamList from '../components/TeamListForUser/TeamList';
 import AdminSearchPage from '../pages/Admin/AdminSearchPage/AdminSearchPage';
-import ChallengeUpdatePage from '../pages/DonationChallengerPage/ChallengeUpdatePage';
+import ChallengeUpdatePage from '../pages/DonationChallengerPage/ChallengePage/ChallengeUpdate/ChallengeUpdatePage';
+
+import PasswordEditPage from '../pages/UserInfoEditPage/PasswordEditPage';
+
 import DonationUpdatePageBoard from '../pages/DonationUpdatePage/DonationUpdatePageboard';
 import ChallengeNewsWrite from '../pages/DonationChallengerPage/Challenge/ChallengeNewsWirte/ChallengeNewsWrite';
-import PasswordEditPage from '../pages/UserInfoEditPage/PasswordEditPage';
+import AboutNMT from '../pages/HomePage/AboutNMT';
+
+import ChallengeWrite from '../pages/DonationChallengerPage/ChallengePage/ChallengeWrite/ChallengeWritePage';
+
+import DonationPageboard from '../pages/DonationPageBoard/DonationWrite/DonationPageboard';
+import NowDonationPage from '../pages/MainPage/donations/NowDonationPage';
+import EndedDonationsPage from '../pages/MainPage/donations/EndedDonationsPage';
 
 
 function AuthRoute(props) {
+
     const principalQuery = useQuery(
         ["principalQuery"], 
         getPrincipalRequest,
@@ -61,28 +67,36 @@ function AuthRoute(props) {
         <Routes>
                 <Route path="/auth/*" element={ <AuthPage />}/>
                 <Route path="/" element={<HomePage />} />
+                <Route path="/aboutNMT" element={<AboutNMT />} />
                 <Route path="/main" element={<MainPage />} />
                 <Route path="/main/write" element={<DonationPageboard/>} />
                 <Route path="/main/donation/news" element={ <NewsWrite />} />
+                <Route path="/account/mypage/edit" element={<UserInfoEditPage />} />
                 <Route path="/admin/*" element={ <AdminRoute/> } /> 
                 <Route path="/account/mypage" element={<MyPage />} />
+                <Route path="/admin/*" element={ <AdminRoute/> } />
                 <Route path="/admin/search" element={<AdminSearchPage />} /> 
                 <Route path="/donation/*" element={<DonationStoryPage />} />
                 <Route path="/main/donation/update" element={<DonationUpdatePageBoard />} />
                 <Route path="/search" element={<SearchPage />} />
                 <Route path="/message" element={<MessagePage />} /> 
+                <Route path='/main/donation/news/update' element={<NewsUpdatePage />} />       
+                <Route path="/account/mypage/donation" element={<MyDonation />} />        
+                <Route path="/message" element={<MessagePage />} />
                 <Route path='/main/challenges' element={ < ChallengeMainPage />} />
-                <Route path='/main/challenge/write' element={< DonationChallengePage />} />
+                <Route path='/main/challenge/write' element={< ChallengeWrite />} />
                 <Route path='/main/challenge' element={< ChallengePage />} />
                 <Route path='/main/challenge/news' element={<ChallengeNewsWrite />} />
                 <Route path='/main/challenge/update' element={<ChallengeUpdatePage />} />
                 <Route path='/main/donation/news/update' element={<NewsUpdatePage />} />       
                 <Route path="/account/mypage/donation" element={<MyDonation />} />        
-                <Route path="/main/donation/fundings/now" element= {  <NowFundingPage />} />
-                <Route path="/main/donation/fundings/end" element= {  <EndedFundingsPage />} />
+                <Route path="/main/donation/fundings/now" element= {  <NowDonationPage />} />
+                <Route path="/main/donation/fundings/end" element= {  < EndedDonationsPage />} />
+                <Route path='/team/*' element={<TeamRoutePage />} />
                 <Route path='/team/select' element={<TeamSelectPage />} />
                 <Route path='/team/*' element={ <TeamRoutePage /> } />
                 <Route path='/donation/select/team' element={ <SelectTeam /> } />
+                
                 <Route path='/test' element={ <TeamList /> } />
                 <Route path='/account/mypage/edit' element= { <UserInfoEditPage />} />
                 <Route path='/account/mypage/edit/password' element={ <PasswordEditPage />}/>
