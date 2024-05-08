@@ -22,7 +22,7 @@ function AutoSlide(props) {
  useEffect(() => {
    const interval = setInterval(() => {
      setCurrentPosterNum((prev) => (prev + 1 + posters.length) % posters.length);
-   }, 4000);
+   }, 6000);
    return () => {
      clearInterval(interval);
    };
