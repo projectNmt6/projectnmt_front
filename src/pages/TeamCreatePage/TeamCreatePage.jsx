@@ -25,7 +25,7 @@ const header = css`
         max-width: 300px;
         margin-bottom: 20px;
     }
-`   
+`
 const imgBox = css`
     border: 1px solid #dbdbdb;
     border-radius: 50%;
@@ -149,7 +149,7 @@ function TeamCreatePage(props) {
         )
     }
     const handleAccountInfos = () => {
-        accountRef.current =  accountRef.current + 1;
+        accountRef.current = accountRef.current + 1;
         const accountInfo = {
             "accountId": accountRef.current,
             accountUsername,
@@ -197,8 +197,22 @@ function TeamCreatePage(props) {
                             <button css={s.input2} onClick={() => fileRef.current.click()}>파일첨부</button>
                             <input css={s.input3} type="file" ref={fileRef} src="" alt="" onChange={(e) => handlefileChange(e, setCompanyRegisterNumberUrl)} />
                         </div>
-                        : null
-                    }
+                        : null}
+            </div>
+            <div css={imgBox} onClick={() => profileImgRef.current.click()}>
+                <input type="file" ref={profileImgRef} style={{display:"none"}} onChange={(e) => handlefileChange(e, setTeamLogoImgUrl)}/>
+                <img src={teamLogoImgUrl} alt="" />
+            </div>
+            <div>
+            <textarea id="story" value={teamInfoText}  placeholder="팀 소개" onChange={(e) => setTeamInfoText(e.target.value)}  rows="20" cols="80"/>       
+            </div>
+            <div>
+                <input type="text" placeholder="email" value={teamEmail} 
+                    onChange={(e) => setTeamEmail(e.target.value)}/>
+                <input type="text" placeholder="전화번호" value={teamPhoneNumber} 
+                    onChange={(e) => setTeamPhoneNumber(e.target.value)}/>
+                <input type="url" placeholder="홈페이지" value={teamHomepage} 
+                    onChange={(e) => setTeamHomepage(e.target.value)}/>
             </div>
             <div>
                 <div css={s.div2}>

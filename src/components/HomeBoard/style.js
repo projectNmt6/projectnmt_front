@@ -284,3 +284,12 @@ export const div = css`
   text-align: center;
   justify-content: center;
 `;
+
+export const commentBox = css`
+background-color: white;
+border-radius: 10px;
+&>div>p {
+  border-bottom: 1px solid #dbdbdb;
+  padding-left: 10px;
+}
+`;

@@ -13,10 +13,12 @@ export const header = css`
     width: 100%;
     height: 70px;
     @font-face {
-    font-family: 'omyu_pretty';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
+        font-family: 'NEXON Lv1 Gothic OTF';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON%20Lv1%20Gothic%20OTF') format('woff');
+        font-weight: normal;
+        font-style: normal;
+      }
+      
 }
 `
 export const header1 = css`
@@ -78,6 +80,7 @@ export const adminbox = (isAdmin) => css`
     justify-content: center;
     align-items: center;
     border: none;
+    padding: ${isAdmin? "20px" : "none"};
     cursor: pointer;
     margin:0px 20px;
     display: ${isAdmin ? "10px" : "none" };
@@ -95,11 +98,12 @@ export const adminbox = (isAdmin) => css`
     }
 
 `;
-export const mainbox = css`
+export const mainbox = (headerLine) => css`
     display: flex;
     justify-content: center;
     align-items: center;
-    border: none;
+    border-bottom: ${(headerLine==="기부")? "2px solid black" : "none"};
+    padding: 25px 0px;
     cursor: pointer;
     margin:0px 20px;
     :hover {
@@ -114,12 +118,17 @@ export const mainbox = css`
         text-decoration: none; 
         color: inherit;   
     }
+
+      
 `;
-export const challengebox = css`
+export const challengebox = (headerLine) => css`
     display: flex;
     justify-content: center;
     align-items: center;
     border: none;
+    padding: 25px 0px;
+    border-bottom: ${(headerLine==="챌린지")? "2px solid black" : "none"};
+
     transition: transform 250ms ease-in-out;
     cursor: pointer;
     :hover {
@@ -141,6 +150,7 @@ export const div = css`
     justify-content: space-evenly;
     align-items: center;
 `;
+
 
 export const searchIcon=css`
     display: flex;

@@ -3,16 +3,17 @@ import { css } from "@emotion/react";
 
 ////////홈 CSS ////////////////
 export const mainLayout = css`
-/* padding : 20px; */
 background-color:  #F8F8F8;
+width: 1200px;
 font-family: 'omyu_pretty';
 white-space: pre;
 @font-face {
-    font-family: 'omyu_pretty';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'NEXON Lv1 Gothic OTF';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON%20Lv1%20Gothic%20OTF') format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
+
 `
 export const rootheader = css`
   display: flex;
@@ -264,12 +265,27 @@ export const Top3linkStyle = css`
   }
 `;
 
+// export const LikeDonate = css`
+//   &>div{
+//   padding: 10px;
+//   border: 1px solid #dbdbdb;
+//   border-radius: 5px;
+//   width: 100%;
+//   margin: 20px;
+//   display: flex;
+//   justify-content: center;
+//   &>a{
+//     color: black;
+//     text-decoration-line: none;
+//   }
+// }
+// `;
+
 export const Top3goalAmount = css`
 display:flex;
 flex-direction: column;
 `;
 
-//////////// footer ////////////
 export const additionalContentStyle = css`
   // styles for additional content
 `;
@@ -360,4 +376,45 @@ align-items: center;
 `
 
 export const LikeDonate =css`
+`;
+
+export const nmtbutton = css`
+cursor : pointer;
+`
+export const buttonLayout = css`
+display: flex;
+flex-wrap: wrap;
+
+`
+export const button = (color) => css`
+  display: flex;
+  flex-direction: column;
+  height: 150px;
+  width: 150px;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  background-color: ${color === "gray" ? "#FFC107" : "#BDBDBD"};
+  color: ${color === "gray" ? "white" : "black"};
+  word-wrap: break-word;
+  flex-wrap: wrap;
+  position: relative;
+  white-space: normal;
+`;
+
+export const NoticeText = css`
+    font-size: 20px;
+    font-weight: bold;
+    box-sizing: border-box;
+
+
+`;
+export const icon = css`
+  position: absolute;
+  top: 130px;
+  right: 20px;
+  font-size: 24px;
+  margin-top: 10px; 
 `;

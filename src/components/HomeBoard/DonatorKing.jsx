@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from "react-query";
 import { FaCrown } from "react-icons/fa6";
 import LikeButton from "../../components/LikeButton/LikeButton";
-import { getDonators } from "../../apis/api/donatorApi";
+import { getDonators } from "../../apis/api/DonatorApi";
 
 function DonatorKing(props) {
     const [sortedDonorRankings,setSortedDonorRankings] = useState([]);
@@ -18,7 +18,6 @@ function DonatorKing(props) {
             refetchOnWindowFocus: false,
             onSuccess: response => {
                 const donations = response.data;
-                console.log(donations);
                              // 1. userId를 기준으로 그룹화
                              const donorGroups = donations.reduce((groups, donation) => {
                                 const { name, donationAmount } = donation;

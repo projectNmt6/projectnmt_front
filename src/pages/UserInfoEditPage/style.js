@@ -21,17 +21,16 @@ export const imgBox = css`
     height: 200px;
     border-radius: 50%;
     border: 1px solid #dbdbdb;
-    margin: 30px 0px;
+    margin: 40px 0px;
     overflow: hidden;
     & > img {
         height: 100%;
     }
 `;
 
-
 export const div = css`
     width: 800px;
-    height: 650px;
+    height: 450px;
     justify-content: center;
     align-items: center;
 `;
@@ -62,7 +61,12 @@ export const input = css`
     }
 `;
 export const div2 = css`
-    padding-top: 20px;
+    padding-top: 100px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     font-size: 20px;
     color: #3c3c3cc1;
     font-weight: 800;
@@ -70,12 +74,12 @@ export const div2 = css`
 
 export const div3 = css`
     display: flex;
-    justify-content: end;
+    justify-content: center;
     align-items: center;
     flex-direction: column;
-    padding-bottom: 15px;
+    padding-bottom: 30px;
+    padding-top: 40px;
     width: 630px;
-    margin-left: 170px;
 `;
 export const input2 = css`
     width: 520px;

@@ -25,6 +25,9 @@ export const getDonationListByTeamIdRequest = async (params) => {
 export const updatePageShowRequest = async ( data ) => {
     return await instance.put("/team/updatePageShow",  data );
 };
+export const getTeamMemberInfoRequest2 = async (params) => {
+    return await instance.get('/team/member', { params });
+}
 
 /**
  * 
