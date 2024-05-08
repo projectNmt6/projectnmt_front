@@ -17,8 +17,6 @@ const ShareModal = ({ isOpen, onClose, donationPage, donationPageId }) => {
     const page = donationPageId; // 기부 페이지 ID
 
     shareKakao(route, title, THU, content, page);
-  const handleKakaoShare = () => {
-
     console.log("카카오톡 공유");
   };
 
@@ -39,7 +37,6 @@ const ShareModal = ({ isOpen, onClose, donationPage, donationPageId }) => {
         </div>
         <div css={s.body}>
           <button css={s.kakaobutton} onClick={handleShareKakao}></button>
-          <button css={s.kakaobutton} onClick={handleKakaoShare}></button>
           <button css={s.linkbutton} onClick={handleCopyLink}></button>
           <button css={s.loginButton} onClick={handleNaverShare}>네이버 공유하기</button>
         </div>
@@ -47,5 +44,5 @@ const ShareModal = ({ isOpen, onClose, donationPage, donationPageId }) => {
     </div>
   );
 };
-}
+
 export default ShareModal;
