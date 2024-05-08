@@ -15,6 +15,7 @@ function PasswordEditPage(props) {
     const queryClient = useQueryClient();
     const principalData = queryClient.getQueryData("principalQuery");
 
+
     const editPasswordMutation = useMutation({
         mutationKey: "editMutation",
         mutationFn: passwordEditData,
@@ -48,7 +49,7 @@ function PasswordEditPage(props) {
                         setNewCheckMessage(() => message);
                     }
                 }
-                alert(JSON.stringify(errorMessage)); // 수정된 부분
+                alert(errorMessage);
             }
         }
     });
@@ -83,8 +84,18 @@ function PasswordEditPage(props) {
             newCheckMessage?.type,
         ];
 
+        const errorMessages = [];
         if (checkFlags.includes("error") || checkFlags.includes(undefined) || checkFlags.includes(null)) {
-            alert("가입 정보를 다시 확인하세요.");
+            if (oldMessage?.type === "error") {
+                errorMessages.push("기존 비밀번호를 확인하세요.");
+            }
+            if (newMessage?.type === "error") {
+                errorMessages.push("새로운 비밀번호를 확인하세요.");
+            }
+            if (newCheckMessage?.type === "error") {
+                errorMessages.push("비밀번호 확인을 다시 해주세요.");
+            }
+            alert(                                                                                                                                                                                    )
             return;
         }
 

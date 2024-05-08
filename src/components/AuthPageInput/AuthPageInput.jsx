@@ -14,20 +14,21 @@ function AuthPageInput({ type, name, placeholder, value, onChange, onBlur, ref, 
                 onChange={onChange}
                 onBlur={onBlur}
                 ref={ref}
-            />
-            { 
-                !!message && 
-                <div css={s.inputIcon(message.type)}>
-                    {message.type === "error" ? <MdErrorOutline/> : <MdCheckCircleOutline/>}
-                </div>
-            }
+                />
+            <div css={s.inputIcon2}>
             { 
                 !!message && 
                 <div css={s.messageBox(message.type)}>
                     { message.text }
                 </div>
             }
-            
+            { 
+                !!message && 
+                <div css={s.inputIcon(message.type)}>
+                    {message.type === "error" ? <MdErrorOutline/> : <MdCheckCircleOutline/>}
+                </div>
+            }
+            </div>
         </div>
     );
 }

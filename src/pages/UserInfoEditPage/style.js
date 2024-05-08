@@ -84,6 +84,8 @@ export const div3 = css`
     width: 630px;
 `;
 export const input2 = css`
+    display: flex;
+    box-sizing: border-box;
     width: 520px;
     height: 24px;
     padding: 9px 13px;
