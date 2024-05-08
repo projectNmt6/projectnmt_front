@@ -1,8 +1,8 @@
 import { css } from "@emotion/react"
 
 export const commentBoxStyle = css`
-    height: 40px;
-    
+   min-height: 40px;
+    overflow-y: auto;
 `;
 
 export const inputboxStyle = css`
@@ -11,29 +11,69 @@ width: 100%;
 
 `
 
-export const textareaNormalStyle = css`
-    width: calc(100% - 20px); /* 입력 상자와 버튼의 너비를 맞추기 위해 */
-    height: 40px; /* 기본 높이 */
-    padding: 10px; /* 내부 패딩 */
-    box-sizing: border-box; /* 패딩과 보더 포함하여 요소 크기 계산 */
-    border: 1px solid #d2d0d0; /* 테두리 스타일 */
-    border-radius: 5px; /* 테두리 모서리 둥글게 */
-    margin-top: 16px; /* 상단 여백 */
+export const commentContainer2 = css`
+display: flex;
+flex-direction: row; 
+align-items: flex-start; // 상단 정렬
+margin-bottom: 10px; // 코멘트 간 여백
+`;
+
+export const commentContainer = css`
+    border: 1px solid #838383;
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
     font-family: 'NEXON Lv1 Gothic OTF';
-    resize: none; /* 사용자 크기 조정 비활성화 */
+`;
+
+export const textareaNormalStyle = css`
+    /* width: calc(100% - 20px); 
+    height: 40px; 
+    padding: 10px; 
+    box-sizing: border-box; 
+    border: 1px solid #d2d0d0; 
+    border-radius: 5px; 
+    margin-top: 16px; 
+    font-family: 'NEXON Lv1 Gothic OTF';
+    resize: none; */
+    width: 100%;
+    height: 40px;
+    border: none; // 통합된 테두리를 사용하기 때문에 테두리 제거
+    resize: none;
+    font-family: 'NEXON Lv1 Gothic OTF';
 `;
 
 // 확장된 상태의 textarea 스타일
 export const textareaFocusStyle = css`
-    width: calc(100% - 20px); /* 입력 상자와 버튼의 너비를 맞추기 위해 */
-    height: 100px; /* 포커스된 경우 높이 증가 */
-    padding: 10px; /* 내부 패딩 */
-    box-sizing: border-box; /* 패딩과 보더 포함하여 요소 크기 계산 */
-    border: 1px solid #007bff; /* 포커스된 경우 테두리 색상 변경 */
-    border-radius: 5px; /* 테두리 모서리 둥글게 */
-    margin-top: 16px; /* 상단 여백 */
+    width: 100%;
+    height: 150px;
+    border: none; // 통합된 테두리를 사용하기 때문에 테두리 제거
+    resize: none;  
+    border-radius: 5px; 
+    font-family: 'NEXON Lv1 Gothic OTF';  
+    /* width: 100%; 
+    height: 150px;
+    padding: 10px; 
+    box-sizing: border-box; 
+    border: 1px solid #007bff; 
+    border-radius: 5px; 
+    margin-top: 16px; 
     font-family: 'NEXON Lv1 Gothic OTF';
-    resize: none; /* 사용자 크기 조정 비활성화 */
+    resize: none;  */
+`;
+
+// 하단 컨트롤 영역 스타일
+export const commentControls = css`
+   display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    position: absolute; // 버튼 위치를 텍스트 입력 영역 하단에 고정
+    bottom: 10px; // 하단에서 얼마나 떨어져 있는지
+    left: 10px; // 왼쪽 패딩 고려
 `;
 
 
@@ -42,7 +82,7 @@ export const commentSubmitButton = css`
         margin-top: 16px;
         background-color: black;
         color: white;
-        font-size: 143x;
+        font-size: 14px;
         font-weight: 700;
         height: 30px;
         width: 50px;
@@ -64,12 +104,6 @@ export const commentSubmitButton = css`
 }
 `;
 
-export const commentContainer = css`
-        display: flex;
-        flex-direction: row; 
-        align-items: flex-start; // 상단 정렬
-        margin-bottom: 10px; // 코멘트 간 여백
-`;
 export const profileAndTextContainer = css`
     display: flex;
     flex-direction: row;  // 프로필 이미지와 텍스트 컨테이너 수평 정렬
@@ -116,7 +150,30 @@ export const actionsContainer = css`
 `;
 
 
+// 모달 스타일
+export const modalStyle = css`
+  position: fixed; // 뷰포트에 상대적인 위치
+  top: 50%; // 상단에서 50% 위치
+  left: 50%; // 좌측에서 50% 위치
+  transform: translate(-50%, -50%); // 정확한 중앙 정렬
+  background: white; // 배경색
+  padding: 20px; // 패딩
+  border: 1px solid #ccc; // 테두리
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); // 그림자
+  z-index: 1000; // 다른 요소들 위에 보이도록
+`;
+// style.js 파일 내에 추가
 
+export const transparentButtonStyle = css`
+    background: none; /* 배경을 투명하게 */
+    border: none; /* 테두리 제거 */
+    outline: none; /* 포커스 시 아웃라인 제거 */
+    cursor: pointer; /* 마우스 오버 시 커서 변경 */
+    padding: 0; /* 패딩 제거 */
+    display: flex; /* 아이콘 중앙 정렬을 위해 */
+    align-items: center; /* 수직 중앙 정렬 */
+    justify-content: center; /* 수평 중앙 정렬 */
+`;
 
 
 

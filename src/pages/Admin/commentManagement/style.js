@@ -30,7 +30,8 @@ export const tableLayout =css`
     border: none;    
     background-color: white;
     overflow-x: scroll;
-
+    height: 200px;
+    overflow-y: scroll;
     &::-webkit-scrollbar {  
         box-sizing: border-box;
         border: 1px solid #ffffff;
@@ -49,6 +50,7 @@ export const table =css`
     border: 1px solid black;
     border-collapse: collapse;
     width: max-content;
+    
     & td, & th {
         border: 1px solid #dbdbdb;
         padding: 0px 5px;
@@ -87,6 +89,9 @@ export const table =css`
     & tr > th:nth-of-type(4) {
         min-width: 100px;
     }
+    tr > td:nth-of-type(4) {
+        text-align: right;
+    }
     & tr > td:nth-of-type(5),
     & tr > th:nth-of-type(5) {
         min-width: 300px;
@@ -94,6 +99,9 @@ export const table =css`
     & tr > td:nth-of-type(6),
     & tr > th:nth-of-type(6) {
         min-width: 100px;
+    }
+    tr > td:nth-of-type(6) {
+        text-align: right;
     }
     & tr > td:nth-of-type(7),
     & tr > th:nth-of-type(7) {

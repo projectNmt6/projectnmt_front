@@ -6,7 +6,6 @@ export const main = css`
     justify-content: space-around;
     width: 100%; 
     height: 100%;
-    background-color: aqua;
         
 `;
 
@@ -51,17 +50,6 @@ border-radius: 8px;
 margin-top: 40px;
 background-color: rgb(255, 255, 255);
 `;
-// export const sidebarStyle = css`
-//   display: flex;
-//   margin: 10px; 
-//   flex-direction: column; 
-//   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-//   border-radius: 10px;
-//   padding: 25px;
-//   position: sticky; // 오른쪽
-//   top: 20px;
-//   z-index: 2000; /* 수정된 부분 */
-// `;
 
 export const sidebarStyle2 = css`
   display: flex;

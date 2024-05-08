@@ -24,7 +24,7 @@ function AdminRoute(props) {
     return (
         <div>
             <Routes>
-                <Route path='/main' element={ <AdminMain /> }/>
+                <Route path='/management/main' element={ <AdminMain /> }/>
                 <Route path='/management/user' element={ <UserManagement /> }/>
                 <Route path='/user' element={ <UserInfo /> }/>
                 <Route path='/management/comment' element={ <CommentManagement /> }/>

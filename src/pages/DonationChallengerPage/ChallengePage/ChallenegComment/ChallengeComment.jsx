@@ -4,14 +4,14 @@ import axios from 'axios';
 import { TbTrashXFilled } from 'react-icons/tb';
 import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom';
 import { getPrincipalRequest } from '../../../../apis/api/principal';
-import { challengeCommentRequest, challengeCommentResponse, deleteChallengeComment } from '../../../../apis/api/DonationAPI';
+import { challengeCommentRequest, challengeCommentResponse, commentReportRequest, deleteChallengeComment } from '../../../../apis/api/DonationAPI';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import { getUserInfoRequest } from '../../../../apis/api/Admin';
-import { IoMdHeartEmpty } from "react-icons/io";
-import { IoMdHeart } from "react-icons/io";
-import { FaTrash } from "react-icons/fa";
 
+import LikeButton from '../../../../components/LikeButton/LikeButton';
+import DeleteModal from '../../../DonationStoryPage/DonationComment/DeleteModal';
+import { HiOutlineDotsHorizontal } from "react-icons/hi";
 function ChallengeComment({ challengePageId }) {
 
     const [commentList, setCommentList] = useState([]);
@@ -21,6 +21,9 @@ function ChallengeComment({ challengePageId }) {
     const [count, setCount] = useState(10); // 한 번에 표시할 덧글 수
     const commentContainerRef = useRef(null);
     const textareaRef = useRef(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [currentCommentId, setCurrentCommentId] = useState(null);
+    const [isCommentOwner, setIsCommentOwner] = useState(false);
 
     const principalQuery = useQuery(
         ["principalQuery"],
@@ -93,19 +96,31 @@ function ChallengeComment({ challengePageId }) {
         console.log("Deleting ID:", userId); // 로그로 ID 확인
         deleteCommentMutation.mutate({ challengeCommentId, userId });
     };
-
-    const deleteCommentMutation = useMutation({
-        mutationKey: "deleteCommentMutation",
-        mutationFn: deleteChallengeComment,
-        onSuccess: response => {
-            alert("삭제완료")
-            window.location.reload();
+    const deleteCommentMutation = useMutation(deleteChallengeComment, {
+        onSuccess: () => {
+            // 성공적으로 삭제된 후, commentList에서 해당 댓글을 제거
+            setCommentList(currentComments =>
+                currentComments.filter(comment => comment.challengeCommentId !== currentCommentId)
+            );
+            setIsModalOpen(false); // 모달 닫기
+            alert("삭제 완료");
         },
-        onError: response => {
-            alert("삭제할 권한이 없습니다.")
+        onError: (error) => {
+            console.error("Failed to delete comment:", error);
+            alert("삭제 실패");
         }
     });
-
+    
+    const reportCommentMutation = useMutation(commentReportRequest, {
+        onSuccess: () => {
+            alert("신고 완료");
+            setIsModalOpen(false);
+        },
+        onError: (error) => {
+            console.error("Failed to report comment:", error);
+            alert("신고 실패");
+        }
+    });
 
     const [isExpanded, setIsExpanded] = useState(false); // 확대 상태 관리
     useEffect(() => {
@@ -128,9 +143,12 @@ function ChallengeComment({ challengePageId }) {
         setIsExpanded(true); // textarea 클릭 시 확대 상태 설정
     };
 
-    const handleLoadMoreComments = () => {
-        setStartIdx(prevStartIdx => prevStartIdx + count); // 시작 인덱스를 현재 시작 인덱스에서 덧글 수만큼 증가시킴
+    const openDeleteModal = (commentId, isOwner) => {
+        setCurrentCommentId(commentId);   // 현재 처리할 댓글 ID 설정
+        setIsCommentOwner(isOwner);       // 댓글 작성자 여부 설정
+        setIsModalOpen(true);             // 모달 창 열기
     };
+   
     return (
         <>
             <div css={s.commentBoxStyle}>
@@ -165,9 +183,10 @@ function ChallengeComment({ challengePageId }) {
                                         <p>{comment.commentText}</p>
                                     </div>
                                     <div css={s.actionsContainer}>
-                                        <IoMdHeartEmpty /> <IoMdHeart />
-                                        <button onClick={() => handleCommentDeleteButton(comment.challengeCommentId)}>
-                                            <FaTrash />
+                                    <LikeButton commentId={comment.challengeCommentId} />
+                                        <button css={s.transparentButtonStyle}
+                                            onClick={() => openDeleteModal(comment.challengeCommentId, userId === comment.userId)}>
+                                            <HiOutlineDotsHorizontal />
                                         </button>
                                     </div>
                                 </div>
@@ -175,9 +194,15 @@ function ChallengeComment({ challengePageId }) {
                         </div>
                     ))}
                 </div>
-                {commentList.length >= 10 && ( // 덧글이 10개 이상일 때만 '더보기' 버튼을 표시
-                    <button onClick={handleLoadMoreComments}>더보기</button>
-                )}
+                {isModalOpen && (
+                        <DeleteModal
+                            onClose={() => setIsModalOpen(false)}
+                            onConfirmDelete={() => deleteCommentMutation.mutate({ donationCommentId: currentCommentId })}
+                            onConfirmReport={() => reportCommentMutation.mutate({ donationCommentId: currentCommentId })}
+                            isCommentOwner={isCommentOwner}
+
+                        />
+                    )}
             </div>
         </>
     );

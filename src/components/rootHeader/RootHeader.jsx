@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 /** @jsxImportSource @emotion/react */
-import * as s from "./style";
+import * as s from "./style"
 import { useRecoilState } from 'recoil';
 import { Link } from 'react-router-dom';
 import { FiLogOut, FiUser,FiSearch } from "react-icons/fi";
@@ -50,7 +50,7 @@ function RootHeader(props) {
                     <Link to={"/main/challenges"} onClick={() => handleHeaderLine("챌린지")}>챌린지</Link>
                 </div>
                 <div css={s.adminbox(true)}>
-                    {isAdmin ? <Link to={"/admin/main"} > 관리자 </Link> : null}
+                    {isAdmin ? <Link to={"/admin/management/main"}> 관리자 </Link> : null}
                 </div> 
             </div>
 

@@ -3,6 +3,7 @@ import TeamCreatePage from "../TeamCreatePage/TeamCreatePage";
 import TeamInfoPage from "../TeamInfoPage/TeamInfoPage";
 import TeamMemberPage from "../TeamMemberPage/TeamMemberPage";
 import TeamPage from "../TeamPage/TeamPage";
+import TeamStoryManagepage from "../TeamStoryManagePage/TeamStoryManagepage";
 import UpdateTeamPage from "../UpdateTeamPage/UpdateTeamPage";
 import * as s from "./style";
 import { Route, Routes } from 'react-router-dom';
@@ -16,6 +17,7 @@ function TeamRoutePage(props) {
                 <Route path="/write" element={<TeamCreatePage />} />
                 <Route path="/info" element={<TeamInfoPage />} />
                 <Route path="/update" element={<UpdateTeamPage />} />
+                <Route path="/story" element={<TeamStoryManagepage />} />
             </Routes>
         </div>
     );

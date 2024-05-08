@@ -8,6 +8,8 @@ import { deleteCommentRequest, getUserCommentListRequest } from '../../../apis/a
 function CommentManagement({userId} ) {
     const [ commentList, setCommentList] = useState([]);
     const [ sortedCommentList, setSortedCommentList] = useState([]);
+    const num = 10;
+    const [ isDelete, setIsDelete ] = useState(false);
     const getCommentListQuery = useQuery(
         [ "getCommentListQuery", userId ],
         async () => {
@@ -17,9 +19,7 @@ function CommentManagement({userId} ) {
         },
         {
             refetchOnWindowFocus: false,
-            enabled: !!userId,
             onSuccess: response => {
-                console.log(response.data);
                 setCommentList(() => response.data.map(comment => {
                     return {
                         ...comment,
@@ -33,7 +33,6 @@ function CommentManagement({userId} ) {
         mutationKey: "deleteCommentMutation",
         mutationFn: deleteCommentRequest,
         onSuccess: response => {
-            console.log(response);
             getCommentListQuery.refetch();
             alert("삭제완료.");
         },
@@ -58,13 +57,33 @@ function CommentManagement({userId} ) {
         }))
     },[commentList])
     const handleDeleteButtonOnClick = () => {
-        const deleteComments = sortedCommentList.filter(comment => comment.checked === true).map(comment => comment.donationCommentId);
-        deleteCommentMutation.mutate(deleteComments);
+        setIsDelete(() => true);
     }
+    const handleDeleteautoButtonOnClick = () => {
+        setCommentList(() =>commentList.map(comment => {
+            if (comment.reportCount > num) {
+                return {
+                    ...comment,
+                    checked: true
+                }
+            } else {
+                return comment
+            }
+        }));
+        setIsDelete(() => true);
+    }
+    useEffect(() => {
+        if(isDelete) {
+            const deleteComments = sortedCommentList.filter(comment => comment.checked === true).map(comment => comment.donationCommentId);
+            deleteCommentMutation.mutate(deleteComments);
+        }
+        setIsDelete(() => false);
+    },[sortedCommentList])
     return (
         <div css={s.tableLayout}>
             댓글 관리
             <button onClick={handleDeleteButtonOnClick}>댓글 삭제</button>
+            <button onClick={handleDeleteautoButtonOnClick}>기준치 이상 댓글 일괄 삭제</button>
             <table css={s.table}>
                         <thead >
                             <tr css={s.tableHeader} key={0}>

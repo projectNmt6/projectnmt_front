@@ -9,7 +9,7 @@ import { commentBox } from "../../pages/DonationStoryPage/style";
 
 
 
-function LikeButton({donationPageId, commentId}) {
+function LikeButton({challengePageId, donationPageId, commentId}) {
     const [likeStatus, setLikeStatus] = useState({ isLiked: 0, likeCount: 0});
     const queryClient = useQueryClient();
     const principalData = queryClient.getQueryData("principalQuery") || {};
@@ -24,9 +24,9 @@ function LikeButton({donationPageId, commentId}) {
         }
     })
     const getLikeQuery = useQuery(
-        ["getLikeQuery", donationPageId, principalData?.data?.userId ?? null, commentId],
+        ["getLikeQuery", donationPageId, principalData?.data?.userId, commentId],
         async () => {
-            const response = await getLike({ donationPageId, userId: principalData.data.userId , commentId});
+            const response = await getLike({ donationPageId, userId: !!principalData?.data.userId ? principalData.data.userId : 0, commentId});
             return response.data;
         },
         {
@@ -34,7 +34,10 @@ function LikeButton({donationPageId, commentId}) {
             onSuccess: (data) => {
                 setLikeStatus(data);
             },
-            onError: error => {}
+            onError: error => {
+                console.log(error);
+
+            }
         }
     );
 
