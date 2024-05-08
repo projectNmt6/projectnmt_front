@@ -96,7 +96,6 @@ function AuthRoute(props) {
                 <Route path='/team/select' element={<TeamSelectPage />} />
                 <Route path='/team/*' element={ <TeamRoutePage /> } />
                 <Route path='/donation/select/team' element={ <SelectTeam /> } />
-                
                 <Route path='/test' element={ <TeamList /> } />
                 <Route path='/account/mypage/edit' element= { <UserInfoEditPage />} />
                 <Route path='/account/mypage/edit/password' element={ <PasswordEditPage />}/>
