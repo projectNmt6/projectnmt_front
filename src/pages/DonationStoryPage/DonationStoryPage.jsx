@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import Progress from "../../components/progress/Progress";
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { commentReqest, commentResponse, deleteDonationPage, getDonationNewsRequest, updatePageRequest, getDonationStoryRequest, getProgressAmount, updateDonationPageResponse, registerNewsPage } from '../../apis/api/DonationAPI';
+import { commentReqest, commentResponse, deleteDonationPage, getDonationNewsRequest, updatePageRequest, getDonationStoryRequest, getProgressAmount, updateDonationPageResponse, registerNewsPage, getDonationListRequest } from '../../apis/api/DonationAPI';
 import DOMPurify from 'dompurify';
 import LikeButton from '../../components/LikeButton/LikeButton';
 import axios from 'axios';
@@ -185,8 +185,38 @@ function DonationStoryPage() {
                 console.log(error);
             })
     }
+    const [donationTagList, setDonationTagList] = useState([]);
+    const [donationList, setDonationList] = useState([]);
+    const [selectedTag, setSelectedTag] = useState(null);
+    const [sortOrder, setSortOrder] = useState('');
 
-
+    const [visibleDonations, setVisibleDonations] = useState([]);
+    const getDonationListQuery = useQuery(
+        "getDonationQuery",
+        async () => await getDonationListRequest(),
+        {
+            refetchOnWindowFocus: false,
+            onSuccess: response => {
+                const today = new Date();
+                const validDonations = response.data.filter(donation => {
+                    const endDate = new Date(donation.endDate);
+                    return endDate > today;
+                });
+    
+                const updatedDonationList = validDonations.map(donation => {
+                    const endDate = new Date(donation.endDate);
+                    const timeDiff = endDate - today;
+                    const daysLeft = timeDiff / (1000 * 60 * 60 * 24);
+    
+                    return {
+                        ...donation,
+                        timeOut: daysLeft < 3,
+                    };
+                });
+                setDonationList(updatedDonationList);
+            }
+        }
+    );
     useEffect(() => {
         const fetchData = async () => {
             try {
