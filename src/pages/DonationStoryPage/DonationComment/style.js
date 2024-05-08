@@ -1,8 +1,8 @@
 import { css } from "@emotion/react"
 
 export const commentBoxStyle = css`
-    height: 40px;
-    
+   min-height: 40px;
+    overflow-y: auto;
 `;
 
 export const inputboxStyle = css`
@@ -19,8 +19,6 @@ margin-bottom: 10px; // 코멘트 간 여백
 `;
 
 export const commentContainer = css`
- position: relative;
-    width: 100%;
     border: 1px solid #838383;
     border-radius: 5px;
     box-sizing: border-box;
@@ -152,7 +150,30 @@ export const actionsContainer = css`
 `;
 
 
+// 모달 스타일
+export const modalStyle = css`
+  position: fixed; // 뷰포트에 상대적인 위치
+  top: 50%; // 상단에서 50% 위치
+  left: 50%; // 좌측에서 50% 위치
+  transform: translate(-50%, -50%); // 정확한 중앙 정렬
+  background: white; // 배경색
+  padding: 20px; // 패딩
+  border: 1px solid #ccc; // 테두리
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); // 그림자
+  z-index: 1000; // 다른 요소들 위에 보이도록
+`;
+// style.js 파일 내에 추가
 
+export const transparentButtonStyle = css`
+    background: none; /* 배경을 투명하게 */
+    border: none; /* 테두리 제거 */
+    outline: none; /* 포커스 시 아웃라인 제거 */
+    cursor: pointer; /* 마우스 오버 시 커서 변경 */
+    padding: 0; /* 패딩 제거 */
+    display: flex; /* 아이콘 중앙 정렬을 위해 */
+    align-items: center; /* 수직 중앙 정렬 */
+    justify-content: center; /* 수평 중앙 정렬 */
+`;
 
 
 

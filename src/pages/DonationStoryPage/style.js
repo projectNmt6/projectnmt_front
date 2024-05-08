@@ -29,22 +29,25 @@ export const rightCardLayout = css`
     margin-top: 30px;
   display: flex;
   flex-direction: column;
-    flex-wrap: wrap;
+flex-wrap: wrap;
   width: 360px; /* 오른쪽 영역 너비를 조정합니다. */
   top: 20px; /* 부모 요소의 위쪽에서 일정한 거리만큼 떨어진 위치에 표시됩니다. */
   padding-left: 30px;
 `;
 
+
 export const sidebarStyle = css`
-  display: flex;
-  margin: 10px; 
-  flex-direction: column; 
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  border-radius: 10px;
-  padding: 25px;
-  justify-content: flex-start;
-  position: sticky; // 오른쪽
-  top: 100px;
+margin: 0px;
+font: inherit;
+vertical-align: baseline;
+padding: 34px 25px 0px;
+order: 1;
+position: sticky;
+top: 100px;
+border: 1px solid rgb(221, 221, 221);
+border-radius: 8px;
+margin-top: 40px;
+background-color: rgb(255, 255, 255);
 `;
 
 export const sidebarStyle2 = css`
@@ -98,7 +101,7 @@ export const actionImage = css`
  z-index: 1;
 `;
 
- 
+
 export const actionButton1 = css`
 
     display: flex;

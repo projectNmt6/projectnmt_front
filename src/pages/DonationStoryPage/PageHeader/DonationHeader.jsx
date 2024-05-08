@@ -5,11 +5,8 @@ import ShareButton from '../../../components/ShareModal/ShareButton';
 import LikeButton from '../../../components/LikeButton/LikeButton';
 import DonatorInfo from '../../DonatorInfo/DonatorInfo';
 
-function DonationHeader({ donationPageId, selectedTab, handleTabChange, contentRef}) {
-    const [isVisible, setIsVisible] = useState(false);
-    const [showModal, setshowModal] = useState(false);
 
-function DonationHeader({ donationPageId, selectedTab, handleTabChange, contentRef }) {
+function DonationHeader({ donationPageId, selectedTab, handleTabChange, contentRef, showModal, setshowModal }) {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
@@ -43,6 +40,7 @@ function DonationHeader({ donationPageId, selectedTab, handleTabChange, contentR
             document.body.style.overflow = 'auto';
         }
     }, [showModal])
+
     return (
         <div css={s.main}>
         <div css={[s.headerPanel2, { display: isVisible ? 'block' : 'none', position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000 }]}>
@@ -78,8 +76,5 @@ function DonationHeader({ donationPageId, selectedTab, handleTabChange, contentR
         </div> </div>
 );
 
-
-  
-}
 }
 export default DonationHeader;

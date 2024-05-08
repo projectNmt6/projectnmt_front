@@ -53,7 +53,6 @@ export const commentSubmitButton = css`
         position: absolute;
         bottom: 15px;
         right: 25px;
-        z-index: 1000;
         font-family: 'Pretendard-Regular';
 
 

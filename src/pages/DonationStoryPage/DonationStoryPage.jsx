@@ -95,8 +95,6 @@ function DonationStoryPage() {
     })
 
 
-
-
     const getTeamInfoMutation = useQuery(
         ["getTeamInfoMutation"],
         async () => {
@@ -113,6 +111,7 @@ function DonationStoryPage() {
             }
         }
     );
+
     const getUpdatePageBUtton = useMutation({
         mutationKey: "getUpdatePageBUtton",
         mutationFn: updateDonationPageResponse,
@@ -130,15 +129,9 @@ function DonationStoryPage() {
         getUpdatePageBUtton.mutate({ donationPageId: donationPageId })
     }
 
-
     const handleDeleteButtonClick = () => {
         console.log("삭제 시도:", donationPageId);
         deleteMutationButton.mutate({ donationPageId: donationPageId });
-    }
-
-    const handleCommentChange = (e) => {
-        const value = e.target.value;
-        setComment(value);
     }
 
     const getamountQuery = useQuery(
@@ -158,8 +151,6 @@ function DonationStoryPage() {
         const today = new Date();
         const startDateTime = new Date(startDate);
         const endDateTime = new Date(endDate);
-
-
         startDateTime.setHours(0, 0, 0, 0);
 
         const timeRemaining = Math.ceil((endDateTime - today) / (1000 * 60 * 60 * 24));
@@ -169,22 +160,7 @@ function DonationStoryPage() {
             return `${timeRemaining}일 남음`;
         }
     };
-
-    const handleCommentSubmit = () => {
-        axios.post("http://localhost:8080/comment/upload", {
-            donationCommentId: null,
-            commentText: comment,
-            donationPageId: donationPageId,
-            userId: null
-        })
-            .then(response => {
-                alert("전송 완료")
-                console.log(response)
-            })
-            .catch(error => {
-                console.log(error);
-            })
-    }
+    
     const [donationTagList, setDonationTagList] = useState([]);
     const [donationList, setDonationList] = useState([]);
     const [selectedTag, setSelectedTag] = useState(null);
@@ -279,7 +255,7 @@ function DonationStoryPage() {
 
 
     const handleNewsButtonClick = () => {
-        console.log('Attempting to mutate with ID:', donationPageId);
+        console.log('PageID:', donationPageId);
         window.location.replace(`/main/donation/news?page=${donationPageId}`);
     };
 
@@ -292,8 +268,7 @@ function DonationStoryPage() {
                 selectedTab={selectedTab} 
                 handleTabChange={handleTabChange} 
             />
-        <div css={s.contentAreaStyle}>
-           
+        <div css={s.contentAreaStyle}>           
             <div css={s.leftCardLayout}>
                 {showModal && (
                     <div css={s.container3}>
