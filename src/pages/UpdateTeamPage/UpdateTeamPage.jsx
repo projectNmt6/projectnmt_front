@@ -1,9 +1,10 @@
 /** @jsxImportSource @emotion/react */
-import {css} from "@emotion/react";
+import * as s from "./style";
+import { css } from "@emotion/react";
 import React, { useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Select from "react-select";
-import {v4 as uuid} from "uuid";
+import { v4 as uuid } from "uuid";
 import { storage } from '../../apis/filrebase/config/firebaseConfig';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { registerTeam, updateTeam, updateTeamRequest } from '../../apis/api/teamApi';
@@ -24,12 +25,13 @@ const header = css`
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
-}`;   
+}`;
 const imgBox = css`
     & > img {
         border: 1px solid #dbdbdb;
         height: 225px;
         width: 225px;
+        margin-top: 15px;
         overflow: hidden;
     }
 `
@@ -38,17 +40,17 @@ function UpdateTeamPage(props) {
     const teamInfo = location.state.teamInfo;
     const navigate = useNavigate();
     const accountIdRef = useRef(0);
-    const [ teamPhoneNumber, setTeamPhoneNumber ] = useState(teamInfo.teamPhoneNumber);
-    const [ teamEmail,  setTeamEmail ] = useState(teamInfo.teamEmail);
-    const [ teamHomepage,  setTeamHomepage ] = useState(teamInfo.teamHomepage);
-    const [ teamInfoText,  setTeamInfoText ] = useState(teamInfo.teamInfoText);
-    const [ teamLogoImgUrl,  setTeamLogoImgUrl ] = useState(teamInfo.teamLogoImgUrl);
-    const [ accountInfos, setAccountInfos ] = useState(teamInfo.accounts);
-    const [ createAccount, setCreateAccount ] = useState(false);
-    const [ accountNumber, setAccount ] = useState();
-    const [ bankName, setBankName ] = useState();
-    const [ accountUsername, setAccountUsername ] = useState();
-    const [ accountUrl, setAccountUrl ] = useState();
+    const [teamPhoneNumber, setTeamPhoneNumber] = useState(teamInfo.teamPhoneNumber);
+    const [teamEmail, setTeamEmail] = useState(teamInfo.teamEmail);
+    const [teamHomepage, setTeamHomepage] = useState(teamInfo.teamHomepage);
+    const [teamInfoText, setTeamInfoText] = useState(teamInfo.teamInfoText);
+    const [teamLogoImgUrl, setTeamLogoImgUrl] = useState(teamInfo.teamLogoImgUrl);
+    const [accountInfos, setAccountInfos] = useState(teamInfo.accounts);
+    const [createAccount, setCreateAccount] = useState(false);
+    const [accountNumber, setAccount] = useState();
+    const [bankName, setBankName] = useState();
+    const [accountUsername, setAccountUsername] = useState();
+    const [accountUrl, setAccountUrl] = useState();
     const profileImgRef = useRef();
     const handleContentChange = (value) => {
         setTeamInfoText(() => value);
@@ -60,7 +62,7 @@ function UpdateTeamPage(props) {
             console.log(response);
             alert("등록완료.");
         },
-        onError: error => {}
+        onError: error => { }
     })
     const accountCounter = (e) => {
         setCreateAccount(() => true);
@@ -73,7 +75,7 @@ function UpdateTeamPage(props) {
             teamHomepage,
             teamInfoText,
             teamLogoImgUrl,
-            accountInfos      
+            accountInfos
         };
         updateTeamMutation.mutate(data);
         // accountInfos
@@ -81,7 +83,7 @@ function UpdateTeamPage(props) {
     }
     const handlefileChange = (e, setFile) => {
         const files = Array.from(e.target.files);
-        if(files.length === 0) {
+        if (files.length === 0) {
             e.target.value = "";
             return;
         }
@@ -90,13 +92,13 @@ function UpdateTeamPage(props) {
         console.log();
         uploadTask.on(
             "state_changed",
-            Snapshot => {},
-            error => {console.log(error.message);},
+            Snapshot => { },
+            error => { console.log(error.message); },
             () => {
                 getDownloadURL(storageRef)
-                .then(url => {
-                    setFile(() => url);
-                });
+                    .then(url => {
+                        setFile(() => url);
+                    });
             }
         )
     }
@@ -121,58 +123,92 @@ function UpdateTeamPage(props) {
         setAccountInfos(() => [...accountInfos.filter(accountInfo => accountInfo.accountId !== id)]);
     }
     return (
-        <div css={header}>       
-            <div>
-                팀 정보수정
+        <div css={header}>
+            <div css={s.div}>
+                <div>
+                    팀 정보수정
+                </div>
+                <div css={s.div2}>
+                    {teamInfo.teamName}
+                </div>
+            </div>
+            <div css={s.div}>
+                <div>
+                    팀로고
+                </div>
+                <div css={imgBox}>
+                    <input type="file" src="" alt="" ref={profileImgRef} style={{ display: "none" }} onChange={(e) => handlefileChange(e, setTeamLogoImgUrl)} />
+                    <img src={teamLogoImgUrl} alt="" onClick={() => profileImgRef.current.click()} />
+                </div>
+            </div>
+            <div css={s.div}>
+                <div>
+                    팀 소개
+                </div>
+                <div css={s.div2}>
+                    <textarea id="story" value={teamInfoText} onChange={(e) => setTeamInfoText(e.target.value)} rows="20" cols="80" />
+                </div>
+            </div>
+            <div css={s.div3}>
+                <div css={s.div4}>
+                    <span css={s.font}>email</span>
+                    <span css={s.font}>전화번호</span>
+                    <span css={s.font}>홈페이지</span>
+                </div>
+                <div css={s.div4}>
+                    <input css={s.input} type="text" value={teamEmail}
+                        onChange={(e) => setTeamEmail(e.target.value)} />
+                    <input css={s.input} type="text" value={teamPhoneNumber}
+                        onChange={(e) => setTeamPhoneNumber(e.target.value)} />
+                    <input css={s.input} type="url" value={teamHomepage}
+                        onChange={(e) => setTeamHomepage(e.target.value)} />
+                </div>
             </div>
             <div>
-                {teamInfo.teamName}
-            </div>
-            <div>
-            팀로고
-            </div>
-            <div css={imgBox}>
-                <input type="file" src="" alt="" ref={profileImgRef} style={{display:"none"}} onChange={(e) => handlefileChange(e, setTeamLogoImgUrl)}/>
-                <img src={teamLogoImgUrl} alt="" onClick={() => profileImgRef.current.click()}/>
-            </div>
-            <div>
-                    <textarea id="story" value={teamInfoText}  placeholder="팀 소개" onChange={(e) => setTeamInfoText(e.target.value)}  rows="20" cols="80"/>
-            </div>
-            <div>
-                <input type="text" placeholder="email" value={teamEmail} 
-                    onChange={(e) => setTeamEmail(e.target.value)}/>
-                <input type="text" placeholder="전화번호" value={teamPhoneNumber} 
-                    onChange={(e) => setTeamPhoneNumber(e.target.value)}/>
-                <input type="url" placeholder="홈페이지" value={teamHomepage} 
-                    onChange={(e) => setTeamHomepage(e.target.value)}/>
-            </div>
-            <div>
-                <button onClick={accountCounter}>은행 계좌 등록</button>
-                
-                {createAccount ?  
-                    <div>  
-                        <input type="text" placeholder="예금주명"  value={accountUsername} 
-                            onChange={(e) => setAccountUsername(e.target.value)}/>
-                        <input type="text" placeholder="계좌번호"  value={accountNumber } 
-                            onChange={(e) => setAccount(e.target.value)}/>
-                        <input type="text"placeholder="은행명"  value={bankName} 
-                            onChange={(e) => setBankName(e.target.value)}/>   
-                        <input type="file" src="" alt="" onChange={(e) => handlefileChange(e, setAccountUrl)}/>
-                        <button onClick={handleAccountInfos}>은행 등록</button>
+                <button css={s.input2} onClick={accountCounter}>은행 계좌 등록</button>
+                {createAccount ?
+                    <div css={s.div}>
+                        <div css={s.div3}>
+                        <div css={s.div4}>
+                            <span css={s.font}>예금주명</span>
+                            <span css={s.font}>계좌번호</span>
+                            <span css={s.font}>은행명</span>
+                        </div>
+                        <div css={s.div4}>
+                            <input css={s.input} type="text" value={accountUsername}
+                                onChange={(e) => setAccountUsername(e.target.value)} />
+                            <input css={s.input} type="text" value={accountNumber}
+                                onChange={(e) => setAccount(e.target.value)} />
+                            <input css={s.input} type="text" value={bankName}
+                                onChange={(e) => setBankName(e.target.value)} />
+                        </div>
+                        </div>
+                        <button css={s.input3} onClick={() => profileImgRef.current.click()}>파일첨부</button>
+                        <input css={s.input4} type="file" src="" alt="" onChange={(e) => handlefileChange(e, setAccountUrl)} />
+                        <button css={s.button1} onClick={handleAccountInfos}>은행 등록</button>
                     </div>
                     : null
                 }
-                {accountInfos.map(accountInfo => 
-                    <div>  
-                        <span>예금주: {accountInfo.accountUsername}</span>
-                        <span>은행:{accountInfo.bankName}</span>
-                        <span>계좌번호: {accountInfo.accountNumber}</span>
-                        <img src={accountInfo.accountUrl} alt="" />
-                        <button onClick={() => handleDeleteAccountInfos(accountInfo.accountId)}>계좌 삭제</button>
-                    </div>
+                {accountInfos.map(accountInfo =>
+                   <div css={s.div}>
+                   <div css={s.div7}>
+                       <div css={s.div8}>
+                           <span css={s.span1}>예금주</span>
+                           <span css={s.span1}>은행</span>
+                           <span css={s.span1}>계좌번호</span>
+                       </div>
+                       <div css={s.div8}>
+                           <div css={s.span2}>{accountInfo.accountUsername}</div>
+                           <div css={s.span2}>{accountInfo.bankName}</div>
+                           <div css={s.span2}>{accountInfo.accountNumber}</div>
+                           <img src={accountInfo.accountUrl} alt="" />
+                       </div>
+                   </div>
+                   <button css={s.button2} onClick={() => handleDeleteAccountInfos(accountInfo.accountId)}>계좌 삭제</button>
+               </div>
                 )}
             </div>
-            <button onClick={submit}>수정하기</button>
+            <button css={s.button3} onClick={submit}>수정하기</button>
         </div>
     );
 }
