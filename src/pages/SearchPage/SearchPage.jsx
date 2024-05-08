@@ -131,7 +131,6 @@ function SearchPage(props) {
 
     return (
         <>
-        <AdvancedSearch />
         <div css={s.layout}>
             <div css={s.searchBar}>
                 <div css={s.searchInput} >
