@@ -2,7 +2,7 @@
 import { Link, useSearchParams } from "react-router-dom";
 import * as s from "./style";
 import { useEffect, useState } from "react";
-function AdminSearchPageNumbers({count}) {
+function AdminSearchPageNumbers({name, count}) {
     const [ searchParams ] = useSearchParams();
     const [ numbers, setNumbers ] = useState([]);   
     const page = searchParams.get("page");
@@ -22,16 +22,16 @@ function AdminSearchPageNumbers({count}) {
             <div css={s.pageNumbers}>
                 {
                     parseInt(page) !== 1 &&
-                    <Link css={s.pageButton(false)} to={`/admin/management/user?page=${page - 1}`}>&#60;</Link>
+                    <Link css={s.pageButton(false)} to={`/admin/management/${name}?page=${page - 1}`}>&#60;</Link>
                 }
                 {
                     numbers.map(number => 
-                        <Link key={number} css={s.pageButton(number === parseInt(page))} to={`/admin/management/user?page=${number}`}>{number}</Link>    
+                        <Link key={number} css={s.pageButton(number === parseInt(page))} to={`/admin/management/${name}?page=${number}`}>{number}</Link>    
                     )
                 }
                 {
                     parseInt(page) !== maxPageNumber &&
-                    <Link css={s.pageButton(false)} to={`/admin/management/user?page=${parseInt(page) + 1}`}>&#62;</Link>
+                    <Link css={s.pageButton(false)} to={`/admin/management/${name}?page=${parseInt(page) + 1}`}>&#62;</Link>
                 }
             </div>
             <div css={s.pageCount}>

@@ -66,9 +66,9 @@ function NewsWrite() {
     }, [userId]);
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
+    const donationTeamId = queryParams.get('teamId');    
     const donationPageId = queryParams.get('page'); 
     const [selectedTeam, setSelectedTeam] = useState(null);
-       
     useEffect(() => {
         const fetchData = async () => {
             if (donationPageId) {

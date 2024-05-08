@@ -1,115 +1,217 @@
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useMutation, useQuery } from "react-query";
 import Select from 'react-select';
-import { searchDonationRequest } from "../../../apis/api/DonationAPI";
+import { getDonationListRequest, searchDonationRequest } from "../../../apis/api/DonationAPI";
 import { donation } from "../../DonationStoryPage/style";
-import { updateDonationShowRequest } from "../../../apis/api/Admin";
+import { deleteDonationListRequest, deleteTeamListRequest, getAdminDonationListRequest, getStoryCountRequest, getTeamListRequest, updateDonationShowRequest } from "../../../apis/api/Admin";
 import Message from "../../../components/Message/Message";
+import { Link, useSearchParams } from "react-router-dom";
+import AdminSearchPageNumbers from "../../../components/AdminSearchPageNumbers/AdminSearchPageNumbers";
+import { getDonatorsByPageId } from "../../../apis/api/donatorApi";
 
 function SearchPage(props) {
 
-    const [selectedMainTag, setSelectedMainTag] = useState(null);
-    const [selectedShowTag, setSelectedShowTag] = useState(null);
-    const [mainTagOptions, setMainTagOptions] = useState([]);
-    const [secondTagOptions, setSecondTagOptions] = useState([]);
+    const [ mainCategoryId, setMainCategoryId] = useState({value: 0, label: " 전체 "});
+    const [ isTimeOut, setIsTimeOut] = useState({value: 0, label: " 전체 "});
+    const [ donationIsShow, setDonationIsShow ] = useState({value: 0, label: " 전체 "});
+    const [ selectedOption, setSelectedOption ] = useState({value: 0, label: " 전체 "});
     const [ searchText, setSearchText] = useState("");
-    const [ searchValue, setSearchValue] = useState("");
-    const [donationList, setDonationList] = useState([]);
-    const [filteredDonations, setFilteredDonations] = useState([]);
-    const [sortOrder, setSortOrder] = useState('');
+    const [ storyList, setStoryList ] = useState([]);
+    const [filteredstorys, setFilteredStorys] = useState([]);
+    const [donator, setDonator] = useState([]);
+    const [ searchParams, setSearchParams ] = useSearchParams();
 
-    const handleOnChange = (e) => {
-            setSearchText(()=>e.target.value);
-        }
+    const [ selectedStory, setSelectedStory ] = useState({});
+    const searchCount = 10;
 
-    const searchSubmit = () => {
-        setSearchValue(()=>searchText);
-        console.log(searchValue);
+    const checkBoxRef = useRef();
+    const storyLinkRef = useRef();
+    const userId = searchParams.get("userId");
+    const handleSearchTextOnChange = (e) => {
+        setSearchText(() => e.target.value);
     }
-
-
-    useEffect(() => {
-        axios.get("http://localhost:8080/main/storytypes")
-            .then(response => {
-                const options = response.data.map(mainTag => ({
-                    value: mainTag.mainCategoryId,
-                    label: mainTag.mainCategoryName
-                }));
-                setMainTagOptions([{value: 0, label: '전체'}, ...options]);
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }, []);
-
-    useEffect(() => {
-        axios.get("http://localhost:8080/main/donationtag")
-            .then(response => {
-                const options = response.data.map(secondTag => ({
-                    value: secondTag.donationTagId,
-                    label: secondTag.donationTagName
-                }));
-                setSecondTagOptions(options);
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }, []);
-
-    const handleMainTagChange = (selectedOption) => {
-        setSelectedMainTag(selectedOption);
-    };
-    const handleShowTagChange = (selectedOption) => {
-        setSelectedShowTag(selectedOption);
-    };
-
-    const searchDonationQuery = useQuery(
-        ["searchDonationQuery", searchValue],
+    const searchSubmit = () => {
+        setSearchParams({
+            page: 1
+        })
+        getDonationListQuery.refetch();
+    }
+    
+    const teamTypeCategoryOption = [
+        { value: 0, label: " 전체 " },
+        { value: 2, label: " 보류 중 " },
+        { value: 1, label: " 확인 완료 " },
+        { value: -1, label: " 삭제 요청 " }
+    ]
+    const TypeCategoryOption = [
+        { value: 0, label: " 전체 " },
+        { value: 1, label: " 기부하기 " },
+        { value: 2, label: " 챌린지 " },
+    ]
+    const CategoryOption = [
+        { value: 0, label: " 전체 " },
+        { value: 1, label: " 모금 중 " },
+        { value: -1, label: " 모금 완료 " },
+    ]
+    const searchTextCategoryOption = [
+        {value: 0, label: " 전체 "},
+        {value: 1, label: " 스토리 번호 "},
+        {value: 2, label: " 스토리 타이틀 "},
+        {value: 3, label: " 스토리 내용 "},
+        {value: 4, label: " 태그 "},
+        {value: 5, label: " 팀 명 "},
+    ]
+    const selectStyle1 = {
+        control: (baseStyles) => ({
+            ...baseStyles,
+            borderRadius: "0px",
+            border: "none",
+            width: "150px",
+            borderRight: "1px solid #dbdbdb",
+            outline: "none",
+            boxShadow: "none"
+        })
+    }
+    const selectStyle2 = {
+        control: (baseStyles) => ({
+            ...baseStyles,
+            borderRadius: "0px",
+            border: "none",
+            width: "150px",
+            borderRight: "1px solid #dbdbdb",
+            outline: "none",
+            boxShadow: "none"
+        })
+    }
+    const selectStyle3 = {
+        control: (baseStyles) => ({
+            ...baseStyles,
+            borderRadius: "0px",
+            border: "none",
+            width: "200px",
+            outline: "none",
+            boxShadow: "none"
+        })
+    }
+    const getDonationListQuery = useQuery(
+        [ "getDonationListQuery", searchParams.get("page") ],
         async () => {
-            const response = await searchDonationRequest({ name: searchValue });
-            return response.data; 
+            return await getAdminDonationListRequest({
+                pageId: searchParams.get("page"),
+                searchCount,
+                teamId: searchParams.get("teamId") !== "undefined" ? searchParams.get("teamId") : 0,
+                mainCategoryId: mainCategoryId.value,
+                isTimeOut: isTimeOut.value,
+                donationIsShow: donationIsShow.value,
+                selectedOption: selectedOption.value,
+                searchText
+            })
         },
         {
             refetchOnWindowFocus: false,
             onSuccess: response => {
                 console.log(response);
-                setDonationList(response.map(donation => ({
-                    ...donation,
-                    checked: false
-                })));
-
+                setStoryList(() => response.data.map(story => {
+                    return {
+                        ...story,
+                        checked: false,
+                        isDonation: 1
+                    }
+                }));
             }
         }
     );
-
-        useEffect(() => {
-            let tempList = !!selectedMainTag && selectedMainTag?.value !== 0
-            ? donationList.filter((donation) => donation.mainCategoryName === (selectedMainTag.label) )
-            : donationList;
-            tempList = !!selectedShowTag && selectedShowTag?.value !== 0
-            ? tempList.filter((donation) => donation.donationPageShow === (selectedShowTag.value) )
-            : tempList;
-            setFilteredDonations(() => tempList);
-        }, [selectedMainTag, donationList, selectedShowTag]);
-    
-    const handleSortChange = (event) => {
-        setSortOrder(event.target.value);
-    };
-
-    // sortOrder 상태가 변경될 때 자동으로 정렬 실행
-    useEffect(() => {
-            let sortDonations = filteredDonations; // 기존 목록을 복사
-            if (sortOrder === '최고금액순') {
-                sortDonations.sort((a, b) => parseInt(b.goalAmount) - parseInt(a.goalAmount));
-            } else if (sortOrder === '최저금액순') {
-                sortDonations.sort((a, b) => parseInt(a.goalAmount) - parseInt(b.goalAmount));        
-                // sortDonations.sort((a, b) => new Date(b.donationDate) - new Date(a.donationDate));
+    const getCountQuery = useQuery(
+        [ "getCountQuery", storyList ],
+        async () => await getStoryCountRequest({
+            pageId: searchParams.get("page"),
+            searchCount,
+            teamId: searchParams.get("teamId") !== "undefined" ? searchParams.get("teamId") : 0,
+            mainCategoryId: mainCategoryId.value,
+            isTimeOut: isTimeOut.value,
+            donationIsShow: donationIsShow.value,
+            selectedOption: selectedOption.value,
+            searchText
+        }),
+        {   
+            onSuccess: response => {
+                console.log(response);
+            },
+        }
+    )
+    const getDonatorQuery = useQuery(
+        [ "getDonatorQuery", storyList ],
+        async () => await getDonatorsByPageId({
+            pageId: selectedStory.donationPageId
+        }),
+        {   
+            onSuccess: response => {
+                setDonator(response.data.map(donator => {
+                    return {
+                        ...donator,
+                        checked: true
+                    }
+                }));
+            },
+        }
+    )
+    const handleAllCheckOnChange = (e) => {
+        setStoryList(() =>storyList.map(story => {
+            return {
+                ...story,
+                checked: e.target.checked
             }
-            setFilteredDonations([...sortDonations]);
-    }, [sortOrder]);
+        }));
+    }
+    const handleCheckOnChange = (e) => {
+        const storyId = parseInt(e.target.value);
+        setStoryList(() =>storyList.map(story => {
+            if (story.isDonation === 1) {
+                if(storyId === story.donationPageId) {
+                    setSelectedStory(() => story);
+                    console.log(story);
+                    return {
+                        ...story,
+                        checked: e.target.checked
+                    }
+                } else {
+                    return story
+                }
+            } else {
+                if(storyId === story.challengePageId) {
+                    setSelectedStory(() => story);
+                    return {
+                        ...story,
+                        checked: e.target.checked
+                    }
+                } else {
+                    return story
+                }
+            }
+        }));
+        if(!e.target.checked) {
+            checkBoxRef.current.checked = false
+        }
+    }
+    
+    const deleteDonationMutation = useMutation({
+        mutationKey: "deleteDonationMutation",
+        mutationFn: deleteDonationListRequest,
+        onSuccess: response => {
+            console.log(response);
+            alert("삭제완료.");
+        },
+        onError: error => {}
+    })  
+    const handleDeleteDonationsOnClick = () => {
+        if(!window.confirm("정말로 해당 스토리들을 삭제하시겠습니까?")) return;
+        const list =  storyList.filter(story => story.checked);
+        console.log(list);
+        deleteDonationMutation.mutate(list);
+    }
     const updateDonationShowMutation = useMutation({
         mutationKey: "updateDonationShowMutation",
         mutationFn: updateDonationShowRequest,
@@ -121,110 +223,180 @@ function SearchPage(props) {
     const pagePermitButtonOnClick = (id) => {
         updateDonationShowMutation.mutate([{donationPageId: id}]);
     }
-    const permitCheckBoxOnChange = (e) => {
-        const donationPageId = parseInt(e.target.value);
-        setDonationList(() =>donationList.map(donation => {
-            if (donationPageId === donation.donationPageId) {
-                return {
-                    ...donation,
-                    checked: e.target.checked
-                }
-            } else {
-                return donation
-            }
-            }));
-    }
-    
     const pageListPermitButtonOnClick = () => {
-        const tempList = donationList.filter(donation =>donation.checked);
+        const tempList = storyList.filter(story =>story.checked);
         updateDonationShowMutation.mutate(tempList);
     }
-    return (
-        <>
-        <div>
-            <div css={s.searchBar}>
-                <input 
-                    css={s.searchInput} 
-                    type="text" 
-                    value={searchText}
-                    onChange={handleOnChange}
-                />
-                <button css={s.searchButton} onClick={() => searchSubmit()}>검색</button>
-            </div>
-            <Message list={donationList} isTeam={1}/>
-        </div>
-        <div css={s.searchSelect}>
-            <div css={s.searchCategory}>
-            <Select
-                    options={mainTagOptions}
-                    value={selectedMainTag}
-                    placeholder="종류를 선택해주세요"
-                    onChange={handleMainTagChange}
-                />
-            <Select
-                options={[{value: 0, label: "전체"}, {value:1, label: "확인완료"}, {value:2, label:"보류 중"}]}
-                value={selectedShowTag}
-                placeholder="종류를 선택해주세요"
-                onChange={handleShowTagChange}
-            />
-            </div>
-            <div>
-                <select onChange={handleSortChange}>
-                    <option value="금액순">금액 순</option>
-                    <option value="최고금액순">최고 금액 순</option>
-                    <option value="최저금액순">최저 금액 순</option>
-                </select>
-                <select onChange={handleSortChange}>
-                    <option value="최신 순">최신 순</option>
-                    <option value="인기 순">인기 순(미완성)</option>
-                </select>
-            </div>
 
-        </div>
-        <p>검색 결과 {filteredDonations.length} 건</p>
-        <div><button onClick={pageListPermitButtonOnClick}>등록하기</button></div>
-        <div css={s.tagContainer}>
+    return (
+        <div css={s.mainContainer}>
+            <div>
+                스토리관리
+                <Message list={storyList} isTeam={1} text={"팀에게 공지 보내기"}/>
+                <Message list={donator} isTeam={0} text={"후원자들에게 공지 보내기"}/>
+                {/* 팀리스트 => 유저리스트 */}
+                <button onClick={handleDeleteDonationsOnClick}>스토리 삭제</button>
+                <button onClick={pageListPermitButtonOnClick}> 확인완료 </button>
             </div>
-            <div css={s.donationList}>
-                {
-                    filteredDonations.map(
-                        donation =>
-                        <>
-                        <a href={`/donation?page=${donation.donationPageId}`} key={donation.donationPageId}  css={s.linkStyle}>
-                            <div key={donation.donationPageId} css={s.donationCard}>
-                                <div>   
-                                    <input type="checkbox" value={donation.donationPageId} checked={donation.checked} onChange={(e) => permitCheckBoxOnChange(e)}/>
-                                </div>
-                                <div css={s.donationImage}>
-                                    <img src={
-                                            ! donation.mainImgUrl
-                                            ? "https://www.shutterstock.com/image-vector/no-image-available-picture-coming-600nw-2057829641.jpg"
-                                            : donation.mainImgUrl
-                                        } alt="" />
-                                </div>
-                                <div css={s.donationDetails}>
-                                    <div css={s.donationText}>
-                                        <h2><strong>(진행중)</strong> {donation.storyTitle}</h2>
-                                        <p><strong>기관:</strong> {donation.teamName}</p>
+            <div css={s.container}>
+                <table css={s.registerTable}>
+                    {
+                        selectedStory.isDonation === 1 ?
+                        <tbody>
+                            <tr>
+                                <th css={s.registerTh}>스토리 번호</th>
+                                <td>
+                                    {selectedStory.donationPageId}
+                                </td>
+                                <th css={s.registerTh}>스토리 타이틀</th>
+                                <td>
+                                    {selectedStory.storyTitle}
+                                </td>
+                                <td rowSpan={3} style={{width:"200px", boxSizing:"border-box", padding:"5px"}}>
+                                    <div css={s.imgBox}>
+                                        <div style={{display:"none"}}>
+                                            <Link to={`/donation?page=${selectedStory.donationPageId}`} ref={storyLinkRef}></Link>
+                                        </div>
+                                        <img src={selectedStory.mainImgUrl} alt="" onClick={() => storyLinkRef.current.click()}/>
                                     </div>
-                                    <div css={s.donationAmount}>
-                                        <p><strong>₩</strong>{donation.goalAmount}</p>
-                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th css={s.registerTh}>목표 수치</th>
+                                <td >
+                                    {selectedStory.goalAmount}
+                                </td>
+                                <th css={s.registerTh}>기부 / 챌린지</th>
+                                <td >
+                                    {selectedStory.mainCategoryName}
+                                </td>                                
+                            </tr>
+                            <tr>
+                            <th css={s.registerTh}> 보류상태 </th>
+                                <td>
+                                    {selectedStory.donationPageShow === 1 ?  "확인 완료" : selectedStory.donationPageShow === 2 ? " 보류 중 " : "삭제 요청" }  
+                                </td>
+                                <th css={s.registerTh}>팀 명</th>
+                                <td >
+                                    {selectedStory.teamName}
+                                </td>
+                            </tr>
+                        </tbody>
+                        : <tbody>
+                        <tr>
+                            <th css={s.registerTh}>스토리 번호</th>
+                            <td>
+                                {selectedStory.donationPageId}
+                            </td>
+                            <th css={s.registerTh}>스토리 타이틀</th>
+                            <td>
+                                {selectedStory.storyTitle}
+                            </td>
+                            <td rowSpan={3} style={{width:"200px", boxSizing:"border-box", padding:"5px"}}>
+                                <div css={s.imgBox}>
+                                    <img src={selectedStory.mainImgUrl} alt="" />
                                 </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th css={s.registerTh}>goal_amount</th>
+                            <td >
+                                {selectedStory.goalAmount}
+                            </td>
+                            <th css={s.registerTh}>main_category_id</th>
+                            <td >
+                                {selectedStory.mainCategoryName}
+                            </td>                                
+                        </tr>
+                        <tr>
+                            <th css={s.registerTh}>donation_page_show</th>
+                            <td>
                                 
-                            </div>
-                        </a>
-                        <div>
-                            { donation.donationPageShow === 1 
-                            ? <button>확인 완료</button> 
-                            : <button onClick={() => pagePermitButtonOnClick(donation.donationPageId)}> 보류 중</button>
-                            }
-                        </div>
-                        </>
-                    )
-                }
+                            </td>
+                            <th css={s.registerTh}>page_category_id</th>
+                            <td >
+                            </td>
+                        </tr>
+                    </tbody>
+                    }
+                    </table>
+                <div css={s.searchBar}>
+                    <Select 
+                        options={teamTypeCategoryOption}
+                        styles={selectStyle1} 
+                        onChange={(e) => {setDonationIsShow(() => e)}}
+                    />
+                    <Select 
+                        options={CategoryOption}
+                        styles={selectStyle1} 
+                        onChange={(e) => {setIsTimeOut(() => e)}}
+                    />
+                    <Select 
+                        options={TypeCategoryOption}
+                        styles={selectStyle2} 
+                        onChange={(e) => {setMainCategoryId(() => e)}}
+                    />
+                    <Select 
+                        options={searchTextCategoryOption}
+                        styles={selectStyle3} 
+                        onChange={(e) => {setSelectedOption(() => e)}}
+                    />
+                    <input 
+                            css={s.searchInput} 
+                            type="text" 
+                            value={searchText}
+                            onChange={handleSearchTextOnChange}
+                            />
+                    <button css={s.searchButton} onClick={() => searchSubmit()}>검색하기</button>
+                </div>
+                <div css={s.tableLayout}>
+                    <table css={s.table} >
+                        <thead>
+                            <tr css={s.tableHeader} key={0}>
+                                <th><input type="checkbox" ref={checkBoxRef} onChange={handleAllCheckOnChange}/></th>
+                                <th>스토리 번호</th>
+                                <th>스토리 타이틀</th>
+                                <th>모금 현황</th>
+                                <th>보류 상태</th>
+                                <th>카테고리</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                storyList.map(
+                                    story => 
+                                    <>
+                                    
+                                    {
+                                        story?.isDonation === 1 ?
+                                        <tr key={story.donationPageId}>
+                                            <td><input type="checkbox" value={story.donationPageId} checked={story.checked} onChange={handleCheckOnChange}/></td>
+                                            <td>{story.donationPageId}</td>
+                                            <td>{story.storyTitle}</td>
+                                            <td>{story.goalAmount}</td>
+                                            <td><button onClick={() => pagePermitButtonOnClick(story.donationPageId)}>{story.donationPageShow === 1 ?  "확인 완료" : story.donationPageShow === 2 ? " 보류 중 " : "삭제 요청"}</button></td>
+                                            <td>{story.mainCategoryName}</td>
+                                        </tr>
+                                    :
+                                        <tr key={story.donationPageId}>
+                                            <td><input type="checkbox" value={story.donationPageId} checked={story.checked} onChange={handleCheckOnChange}/></td>
+                                            <td>{story.donationPageId}</td>
+                                            <td>{story.storyTitle}</td>
+                                            <td>{story.goalAmount}</td>
+                                            <td>{story.donationPageShow === 1 ?  "확인 완료" : story.donationPageShow === 2 ? " 보류 중 " : "삭제 요청"}</td>
+                                            <td>{story.mainCategoryName}</td>
+                                        </tr>
+                                    }
+                                    </>
+                                )
+                                }
+                        </tbody>
+                    </table>
+                </div>
+                <AdminSearchPageNumbers name={"story"} count={getCountQuery?.data?.data} />
+
             </div>
-        </>
+        </div>
     );
 }
 
