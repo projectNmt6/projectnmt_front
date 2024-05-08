@@ -8,11 +8,16 @@ import DonatorInfo from '../../DonatorInfo/DonatorInfo';
 function DonationHeader({ donationPageId, selectedTab, handleTabChange, contentRef}) {
     const [isVisible, setIsVisible] = useState(false);
     const [showModal, setshowModal] = useState(false);
+
+function DonationHeader({ donationPageId, selectedTab, handleTabChange, contentRef }) {
+    const [isVisible, setIsVisible] = useState(false);
+
     useEffect(() => {
         const checkVisibility = () => {
             if (!contentRef.current) {
                 return; // contentRef가 없으면 함수를 종료합니다.
             }
+            console.log(contentRef)
             // contentRef 요소의 뷰포트 내 상단 위치를 계산
             const targetTop = contentRef.current.getBoundingClientRect().top;
 
@@ -72,6 +77,9 @@ function DonationHeader({ donationPageId, selectedTab, handleTabChange, contentR
     </span>
         </div> </div>
 );
-}
 
+
+  
+}
+}
 export default DonationHeader;
