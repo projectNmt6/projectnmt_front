@@ -82,12 +82,19 @@ export const adminbox = (isAdmin) => css`
     border: none;
     padding: ${isAdmin? "20px" : "none"};
     cursor: pointer;
+    margin:0px 20px;
+    display: ${isAdmin ? "10px" : "none" };
+    :hover {
+        transform: scaleY(1.08);
+        transition: transform 250ms ease-in-out;
+        transform-origin:  50% 50%;
+        border-bottom: 1px solid #292929;
+    }
     & > * {
-        font-size: 16px;   
+        font-size: 18px;   
         font-weight: bold;
         text-decoration: none; 
-        color: inherit; 
-        align-items: center;     
+        color: inherit;   
     }
 
 `;

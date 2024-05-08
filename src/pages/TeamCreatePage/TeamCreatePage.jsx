@@ -215,21 +215,6 @@ function TeamCreatePage(props) {
                     onChange={(e) => setTeamHomepage(e.target.value)}/>
             </div>
             <div>
-                <button onClick={accountCounter}>은행 계좌 등록</button>
-                
-                {createAccount ?  
-                    <div>  
-                        <input type="text" placeholder="예금주명"  value={accountUsername} 
-                            onChange={(e) => setAccountUsername(e.target.value)}/>
-                        <input type="text" placeholder="계좌번호"  value={accountNumber } 
-                            onChange={(e) => setAccount(e.target.value)}/>
-                        <input type="text"placeholder="은행명"  value={bankName} 
-                            onChange={(e) => setBankName(e.target.value)}/>   
-                        <input type="file" src="" alt="" onChange={(e) => handlefileChange(e, setAccountUrl)}/>
-                        <button onClick={handleAccountInfos}>은행 등록</button>
-                    </div>
-                    : null
-                }
                 <div css={s.div2}>
                     <span>팀 이름</span>
                     <input css={s.input} type="text" value={teamName}

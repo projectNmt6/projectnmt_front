@@ -7,6 +7,7 @@ import { Route, Routes } from 'react-router-dom';
 import UserInfo from '../userInfo/UserInfo';
 import TeamManagement from '../TeamManagement/TeamManagement';
 import { useQueryClient } from 'react-query';
+import UserMiniManagement from '../main/miniManagement/userManagement/UserManagement';
 
 function AdminRoute(props) {
     const queryClient = useQueryClient();
@@ -24,7 +25,7 @@ function AdminRoute(props) {
     return (
         <div>
             <Routes>
-                <Route path='/main' element={ <AdminMain /> }/>
+                <Route path='/management/main' element={ <AdminMain /> }/>
                 <Route path='/management/user' element={ <UserManagement /> }/>
                 <Route path='/user' element={ <UserInfo /> }/>
                 <Route path='/management/comment' element={ <CommentManagement /> }/>

@@ -3,20 +3,24 @@ import React, { useState } from 'react';
 import * as s from "./style";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { deleteAllMessageRequest, getMessageListRequest } from '../../apis/api/Message';
+import { useSearchParams } from 'react-router-dom';
 
-function MessagePage({isTeam}) {
+function MessagePage({isTeam, adminId}) {
     const queryClient = useQueryClient();
     const principalData = queryClient.getQueryData("principalQuery");
     const [ messageList, setMessageList ] = useState([]);
+    const [ searchParams ] = useSearchParams();
     const messageListQuery = useQuery(["messageListQuery"],  async () => {
         return await getMessageListRequest({
-            userId: principalData?.data.userId
+            id: adminId === 1 ? 0 : !!searchParams.get("id") ? searchParams.get("id") : principalData?.data.userId,
+            isTeam
         })
     }, {
         retry: 0,
         enabled: !!principalData?.data, 
         refetchOnWindowFocus: false,
         onSuccess: response => {
+            console.log(response);
             setMessageList(() => response.data);
         }
     });
@@ -24,7 +28,6 @@ function MessagePage({isTeam}) {
         mutationKey: "deleteNessageMutation",
         mutationFn: deleteAllMessageRequest,
         onSuccess: response => {
-            console.log(response);
             alert("삭제완료.");
             window.location.reload();   
         },
