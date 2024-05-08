@@ -14,6 +14,7 @@ import TimeOut from "../../components/HomeBoard/TimeOut";
 import lion from '../../assets/lion.gif';
 import CommentShow from "../../components/HomeBoard/CommentShow";
 import { FaRegArrowAltCircleRight } from "react-icons/fa";
+import AutoSlide from "../../components/HomeBoard/AutoSlide";
 
 
 function HomePage() {
@@ -71,7 +72,7 @@ function HomePage() {
             <main css={s.mainLayout}>
                 <header css={s.rootheader}>
                     <div css={s.headerStyle}>
-                        <h1>세상을 위한 따뜻한 마음 <br />NMT와 함께해요 <img src={lion} alt="" width="7%" /></h1>
+                        <h1>세상을 위한 따뜻한 마음 <br />NMT와 함께해요 </h1>
                     </div>
                     <div css={s.introStyle}>
                         <img src={introImg} />
@@ -81,6 +82,7 @@ function HomePage() {
                         <button css={s.nmtbutton} onClick = {handleNmtButton}><FaArrowCircleRight size="30" /></button>
                     </div>
                 </header>
+                <AutoSlide />
                 <div css={s.contentAreaStyle}>
                     <div css={s.leftCardLayout}>
 

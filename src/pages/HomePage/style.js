@@ -4,7 +4,7 @@ import { css } from "@emotion/react";
 ////////홈 CSS ////////////////
 export const mainLayout = css`
 background-color:  #F8F8F8;
-width: 1200px;
+width: 100%;
 font-family: 'omyu_pretty';
 white-space: pre;
 @font-face {
@@ -24,6 +24,7 @@ export const rootheader = css`
 `;
 export const headerStyle = css`
   padding: 20px;
+  padding-bottom: 0px;
 `;
 export const introStyle = css`
   display: flex;
@@ -70,6 +71,7 @@ export const rightCardLayout = css`
   flex-wrap: wrap;  
   overflow: hidden;
   width: 30%;
+  margin-right:3%;
 `;
 
 export const cardStyle = css`
