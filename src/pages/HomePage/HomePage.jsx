@@ -63,7 +63,8 @@ function HomePage() {
             <div css={s.icon}><FaRegArrowAltCircleRight /></div>
           </div>
         );
-      };      
+      };
+      
     
     return (
         <>

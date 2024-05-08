@@ -115,6 +115,16 @@ export const actionsContainer = css`
 `;
 
 
+export const transparentButtonStyle = css`
+    background: none; /* 배경을 투명하게 */
+    border: none; /* 테두리 제거 */
+    outline: none; /* 포커스 시 아웃라인 제거 */
+    cursor: pointer; /* 마우스 오버 시 커서 변경 */
+    padding: 0; /* 패딩 제거 */
+    display: flex; /* 아이콘 중앙 정렬을 위해 */
+    align-items: center; /* 수직 중앙 정렬 */
+    justify-content: center; /* 수평 중앙 정렬 */
+`;
 
 
 

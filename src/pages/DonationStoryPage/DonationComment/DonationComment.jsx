@@ -14,6 +14,7 @@ import LikeButton from '../../../components/LikeButton/LikeButton';
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import DeleteModal from './DeleteModal';
 
+import { AiFillAlert } from "react-icons/ai";
 function CommentSection({ donationPageId }) {
     const [commentList, setCommentList] = useState([]);
     const [comment, setComment] = useState("");
@@ -23,9 +24,9 @@ function CommentSection({ donationPageId }) {
     const [count, setCount] = useState(10);
     const commentContainerRef = useRef(null);
     const textareaRef = useRef(null);
-    const [loadingMore, setLoadingMore] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [deletingCommentId, setDeletingCommentId] = useState(null);
+    const [currentCommentId, setCurrentCommentId] = useState(null);
+    const [isCommentOwner, setIsCommentOwner] = useState(false);
 
     const principalQuery = useQuery(
         ["principalQuery"],
@@ -43,8 +44,6 @@ function CommentSection({ donationPageId }) {
         }
     );
 
-    const [totalComments, setTotalComments] = useState(0);  // 총 댓글 수를 상태로 관리합니다.
-
     useEffect(() => {
         commentResponse(donationPageId, startIdx, count) // 시작 인덱스와 덧글 수 전달
             .then(response => {
@@ -54,32 +53,15 @@ function CommentSection({ donationPageId }) {
             .catch(console.error);
     }, [donationPageId, startIdx, count]);
 
-
-    const handleLoadMoreComments = () => {
-        if (loadingMore || commentList.length >= totalComments) return; // 추가적인 댓글이 없을 때는 더 이상 가져오지 않음
-        setLoadingMore(true);
-        commentResponse(donationPageId, startIdx, count)
-            .then(response => {
-                setCommentList(prevComments => [...prevComments, ...response.data]);
-                setStartIdx(prevIdx => prevIdx + response.data.length);
-                setLoadingMore(false);
-            })
-            .catch(error => {
-                console.error("Error loading more comments:", error);
-                setLoadingMore(false);
-            });
-    };
-
-
     const handleCommentChange = (event) => {
         const newComment = event.target.value;
         if (newComment.length <= 500) {
             setComment(newComment);
         }
     };
+
     const handleCommentSubmit = async (e) => {
         e.preventDefault();
-
         try {
             await donationCommentePost({ commentText: comment, donationPageId, userId });
             setComment("");
@@ -92,7 +74,6 @@ function CommentSection({ donationPageId }) {
         }
     };
 
-    
     const postCommentMutation = useMutation(donationCommentePost, {
         onSuccess: (data) => {
             setCommentList(oldComments => [...oldComments, data]); // 새 댓글을 기존 댓글 목록에 추가
@@ -105,33 +86,20 @@ function CommentSection({ donationPageId }) {
         }
     });
 
-
-const deleteCommentMutation = useMutation(deleteComment, {
-    onSuccess: () => {
-        alert("삭제 완료");
-        setCommentList(currentComments => currentComments.filter(comment => comment.donationCommentId !== deletingCommentId));
-        setIsModalOpen(false); // 모달 닫기
-    },
-    onError: (error) => {
-        console.error("Failed to delete comment:", error);
-        alert("삭제 실패");
-    }
-});
-
-    
-
-    const handleCommentDeleteButton = (donationCommentId) => {
-        if (!userId) {
-            alert("로그인이 필요합니다.");
-            return;
+    const deleteCommentMutation = useMutation(deleteComment, {
+        onSuccess: () => {
+            // 성공적으로 삭제된 후, commentList에서 해당 댓글을 제거
+            setCommentList(currentComments =>
+                currentComments.filter(comment => comment.donationCommentId !== currentCommentId)
+            );
+            setIsModalOpen(false); // 모달 닫기
+            alert("삭제 완료");
+        },
+        onError: (error) => {
+            console.error("Failed to delete comment:", error);
+            alert("삭제 실패");
         }
-        if (typeof donationCommentId === 'undefined') {
-            console.error('댓글 ID가 정의되지 않았습니다.');
-            return;
-        }
-        console.log("Deleting ID:", userId); // 로그로 ID 확인
-        deleteCommentMutation.mutate({ donationCommentId, userId });
-    };
+    });
 
     const [isExpanded, setIsExpanded] = useState(false); // 확대 상태 관리
     useEffect(() => {
@@ -154,21 +122,42 @@ const deleteCommentMutation = useMutation(deleteComment, {
         setIsExpanded(true); // textarea 클릭 시 확대 상태 설정
     };
 
-
-    const openDeleteModal = (commentId) => {
-        setDeletingCommentId(commentId);
-        setIsModalOpen(true);
+    const openDeleteModal = (commentId, isOwner) => {
+        setCurrentCommentId(commentId);   // 현재 처리할 댓글 ID 설정
+        setIsCommentOwner(isOwner);       // 댓글 작성자 여부 설정
+        setIsModalOpen(true);             // 모달 창 열기
     };
 
-    const closeModal = () => {
-        setIsModalOpen(false);
-    };
 
-    const handleDelete = () => {
-        console.log("Deleting comment ID:", deletingCommentId);
-        // 여기에 실제 삭제 로직을 구현
-        deleteCommentMutation.mutate({ donationCommentId: deletingCommentId, userId });
-        closeModal();
+    
+    const postCommentReportMutation = useMutation({
+        mutationKey: "postCommentReportMutation",
+        mutationFn: commentReportRequest,
+        onSuccess: response => {
+            alert("신고완료")
+        },
+        onError: error => {
+            alert(error.response.data)
+        }
+    });
+
+    const reportCommentMutation = useMutation(
+        commentReportRequest, // 신고 API 요청 함수
+        {
+            onSuccess: () => {
+                alert("신고 완료");
+                setIsModalOpen(false);
+            },
+            onError: (error) => {
+                console.error("Failed to report comment:", error);
+                alert("신고 실패");
+            }
+        }
+    );
+
+    // DeleteModal에 신고 기능 전달
+    const handleCommentReport = (donationCommentId) => {
+        reportCommentMutation.mutate({ donationCommentId });
     };
 
     return (
@@ -210,10 +199,11 @@ const deleteCommentMutation = useMutation(deleteComment, {
                                     </div>
                                     <div css={s.actionsContainer}>
                                         <LikeButton commentId={comment.donationCommentId} />
-                                        <button css={s.transparentButtonStyle} 
-                                        onClick={() => openDeleteModal(comment.donationCommentId)}>
+                                        <button css={s.transparentButtonStyle}
+                                            onClick={() => openDeleteModal(comment.donationCommentId, userId === comment.userId)}>
                                             <HiOutlineDotsHorizontal />
                                         </button>
+
 
 
                                     </div>
@@ -223,9 +213,14 @@ const deleteCommentMutation = useMutation(deleteComment, {
                     ))}
                     <div>
                     </div>
-
-                    {isModalOpen && <DeleteModal onClose={closeModal} onConfirm={handleDelete} />}
-
+                    {isModalOpen && (
+                <DeleteModal
+                    onClose={() => setIsModalOpen(false)}
+                    onConfirmDelete={() => deleteCommentMutation.mutate({ donationCommentId: currentCommentId })}
+                    onConfirmReport={() => handleCommentReport(currentCommentId)} // 신고 처리 수정
+                    isCommentOwner={isCommentOwner}
+                />
+            )}
                 </div>
             </div>
         </>
