@@ -58,6 +58,9 @@ function CommentSection({ donationPageId, isDonation }) {
         mutationFn: commentReportRequest,
         onSuccess: response => {
             alert("신고완료")
+        },
+        onError: error => {
+            alert(error.response.data)
         }
     });
 
@@ -72,14 +75,7 @@ function CommentSection({ donationPageId, isDonation }) {
     const handleCommentDeleteButton = (donationCommentId) => {
         deleteCommentMutation.mutate({ donationCommentId });
     };
-    const handleCommentReportPostButton = (donationCommentId) => {
-        postCommentReportMutation.mutate({
-            donationCommentId,
-            userId: principalData.data.userId,
-            isDonation: 1,
-            donationPageId
-        });
-    };
+    
     return (
         <>
             <div css={s.commentBox}>

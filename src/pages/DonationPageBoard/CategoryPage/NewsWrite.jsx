@@ -43,7 +43,7 @@ function NewsWrite() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const donationPageId = queryParams.get('page');    
-
+    const donationTeamId = queryParams.get('teamId');    
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -75,7 +75,7 @@ function NewsWrite() {
             donationPageId: donationPageId,
             pageCategoryId: 3,
             newsContent: content,
-            userId: null
+            teamId: donationTeamId
         })
         .then(response => {
             alert("저장 성공");

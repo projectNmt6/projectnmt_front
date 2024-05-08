@@ -10,7 +10,7 @@ import Message from '../../../components/Message/Message';
 import CommentManagement from "../commentManagement/CommentManagement";
 import AdminSearchPageNumbers from "../../../components/AdminSearchPageNumbers/AdminSearchPageNumbers";
 
-function UserManagement() {
+function UserManagement({page, }) {
     const checkBoxRef = useRef();
     const [ searchParams, setSearchParams ] = useSearchParams();
     const [ userList, setUserList ] = useState([]);
@@ -68,6 +68,22 @@ function UserManagement() {
             }));
         }
     });
+
+    const getCountQuery = useQuery(
+        ["getCountQuery", userListQuery.data],
+        async () => await getUserCountRequest({
+            searchCount,
+            selectedRoleoption: selectedRoleoption.value,
+            selectedTextOption: selectedTextOption.value,
+            searchText,
+            pageNumber: searchParams.get("page")
+        }),
+        {   
+            onSuccess: response => {
+                console.log(response);
+            },
+        }
+    )
     const handleAllCheckOnChange = (e) => {
         setUserList(() =>userList.map(user => {
             return {
@@ -92,21 +108,7 @@ function UserManagement() {
         {value: 5, label: " 사용제한된 유저 "},
     ]
 
-    const getCountQuery = useQuery(
-        ["getCountQuery", userListQuery.data],
-        async () => await getUserCountRequest({
-            searchCount,
-            selectedRoleoption: selectedRoleoption.value,
-            selectedTextOption: selectedTextOption.value,
-            searchText,
-            pageNumber: searchParams.get("page")
-        }),
-        {   
-            onSuccess: response => {
-                console.log(response);
-            },
-        }
-    )
+    
 
 
 
@@ -141,9 +143,6 @@ function UserManagement() {
         }
         
         },[userList])
-    // <Link to={`/admin/user?id=${user.userId}`}>
-    //                                         <img src={user.profileImg} alt="" />
-    //                                     </Link>
     
     const searchSubmit = () => {
         setSearchParams({
@@ -188,7 +187,7 @@ function UserManagement() {
         <div css={s.mainContainer}>
             <div>
                 유저관리
-                <Message list={userList} isTeam={0}/>
+                <Message list={userList} isTeam={0} text={"공지 보내기"}/>
                 <button onClick={handleUserDeleteOnClick}>계정 삭제</button>
                 <Link to={`/admin/management/team?page=1&userId=${selectedUser.userId}`}>소속팀 보기</Link>
                 {selectedUser?.role?.roleId < 3 
@@ -289,9 +288,9 @@ function UserManagement() {
                                 }
                         </tbody>
                     </table>
-                    <AdminSearchPageNumbers count={getCountQuery.data?.data} />
+                    <AdminSearchPageNumbers name={"user"} count={getCountQuery.data?.data} />
                 </div>
-                    <CommentManagement userId={selectedUser?.userId}/>    
+                    <CommentManagement  userId={selectedUser?.userId}/>    
                     
             </div>
         </div>
