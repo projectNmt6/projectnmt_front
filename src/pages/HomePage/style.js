@@ -4,7 +4,7 @@ import { css } from "@emotion/react";
 ////////홈 CSS ////////////////
 export const mainLayout = css`
 background-color:  #F8F8F8;
-width: 1200px;
+width: 1500px;
 font-family: 'omyu_pretty';
 white-space: pre;
 @font-face {

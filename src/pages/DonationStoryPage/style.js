@@ -29,22 +29,25 @@ export const rightCardLayout = css`
     margin-top: 30px;
   display: flex;
   flex-direction: column;
-    flex-wrap: wrap;
+flex-wrap: wrap;
   width: 360px; /* 오른쪽 영역 너비를 조정합니다. */
   top: 20px; /* 부모 요소의 위쪽에서 일정한 거리만큼 떨어진 위치에 표시됩니다. */
   padding-left: 30px;
 `;
 
+
 export const sidebarStyle = css`
-  display: flex;
-  margin: 10px; 
-  flex-direction: column; 
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  border-radius: 10px;
-  padding: 25px;
-  justify-content: flex-start;
-  position: sticky; // 오른쪽
-  top: 100px;
+margin: 0px;
+font: inherit;
+vertical-align: baseline;
+padding: 34px 25px 0px;
+order: 1;
+position: sticky;
+top: 100px;
+border: 1px solid rgb(221, 221, 221);
+border-radius: 8px;
+margin-top: 40px;
+background-color: rgb(255, 255, 255);
 `;
 
 export const sidebarStyle2 = css`
@@ -98,7 +101,7 @@ export const actionImage = css`
  z-index: 1;
 `;
 
- 
+
 export const actionButton1 = css`
 
     display: flex;
@@ -212,7 +215,6 @@ export const buttonGroup = css`
     
     top: 0; /* 상단에 고정되도록 설정 */
     background-color: white; /* 배경색을 설정하여 상단에 고정될 때 다른 내용과 겹치지 않도록 합니다. */
-    z-index: 1000; /* 필요에 따라 z-index 값 조정 */
     padding: 10px 0; /* 필요한 경우 위아래 패딩을 추가할 수 있습니다. */
 `;
 
@@ -220,7 +222,6 @@ export const buttonGroupContainer = css`
   display: flex;
   top: 0;
   background-color: white;
-  z-index: 1000;
 `;
 
 
@@ -393,11 +394,11 @@ export const dates4 = css`
     margin-top: 20px;
 `;
 export const donation = css`
-    padding: 10px 125px;
+    width: 300px;
+    height: 50px;
     text-align: center;
-    background-color: #fc4d4d;
+    background-color: rgba(255, 64, 80, 0.9);
     color: white;
-    font-family: 'omyu_pretty';
     font-weight: 700;
     font-size: 20px;
     border-radius: 5px;

@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import { FiLogOut, FiUser,FiSearch } from "react-icons/fi";
 import { FaHome } from "react-icons/fa";
 import { useQuery, useQueryClient } from 'react-query';
-import { FiSearch } from "react-icons/fi";
 import instance from '../../apis/utils/instance';
 import axios from 'axios';
 

@@ -5,14 +5,16 @@ import ShareButton from '../../../components/ShareModal/ShareButton';
 import LikeButton from '../../../components/LikeButton/LikeButton';
 import DonatorInfo from '../../DonatorInfo/DonatorInfo';
 
-function DonationHeader({ donationPageId, selectedTab, handleTabChange, contentRef}) {
+
+function DonationHeader({ donationPageId, selectedTab, handleTabChange, contentRef, showModal, setshowModal }) {
     const [isVisible, setIsVisible] = useState(false);
-    const [showModal, setshowModal] = useState(false);
+
     useEffect(() => {
         const checkVisibility = () => {
             if (!contentRef.current) {
                 return; // contentRef가 없으면 함수를 종료합니다.
             }
+            console.log(contentRef)
             // contentRef 요소의 뷰포트 내 상단 위치를 계산
             const targetTop = contentRef.current.getBoundingClientRect().top;
 
@@ -38,6 +40,7 @@ function DonationHeader({ donationPageId, selectedTab, handleTabChange, contentR
             document.body.style.overflow = 'auto';
         }
     }, [showModal])
+
     return (
         <div css={s.main}>
         <div css={[s.headerPanel2, { display: isVisible ? 'block' : 'none', position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000 }]}>
@@ -72,6 +75,6 @@ function DonationHeader({ donationPageId, selectedTab, handleTabChange, contentR
     </span>
         </div> </div>
 );
-}
 
+}
 export default DonationHeader;

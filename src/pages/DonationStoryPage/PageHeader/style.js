@@ -14,9 +14,11 @@ border-bottom: 1px solid #ccc; // 말풍선과 구분선
 export const buttonGroup2 = css`
     display: flex;
     position: sticky;
+    top: 0; 
+    background-color: white; 
+
     top: 0; /* 상단에 고정되도록 설정 */
-    background-color: white; /* 배경색을 설정하여 상단에 고정될 때 다른 내용과 겹치지 않도록 합니다. */
-    /* z-index: 1000; 필요에 따라 z-index 값 조정 */
+    background-color: white; 
     padding: 10px 0; /* 필요한 경우 위아래 패딩을 추가할 수 있습니다. */
 `;
 
@@ -24,6 +26,7 @@ export const buttonGroupContainer2 = css`
   position: sticky;
   top: 0;
   background-color: white;
+  z-index: 1000;
 `;
 
 
@@ -55,6 +58,7 @@ export const tabMenu2 = css`
   position: sticky;
   top: 0;
   background-color: white;
+  z-index: 1000;
 `;
 
 export const tabList2 = css`
@@ -94,6 +98,8 @@ export const headerPanel2 = css`
     left: 0;
     right: 0;
     background-color: white; /* 명시적 배경색 지정 */
+    z-index: 10000;
+    background-color: #fff; /* 명시적 배경색 지정 */
     border-bottom: 1px solid #ccc; /* 하단 경계선 추가 */
     width: 100%;
 `;
@@ -169,3 +175,4 @@ export const container3 = css`
     overflow: hidden;
     z-index: 100; /* 다른 요소보다 위에 위치하도록 설정 */
 `;
+
