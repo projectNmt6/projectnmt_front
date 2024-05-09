@@ -7,6 +7,7 @@ import Select from 'react-select';
 import { getDonationListRequest, searchDonationRequest } from "../../apis/api/DonationAPI";
 import { FiSearch } from "react-icons/fi";
 import { TiHome } from "react-icons/ti";
+import AdvancedSearch from "./AdvancedSearch";
 
 function SearchPage(props) {
 
