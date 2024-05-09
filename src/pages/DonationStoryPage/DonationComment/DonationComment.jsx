@@ -177,7 +177,7 @@ function CommentSection({ donationPageId }) {
 
                             {(isExpanded || comment.trim().length > 0) && (
                                 <div css={s.commentControls}>
-                                    <span >{comment.length}/500</span>
+                                    <span css={s.lengthStryle} >{comment.length}/500</span>
                                     <button css={s.commentSubmitButton} type="submit">등록</button>
                                 </div>
                             )}

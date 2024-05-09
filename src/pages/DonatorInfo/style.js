@@ -1,23 +1,39 @@
 import { css } from "@emotion/react";
+export const modalBackground = css`
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
 
 export const mainContainer = css`
     position: absolute;
-    z-index: 5;
     width: 100%;
     height: 100%;
     background-color: white;
+    
 `;
 
-export const header = css`
+export const modalBox = css`
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 500px;
     display: flex;
     flex-direction: column;
-    font-family: 'omyu_pretty';
-    @font-face {
-    font-family: 'omyu_pretty';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}
+    border: 1px solid #d1d8dd;
+    border-radius: 5px;
+    box-shadow: 0 0 6px 1px rgba(0, 0, 0, 0.3);
+    background-color: white;
+
 `;
 
 export const button = css`

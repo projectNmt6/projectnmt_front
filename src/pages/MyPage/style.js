@@ -67,7 +67,7 @@ export const infoText = css`
 `
 export const button1 = css`
     border-radius:20px;
-    background-color:#E0EBFF;
+    background-color:rgb(68, 68, 68);
     height: 35px;
     font-size: 18px;
     margin-right: 10px;
@@ -316,6 +316,9 @@ export const span1 = css`
 export const div9 = css`
     padding-left: 10px;
     font-family: 'omyu_pretty';
+`;
+export const teamLogo = css`
+    width: 100px;
 `;
 
 export const link1 = css`

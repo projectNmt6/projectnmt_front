@@ -20,6 +20,7 @@ export const contentAreaStyle = css`
 export const leftCardLayout = css`
     display: flex;
     width: 700px;
+    margin-top: 40px;
     flex-direction: column;
     flex-wrap: wrap;
     position: sticky;    
@@ -29,15 +30,17 @@ export const rightCardLayout = css`
     margin-top: 30px;
   display: flex;
   flex-direction: column;
-flex-wrap: wrap;
+    flex-wrap: wrap;
   width: 360px; /* 오른쪽 영역 너비를 조정합니다. */
-  top: 20px; /* 부모 요소의 위쪽에서 일정한 거리만큼 떨어진 위치에 표시됩니다. */
-  padding-left: 30px;
+  top: 20px; 
+  padding-left: 40px;
 `;
 
 
 export const sidebarStyle = css`
+box-sizing: border-box;
 margin: 0px;
+width: 360px; 
 font: inherit;
 vertical-align: baseline;
 padding: 34px 25px 0px;
@@ -53,10 +56,7 @@ background-color: rgb(255, 255, 255);
 export const sidebarStyle2 = css`
   display: flex;
   flex-direction: column;
-  margin: 10px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   border-radius: 10px;
-  padding: 20px;
   justify-content: space-between;
   top: 20px;
   right: 0;
@@ -179,7 +179,6 @@ export const boxbox1 = css`
 export const container1 = css`
     width: 100%;
     height: 100%;
-    background-color: wheat;
 `;
 
 
@@ -190,7 +189,6 @@ export const container3 = css`
     top:0; left: 0; bottom: 0; right: 0;
     background: rgba(160, 160, 160, 0.6);
     overflow: hidden;
-    z-index: 100; /* 다른 요소보다 위에 위치하도록 설정 */
 `;
 
 export const link = css`
@@ -248,7 +246,7 @@ export const button4 = css`
 `;
 
 export const actionmodal = css`
-     z-index: 15000; /* 더 높은 z-index 값 */
+     z-index: 1500; /* 더 높은 z-index 값 */
 `
 
 export const cardStyle = css`
@@ -283,7 +281,6 @@ export const modal = css`
     border-radius: 5px;
     box-shadow: 0 0 6px 1px rgba(0, 0, 0, 0.3);
     background-color: white;
-    z-index: 1500; // 충분히 높은 z-index
 `;
 
 
@@ -449,36 +446,46 @@ export const likebutton1 = css`
     }
 `;
 
-const tabMenu = css`
-  position: sticky;
-  top: 0;
-  background-color: white;
-  z-index: 1000;
+
+export const minidonationImage = css`
+
+position: relative;
+& > img {  
+width: 100px; 
+  height: 70px;
+  border-radius: 8px; 
+  }
 `;
 
-const tabList = css`
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
+export const donationCard = css`
+ display: flex;
+  height: 80px;
+  margin-bottom: 10px;
+  overflow: hidden; 
+  `;
+export const linkStyle = css`
+text-decoration: none; 
+color: inherit; 
+&:hover, &:active, &:visited {
+  text-decoration: none;
+  color: inherit;
+}
 `;
 
-const tabListItem = css`
-  margin-right: 10px;
-`;
 
-const tabButton = css`
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 5px 10px;
-  font-size: 16px;
-  color: #333;
-  outline: none;
-  transition: color 0.3s;
-`;
+export const donationDetails = css`
+  flex-direction: column; 
+  justify-content: space-around;
 
-const activeTabButton = css`
-  color: black;
-  font-weight: bold;
+`;
+export const donationTitle = css`
+  font-size: 14px;
+  margin-top: 5px;
+  margin-left: 15px;
+`;
+export const teamFont = css`
+  font-size: 13px;
+  margin-top: 5px;
+  margin-left: 15px;
+  color: #888888;
 `;

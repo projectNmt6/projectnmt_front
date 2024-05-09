@@ -40,13 +40,8 @@ export const getChallengeList = async (params) => {
 }
 
 
-export const registerNewsPage = async (data) => {
+export const registerNewsPage = async (data) => { 
     return await instance.post(`/main/donation/news/${data.donationPageId}`, data);
-}
-
-
-export const registerDonationNews = async (data) => {
-    return await instance.post('/main/donation/donationnews', data);
 }
 
 export const updatePageRequest = async (data) => {
@@ -56,8 +51,9 @@ export const updatePageRequest = async (data) => {
 export const updateDonationPageResponse = async (data) => {
     return await instance.get(`/main/donation/update/${data.donationPageId}`, data)
 }
-
-
+export const updateDonationNewsPageResponse = async (data) => {
+    return await instance.get(`/main/donation/news/update/${data.donationPageId}`, data)
+} 
 export const updateNewsRequest = async (data) => {
     return await instance.put(`/mian/donation/news/update${data.donationPageId}`, data);
 }

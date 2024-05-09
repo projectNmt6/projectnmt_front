@@ -83,6 +83,11 @@ export const profileIMG = css`
     height: 30px;
     border-radius: 25px;
 `; 
+export const lengthStryle = css`
+        margin-right: 90px;
+        font-size: 13px;
+        color: #999;
+`;
 
 export const textAndActionsContainer = css`
     display: flex;

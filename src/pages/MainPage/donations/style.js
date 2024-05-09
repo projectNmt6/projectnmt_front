@@ -62,6 +62,17 @@ export const donationCard = css`
   height: 363px;
   /* border: 1px solid #ccc;  */
   overflow: hidden; 
+
+
+  @media (max-width: 768px) { // 태블릿 이하에서 적용
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  @media (max-width: 480px) { // 모바일 디바이스에서 적용
+    padding: 8px;
+    margin-bottom: 15px;
+  }
   `;
 
 export const donationImage = css`

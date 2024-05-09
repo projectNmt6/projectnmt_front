@@ -70,7 +70,7 @@ export const cancelButtonStyle = css`
 `;
 
 export const inputField = css`
-    width: 100%;
+    width: 700px;
     padding: 20px;
     margin: 10px 0; 
     box-sizing: border-box; 
@@ -115,7 +115,6 @@ export const imageUrlBox = css`
 `;
 
 
-const DatePickerCss = css`
-    margin: 20px;
-
-`;
+export const selectCustomStyles = css`
+   z-index: 9999;
+`
