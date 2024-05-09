@@ -51,7 +51,7 @@ function NowDonationPage() {
                     const endDate = new Date(donation.endDate);
                     const timeDiff = endDate - today;
                     const daysLeft = timeDiff / (1000 * 60 * 60 * 24);
-
+                    console.log(donation.createDate)
                     return {
                         ...donation,
                         timeOut: daysLeft < 3,
@@ -83,7 +83,7 @@ function NowDonationPage() {
                     const endDate = new Date(donation.endDate);
                     const timeDiff = endDate - today;
                     const daysLeft = timeDiff / (1000 * 60 * 60 * 24);
-
+                    console.log("1"+donation.createDate)
                     return {
                         ...donation,
                         timeOut: daysLeft < 3,
@@ -91,6 +91,7 @@ function NowDonationPage() {
                 });
                 setDonationList(updatedDonationList);
                 setVisibleDonations(updatedDonationList.slice(0, itemsPerPage));
+               
             }
         }
     );
@@ -168,7 +169,33 @@ function NowDonationPage() {
 
     const handleSortChange = (event) => {
         setSortOrder(event.target.value);
+        setCurrentPage(0);  // 현재 페이지를 0으로 리셋
+    
+        // 새 정렬 순서에 따라 보이는 기부 목록을 즉시 조정
+        const sorted = applySorting(donationList, event.target.value);
+        setSortedDonations(sorted);
+        setVisibleDonations(sorted.slice(0, itemsPerPage));
     };
+    
+    // 정렬 순서에 따라 정렬을 적용하는 헬퍼 함수
+    const applySorting = (donations, sortOrder) => {
+        return donations.sort((a, b) => {
+            const dateA = new Date(a.createDate);
+            const dateB = new Date(b.createDate);
+            switch (sortOrder) {
+                case '최신순':
+                    return dateB - dateA; // 여기서는 Date 객체의 비교를 수행합니다.
+                case '추천순':
+                    return b.countLike - a.countLike;
+                case '종료임박순':
+                    return new Date(a.endDate) - new Date(b.endDate);
+                default:
+                    return dateB - dateA;
+            }
+        });
+    };
+    
+    
 
     useEffect(() => {
         const filteredDonations = donationList.filter(
@@ -191,11 +218,36 @@ function NowDonationPage() {
 
 
     useEffect(() => {
-        const visible = sortedDonations.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+        const visible = sortedDonations.slice(0, itemsPerPage);
         setVisibleDonations(visible);    
-
     }, [sortedDonations, currentPage, itemsPerPage]);   
     
+    useEffect(() => {
+        // 정렬 순서가 변경될 때만 sortedDonations를 재계산하고, 페이지 변경 시에는 하지 않음
+        const sorted = applySorting(donationList, sortOrder);
+        setSortedDonations(sorted);
+        setVisibleDonations(sorted.slice(0, itemsPerPage));
+    }, [donationList, sortOrder]);  // selectedTagId와 currentPage 종속성 제거
+    
+    useEffect(() => {
+        const loadMoreVisibleDonations = () => {
+            const newVisibleDonations = sortedDonations.slice(0, (currentPage + 1) * itemsPerPage);
+            setVisibleDonations(newVisibleDonations);
+        };
+
+        loadMoreVisibleDonations();
+    }, [currentPage, sortedDonations]);
+
+    useEffect(() => {
+        const onScroll = () => {
+            if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 1) {
+                setCurrentPage(current => current + 1);
+            }
+        };
+
+        window.addEventListener('scroll', onScroll);
+        return () => window.removeEventListener('scroll', onScroll);
+    }, []);
 
     return (
         <>
