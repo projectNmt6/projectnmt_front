@@ -10,10 +10,7 @@ export const layout = css`
     width: 100%;
     height: 100%;
     @font-face {
-    font-family: 'omyu_pretty';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
+        font-family: 'Pretendard-Regular';
 }
 `;
 export const header = css`
@@ -56,7 +53,7 @@ export const infoBox = css`
     box-sizing: border-box;
     font-size: 24px;
     display: flex;
-    font-family: 'omyu_pretty';
+    font-family: 'Pretendard-Regular';
     flex-direction: column;
     font-weight: 600;
     color: #444;
@@ -73,7 +70,7 @@ export const button1 = css`
     margin-right: 10px;
     color: white;
     font-weight: 600;
-    font-family: 'omyu_pretty';
+    font-family: 'Pretendard-Regular';
     border: none;
     box-shadow: 2px 2px 2px #aaaaaac1;
     cursor: pointer;
@@ -189,8 +186,8 @@ export const div4 = css`
 `;
 export const label = css`
     margin: 30px 0px 10px 40px;
-    font-family: 'omyu_pretty';
-    font-size: 25px;
+    font-family: 'Pretendard-Regular';
+    font-size: 20px;
 `;
 export const link = css`
     text-decoration-line: none;
@@ -204,9 +201,9 @@ export const div5 = css`
     border-radius: 5px;
     justify-content: center;
     align-items: center;
-    font-family: 'omyu_pretty';
+    font-family: 'Pretendard-Regular';
     display: flex;
-    font-size: 23px;
+    font-size: 18px;
     font-weight: 600;
     color: gray;
     background-color: #E0EBFF;
@@ -216,7 +213,7 @@ export const div5 = css`
     cursor: pointer;
     :hover {
         color: black;
-        font-size: 23px;
+        font-size: 20px;
         font-weight: 600;     
     }
     :active {
@@ -229,9 +226,9 @@ export const div10 = css`
     border-radius: 5px;
     justify-content: center;
     align-items: center;
-    font-family: 'omyu_pretty';
+    font-family: 'Pretendard-Regular';
     display: flex;
-    font-size: 23px;
+    font-size: 18px;
     font-weight: 600;
     color: gray;
     background-color: #ebffe0;
@@ -241,7 +238,7 @@ export const div10 = css`
     cursor: pointer;
     :hover {
         color: black;
-        font-size: 23px;
+        font-size: 20px;
         font-weight: 600;     
     }
     :active {
@@ -254,13 +251,13 @@ export const div6 = css`
     justify-content: space-around;
     width: 100%;
     height: 100px;
-    font-family: 'omyu_pretty';
+    font-family: 'Pretendard-Regular';
 `;
 export const button =css`
     width: 160px;
     height: 55px;
-    font-family: 'omyu_pretty';
-    font-size: 23px;
+    font-family: 'Pretendard-Regular';
+    font-size: 18px;
     font-weight: 600;
     background-color: #ffe0eb;
     border: none;
@@ -270,7 +267,7 @@ export const button =css`
     cursor: pointer;
     :hover {
         color: black;
-        font-size: 23px;
+        font-size: 20px;
         font-weight: 600;     
     }
     :active {
@@ -280,7 +277,7 @@ export const button =css`
 export const span =css`
     box-sizing: border-box;
     display: flex;
-    font-family: 'omyu_pretty';
+    font-family: 'Pretendard-Regular';
     font-size: 28px;
     font-weight: 600;
     padding-top: 20px;
@@ -315,7 +312,7 @@ export const span1 = css`
 `;
 export const div9 = css`
     padding-left: 10px;
-    font-family: 'omyu_pretty';
+    font-family: 'Pretendard-Regular';
 `;
 export const teamLogo = css`
     width: 100px;
@@ -325,7 +322,7 @@ export const link1 = css`
     text-decoration-line: none;
     color: white;
     font-size: 24px;
-    font-family: 'omyu_pretty';
+    font-family: 'Pretendard-Regular';
     font-weight: 800;
     background-color: #98FB98;
     width: 200px;

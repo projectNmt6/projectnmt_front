@@ -51,7 +51,7 @@ function NowDonationPage() {
                     const endDate = new Date(donation.endDate);
                     const timeDiff = endDate - today;
                     const daysLeft = timeDiff / (1000 * 60 * 60 * 24);
-
+                    console.log(donation.createDate)
                     return {
                         ...donation,
                         timeOut: daysLeft < 3,
@@ -83,7 +83,7 @@ function NowDonationPage() {
                     const endDate = new Date(donation.endDate);
                     const timeDiff = endDate - today;
                     const daysLeft = timeDiff / (1000 * 60 * 60 * 24);
-
+                    console.log("1"+donation.createDate)
                     return {
                         ...donation,
                         timeOut: daysLeft < 3,
@@ -91,6 +91,7 @@ function NowDonationPage() {
                 });
                 setDonationList(updatedDonationList);
                 setVisibleDonations(updatedDonationList.slice(0, itemsPerPage));
+               
             }
         }
     );
@@ -179,18 +180,21 @@ function NowDonationPage() {
     // 정렬 순서에 따라 정렬을 적용하는 헬퍼 함수
     const applySorting = (donations, sortOrder) => {
         return donations.sort((a, b) => {
+            const dateA = new Date(a.createDate);
+            const dateB = new Date(b.createDate);
             switch (sortOrder) {
                 case '최신순':
-                    return new Date(b.createDate) - new Date(a.createDate);
+                    return dateB - dateA; // 여기서는 Date 객체의 비교를 수행합니다.
                 case '추천순':
                     return b.countLike - a.countLike;
                 case '종료임박순':
                     return new Date(a.endDate) - new Date(b.endDate);
                 default:
-                    return new Date(b.createDate) - new Date(a.createDate);
+                    return dateB - dateA;
             }
         });
     };
+    
     
 
     useEffect(() => {
