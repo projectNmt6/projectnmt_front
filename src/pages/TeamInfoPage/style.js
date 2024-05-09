@@ -111,3 +111,25 @@ export const div4 = css`
     color: #202020;
     font-weight: 600;
 `;
+
+export const button4 = css`
+    border: none;
+    font-size: 15px;
+    margin-right: 3px;
+    border-radius: 5px;
+    padding: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    background-color: transparent; // 배경색 제거
+    color: rgb(136, 136, 136); // 초기 텍스트 색상 설정
+
+    :focus {
+        transition: all 0.3s ease-in-out;
+    }
+    :hover {
+        color: #333; // 마우스 오버 시 텍스트 색상 변경
+    }
+    :active {
+        color: #555; // 마우스 클릭 시 텍스트 색상 진하게 변경
+    }
+`;

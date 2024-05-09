@@ -164,21 +164,27 @@ function DonationStoryPage() {
     const [visibleDonations, setVisibleDonations] = useState([]);
     const getDonationListQuery = useQuery(
         "getDonationQuery",
-        async () => await getDonationListRequest(),
+        async () => {
+            const allDonationsResponse = await getDonationListRequest();
+            console.log("All Donations:", allDonationsResponse); // Log to check structure
+            if (allDonationsResponse && Array.isArray(allDonationsResponse.data)) {
+                // Filter out the current page from the donations list
+                return allDonationsResponse.data.filter(donation => donation.donationPageId !== donationPageId);
+            }
+            return []; // Return an empty array if data is not in expected format
+        },
         {
             refetchOnWindowFocus: false,
-            onSuccess: response => {
+            onSuccess: (filteredDonations) => {
+                console.log("Filtered Donations:", filteredDonations); // Log to verify data
                 const today = new Date();
-                const validDonations = response.data.filter(donation => {
+                const updatedDonationList = filteredDonations.filter(donation => {
                     const endDate = new Date(donation.endDate);
                     return endDate > today;
-                });
-
-                const updatedDonationList = validDonations.map(donation => {
+                }).map(donation => {
                     const endDate = new Date(donation.endDate);
                     const timeDiff = endDate - today;
-                    const daysLeft = timeDiff / (1000 * 60 * 60 * 24);
-
+                    const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
                     return {
                         ...donation,
                         timeOut: daysLeft < 3,
@@ -188,6 +194,32 @@ function DonationStoryPage() {
             }
         }
     );
+    
+    useEffect(() => {
+        async function fetchDonations() {
+            try {
+                const allDonationsResponse = await getDonationListRequest();
+                if (allDonationsResponse && Array.isArray(allDonationsResponse.data)) {
+                    const today = new Date();
+                    // 필터링 로직 개선: `donationPageId`를 문자열로 처리
+                    const currentId = String(donationPageId); // 페이지 ID를 문자열로 변환
+                    const filteredAndSortedDonations = allDonationsResponse.data
+                        .filter(donation => String(donation.donationPageId) !== currentId && new Date(donation.endDate) > today)
+                        .sort((a, b) => new Date(a.endDate) - new Date(b.endDate))
+                        .slice(0, 5);
+    
+                    setVisibleDonations(filteredAndSortedDonations);
+                }
+            } catch (error) {
+                console.error("Failed to fetch donations:", error);
+            }
+        }
+    
+        fetchDonations();
+    }, [donationPageId]);
+    
+
+    
     useEffect(() => {
         console.log("visibleDonations updated: ", visibleDonations);
     }, [visibleDonations]);
@@ -208,27 +240,6 @@ function DonationStoryPage() {
     const handleTabChange = (tab) => {
         setSelectedTab(tab);
     }
-
-    const handleNewsUpdateButton = () => {
-    }
-
-    // 카카오톡 공유 버튼 클릭 이벤트 핸들러 추가
-    const handleShareKakao = () => {
-        const route = window.location.href; // 현재 페이지 URL
-        const title = donationPage.storyTitle; // 기부 스토리 제목
-        const THU = mainImgUrl;
-        const content = "펀펀하게 펀딩하러 가기!"
-        const page = donationPageId;
-        shareKakao(route, title, THU, content, page);
-    };
-
-    useEffect(() => {
-        const script = document.createElement("script");
-        script.src = "https://developers.kakao.com/sdk/js/kakao.js";
-        script.async = true;
-        document.body.appendChild(script);
-        return () => document.body.removeChild(script);
-    }, []);
 
     useEffect(() => {
         if (donationPage && donationPage.endDate) {
@@ -264,23 +275,7 @@ function DonationStoryPage() {
                 handleTabChange={handleTabChange}
             />
             <div css={s.contentAreaStyle}>
-                <div css={s.leftCardLayout}>
-                    {showModal && (
-                        <div css={s.container3}>
-                            <div css={s.modal}><DonatorInfo setShowModal={setshowModal} /></div>
-                        </div>
-                    )}
-
-                    <div >
-                        <Link css={s.link} to={"/main"}>메인으로</Link>
-                    </div>
-
-                    <div css={s.header}>
-                        <button onClick={handleNewsButtonClick}>후기작성버튼</button>
-                        <Link css={s.button4} to={`/main/donation/news/update?page=${donationPageId}`}>후기수정하기</Link>
-                        <button css={s.button4} onClick={handleUpdateButtonClick}>수정하기</button>
-                        <button css={s.button4} onClick={handleDeleteButtonClick}>삭제하기</button>
-                    </div>
+                <div css={s.leftCardLayout}>                  
 
                     <div css={s.storyContent}>
                         <div css={s.main}>
@@ -321,7 +316,6 @@ function DonationStoryPage() {
                         <div css={s.actingCount}>{currentAmount}원</div>
                         <div css={s.headCountCss}>{donationPage.goalAmount}원 목표</div>
 
-                        <button onClick={handleShareKakao}>카카오톡공유하기</button>
                         <Progress pageId={donationPageId} />
                         <div>
                             <div >기부 시작일: {donationPage.createDate ? donationPage.createDate.substring(0, 10) : ''}</div>
@@ -382,7 +376,11 @@ function DonationStoryPage() {
 
                 </div>
             </div>
-
+            {showModal && (
+                <div >
+                    <div ><DonatorInfo setShowModal={setshowModal} /></div>
+                </div>
+            )}
         </div>
 
 

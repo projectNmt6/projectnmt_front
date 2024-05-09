@@ -142,12 +142,12 @@ function DonationPageboard() {
             storyTitle: title,
             storyContent: content,
             mainImgUrl: mainImg,
-            donationTagId: selectedSecondTag ? selectedSecondTag.value : null,
+            donationTagId: selectedTag.value,
             donationPageShow: 2,
         };
         PostDonationPage.mutate(data);
     };
-
+console.log(selectedTag)
     const handleCancelButton = () => {
         if (window.confirm("작성 중인 내용을 취소하시겠습니까?")) {
             setTitle("");
@@ -303,7 +303,7 @@ function DonationPageboard() {
         menuPortal: base => ({ ...base, zIndex: 9999 }), // portal 방식 사용
         menu: provided => ({ ...provided, zIndex: 9999 }) // 기본 메뉴 스타일 조정
     }}
-    menuPortalTarget={document.body} // 메뉴 포털 대상을 body로 설정
+    menuPortalTarget={document.body}  // 메뉴 포털 대상을 body로 설정
 />
 
 

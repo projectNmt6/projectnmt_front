@@ -5,7 +5,8 @@ export const headerContainer = css`
     display: flex; // 전체 컨테이너를 flex로 설정
     align-items: center; // 수직 중앙 정렬
     justify-content: space-between; // 내용을 양쪽으로 분산
-    width: 100%; // 전체 너비 사용
+
+    z-index: 100;
 `;
 
 export const header = css`
@@ -57,9 +58,24 @@ export const activeTabButton2 = css`
 `;
 export const main = css`
     width: 1200px;
+    
 `
 
+export const modalBox = css`
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #d1d8dd;
+    border-radius: 5px;
+    box-shadow: 0 0 6px 1px rgba(0, 0, 0, 0.3);
+    background-color: white;
 
+`;
 export const likebutton1 = css`
     
 

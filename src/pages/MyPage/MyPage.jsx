@@ -130,11 +130,12 @@ function MyPage(props) {
                                                     return <>
                                                         <div css={s.div8} key={team.teamId}>
                                                             <Link to={`/team/info?id=${team.teamId}`}>
-                                                                <img src={team.teamLogoImgUrl} alt="" />
-                                                            </Link>
+                                                                <img src={team.teamLogoImgUrl} alt="" css={s.teamLogo}/>
+                                                                </Link>
                                                             <div css={s.div9}>
                                                                 <span css={s.span1}>프로젝트팀</span>
                                                                 <div>{team.teamName}</div>
+                                                                
                                                             </div>
                                                         </div>
                                                     </>

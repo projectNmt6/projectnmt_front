@@ -66,8 +66,8 @@ function DonationHeader({ donationPageId, selectedTab, handleTabChange, contentR
 
 
             {showModal && (
-                <div css={s.container3}>
-                    <div css={s.modal}><DonatorInfo setShowModal={setshowModal} /></div>
+                <div>
+                    <div ><DonatorInfo setShowModal={setshowModal} /></div>
                 </div>
             )}
         </div>

@@ -113,8 +113,7 @@ export const imageUrlBox = css`
         background-color: #f4f4f4;
     }
 `;
-
-const DatePickerCss = css`
-    margin: 20px;
-
-`;
+export const selectCustomStyles = {
+    menuPortal: base => ({ ...base, zIndex: 999 }), // Add the Emotion css style to the menu portal
+    menu: provided => ({ ...provided, zIndex: 9999 }) // Adjust the basic menu style
+};
