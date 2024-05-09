@@ -10,11 +10,11 @@ export const layout = css`
     border-radius: 5px;
     box-shadow: 2px 2px 2px #aaaaaac1;
     @font-face {
-    font-family: 'omyu_pretty';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}
+        font-family: 'NEXON Lv1 Gothic OTF';
+        src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
 `;
 export const img = css`
     width: 150px;
@@ -25,7 +25,7 @@ export const div1 = css`
     display: flex;
     justify-content: flex-start;
     font-size: 26px;
-    font-family: 'omyu_pretty';
+    font-family: 'NEXON Lv1 Gothic OTF';
     align-items: center;
     color: #202020;
     font-weight: 900;
@@ -33,14 +33,14 @@ export const div1 = css`
 export const span = css`
     font-size: 22px;
     font-weight: 900;
-    font-family: 'omyu_pretty';
+    font-family: 'NEXON Lv1 Gothic OTF';
     color:#767676c1;
 `;
 
 export const button = css`
     display: flex;
     justify-content: flex-end;
-    font-family: 'omyu_pretty';
+    font-family: 'NEXON Lv1 Gothic OTF';
     align-items: center;
 `;
 
@@ -69,7 +69,7 @@ export const link = css`
 
 export const div2 = css`
     text-align: left;
-    font-family: 'omyu_pretty';
+    font-family: 'NEXON Lv1 Gothic OTF';
     align-items: flex-start;
     width: 668px;
     margin: 20px 40px;
@@ -88,23 +88,23 @@ export const div3 = css`
     justify-content: flex-start;
     align-items: flex-start;
     flex-direction: column;
-    width: 668px;
-    font-family: 'omyu_pretty';
+    width: 670px;
+    font-family: 'NEXON Lv1 Gothic OTF';
     border-top: 2px solid #dbdbdb;
-    margin: 20px 40px;
-    padding-top: 15px;
+    margin: 20px 30px;
+    padding-top: 20px;
 `;
 
 export const link1 = css`
     width: 275px;
     height: 190px;
-    margin: 15px 30px 0px 0px;  
+    margin: 15px 15px 0px 0px;  
     border-radius: 3px;
 `;
 
 export const div4 = css`
     display: flex;
-    font-family: 'omyu_pretty';
+    font-family: 'NEXON Lv1 Gothic OTF';
     justify-content: center;
     align-items: center;
     font-size: 22px;
@@ -114,13 +114,12 @@ export const div4 = css`
 
 export const button4 = css`
     border: none;
-    font-size: 15px;
+    font-size: 14px;
     margin-right: 3px;
     border-radius: 5px;
     padding: 12px;
     font-weight: 600;
     cursor: pointer;
-    background-color: transparent; // 배경색 제거
     color: rgb(136, 136, 136); // 초기 텍스트 색상 설정
 
     :focus {

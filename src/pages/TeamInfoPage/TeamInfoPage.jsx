@@ -18,7 +18,7 @@ function TeamInfoPage(props) {
     const teamId = searchParams.get("id");
     const queryClient = useQueryClient();
     const principalData = queryClient.getQueryData("principalQuery");
-    
+
     const [visibleDonations, setVisibleDonations] = useState([]);
     const [visibleEndedDonations, setVisibleEndedDonations] = useState([]);
     const [currentPageActive, setCurrentPageActive] = useState(1);
@@ -52,7 +52,7 @@ function TeamInfoPage(props) {
             refetchOnWindowFocus: false,
             onSuccess: response => {
                 console.log(response);
-    
+
                 const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD format
                 let tempList = [];
                 let tempEndList = [];
@@ -72,7 +72,7 @@ function TeamInfoPage(props) {
             }
         }
     );
-    
+
     const handleLoadMoreActive = () => {
         const nextPage = currentPageActive + 1;
         const startIndex = currentPageActive * donationsPerPage;
@@ -118,7 +118,7 @@ function TeamInfoPage(props) {
                         <div>{teamInfo?.teamName}</div>
                         <span css={s.span}>프로젝트 팀</span>
                     </div>
-                    </div>
+                </div>
                 <div css={s.button}>
                     {teamInfo?.teamMembers.filter(teamMember => teamMember.userId === principalData.data.userId)[0]?.teamRoleId === 1
                         ? <Link css={s.link} to={`/team/management?id=${teamId}`} state={{ teamInfo }} >관리하기</Link>
@@ -129,44 +129,54 @@ function TeamInfoPage(props) {
                     <div css={s.span2}>{teamInfo?.teamInfoText}</div>
                 </div>
             </div>
-            <div css={s.div3}>
-            <div css={s.div3}>
+            <div >
                 <div>
-                    <h2>진행중인 스토리</h2>
-                    {
-                        visibleDonations.map(donation => 
-                            <div css={s.div4} key={donation.donationPageId}>
-                                <Link to={`/donation?page=${donation.donationPageId}`}>
-                                    <img css={s.link1} src={donation.mainImgUrl} alt="" />
-                                </Link>
-                                <div>{donation.storyTitle}</div>
-                                <button><Link to={`/main/donation/update?page=${donation.donationPageId}`}>수정하기</Link></button>
-                                <div><button><Link to={`/main/donation/news?page=${donation.donationPageId}`}>후기작성</Link></button></div>
-                                <button css={s.button4} onClick={() => handleDeleteButtonClick(donation.donationPageId)}>삭제하기</button>
-                            </div>
-                        )
-                    }
-                    {donationList.length > visibleDonations.length && (
-                        <button onClick={handleLoadMoreActive}>더 보기</button>
-                    )}
-                </div>
-                <div>
-                    <h2>스토리 내역</h2>
-                    {
-                        visibleEndedDonations.map(donation => 
-                            <div css={s.div4} key={donation.donationPageId}>
-                                <Link to={`/donation?page=${donation.donationPageId}`}>
-                                    <img css={s.link1} src={donation.mainImgUrl} alt="" />
-                                </Link>
-                                <div>{donation.storyTitle}</div>
-                            </div>
-                        )
-                    }
-                    {endDonationList.length > visibleEndedDonations.length && (
-                        <button onClick={handleLoadMoreEnded}>더 보기</button>
-                    )}
-                </div>
-                </div>
+                    <div>
+                        <div css={s.div3}>
+                        <h2>진행중인 스토리</h2>
+                            {
+                                visibleDonations.map(donation =>
+                                    <div css={s.div4} key={donation.donationPageId}>
+                                        <Link to={`/donation?page=${donation.donationPageId}`}>
+                                            <img css={s.link1} src={donation.mainImgUrl} alt="" />
+                                        </Link>
+                                        <div>
+
+                                        <div>{donation.storyTitle}</div>
+                                        
+                                        <div>
+
+                                        <button css={s.button4}><Link to={`/main/donation/update?page=${donation.donationPageId}`}>수정하기</Link></button>
+                                        <button css={s.button4}><Link to={`/main/donation/news?page=${donation.donationPageId}`}>후기작성</Link></button>
+                                        <button css={s.button4} onClick={() => handleDeleteButtonClick(donation.donationPageId)}>삭제하기</button>
+                                        
+                                        </div>
+                                        </div>
+                                    </div>
+                                )
+                            }
+                            {donationList.length > visibleDonations.length && (
+                                <button css={s.button4} onClick={handleLoadMoreActive}>더 보기</button>
+                            )} </div>
+                    </div>
+                    <div >
+                        <h2>스토리 내역</h2>
+                        <div css={s.div3}>
+                            {
+                                visibleEndedDonations.map(donation =>
+                                    <div css={s.div4} key={donation.donationPageId}>
+                                        <Link to={`/donation?page=${donation.donationPageId}`}>
+                                            <img css={s.link1} src={donation.mainImgUrl} alt="" />
+                                        </Link>
+                                        <div>{donation.storyTitle}</div>
+                                    </div>
+                                )
+                            }
+                            {endDonationList.length > visibleEndedDonations.length && (
+                                <button css={s.button4} onClick={handleLoadMoreEnded}>더 보기</button>
+                            )}
+                        </div>
+                    </div></div>
             </div>
         </div>
     );
