@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import TeamCreatePage from "../TeamCreatePage/TeamCreatePage";
 import TeamInfoPage from "../TeamInfoPage/TeamInfoPage";
+import TeamJoinPage from "../TeamJoinPage/TeamJoinPage";
 import TeamMemberPage from "../TeamMemberPage/TeamMemberPage";
 import TeamPage from "../TeamPage/TeamPage";
 import TeamStoryManagepage from "../TeamStoryManagePage/TeamStoryManagepage";
@@ -18,6 +19,7 @@ function TeamRoutePage(props) {
                 <Route path="/info" element={<TeamInfoPage />} />
                 <Route path="/update" element={<UpdateTeamPage />} />
                 <Route path="/story" element={<TeamStoryManagepage />} />
+                <Route path="/join" element={<TeamJoinPage />} />
             </Routes>
         </div>
     );

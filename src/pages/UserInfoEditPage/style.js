@@ -117,8 +117,27 @@ export const select = css`
     font-size: 25px;
     width: 630px;
 `;
+export const backButton = css`
+  width: 350px;    // 버튼의 가로 길이
+  height: 40px;    // 버튼의 세로 길이
+  background-color: #f4f4f4; // 배경색
+  color: #333;     // 글자 색상
+  text-align: center; // 텍스트 중앙 정렬
+  line-height: 40px;  // 라인 높이를 버튼 높이와 일치시켜 세로 중앙에 위치
+  border: none;    // 테두리 없음
+  border-radius: 5px; // 테두리 둥근 처리
+  cursor: pointer; // 커서 모양을 포인터로 설정
+  text-decoration: none; // 링크 밑줄 제거
+  display: inline-block; // 인라인 블록 요소로 설정
+`;
+
+export const link = css`
+  text-decoration: none; // 링크의 밑줄 제거
+  color: inherit; // 상위 요소에서 색상 상속
+`;
+
 export const button = css`
-    width: 400px;
+    width: 350px;
     height: 40px;
     font-family: 'omyu_pretty';
     margin-bottom:100px;

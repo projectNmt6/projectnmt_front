@@ -5,6 +5,6 @@ display: flex;
 justify-content: center;
 align-items: center;
 flex-direction: column;
-
+/* background-color: rgb(243, 243, 243); */
 `;
 

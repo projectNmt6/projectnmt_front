@@ -92,7 +92,8 @@ function DonatorInfo({ setShowModal }) {
 
     return (
         <>
-            <div css={s.header}>
+        <div css={s.modalBackground}>
+            <div css={s.modalBox}>
                 <button css={s.button} onClick={() => setShowModal(false)}><GrClose /></button>
                 <div css={s.header1}>기부하기</div>
                 <div>
@@ -133,6 +134,7 @@ function DonatorInfo({ setShowModal }) {
                 <div css={s.div}>
                 <button css={s.button2} onClick={handleDonationSubmit}>기부하기</button>
                 </div>
+            </div>
             </div>
         </>
     );

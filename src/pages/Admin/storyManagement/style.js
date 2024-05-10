@@ -140,7 +140,7 @@ export const registerTable = css`
     & td {
         box-sizing: border-box;
         border: 1px solid #dbdbdb;
-        padding: 3px;
+        padding: 3px 8px;
         width: 325px;
         background-color: white;
     }
@@ -150,7 +150,7 @@ export const registerTh = css`
     box-sizing: border-box;
     border: 1px solid #dbdbdb;
     padding: 5px;
-    width: 100px;
+    width: 110px;
     cursor: default;
 `;
 
@@ -179,13 +179,11 @@ export const container = css`
 
 export const mainContainer = css`
     box-sizing: border-box;
-    border: 1px solid black;
     padding: 10px;
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
 `;
 
 export const imgBox = css`
@@ -193,8 +191,6 @@ export const imgBox = css`
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid #dbdbdb;
-    border-radius: 50%;
     width: 200px;
     height: 200px;
     overflow: hidden;
@@ -202,3 +198,48 @@ export const imgBox = css`
         height: 100%;
     }
 `
+
+export const buttonContainer = css`
+    box-sizing: border-box;
+    margin: 10px 0;
+    display: flex;
+    justify-content: flex-start;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    height: 100%;
+`;
+
+export const baseButton = css`
+  width: 150px;
+  height: 30px;
+  margin-left   : 82px;
+  border: none;
+  border-radius: 3px;
+  color: #6b6b6bc1;
+  box-shadow: 2px 2px 4px #808080;
+  cursor: pointer;
+  :hover {
+      background-color:#b8b8b8c1
+  }
+  :active {
+      box-shadow: inset 5px 5px 10px #808080;
+  }
+`;
+export const showButton = css`
+  width: 100px;
+  height: 20px;
+  border: none;
+  border-radius: 3px;
+  display: flex;
+  background-color: #FF9966 ;
+  justify-content: flex-start;
+  color: black;
+  cursor: pointer;
+  :hover {
+      background-color:#FF6600
+  }
+  :active {
+      box-shadow: inset 5px 5px 10px #808080;
+  }
+`;

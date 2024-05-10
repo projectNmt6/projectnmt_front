@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import * as s from "./style";
 import Select from "react-select";
 import { useInput } from "../../hooks/useInput";
@@ -7,9 +7,9 @@ import { useMutation, useQueryClient } from 'react-query';
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { v4 as uuid } from 'uuid';
 import { storage } from "../../apis/filrebase/config/firebaseConfig";
-import { submitDonatorEditData } from "../../apis/api/donatorApi";
+import { submitDonatorEditData } from "../../apis/api/DonatorApi";
 import AuthPageInput from "../../components/AuthPageInput/AuthPageInput";
-
+import { Link, useNavigate } from "react-router-dom";
 
 function UserInfoEditPage(props) {
     // useAuthCheck();
@@ -138,6 +138,10 @@ function UserInfoEditPage(props) {
                 </div>
                 <div>
                     <button css={s.button} type="submit" onClick={handleEditSubmitClick}>저장하기</button>
+                    <div css={s.backButton}>
+                        <Link to="/account/mypage" css={s.link}>돌아가기</Link>
+                    </div>
+
                 </div>
             </div>
         </>

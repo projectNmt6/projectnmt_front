@@ -80,10 +80,15 @@ function CommentManagement({userId} ) {
         setIsDelete(() => false);
     },[sortedCommentList])
     return (
-        <div css={s.tableLayout}>
-            댓글 관리
-            <button onClick={handleDeleteButtonOnClick}>댓글 삭제</button>
-            <button onClick={handleDeleteautoButtonOnClick}>기준치 이상 댓글 일괄 삭제</button>
+        <>
+            <div css={s.buttonContainer}>
+                <div css={s.textbox}>
+                    댓글 관리
+                </div>
+                <button onClick={handleDeleteButtonOnClick} css={s.baseButton}>댓글 삭제</button>
+                <button onClick={handleDeleteautoButtonOnClick} css={s.baseButton}> 댓글 자동 삭제</button>
+            </div>
+            <div css={s.tableLayout}>
             <table css={s.table}>
                         <thead >
                             <tr css={s.tableHeader} key={0}>
@@ -96,11 +101,11 @@ function CommentManagement({userId} ) {
                             </tr>
                         </thead>
             {
-                        <tbody>
+                <tbody>
                             {
                                 sortedCommentList.map(
                                     comment => 
-                                    <>
+                                        <>
                                         <tr key={comment.donationCommentId}>
                                             <td><input type="checkbox" value={comment.donationCommentId} checked={comment.checked} onChange={handleCheckOnChange}/></td>
                                             <td>{comment.reportCount}</td>
@@ -111,11 +116,12 @@ function CommentManagement({userId} ) {
                                         </tr>
                                     </>
                                 )
-                                }
+                            }
                         </tbody>
             }
             </table>
-        </div>
+            </div>
+        </>
     );
 }
 

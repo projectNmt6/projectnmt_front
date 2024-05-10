@@ -20,13 +20,10 @@ function SearchPage(props) {
     const [ selectedOption, setSelectedOption ] = useState({value: 0, label: " 전체 "});
     const [ searchText, setSearchText] = useState("");
     const [ storyList, setStoryList ] = useState([]);
-    const [filteredstorys, setFilteredStorys] = useState([]);
     const [donator, setDonator] = useState([]);
     const [ searchParams, setSearchParams ] = useSearchParams();
-
     const [ selectedStory, setSelectedStory ] = useState({});
     const searchCount = 10;
-
     const checkBoxRef = useRef();
     const storyLinkRef = useRef();
     const userId = searchParams.get("userId");
@@ -138,7 +135,6 @@ function SearchPage(props) {
         }),
         {   
             onSuccess: response => {
-                console.log(response);
             },
         }
     )
@@ -149,6 +145,7 @@ function SearchPage(props) {
         }),
         {   
             onSuccess: response => {
+                console.log(response);
                 setDonator(response.data.map(donator => {
                     return {
                         ...donator,
@@ -201,7 +198,6 @@ function SearchPage(props) {
         mutationKey: "deleteDonationMutation",
         mutationFn: deleteDonationListRequest,
         onSuccess: response => {
-            console.log(response);
             alert("삭제완료.");
         },
         onError: error => {}
@@ -209,7 +205,6 @@ function SearchPage(props) {
     const handleDeleteDonationsOnClick = () => {
         if(!window.confirm("정말로 해당 스토리들을 삭제하시겠습니까?")) return;
         const list =  storyList.filter(story => story.checked);
-        console.log(list);
         deleteDonationMutation.mutate(list);
     }
     const updateDonationShowMutation = useMutation({
@@ -217,11 +212,13 @@ function SearchPage(props) {
         mutationFn: updateDonationShowRequest,
         onSuccess: response => {
             alert("수정완료.");
+            getDonationListQuery.refetch();
         },
         onError: error => {}
     })   
     const pagePermitButtonOnClick = (id) => {
         updateDonationShowMutation.mutate([{donationPageId: id}]);
+        
     }
     const pageListPermitButtonOnClick = () => {
         const tempList = storyList.filter(story =>story.checked);
@@ -231,12 +228,15 @@ function SearchPage(props) {
     return (
         <div css={s.mainContainer}>
             <div>
-                스토리관리
-                <Message list={storyList} isTeam={1} text={"팀에게 공지 보내기"}/>
-                <Message list={donator} isTeam={0} text={"후원자들에게 공지 보내기"}/>
-                {/* 팀리스트 => 유저리스트 */}
-                <button onClick={handleDeleteDonationsOnClick}>스토리 삭제</button>
-                <button onClick={pageListPermitButtonOnClick}> 확인완료 </button>
+                
+                <div css={s.buttonContainer}>
+                    <Message list={storyList} isTeam={1} text={"팀 공지"} />
+                    <div style={{marginLeft:"82px"}}>
+                        <Message list={donator} isTeam={0} text={"후원자 공지"}/>
+                    </div>
+                    <button onClick={pageListPermitButtonOnClick} css={s.baseButton}> 확인완료 </button>
+                    <button onClick={handleDeleteDonationsOnClick} css={s.baseButton}>스토리 삭제</button>
+                </div>
             </div>
             <div css={s.container}>
                 <table css={s.registerTable}>
@@ -252,7 +252,7 @@ function SearchPage(props) {
                                 <td>
                                     {selectedStory.storyTitle}
                                 </td>
-                                <td rowSpan={3} style={{width:"200px", boxSizing:"border-box", padding:"5px"}}>
+                                <td rowSpan={3} style={{width:"200px"}}>
                                     <div css={s.imgBox}>
                                         <div style={{display:"none"}}>
                                             <Link to={`/donation?page=${selectedStory.donationPageId}`} ref={storyLinkRef}></Link>
@@ -262,9 +262,9 @@ function SearchPage(props) {
                                 </td>
                             </tr>
                             <tr>
-                                <th css={s.registerTh}>목표 수치</th>
+                                <th css={s.registerTh}>모금 현황 / 모금 목표</th>
                                 <td >
-                                    {selectedStory.goalAmount}
+                                    {donator[0].addAmount} / {selectedStory.goalAmount}
                                 </td>
                                 <th css={s.registerTh}>기부 / 챌린지</th>
                                 <td >
@@ -299,7 +299,7 @@ function SearchPage(props) {
                             </td>
                         </tr>
                         <tr>
-                            <th css={s.registerTh}>goal_amount</th>
+                            <th css={s.registerTh}>모금 현황 / 모금 목표</th>
                             <td >
                                 {selectedStory.goalAmount}
                             </td>
@@ -374,7 +374,7 @@ function SearchPage(props) {
                                             <td>{story.donationPageId}</td>
                                             <td>{story.storyTitle}</td>
                                             <td>{story.goalAmount}</td>
-                                            <td><button onClick={() => pagePermitButtonOnClick(story.donationPageId)}>{story.donationPageShow === 1 ?  "확인 완료" : story.donationPageShow === 2 ? " 보류 중 " : "삭제 요청"}</button></td>
+                                            <td>{story.donationPageShow === 1 ?  "확인 완료" : story.donationPageShow === 2 ? <button onClick={() => pagePermitButtonOnClick(story.donationPageId)} css={s.showButton}> 보류 중 </button> : "삭제 요청"}</td>
                                             <td>{story.mainCategoryName}</td>
                                         </tr>
                                     :
@@ -393,7 +393,7 @@ function SearchPage(props) {
                         </tbody>
                     </table>
                 </div>
-                <AdminSearchPageNumbers name={"story"} count={getCountQuery?.data?.data} />
+                <AdminSearchPageNumbers count={getCountQuery?.data?.data} page={searchParams.get("page")}/>
 
             </div>
         </div>

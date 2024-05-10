@@ -68,6 +68,7 @@ export const infoText = css`
 export const button1 = css`
     border-radius:20px;
     background-color:#E0EBFF;
+    width: 150px;
     height: 35px;
     font-size: 18px;
     margin-right: 10px;
@@ -144,7 +145,7 @@ export const div = css`
     justify-content: space-around;
     align-items: center;
     border-radius: 5px;
-    width: 750px;
+    width: 1120px;
     height: 65px;
     margin-bottom: 35px;
     box-shadow: 1px 1px 3px #aaaaaac1;

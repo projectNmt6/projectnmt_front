@@ -10,20 +10,22 @@ export const textTitle = css`
 `;
 export const imgUrlBox = css`
     display: inline-block;
-    width: 95%;
+    width: 700px;
     line-height: 10px;
 `;
 
 export const dateDisplayBox = css`
+
+    width: 700px;
 padding: 10px;
     margin-bottom: 5px;
     border: 1px solid #ccc;
     text-align: center;
     font-size: 16px;
     color: #333;
-    cursor: pointer; // Indicates the text is clickable
+    cursor: pointer; 
     &:hover {
-        background-color: #f4f4f4; // Light background on hover for feedback
+        background-color: #f4f4f4;
     }  
     font-weight: 700;
     font-size: 20px;
@@ -70,7 +72,7 @@ export const cancelButtonStyle = css`
 `;
 
 export const inputField = css`
-    width: 100%;
+    width: 700px;
     padding: 20px;
     margin: 10px 0; 
     box-sizing: border-box; 
@@ -114,7 +116,41 @@ export const imageUrlBox = css`
     }
 `;
 
-const DatePickerCss = css`
-    margin: 20px;
+const controlStyles = {
+    backgroundColor: 'white',
+    borderColor: 'gray',
+    '&:hover': {
+        borderColor: 'lightgray'
+    },
+    minHeight: '40px',
+    height: '40px',
+    width: '700px' // width를 700px로 설정
+};
 
-`;
+const optionStyles = {
+    color: 'black',
+    '&:hover': {
+        backgroundColor: 'lightgray'
+    }
+};
+export const customStyles = {
+    control: (provided, state) => ({
+        ...provided,
+        ...controlStyles,
+        borderColor: state.isFocused ? 'blue' : provided.borderColor,
+        boxShadow: state.isFocused ? '0 0 0 1px blue' : 'none'
+    }),
+    option: (provided, state) => ({
+        ...provided,
+        ...optionStyles,
+        backgroundColor: state.isFocused ? 'lightblue' : 'white'
+    }),
+    menu: provided => ({
+        ...provided,
+        zIndex: 9999
+    }),
+    menuPortal: base => ({
+        ...base,
+        zIndex: 9999
+    })
+};

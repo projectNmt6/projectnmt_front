@@ -4,7 +4,7 @@ import * as s from "./style";
 import { useEffect, useState } from "react";
 import { useInput } from "../../hooks/useInput";
 import AuthPageInput from "../../components/AuthPageInput/AuthPageInput";
-import { passwordEditData } from "../../apis/api/donatorApi";
+import { passwordEditData, submitDonatorEditData } from "../../apis/api/DonatorApi";
 
 function PasswordEditPage(props) {
     const [oldPassword, handleOldPassword, oldMessage, setOldMessage] = useInput("oldPassword");

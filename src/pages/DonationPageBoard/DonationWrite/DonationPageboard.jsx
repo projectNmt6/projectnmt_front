@@ -10,7 +10,7 @@ import { getDonationListRequest, getDonationTagRequest, registerDonationPage } f
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import "react-datepicker/dist/react-datepicker.css";
 import { getPrincipalRequest } from '../../../apis/api/principal';
-import { getTeamInfoRequest, getTeamListRequest} from '../../../apis/api/teamApi';
+import { getTeamInfoRequest, getTeamListRequest } from '../../../apis/api/teamApi';
 import TextEditor from '../../../components/TextEditor/TextEditor';
 import { format } from 'date-fns';
 import DatePicker, { registerLocale } from "react-datepicker";
@@ -20,8 +20,7 @@ function DonationPageboard() {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [mainImg, setMainImg] = useState("");
-    const [selectedSecondTag, setSelectedSecondTag] = useState(null);
-    const [secondTagOptions, setSecondTagOptions] = useState([]);
+    const [selectedSecondTag, setSelectedSecondTag] = useState([]);
     const [teamId, setTeamId] = useState();
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
@@ -31,11 +30,7 @@ function DonationPageboard() {
     const [teams, setTeams] = useState([]);
     const [selectedTeam, setSelectedTeam] = useState(null);
 
-    const handleAmountChange = (e) => {
-        const value = e.target.value; // 입력된 값
-        const parsedValue = value ? parseInt(value) : null; 
-        setAmount(parsedValue); // 값 업데이트
-    };
+
 
     const principalQuery = useQuery(
         ["principalQuery"],
@@ -53,7 +48,7 @@ function DonationPageboard() {
         }
     );
 
-    
+
     useEffect(() => {
         if (selectedTeam) {
             setTeamId(selectedTeam.value);
@@ -80,13 +75,46 @@ function DonationPageboard() {
         }
     }, [userId]);
 
+    // useEffect(() => {
+    //     axios.get("http://localhost:8080/tag/donationtag")
+    //         .then(response => {
+    //             const options = response.data.map(secondTag => ({
+    //                 value: secondTag.donationTagId,
+    //                 label: secondTag.donationTagName
+    //             }));
+    //             setSelectedSecondTag(options);
+    //         })
+    //         .catch(error => {
+    //             console.error(error);
+    //         });
+    // }, []);
+    useEffect(() => {
+        const fetchDonationTags = async () => {
+            try {
+                const response = await getDonationTagRequest(); // 여기서 params가 필요하면 전달하면 됩니다.
+                const options = response.data.map(secondTag => ({
+                    value: secondTag.donationTagId,
+                    label: secondTag.donationTagName
+                }));
+                setSelectedSecondTag(options);
+            } catch (error) {
+                console.error("Failed to fetch donation tags:", error);
+            }
+        };
+
+        fetchDonationTags();
+    }, []);
+
+
     const handleSelectTeam = (selectedOption) => {
         setSelectedTeam(selectedOption);
     };
+    const [selectedTag, setSelectedTag] = useState(null); // 추가된 상태 변수
 
     const handleSecondTagChange = (selectedOption) => {
-        setSelectedSecondTag(selectedOption);
+        setSelectedTag(selectedOption); // 선택된 태그 업데이트
     }
+
 
     const PostDonationPage = useMutation({
         mutationKey: "PostDonationPage",
@@ -101,7 +129,6 @@ function DonationPageboard() {
 
     const handleSubmitButton = () => {
         const data = {
-            donationPageId: 1,
             teamId: teamId,
             mainCategoryId: 1,
             pageCategoryId: 1,
@@ -111,12 +138,12 @@ function DonationPageboard() {
             storyTitle: title,
             storyContent: content,
             mainImgUrl: mainImg,
-            donationTagId: selectedSecondTag ? selectedSecondTag.value : null,
+            donationTagId: selectedTag.value,
             donationPageShow: 2,
         };
         PostDonationPage.mutate(data);
     };
-
+    console.log(selectedTag)
     const handleCancelButton = () => {
         if (window.confirm("작성 중인 내용을 취소하시겠습니까?")) {
             setTitle("");
@@ -147,7 +174,7 @@ function DonationPageboard() {
         }
     }, [startDate, endDate]);
 
-    
+
     const [showStartDatePicker, setShowStartDatePicker] = useState(false);
     const [showEndDatePicker, setShowEndDatePicker] = useState(false);
 
@@ -171,11 +198,36 @@ function DonationPageboard() {
     const toggleEndDatePicker = () => {
         setShowEndDatePicker(prev => !prev);
     };
-
+    const [displayValue, setDisplayValue] = useState('');
+    const [actualValue, setActualValue] = useState('');
+    const handleAmountChange = (event) => {
+        const value = event.target.value; // 사용자 입력
+        const numbersOnly = value.replace(/[^0-9]/g, ''); // 입력값에서 숫자만 추출
+        setAmount(numbersOnly); // 숫자만 있는 상태로 상태 업데이트
+    
+        // 쉼표로 숫자 형식화하여 디스플레이용 상태 업데이트
+        const formattedNumber = formatNumberWithCommas(numbersOnly);
+        setDisplayValue(formattedNumber);
+        console.log(amount)
+    };
+    
+    const formatNumberWithCommas = (number) => {
+        return number.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    };
+    
+    
     return (
         <>
             <div css={s.mainLayout}>
-
+            <div>
+                    <div css={s.textTitle}>프로젝트 팀</div>
+                    <Select  styles={s.customStyles}
+                        value={selectedTeam}
+                        onChange={handleSelectTeam}
+                        options={teams}
+                        placeholder="등록할 팀을 선택해주세요"
+                    />
+                </div>
                 <div css={s.textTitle}>
                     프로젝트 제목
                 </div>
@@ -189,15 +241,7 @@ function DonationPageboard() {
                     />
                 </div>
 
-                <div>
-                    <div css={s.textTitle}>프로젝트 팀</div>
-                    <Select
-                        value={selectedTeam}
-                        onChange={handleSelectTeam}
-                        options={teams}
-                        placeholder="등록할 팀을 선택해주세요"
-                    />
-                </div>
+                
 
                 <div css={s.textTitle}>진행기간</div>
 
@@ -231,7 +275,7 @@ function DonationPageboard() {
                         selected={endDate}
                         onChange={date => {
                             setEndDate(date);
-                            toggleEndDatePicker(); // Optionally hide after selection
+                            toggleEndDatePicker();
                         }}
                         selectsEnd
                         startDate={startDate}
@@ -246,28 +290,30 @@ function DonationPageboard() {
                     />
                 )}
 
+                <div css={s.textTitle}>
+                    <div>프로젝트 기간 : 
+                        {projectDuration !== null ? `${projectDuration}일` : ''}</div>
+                </div>
 
                 <div css={s.textTitle}>
                     목표 금액
                 </div>
 
                 <input
-                    css={s.inputField}
-                    type="number"
-                    value={amount}
-                    onChange={handleAmountChange}
-                />
+                        css={s.inputField}
+                        type="text"
+                        value={displayValue}
+                        onChange={handleAmountChange}
+                    />
 
-                <div>
-                    <div>프로젝트 기간:
-                        {projectDuration !== null ? `${projectDuration}일` : ''}</div>
-                </div>
-
+                    
                 <Select
-                    options={secondTagOptions}
+                    options={selectedSecondTag}
                     placeholder="기부 카테고리를 선택해주세요"
-                    value={selectedSecondTag}
+                    value={selectedTag}
                     onChange={handleSecondTagChange}
+                    styles={s.customStyles}
+                    menuPortalTarget={document.body}
                 />
 
                 <div>
@@ -289,13 +335,10 @@ function DonationPageboard() {
                 </div>
 
 
-                <TextEditor content={content} setContent={setContent}/>
+                <TextEditor content={content} setContent={setContent} />
 
 
                 <div css={s.buttonBox}>
-                    <button css={[s.buttonStyle, s.cancelButtonStyle]} onClick={handleCancelButton}>
-                        취소
-                    </button>
                     <button css={s.buttonStyle} onClick={handleSubmitButton}>
                         작성완료
                     </button>

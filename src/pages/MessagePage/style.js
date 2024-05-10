@@ -6,7 +6,8 @@ export const div = css`
     flex-direction: column;
     align-items: center;
     border: 1px solid #dbdbdb;
-    font-family: 'omyu_pretty';
+    font-family: 'Pretendard-Regular';
+    font-size: 20px;
     border-radius: 5px;
     margin-top: 50px;
     box-shadow: 1px 1px 4px #aaaaaac1;
@@ -18,7 +19,7 @@ export const div1 = css`
     box-sizing: border-box;
     height: auto;
     align-items: center;
-    font-family: 'omyu_pretty';
+    font-family: 'Pretendard-Regular';
     justify-content: flex-start;
     width: 620px;
     height: 100px;
@@ -39,24 +40,24 @@ export const img = css`
 
 export const div2 = css`
     font-size: 17px;
-    font-family: 'omyu_pretty';
+    font-family: 'Pretendard-Regular';
     color: #444;
 `;
 export const div3 = css`
     font-size: 17px;
     padding-top: 10px ;
-    font-family: 'omyu_pretty';
+    font-family: 'Pretendard-Regular';
     color: #999999;
 `;
 export const div4 = css`
-    font-size: 15px;
+    font-size: 20px;
     color: #444;
-    font-family: 'omyu_pretty';
+    font-family: 'Pretendard-Regular';
     padding: 10px 0px;
 `;
 export const div6 = css`
     padding: 25px 0px;
-    font-family: 'omyu_pretty';
+    font-family: 'Pretendard-Regular';
     font-size: 21px;
     text-decoration: underline;
     color : red;
@@ -69,7 +70,7 @@ export const div7 = css`
 export const button = css`
     width: 400px;
     height: 35px;
-    font-family: 'omyu_pretty';
+    font-family: 'Pretendard-Regular';
     font-size: 20px;
     margin:30px 0px;
     border: none;
@@ -83,4 +84,13 @@ export const button = css`
     :active {
         background-color: #8a8a8a;
     }
+`;
+
+export const div8 = css`
+    margin-left: auto;
+    margin-right: 10px;
+    padding: 25px 0px;
+    font-size: 21px;
+    color : #dbdbdb;
+
 `;

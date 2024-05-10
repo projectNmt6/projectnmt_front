@@ -3,8 +3,9 @@ import * as s from "./style";
 import React, { useState } from 'react';
 import { useMutation } from 'react-query';
 import { postMessageRequest } from '../../apis/api/Admin';
+import { IoClose } from "react-icons/io5";
 
-function Message({list, isTeam ,text}) {
+function Message({senderId, list, isTeam ,text}) {
     const [ message, setMessage ] = useState();
     const [ showModal, setShowModal ] = useState(false);
     const sendMessageMutation = useMutation({
@@ -29,12 +30,12 @@ function Message({list, isTeam ,text}) {
             }
             sendMessageMutation.mutate({
                 message,
+                senderId,
                 userId: userIds,
                 isTeam
             });
         } else {
             let teamIds = [];
-            console.log(list);
             for(let team of list) {
                 if(team.checked) {
                     teamIds = [...teamIds, team.teamId];
@@ -42,6 +43,7 @@ function Message({list, isTeam ,text}) {
             }
             sendMessageMutation.mutate({
                 message,
+                senderId,
                 userId: teamIds,
                 isTeam
             });
@@ -54,12 +56,12 @@ function Message({list, isTeam ,text}) {
         {
             showModal ? <div css={s.layout}>
                 <div css={s.messageBox}>
-                    <button onClick={() => setShowModal(false)} css={s.messageBoxButton}>x</button>
+                    <button onClick={() => setShowModal(false)} css={s.messageBoxButton}> <IoClose/> </button>
                     <p><textarea placeholder="메세지 입력" value={message} onChange={handleTextareaOnchange} css={s.messageTextArea}></textarea></p>
                     <button onClick={handleMessageOnClick} css={s.messageSubmitButton}>메세지 보내기</button>
                 </div>
             </div>
-            : <button onClick={() => setShowModal(true)} >{text} </button>
+            : <button onClick={() => setShowModal(true)} css={s.openButton}>{text} </button>
         }
         </>
     );

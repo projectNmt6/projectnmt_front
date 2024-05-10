@@ -9,6 +9,7 @@ import 'react-quill/dist/quill.snow.css';
 import { getPrincipalRequest } from '../../../apis/api/principal';
 import { getTeamListRequest } from '../../../apis/api/teamApi';
 import { useQuery } from 'react-query';
+import { updateDonationNewsPageResponse } from '../../../apis/api/DonationAPI';
 
 const textEditorLayout = css`
     overflow-y: auto;
@@ -43,6 +44,15 @@ function NewsUpdatePage() {
             }
         }
     );
+
+    useEffect(() => {
+        if (selectedTeam && selectedTeam.label === undefined) {
+            const team = teams.find(team => team.value === selectedTeam.value);
+            if (team) {
+                setSelectedTeam(team);
+            }
+        }
+    }, [selectedTeam, teams]);
 
     useEffect(() => {
         if (userId) {
@@ -83,25 +93,28 @@ function NewsUpdatePage() {
         "strike", "blockquote", "list", "bullet", "indent", "link", "image"
     ];
 
-    
-    useEffect(() => {
-        const fetchData = async () => {
-            console.log(`Request URL: http://localhost:8080/main/donation/news/update/${donationPageId}`);
+useEffect(() => {
+    const fetchData = async () => {
+        if (donationPageId) {
             try {
-                const response = await axios.get(`http://localhost:8080/main/donation/news/update/${donationPageId}`);
-                const data = response.data;
-                console.log("Response Data:", data);
-                setContent(data.newsContent);
-                setTeamId(data.teamId);
-                setPageCategoryId(data.pageCategoryId);
-                setDonationNewsPageId(data.donationNewsPageId);
+                const response = await updateDonationNewsPageResponse({ donationPageId });
+                console.log(response.data)
+                if (response.status === 200) {
+                    const data = response.data;
+                    setPageCategoryId(data.pageCategoryId)
+                    setContent(data.content);
+                    setTeamId(data.teamId);
+                }
             } catch (error) {
-                console.error("Error fetching data:", error);
+                console.error('Error fetching challenge page:', error);
             }
-        };
-        fetchData(); 
-    }, [donationPageId]);
-    
+        } else {
+            console.error('No valid challengePageId provided');
+        }
+    };
+    fetchData();
+}, [donationPageId]);
+
     const handleContentChange = (value) => { 
         setContent(value);
     };

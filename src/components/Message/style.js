@@ -27,10 +27,30 @@ export const messageBox = css`
 `;
 
 export const messageBoxButton = css`
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  border: none;
+  border-radius: 3px;
   width: 30px;
   height: 30px;
   position: relative;
   right: -150px;
+  color: #6b6b6bc1;
+  box-shadow: 2px 2px 4px #808080;
+  cursor: pointer;
+  :hover {
+      background-color:#b8b8b8c1
+  }
+  :active {
+      box-shadow: inset 5px 5px 10px #808080;
+  }
+  & > * {
+    font-size: 16px;
+  }
+  & > svg {
+    transform: translate(5%, 40%);
+  }
 `;
 
 export const messageTextArea = css`
@@ -42,8 +62,35 @@ export const messageTextArea = css`
 `;
 
 export const messageSubmitButton = css`
-    position: relative;
-    bottom: 50px;
-    width: 250px;
-    height: 35px;
+  position: relative;
+  bottom: 50px;
+  width: 250px;
+  height: 35px;
+  border: none;
+  border-radius: 3px;
+  color: #6b6b6bc1;
+  box-shadow: 2px 2px 4px #808080;
+  cursor: pointer;
+  :hover {
+      background-color:#b8b8b8c1
+  }
+  :active {
+      box-shadow: inset 5px 5px 10px #808080;
+  }
+`;
+
+export const openButton = css`
+  width: 150px;
+  height: 30px;
+  border: none;
+  border-radius: 3px;
+  color: #6b6b6bc1;
+  box-shadow: 2px 2px 4px #808080;
+  cursor: pointer;
+  :hover {
+      background-color:#b8b8b8c1
+  }
+  :active {
+      box-shadow: inset 5px 5px 10px #808080;
+  }
 `;
