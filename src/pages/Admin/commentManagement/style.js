@@ -215,3 +215,34 @@ export const imgBox = css`
         height: 100%;
     }
 `
+
+export const baseButton = css`
+  width: 150px;
+  height: 30px;
+  margin-left   : 82px;
+  border: none;
+  border-radius: 3px;
+  color: #6b6b6bc1;
+  box-shadow: 2px 2px 4px #808080;
+  cursor: pointer;
+  :hover {
+      background-color:#b8b8b8c1
+  }
+  :active {
+      box-shadow: inset 5px 5px 10px #808080;
+  }
+`;
+
+
+export const buttonContainer = css`
+    box-sizing: border-box;
+    display: flex;
+    justify-content: flex-end;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    height: 100%;
+`;
+export const textbox = css`
+    margin-right: auto;
+`

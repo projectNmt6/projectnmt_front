@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useQuery } from "react-query";
 import { getTeamMemberInfoRequest } from '../../apis/api/teamApi';
+import { button } from '../MessagePage/style';
+import { shareKakao } from '../../apis/utils/shareKakaoLink';
 
 function TeamMemberPage(props) {
     const location = useLocation();
@@ -23,9 +25,17 @@ function TeamMemberPage(props) {
                 console.log(response.data);
             }
     });
+    const handleShareKakao = () => {
+        console.log("work");
+        const route = `http://localhost:3000/team/join?id=${teamInfo.teamId}`; // 현재 페이지 URL
+        const title = teamInfo.teamName; // 기부 스토리 제목
+        const THU = teamInfo.teamImgLogo;
+        const content = "팀과 함께 행동하기!"
+        const page = teamInfo.teamId;
+        shareKakao(route, title, THU, content, page);
+    };
     return (
-        <div></div>
-            
+        <button onClick={handleShareKakao}></button>
     );
 }
 

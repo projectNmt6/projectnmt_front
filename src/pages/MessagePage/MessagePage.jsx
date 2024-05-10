@@ -4,6 +4,7 @@ import * as s from "./style";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { deleteAllMessageRequest, getMessageListRequest } from '../../apis/api/Message';
 import { useSearchParams } from 'react-router-dom';
+import Message from '../../components/Message/Message';
 
 function MessagePage({isTeam, adminId}) {
     const queryClient = useQueryClient();
@@ -34,9 +35,7 @@ function MessagePage({isTeam, adminId}) {
         onError: error => {}
     })  
     const deleteAllMessage = () => {
-        if(isTeam === 0) {
-            deleteMessageMutation.mutate({"id":principalData.data.userId, isTeam})
-        }
+        deleteMessageMutation.mutate({"id":adminId === 1 ? 0 : !!searchParams.get("id") ? searchParams.get("id") : principalData?.data.userId, isTeam})
     }
     return (
         <div css={s.div}>{
@@ -47,12 +46,15 @@ function MessagePage({isTeam, adminId}) {
                 </div>
                 {messageList.map(message => (
                     <div css={s.div1} key={message.messageId}>
-                        <img css={s.img}src={message.teamLogoUrl} alt="" />
+                        <img css={s.img}src={message.teamLogoImgUrl} alt="" />
                         <div css={s.div5}>
                         <div css={s.div2}>{message.date}</div>
                         <div css={s.div3}>{message.teamName}</div>
                         <div css={s.div4}>{message.message}</div>
                         </div> 
+                        <div css={s.div8}>
+                            {adminId === 1 ? <Message list={message.isTeam === 1 ? [{teamId: message.senderId, checked: true}] : [{userId: message.senderId, checked: true}]} isTeam={message.isTeam} text={"답변 보내기"}/> : null}
+                        </div>
                     </div>
                 ))}
                 <button css={s.button} onClick={deleteAllMessage}>전체 메세지 삭제</button>

@@ -233,8 +233,7 @@ function NowDonationPage() {
         const loadMoreVisibleDonations = () => {
             const newVisibleDonations = sortedDonations.slice(0, (currentPage + 1) * itemsPerPage);
             setVisibleDonations(newVisibleDonations);
-        };
-
+//         };
         loadMoreVisibleDonations();
     }, [currentPage, sortedDonations]);
 

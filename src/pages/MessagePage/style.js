@@ -85,3 +85,12 @@ export const button = css`
         background-color: #8a8a8a;
     }
 `;
+
+export const div8 = css`
+    margin-left: auto;
+    margin-right: 10px;
+    padding: 25px 0px;
+    font-size: 21px;
+    color : #dbdbdb;
+
+`;
