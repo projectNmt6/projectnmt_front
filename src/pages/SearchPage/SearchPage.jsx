@@ -4,10 +4,9 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useQuery } from "react-query";
 import Select from 'react-select';
-import { getDonationListRequest, searchDonationRequest } from "../../apis/api/DonationAPI";
+import { searchDonationRequest } from "../../apis/api/DonationAPI";
 import { FiSearch } from "react-icons/fi";
 import { TiHome } from "react-icons/ti";
-import AdvancedSearch from "./AdvancedSearch";
 
 function SearchPage(props) {
 

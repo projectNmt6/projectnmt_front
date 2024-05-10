@@ -161,7 +161,7 @@ function DonationStoryPage() {
             return `${timeRemaining}일 남음`;
         }
     };
-    
+
     const [donationTagList, setDonationTagList] = useState([]);
     const [donationList, setDonationList] = useState([]);
     const [selectedTag, setSelectedTag] = useState(null);
@@ -179,12 +179,12 @@ function DonationStoryPage() {
                     const endDate = new Date(donation.endDate);
                     return endDate > today;
                 });
-    
+
                 const updatedDonationList = validDonations.map(donation => {
                     const endDate = new Date(donation.endDate);
                     const timeDiff = endDate - today;
                     const daysLeft = timeDiff / (1000 * 60 * 60 * 24);
-    
+
                     return {
                         ...donation,
                         timeOut: daysLeft < 3,
@@ -263,114 +263,96 @@ function DonationStoryPage() {
 
     return (
         <div>
-             <DonationHeader 
-             contentRef={contentRef} 
-                donationPageId={donationPageId} 
-                selectedTab={selectedTab} 
-                handleTabChange={handleTabChange} 
+            <DonationHeader
+                contentRef={contentRef}
+                donationPageId={donationPageId}
+                selectedTab={selectedTab}
+                handleTabChange={handleTabChange}
             />
-        <div css={s.contentAreaStyle}>           
-            <div css={s.leftCardLayout}>
-                {showModal && (
-                    <div css={s.container3}>
-                        <div css={s.modal}><DonatorInfo setShowModal={setshowModal} /></div>
-                    </div>
-                )}
-
-                <div >
-                    <Link css={s.link} to={"/main"}>메인으로</Link>
-                </div>
-
-                <div css={s.header}>
-                    <button onClick={handleNewsButtonClick}>후기작성버튼</button>
-                    <Link css={s.button4} to={`/main/donation/news/update?page=${donationPageId}`}>후기수정하기</Link>
-                    <button css={s.button4} onClick={handleUpdateButtonClick}>수정하기</button>
-                    <button css={s.button4} onClick={handleDeleteButtonClick}>삭제하기</button>
-                </div>
-
-                <div css={s.storyContent}>
-                    <div css={s.main}>
-                        <img src={donationPage.mainImgUrl} alt="Story" css={s.storyImage} />
-
-                    </div>
-                </div>
-                <div>
-                    <div ref={contentRef} css={s.buttonGroupContainer}>
-                        <div css={s.buttonGroup}>
-                            <button css={s.button4} onClick={() => handleTabChange('story')}>Story</button>
-                            <button css={s.button4} onClick={() => handleTabChange('donators')}>Donators</button>
-                            <button css={s.button4} onClick={() => handleTabChange('news')}>News</button>
+            <div css={s.contentAreaStyle}>
+                <div css={s.leftCardLayout}>
+                    {showModal && (
+                        <div css={s.container3}>
+                            <div css={s.modal}><DonatorInfo setShowModal={setshowModal} /></div>
                         </div>
-                    </div>
-                    <div >
-                        <div >
-                            {selectedTab === 'story' ?
-                                <Story />
-                                : selectedTab === 'news' ?
-                                <NewsPage donationPageId={donationPageId} />
-                                : <Donators donationPageId={donationPageId} />}
-                        </div>
-                    </div >
-                    <div css={s.commentBorder}>
-                        <h3>덧글</h3>
-                    </div>
-                    <DonationComment donationPageId={donationPageId} />
-
-                </div>
-            </div>
-
-
-            <div css={s.rightCardLayout}>
-                <div css={s.sidebarStyle2}>
-
-                    <h1>{donationPage.storyTitle}</h1>
-                    <div css={s.actingCount}>{currentAmount}원</div>
-                    <div css={s.headCountCss}>{donationPage.goalAmount}원 목표</div>
-
-                    <button onClick={handleShareKakao}>카카오톡공유하기</button>
-                    <Progress pageId={donationPageId} />
+                    )}
                     <div>
-                        <div >기부 시작일: {donationPage.createDate ? donationPage.createDate.substring(0, 10) : ''}</div>
-                        <div >기부 종료일: {calculateDaysRemaining(donationPage.createDate, donationPage.endDate)}</div>
-                        <div >기부금은 100% 단체에 전달됩니다.</div>
-                        <div css={s.likebutton}>
-                            <button css={s.donation} onClick={() => setshowModal(!showModal)}>기부하기</button>
-                            <div css={s.likebutton1}>
-                                <span>
-                                    <LikeButton donationPageId={donationPageId} />
-                                </span >
-                                <span ><ShareButton /> 공유</span>
+                        <Link css={s.link} to={"/main"}>메인으로</Link>
+                    </div>
+
+                    <div css={s.header}>
+                        <button onClick={handleNewsButtonClick}>후기작성버튼</button>
+                        <Link css={s.button4} to={`/main/donation/news/update?page=${donationPageId}`}>후기수정하기</Link>
+                        <button css={s.button4} onClick={handleUpdateButtonClick}>수정하기</button>
+                        <button css={s.button4} onClick={handleDeleteButtonClick}>삭제하기</button>
+                    </div>
+
+                    <div css={s.storyContent}>
+                        <div css={s.main}>
+                            <img src={donationPage.mainImgUrl} alt="Story" css={s.storyImage} />
+
+                        </div>
+                    </div>
+                    <div>
+                        <div ref={contentRef} css={s.buttonGroupContainer}>
+                            <div css={s.buttonGroup}>
+                                <button css={s.button4} onClick={() => handleTabChange('story')}>Story</button>
+                                <button css={s.button4} onClick={() => handleTabChange('donators')}>Donators</button>
+                                <button css={s.button4} onClick={() => handleTabChange('news')}>News</button>
                             </div>
                         </div>
-
+                        <div >
+                            <div >
+                                {selectedTab === 'story' ?
+                                    <Story />
+                                    : selectedTab === 'news' ?
+                                        <NewsPage donationPageId={donationPageId} />
+                                        : <Donators donationPageId={donationPageId} />}
+                            </div>
+                        </div >
+                        <div css={s.commentBorder}>
+                            <h3>덧글</h3>
+                        </div>
+                        <DonationComment donationPageId={donationPageId} />
 
                     </div>
                 </div>
-
-                <div css={s.teamInfo}>
-                    <div css={s.teamName}>
-                        <img css={s.teamLogo} src={teamInfo?.teamLogoImgUrl} alt="" />
-                        {teamInfo?.teamName}</div>
-                    <div css={s.teamText}>{teamInfo?.teamInfoText}</div>
+                <div css={s.rightCardLayout}>
+                    <div css={s.sidebarStyle2}>
+                        <h1>{donationPage.storyTitle}</h1>
+                        <div css={s.actingCount}>{currentAmount}원</div>
+                        <div css={s.headCountCss}>{donationPage.goalAmount}원 목표</div>
+                        <button onClick={handleShareKakao}>카카오톡공유하기</button>
+                        <Progress pageId={donationPageId} />
+                        <div>
+                            <div css={s.dates2}>기부 시작일: {donationPage.createDate ? donationPage.createDate.substring(0, 10) : ''}</div>
+                            <div css={s.dates3}>기부 종료일: {calculateDaysRemaining(donationPage.createDate, donationPage.endDate)}</div>
+                            <div css={s.dates4}>기부금은 100% 단체에 전달됩니다.</div>
+                            <div css={s.likebutton}>
+                                <button css={s.donation} onClick={() => setshowModal(!showModal)}>기부하기</button>
+                                <div css={s.likebutton1}>
+                                    <span>
+                                        <LikeButton donationPageId={donationPageId} />
+                                    </span >
+                                    <span ><ShareButton /> 공유</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div css={s.teamInfo}>
+                        <div css={s.teamName}>
+                            <img css={s.teamLogo} src={teamInfo?.teamLogoImgUrl} alt="" />
+                            {teamInfo?.teamName}</div>
+                        <div css={s.teamText}>{teamInfo?.teamInfoText}</div>
+                    </div>
+                    <div css={s.sidebarStyle}>
+                        <div css={s.actionText}> 같이 기부해요</div>
+                    </div>
+                    <div>
+                    </div>
                 </div>
-
-
-
-                <div css={s.sidebarStyle}>
-                    <div css={s.actionText}> 같이 기부해요</div>
-
-                </div>
-
-
-                <div>
-                </div>
-
             </div>
         </div>
-
-        </div>
-
-
     );
 }
 

@@ -27,12 +27,12 @@ export const leftCardLayout = css`
 
 export const rightCardLayout = css`
     margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-flex-wrap: wrap;
-  width: 360px; /* 오른쪽 영역 너비를 조정합니다. */
-  top: 20px; /* 부모 요소의 위쪽에서 일정한 거리만큼 떨어진 위치에 표시됩니다. */
-  padding-left: 30px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 360px; /* 오른쪽 영역 너비를 조정합니다. */
+    top: 20px; /* 부모 요소의 위쪽에서 일정한 거리만큼 떨어진 위치에 표시됩니다. */
+    padding-left: 30px;
 `;
 
 
@@ -75,6 +75,8 @@ export const sidebarStyle3 = css`
 export const teamInfo = css`
   display: flex;
   flex-direction: column;
+  width: 340px;
+  height: auto;
   margin: 10px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   border-radius: 10px;
@@ -93,6 +95,9 @@ export const teamLogo = css`
 export const teamText = css`
     margin-top: 10px;
     padding: 10px;
+    height: auto;
+    word-wrap: break-word;
+    
 `;
 export const actionImage = css`
  width: 50px;
@@ -184,9 +189,9 @@ export const container1 = css`
 
 
 export const container3 = css`
-    position: absolute;
+    position: fixed;
     width: 100%;
-    height: 200%;
+    height: 100%;
     top:0; left: 0; bottom: 0; right: 0;
     background: rgba(160, 160, 160, 0.6);
     overflow: hidden;

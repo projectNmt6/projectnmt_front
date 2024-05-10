@@ -4,7 +4,7 @@ import * as s from "./style";
 import { useEffect, useState } from "react";
 import { useInput } from "../../hooks/useInput";
 import AuthPageInput from "../../components/AuthPageInput/AuthPageInput";
-import { passwordEditData, submitDonatorEditData } from "../../apis/api/donatorApi";
+import { passwordEditData } from "../../apis/api/donatorApi";
 
 function PasswordEditPage(props) {
     const [oldPassword, handleOldPassword, oldMessage, setOldMessage] = useInput("oldPassword");
@@ -14,6 +14,7 @@ function PasswordEditPage(props) {
     const [checkPassword, checkPasswordChange] = useInput("checkPassword");
     const queryClient = useQueryClient();
     const principalData = queryClient.getQueryData("principalQuery");
+
 
     const editPasswordMutation = useMutation({
         mutationKey: "editMutation",
@@ -31,11 +32,13 @@ function PasswordEditPage(props) {
                 setOldMessage(null);
                 setNewMessage(null);
                 setNewCheckMessage(null);
+                let errorMessage = "";
                 for (let [k, v] of errorEntries) {
                     const message = {
                         type: "error",
                         text: v
                     }
+                    errorMessage += v ;
                     if (k === "oldPassword") {
                         setOldMessage(() => message);
                     }                                               
@@ -46,6 +49,7 @@ function PasswordEditPage(props) {
                         setNewCheckMessage(() => message);
                     }
                 }
+                alert(errorMessage);
             }
         }
     });
@@ -74,6 +78,27 @@ function PasswordEditPage(props) {
     }, [checkPassword, newPassword]);
 
     const handleEditSubmitClick = () => {
+        const checkFlags = [
+            oldMessage?.type,
+            newMessage?.type,
+            newCheckMessage?.type,
+        ];
+
+        const errorMessages = [];
+        if (checkFlags.includes("error") || checkFlags.includes(undefined) || checkFlags.includes(null)) {
+            if (oldMessage?.type === "error") {
+                errorMessages.push("기존 비밀번호를 확인하세요.");
+            }
+            else if (newMessage?.type === "error") {
+                errorMessages.push("새로운 비밀번호를 확인하세요.");
+            }
+            else if (newCheckMessage?.type === "error") {
+                errorMessages.push("새 비밀번호랑 일치해야 합니다.");
+            }
+            alert(errorMessages)
+            return;
+        }
+
         editPasswordMutation.mutate({
             userId: principalData?.data.userId,
             username: principalData?.data.username,

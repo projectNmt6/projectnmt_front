@@ -4,13 +4,12 @@ import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import { useMutation, useQuery } from "react-query";
 import Select from 'react-select';
-import { getDonationListRequest, searchDonationRequest } from "../../../apis/api/DonationAPI";
 import { donation } from "../../DonationStoryPage/style";
 import { deleteDonationListRequest, deleteTeamListRequest, getAdminDonationListRequest, getStoryCountRequest, getTeamListRequest, updateDonationShowRequest } from "../../../apis/api/Admin";
 import Message from "../../../components/Message/Message";
 import { Link, useSearchParams } from "react-router-dom";
 import AdminSearchPageNumbers from "../../../components/AdminSearchPageNumbers/AdminSearchPageNumbers";
-import { getDonatorsByPageId } from "../../../apis/api/DonatorApi";
+import { getDonatorsByPageId } from "../../../apis/api/donatorApi";
 
 
 function SearchPage(props) {

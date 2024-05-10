@@ -1,12 +1,12 @@
 import { css } from "@emotion/react";
 
 export const inputBox = css`
+    box-sizing: border-box;
     display: flex;
     height: auto;
-    flex-direction: column;
     margin-bottom: 10px;
-    align-items: center;
-    justify-content: center;
+    justify-content: space-around;
+    flex-direction: column;
 `;
 
 export const input = css`
@@ -33,8 +33,10 @@ export const messageBox = (type) => css`
 `;
 
 export const inputIcon = (type) => css`
-    position: absolute;
-    top: 10px;
-    right: 10px;
     color: ${type === "error" ? "#ff3030" : "#00921b"};
+`;
+
+export const inputIcon2 = css`
+    display: flex;
+    flex-direction:row;
 `;

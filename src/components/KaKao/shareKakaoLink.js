@@ -23,26 +23,26 @@ export const shareKakao = (route, title, THU, content, page) => { // url이 id�
         }
     });
       
-    //   kakao.Link.sendDefault({
-    //     objectType: "feed",
-    //     content: {
-    //       title: title, // 인자값으로 받은 title
-    //       description: title, // 인자값으로 받은 title
-    //       imageUrl: "이미지 url",
-    //       link: {
-    //         mobileWebUrl: route, // 인자값으로 받은 route(uri 형태)
-    //         webUrl: route
-    //       }
-    //     },
-    //     buttons: [
-    //       {
-    //         title: "title",
-    //         link: {
-    //           mobileWebUrl: route,
-    //           webUrl: route
-    //         }
-    //       }
-    //     ]
-    //   });
+      // kakao.Link.sendDefault({
+      //   objectType: "feed",
+      //   content: {
+      //     title: title, // 인자값으로 받은 title
+      //     description: title, // 인자값으로 받은 title
+      //     imageUrl: "이미지 url",
+      //     link: {
+      //       mobileWebUrl: route, // 인자값으로 받은 route(uri 형태)
+      //       webUrl: route
+      //     }
+      //   },
+      //   buttons: [
+      //     {
+      //       title: "title",
+      //       link: {
+      //         mobileWebUrl: route,
+      //         webUrl: route
+      //       }
+      //     }
+      //   ]
+      // });
     }
   };
