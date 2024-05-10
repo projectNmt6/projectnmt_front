@@ -20,7 +20,6 @@ export const getUserCommentListRequest = async (params) => {
     return await instance.get("/admin/comment",{params});
 }
 export const getTeamListRequest = async (params) => { 
-    console.log(params);
     return await instance.get("/admin/teams", {params});
 }
 export const deleteCommentRequest = async (data) => { 
@@ -49,6 +48,7 @@ export const adminSearchDonationRequest = async (params) => {
 }
 
 export const getAdminDonationListRequest = async (params) => {
+    console.log(params);
     return await instance.get("/admin/donations", { params });
 }
 

@@ -4,6 +4,7 @@ export const container = css`
     justify-content: center;
     align-items: center;
     font-family: 'omyu_pretty';
+    flex-direction: column;
     width: 100%;
     @font-face {
     font-family: 'omyu_pretty';
@@ -51,6 +52,8 @@ export const div = css`
 export const div1 = css`
     box-sizing: border-box;
     display: flex;
+    justify-content:flex-start;
+    align-items: flex-start;
     flex-direction: column;
     padding-top: 10px;
     margin-bottom: 10px;
@@ -256,4 +259,9 @@ export const button3 = css`
     :active {
         box-shadow: inset 5px 5px 10px #808080;
     }
+`;
+export const div11 = css`
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
 `;
