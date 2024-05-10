@@ -9,7 +9,7 @@ import { deleteDonationListRequest, deleteTeamListRequest, getAdminDonationListR
 import Message from "../../../components/Message/Message";
 import { Link, useSearchParams } from "react-router-dom";
 import AdminSearchPageNumbers from "../../../components/AdminSearchPageNumbers/AdminSearchPageNumbers";
-import { getDonatorsByPageId } from "../../../apis/api/donatorApi";
+import { getDonatorsByPageId } from "../../../apis/api/DonatorApi";
 
 
 function SearchPage(props) {

@@ -130,7 +130,6 @@ function TeamInfoPage(props) {
                 </div>
             </div>
             <div css={s.div3}>
-            <div css={s.div3}>
                 <div>
                     <h2>진행중인 스토리</h2>
                     {
@@ -165,7 +164,6 @@ function TeamInfoPage(props) {
                     {endDonationList.length > visibleEndedDonations.length && (
                         <button onClick={handleLoadMoreEnded}>더 보기</button>
                     )}
-                </div>
                 </div>
             </div>
         </div>
