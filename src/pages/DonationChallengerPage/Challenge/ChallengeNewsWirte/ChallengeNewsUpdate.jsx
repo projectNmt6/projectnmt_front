@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import React, { useEffect, useMemo, useState } from 'react';
+import ReactQuill from 'react-quill';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useMutation, useQuery } from 'react-query';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import { css } from '@emotion/react';
 import 'react-quill/dist/quill.snow.css';
-import TextEditor from '../../../../components/TextEditor/TextEditor';
-import { PostChallengeNews } from '../../../../apis/api/ChallengeApi';
-import { getTeamListRequest } from '../../../../apis/api/teamApi';
 import { getPrincipalRequest } from '../../../../apis/api/principal';
-import { getChallengeList, getChallengePage, getChallengePageRequest, getUpdateChallengePageRequest, updateChallengeRequest } from '../../../../apis/api/DonationAPI';
+import { useMutation, useQuery } from 'react-query';
+import { getChallengeNewsRequest } from '../../../../apis/api/ChallengeApi';
+import { getTeamListRequest } from '../../../../apis/api/teamApi';
+import { updateChallengeNewsRequest } from '../../../../apis/api/DonationAPI';
+import TextEditor from '../../../../components/TextEditor/TextEditor';
 
-
-function ChallengeNewsWrite() {
+function ChallengeNewsUpdate() {
 
     const [content, setContent] = useState("");
     const [teamId, setTeamId] = useState(null);
@@ -37,49 +38,24 @@ function ChallengeNewsWrite() {
             }
         }
     );
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await getChallengeNewsRequest(challengePageId);
 
-
-    const getDonationStoryQuery = useQuery(
-        ["getDonationPageQuery", challengePageId],
-        async () => {
-            const response = await getChallengePage({ page: challengePageId });
-            return response.data;
-        },
-        {
-            refetchOnWindowFocus: false,
-            onSuccess: (data) => {
-                console.log(data);
-                setTeamId(data.teamId)
+                if (response && response.data) {
+                    setContent(response.data.challengeNewsContent);
+                    setTeamId(response.data.teamId);
+                } else {
+                    setContent(null);
+                }
+            } catch (error) {
+                console.error('Error fetching donation page:', error);
             }
-        }
-    );
-    console.log("team"+teamId)
-    const PostNews = useMutation({
-        mutationKey: "PostNews",
-        mutationFn: PostChallengeNews,
-        onSuccess: response => {
-            console.log("뉴스 작성 성공" + response)
-        },
-        onError: error => {
-            console.log(error)
-        }
-    }) 
-
-    const navigate = useNavigate(); // useNavigate 사용
-
-    const handleHomeButton = () => {
-        navigate(-1); // 이전 페이지로 돌아가기
-    };
-    const handleSubmitButton = () => {
-        const data = {
-            challengeNewsPageId: 0,
-            challengePageId: challengePageId,
-            pageCategoryId: 6,
-            challengeNewsContent: content,
-            teamId: teamId
-        }
-        PostNews.mutate(data);
-    };
+        };
+        fetchData();
+    }, [challengePageId]);
+    console.log("teamId"+teamId)
     useEffect(() => {
         if (userId) {
             const fetchTeams = async () => {
@@ -100,7 +76,34 @@ function ChallengeNewsWrite() {
             fetchTeams();
         }
     }, [userId]);
+    const navigate = useNavigate(); // useNavigate 사용
 
+    const handleHomeButton = () => {
+        navigate(-1); // 이전 페이지로 돌아가기
+    };
+
+    const UpdateChallengeNews = useMutation({
+        mutationKey: "UpdateChallengeNews",
+        mutationFn: updateChallengeNewsRequest,
+        onSuccess: response => {
+            console.log("뉴스 업데이트 성공" + response)
+        },
+        onError: error => {
+            console.log(error)
+        }
+    })
+
+    const handleSubmitButton = () => {
+        const data = {
+            challengePageId: challengePageId,
+            pageCategoryId: 6,
+            challengeNewsContent: content,
+            teamId: teamId
+        }
+        UpdateChallengeNews.mutate(data);
+        console.log("newsContent" + data.content)
+        console.log("datateamId" + data.teamId)
+    };
     return (
         <div>
             <div css={s.mainLayout}>
@@ -126,4 +129,4 @@ function ChallengeNewsWrite() {
     );
 }
 
-export default ChallengeNewsWrite;
+export default ChallengeNewsUpdate;

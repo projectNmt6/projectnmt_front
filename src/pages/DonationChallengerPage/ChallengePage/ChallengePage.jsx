@@ -219,38 +219,31 @@ function ChallengePage() {
 
     return (
         <div css={s.contentAreaStyle}>
+            {showModal && (
+                <div css={s.container3}>
+                    <div css={s.modal}><LoginRequiredModal setShowModal={setShowModal} /></div>
+                </div>
+            )}
+            <div>
+                <div className="modal-overlay">
+                    {showModal && (
+                        <div css={s.cardStyle}>
+                            <LoginRequiredModal setShowModal={setShowModal} />
+                        </div>
+                    )}
+                    {showNewModal && (
+                        <div >
+                            <ActionModal setShowNewModal={setShowNewModal} challengePageId={challengePageId} />
+                        </div>
+                    )}
+                </div>
+            </div>
 
             <div css={s.leftCardLayout}>
-                {showModal && (
-                    <div css={s.container3}>
-                        <div css={s.modal}><LoginRequiredModal setShowModal={setShowModal} /></div>
-                    </div>
-                )}
-                
-                <div >
-                    <button onClick={handleNewsButtonClick}>후기작성버튼</button>
-                    <button>후기 수정하기</button>
-                    <button><Link to={`update?page=${challengePageId}`}>수정하기</Link></button>
-                    <button onClick={handleDeleteButton}>삭제하기</button>
-                    <div className="modal-overlay">
-                        {showModal && (
-                            <div css={s.cardStyle}>
-                                <LoginRequiredModal setShowModal={setShowModal} />
-                            </div>
-                        )}
-                        {showNewModal && (
-                            <div >
-                                <ActionModal setShowNewModal={setShowNewModal} challengePageId={challengePageId} />
-                            </div>
-                        )}
-                    </div></div>
-
-
                 <div>
                     <div css={s.storyContent}>
                         <div css={s.main}>
                             <img src={challengeMainImg} alt="Challenge" css={s.storyImage} />
-
 
                         </div>
                     </div>
@@ -267,8 +260,8 @@ function ChallengePage() {
                                     <ChallengeNews challengePageId={challengePageId} />
                                     : < ActionBoard challengePageId={challengePageId} />
                             }
+                                <h3>댓글을 남겨주세요.</h3>
                             <div css={s.commentBorder}>
-                                <h3>댓글</h3>
                             </div>
                             <ChallengeComment challengePageId={challengePageId} />
 
@@ -279,10 +272,8 @@ function ChallengePage() {
             </div>
 
             <div css={s.rightCardLayout}>
-
-                {/* 오른쪽 영역 컨텐츠 */}
                 <div css={s.sidebarStyle2}>
-                    
+
                     <div css={s.remainingDays}><HiOutlineClock />{remainingDays} 일 남음</div>
                     <h1>{challengeTitle}</h1>
 
@@ -306,7 +297,7 @@ function ChallengePage() {
                     <div css={s.teamText}>{teamInfo?.teamInfoText}</div>
                 </div>
                 <div css={s.sidebarStyle}>
-                    
+
                     <div css={s.actionText}>
                         <HiBadgeCheck />행동하기 인증!</div>
                     <div>
@@ -325,7 +316,7 @@ function ChallengePage() {
             </div>
 
             <TopButton />
-            
+
         </div>
 
 

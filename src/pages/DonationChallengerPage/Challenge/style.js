@@ -4,6 +4,8 @@ import { css } from "@emotion/react";
 
 export const challengeStory = css`
 
+margin-bottom: 50px;
+
 @font-face {
   font-family: 'NEXON Lv1 Gothic OTF';
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON%20Lv1%20Gothic%20OTF') format('woff');

@@ -191,7 +191,7 @@ function ActionModal({  setShowNewModal, challengePageId  }) {
                 value={actionContent}
                 onChange={handleInputChange}
                 placeholder="실행한 행동을 입력해주세요"
-                css={s.textInput} // 수정한 스타일 적용
+                css={s.textInput}
             />
         </div>
 

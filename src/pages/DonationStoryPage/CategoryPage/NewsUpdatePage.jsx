@@ -23,6 +23,7 @@ function NewsUpdatePage() {
     const donationPageId = queryParams.get('page');
     const [selectedTeam, setSelectedTeam] = useState(null);
     const [userId, setUserId] = useState()
+    const [ donationNewsPageId, setDonationNewsPageId] = useState();
 
     const principalQuery = useQuery(
         ["principalQuery"],
@@ -46,6 +47,8 @@ function NewsUpdatePage() {
                 const response = await getDonationNewsRequest(donationPageId);
 
                 if (response && response.data && response.data.newsContent) {
+                    console.log("response"+response.data.donationNewsPageId)
+                    setDonationNewsPageId(response.data.donationNewsPageId)
                     setContent(response.data.newsContent);
                     setTeamId(response.data.teamId);
                 } else {
@@ -110,7 +113,7 @@ function NewsUpdatePage() {
 
     const handleSubmitButton = () => {
         const data = {
-            donationNewsPageId: 0,
+            donationNewsPageId:donationNewsPageId,
             donationPageId: donationPageId,
             pageCategoryId: 3,
             newsContent: content,

@@ -6,7 +6,7 @@ import { Link, useLocation, useNavigate, useSearchParams } from "react-router-do
 import { getTeamInfoRequest, getDonationListByTeamIdRequest, getChallengeListByTeamIdRequest } from "../../apis/api/teamApi";
 import { useState } from "react";
 import { now } from 'moment/moment';
-import { deleteDonationPage, getDonationNewsRequest } from "../../apis/api/DonationAPI";
+import { deleteChallengePage, deleteDonationPage, getDonationNewsRequest } from "../../apis/api/DonationAPI";
 import { TbWindmill } from "react-icons/tb";
 import { getChallengeNewsRequest } from "../../apis/api/ChallengeApi";
 import { div } from "../DonatorInfo/style";
@@ -138,9 +138,25 @@ function TeamInfoPage(props) {
             alert("삭제 권한이 없습니다")
         }
     })
+
+    const deleteChallengeMutationButton = useMutation({
+        mutationKey: "deleteMutationButton",
+        mutationFn: deleteChallengePage,
+        onSuccess: response => {
+            alert("삭제완료")
+        },
+        onError: error => {
+            alert("삭제 권한이 없습니다")
+        }
+    })
     const handleDeleteButtonClick = (donationPageId) => {
         alert("삭제되었습니다.")
         deleteMutationButton.mutate({ donationPageId });
+        window.location.reload();
+    }
+    const handleChallengeDeleteButtonClick = (challengePageId) => {
+        alert("삭제되었습니다.")
+        deleteChallengeMutationButton.mutate({ challengePageId });
         window.location.reload();
     }
 
@@ -180,6 +196,22 @@ function TeamInfoPage(props) {
             fetchNews();
         });
     }, [donationList]);
+    useEffect(() => {
+        challengeList.forEach(donation => {
+            const fetchNews = async () => {
+                try {
+                    const newsResponse = await getChallengeNewsRequest(donation.challengePageId);
+                    setChallengeNewsData(prev => ({
+                        ...prev,
+                        [donation.challengePageId]: newsResponse.data ? newsResponse.data : null
+                    }));
+                } catch (error) {
+                    console.error('Error fetching news for donation:', error);
+                }
+            };
+            fetchNews();
+        });
+    }, [challengeList]);
 
     useEffect(() => {
         const loadTeamAndChallenges = async () => {
@@ -359,7 +391,7 @@ function TeamInfoPage(props) {
                                                             <div>
 
                                                                 <button css={s.button4}><Link css={s.link2} to={`/challenge/update?page=${challenge.challengePageId}`}>수정하기</Link></button>
-                                                                <button css={s.button6} onClick={() => handleDeleteButtonClick(challenge.challengePageId)}>삭제하기</button>
+                                                                <button css={s.button6} onClick={() => handleChallengeDeleteButtonClick(challenge.challengePageId)}>삭제하기</button>
 
                                                                 {newsData[challenge.challengePageId] ? (
                                                                     <button css={s.button5}>
@@ -401,9 +433,9 @@ function TeamInfoPage(props) {
                                                             <div>
 
                                                                 <button css={s.button4}><Link css={s.link2} to={`/main/challenge/update?page=${challenge.challengePageId}`}>수정하기</Link></button>
-                                                                <button css={s.button6} onClick={() => handleDeleteButtonClick(challenge.challengePageId)}>삭제하기</button>
+                                                                <button css={s.button6} onClick={() => handleChallengeDeleteButtonClick(challenge.challengePageId)}>삭제하기</button>
 
-                                                                {newsData[challenge.challengePageId] ? (
+                                                                {challengeNewsData[challenge.challengePageId] ? (
                                                                     <button css={s.button5}>
                                                                         <Link css={s.link2} to={`/main/challenge/news/update?page=${challenge.challengePageId}`}>
                                                                             후기수정</Link>
@@ -411,7 +443,6 @@ function TeamInfoPage(props) {
 
                                                                 ) : (
                                                                     <button css={s.button4}>
-
                                                                         <Link css={s.link2} to={`/main/challenge/news?page=${challenge.challengePageId}`}>
                                                                             후기작성
                                                                         </Link>
