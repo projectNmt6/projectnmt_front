@@ -53,14 +53,15 @@ export const donationList = css`
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  gap: 20px; 
+  gap: 15px; 
+  justify-content: center;
 `;
 
 export const donationCard = css`
-
-  width: 283px; 
-  height: 363px;
-  /* border: 1px solid #ccc;  */
+  box-sizing: border-box;
+  width: 270px; 
+  height: 330px;
+  border: 1px solid #ccc; 
   overflow: hidden; 
 
 
@@ -87,12 +88,25 @@ position: relative;
 `;
 
 export const donationDetails = css`
-  p {
-  color: #888888;
-  }
+  display: flex;
+  
+  flex-direction: column;
 `;
 export const donationTitle = css`
-  height: 40px;
+  font-size: 16px;
+  color: rgb(32, 32, 32);
+  padding-bottom: 5px;
+  padding-top: 10px;
+`;
+export const teamName = css`
+  color: rgb(136, 136, 136);
+  font-size: 14px;
+  margin-bottom: 10px;
+`;
+export const LikeButtonContainer = css`
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;  // 컨테이너가 전체 너비를 차지하도록 설정
 `;
 
 export const linkStyle = css`
