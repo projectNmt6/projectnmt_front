@@ -6,25 +6,25 @@ export const div = css`
     height: 42px;
     padding-top: 25px;
     @font-face {
-    font-family: 'omyu_pretty';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}
+        font-family: 'Pretendard-Regular';
+        src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+      }
 `;
 export const box = css`
     width: 150px;
     font-size: 20px;
     font-weight: 600;
     padding-right: 5px;
-    font-family: 'omyu_pretty';
+    font-family: 'Pretendard-Regular';
 `;
 export const div1 = css`
     box-sizing: border-box;
     margin-top: 30px;
     font-size: 25px;
     display: flex;
-    font-family: 'omyu_pretty';
+    font-family: 'Pretendard-Regular';
     justify-content: center;
     flex-direction: column;
     align-items: center;

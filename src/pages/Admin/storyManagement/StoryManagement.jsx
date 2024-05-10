@@ -11,6 +11,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import AdminSearchPageNumbers from "../../../components/AdminSearchPageNumbers/AdminSearchPageNumbers";
 import { getDonatorsByPageId } from "../../../apis/api/DonatorApi";
 
+
 function SearchPage(props) {
 
     const [ mainCategoryId, setMainCategoryId] = useState({value: 0, label: " 전체 "});

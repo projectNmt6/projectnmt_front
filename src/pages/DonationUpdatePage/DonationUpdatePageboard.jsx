@@ -11,9 +11,7 @@ import { format } from 'date-fns';
 import DatePicker, { registerLocale } from "react-datepicker";
 import ko from 'date-fns/locale/ko'; // 한국어 locale import
 import * as s from "./style";
-
 import TextEditor from '../../components/TextEditor/TextEditor';
-import axios from 'axios';
 /** @jsxImportSource @emotion/react */
 
 function DonationUpdatePageBoard() {
@@ -21,7 +19,7 @@ function DonationUpdatePageBoard() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const donationPageId = queryParams.get('page');
-
+    const [selectedTagId, setSelectedTagId] = useState(null); 
     const [donationPage, setDonationPage] = useState({});
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
@@ -36,37 +34,31 @@ function DonationUpdatePageBoard() {
     const [amount, setAmount] = useState();
     const [showStartDatePicker, setShowStartDatePicker] = useState(false);
     const [showEndDatePicker, setShowEndDatePicker] = useState(false);
+    const [selectedTag, setSelectedTag] = useState(null);
+    const [donationTags, setDonationTags] = useState([]);
+    const [donationTagId, setDonationTagId] = useState();
 
-    
-    const [selectedSecondTag, setSelectedSecondTag] = useState(null);
-    const [secondTagOptions, setSecondTagOptions] = useState([]);
-    
-
-
+    const handleAmountChange = (e) => {
+        const value = e.target.value; // 입력된 값
+        const parsedValue = value ? parseInt(value) : null;
+        setAmount(parsedValue); // 값 업데이트
+    };
     useEffect(() => {
-        axios.get("http://localhost:8080/tag/donationtag")
-            .then(response => {
+        const fetchDonationTags = async () => {
+            try {
+                const response = await getDonationTagRequest(); // 여기서 params가 필요하면 전달하면 됩니다.
                 const options = response.data.map(secondTag => ({
                     value: secondTag.donationTagId,
                     label: secondTag.donationTagName
                 }));
-                setSecondTagOptions(options);
-            })
-            .catch(error => {
+                setDonationTags(options);
+            } catch (error) {
                 console.error(error);
-            });
+            }
+        };
+
+        fetchDonationTags();
     }, []);
-
-    const handleSecondTagChange = (selectedOption) => {
-        setSelectedSecondTag(selectedOption);
-    }
-
-    const handleAmountChange = (e) => {
-        const value = e.target.value; // 입력된 값
-        const parsedValue = value ? parseInt(value) : null; // 입력된 값이 있는 경우에만 정수로 변환하고 그렇지 않으면 null로 설정
-        setAmount(parsedValue); // 값 업데이트
-    };
-
     const principalQuery = useQuery(
         ["principalQuery"],
         getPrincipalRequest,
@@ -82,21 +74,6 @@ function DonationUpdatePageBoard() {
             }
         }
     );
-
-    useEffect(() => {
-        if (selectedTeam && selectedTeam.label === undefined) {
-            const team = teams.find(team => team.value === selectedTeam.value);
-            if (team) {
-                setSelectedTeam(team);
-            }
-        }
-    }, [selectedTeam, teams]);
-    
-    const handleSelectTeam = (selectedOption) => {
-            setSelectedTeam(selectedOption);
-        };
-
-
 
     useEffect(() => {
         if (userId) {
@@ -118,20 +95,13 @@ function DonationUpdatePageBoard() {
             fetchTeams();
         }
     }, [userId]);
-
-
-    useEffect(() => {
-
-    }, [selectedSecondTag]);
-
     useEffect(() => {
         const fetchData = async () => {
             if (donationPageId) {
                 try {
-                    const response = await updateDonationPageResponse({ donationPageId });
-                    console.log(response.data)
-                    if (response.status === 200) {
-                        const data = response.data;
+                    const responsePage = await updateDonationPageResponse({ donationPageId });
+                    if (responsePage.status === 200) {
+                        const data = responsePage.data;
                         setDonationPage(data);
                         setTitle(data.storyTitle);
                         setContent(data.storyContent);
@@ -140,17 +110,63 @@ function DonationUpdatePageBoard() {
                         setEndDate(new Date(data.endDate));
                         setAmount(data.goalAmount !== null ? data.goalAmount : 0);
                         setSelectedTeam({ value: data.teamId, label: data.teamName });
+                        setTeamId(data.teamId);
+                        setSelectedTag({ value: data.donationTagId, label: data.donationTagName });
+                        setDonationTagId(data.donationTagId);
                     }
                 } catch (error) {
-                    console.error('Error fetching challenge page:', error);
+                    console.error('Error fetching data:', error);
                 }
             } else {
-                console.error('No valid challengePageId provided');
+                console.error("Error: No page ID provided.");
             }
         };
         fetchData();
     }, [donationPageId]);
 
+    useEffect(() => {
+        const fetchDonationTags = async () => {
+            try {
+                const response = await getDonationTagRequest(); // 여기서 params가 필요하면 전달하면 됩니다.
+                const options = response.data.map(secondTag => ({
+                    value: secondTag.donationTagId,
+                    label: secondTag.donationTagName
+                }));
+                setDonationTags(options);
+            } catch (error) {
+                console.error("Failed to fetch donation tags:", error);
+            }
+        };
+
+        fetchDonationTags();
+    }, []);
+    const handleTagChange = (selectedOption) => {
+        setDonationTagId(selectedOption.value);
+        setSelectedTag(selectedOption); // Corrected to update the selected tag correctly
+    }
+    const handleSelectTeam = (selectedOption) => {
+        setSelectedTeam(selectedOption);
+        setTeamId(selectedOption.value);
+    };
+    useEffect(() => {
+        if (selectedTag && selectedTag.label === undefined && donationTags) {
+            const donationTag = donationTags.find(tag => tag.value === selectedTag.value);
+            if (donationTag) {
+                setSelectedTag(donationTag);
+            }
+        }
+    }, [selectedTag, donationTags]);
+    useEffect(() => {
+        if (selectedTeam && selectedTeam.label === undefined && teams) {
+            const team = teams.find(team => team.value === selectedTeam.value);
+            if (team) {
+                setSelectedTeam(team);
+            }
+        }
+    }, [selectedTeam, teams]);
+
+    console.log("temaid" + teamId)
+    console.log("teag" + selectedTag)
     // useMutation을 사용하여 mutation을 생성
     const mutation = useMutation(updatePageRequest);
     const UpdateDonationPage = useMutation({
@@ -177,28 +193,17 @@ function DonationUpdatePageBoard() {
             storyTitle: title,
             storyContent: content,
             mainImgUrl: mainImg,
-            donationTagId: selectedSecondTag ? selectedSecondTag.value : null,
+            donationTagId: donationTagId,
             donationPageShow: 2,
         };
-        // 데이터베이스 업데이트 요청 보내기
         UpdateDonationPage.mutate(data);
-    };
-
-    const handleCancelButton = () => {
-        if (window.confirm("작성 중인 내용을 취소하시겠습니까?")) {
-            setTitle("");
-            setAmount(0);
-            setContent("");
-            setMainImg("");
-            alert("작성이 취소 되었습니다.");
-        }
     };
 
     const handleHomeButton = () => {
         window.location.href = "/main";
     };
 
-    const fileChange = (e) => { 
+    const fileChange = (e) => {
         const file = e.target.files[0];
         const reader = new FileReader();
         reader.onload = () => {
@@ -214,6 +219,15 @@ function DonationUpdatePageBoard() {
         }
     }, [startDate, endDate]);
 
+    useEffect(() => {
+        if (teamId) {
+        }
+    }, [teamId]);
+    useEffect(() => {
+        if (donationTagId) {
+        }
+    }, [donationTagId]);
+
     const calculateDuration = (start, end) => {
         const diff = end - start;
         const duration = Math.round(diff / (1000 * 60 * 60 * 24));
@@ -228,9 +242,10 @@ function DonationUpdatePageBoard() {
         setShowEndDatePicker(prev => !prev);
     };
 
+    console.log(teamId)
     return (
         <>
-        <div css={s.mainLayout}>
+            <div css={s.mainLayout}>
 
                 <div css={s.textTitle}>
                     프로젝트 제목
@@ -257,7 +272,7 @@ function DonationUpdatePageBoard() {
 
                 <div css={s.textTitle}>진행기간</div>
 
-                <div css={s.dateDisplayBox} 
+                <div css={s.dateDisplayBox}
                     onClick={toggleStartDatePicker}>
                     {format(startDate, "yyyy년 MM월 dd일")}
                 </div>
@@ -280,8 +295,8 @@ function DonationUpdatePageBoard() {
                     />
                 )}
 
-                <div css={s.dateDisplayBox} 
-                onClick={toggleEndDatePicker}>
+                <div css={s.dateDisplayBox}
+                    onClick={toggleEndDatePicker}>
                     {format(endDate, "yyyy년 MM월 dd일")}
                 </div>
 
@@ -320,44 +335,45 @@ function DonationUpdatePageBoard() {
                     onChange={handleAmountChange}
                 />
 
-                
-                <div css={s.textTitle}>메인 이미지 추가</div>
-                    <div css={s.imgUrlBox}>
-                        <label css={s.imageUrlBox} htmlFor="inputFile">
-                            {mainImg ? <img src={mainImg} alt="Uploaded" style={{ width: '300px', height: 'auto' }} /> : "사진 첨부"}
-                            <input
-                                id="inputFile"
-                                type="file"
-                                name="file"
-                                accept="image/*"
-                                css={s.fileInputStyle}
-                                onChange={fileChange}
-                            />
-                        </label>
-                    </div>
 
-                <div css={s.textTitle}>카테고리</div>
-                <Select 
-                    options={secondTagOptions}
+                <div css={s.textTitle}>메인 이미지 추가</div>
+                <div css={s.imgUrlBox}>
+                    <label css={s.imageUrlBox} htmlFor="inputFile">
+                        {mainImg ? <img src={mainImg} alt="Uploaded" style={{ width: '300px', height: 'auto' }} /> : "사진 첨부"}
+                        <input
+                            id="inputFile"
+                            type="file"
+                            name="file"
+                            accept="image/*"
+                            css={s.fileInputStyle}
+                            onChange={fileChange}
+                        />
+                    </label>
+                </div>
+
+                <div css={s.textTitle}>기부 카테고리</div>
+                <Select
+                    options={donationTags}
                     placeholder="기부 카테고리를 선택해주세요"
-                    value={selectedSecondTag}
-                    onChange={handleSecondTagChange}
+                    value={selectedTag}
+                    onChange={handleTagChange}
+                    styles={{
+                        menuPortal: base => ({ ...base, zIndex: 9999 }),
+                        menu: provided => ({ ...provided, zIndex: 9999 })
+                    }}
+                    menuPortalTarget={document.body} 
                 />
+
 
                 <TextEditor content={content} setContent={setContent} />
 
-
                 <div css={s.buttonBox}>
-                    <button css={[s.buttonStyle, s.cancelButtonStyle]} onClick={handleCancelButton}>
-                        취소
-                    </button>
                     <button css={s.buttonStyle} onClick={handleSubmitButton}>
                         작성완료
                     </button>
                     <button css={[s.buttonStyle, s.backButtonStyle]} onClick={handleHomeButton}>
                         돌아가기
                     </button>
-
                 </div>
             </div>
         </>

@@ -2,10 +2,12 @@
 import * as s from "./style";
 import React, { useEffect } from 'react';
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { getTeamInfoRequest, getDonationListByTeamIdRequest } from "../../apis/api/teamApi";
 import { useState } from "react";
 import { now } from 'moment/moment';
+import { deleteDonationPage } from "../../apis/api/DonationAPI";
+import { TbWindmill } from "react-icons/tb";
 
 
 function TeamInfoPage(props) {
@@ -16,6 +18,15 @@ function TeamInfoPage(props) {
     const teamId = searchParams.get("id");
     const queryClient = useQueryClient();
     const principalData = queryClient.getQueryData("principalQuery");
+    
+    const [visibleDonations, setVisibleDonations] = useState([]);
+    const [visibleEndedDonations, setVisibleEndedDonations] = useState([]);
+    const [currentPageActive, setCurrentPageActive] = useState(1);
+    const [currentPageEnded, setCurrentPageEnded] = useState(1);
+    const donationsPerPage = 5;
+
+
+
     const getTeamInfoQuery = useQuery(
         ["getTeamListQuery"],
         async () => {
@@ -30,7 +41,7 @@ function TeamInfoPage(props) {
             },
         }
     );
-    const getDonationListRequest = useQuery(
+    useQuery(
         ["getDonationListByTeamIdRequest"],
         async () => {
             return await getDonationListByTeamIdRequest({
@@ -41,29 +52,63 @@ function TeamInfoPage(props) {
             refetchOnWindowFocus: false,
             onSuccess: response => {
                 console.log(response);
-
-                const today = new Date();
-                const month = today.getMonth() + 1;
-                const year = today.getFullYear();
-                const date = today.getDate();
+    
+                const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD format
                 let tempList = [];
                 let tempEndList = [];
-                for (let arr of response.data) {
-                    const endDate = arr.endDate.split("T")[0].split("-")[2];
-                    const endMonth = arr.endDate.split("T")[0].split("-")[1];
-                    const endYear = arr.endDate.split("T")[0].split("-")[0];
-                    if ((endYear - year) * 12 * 30 + (endMonth - month) * 30 + (endDate - date) >= 0) {
-                        tempList = [...tempList, arr];
+                response.data.forEach(arr => {
+                    if (new Date(arr.endDate) >= new Date(today)) {
+                        tempList.push(arr);
                     } else {
-                        tempEndList = [...tempEndList, arr];
+                        tempEndList.push(arr);
                     }
-                    setDonationList(() => tempList);
-                    setEndDonationList(() => tempEndList);
-                }
+                });
+                setDonationList(tempList);
+                setEndDonationList(tempEndList);
+
+                // 초기화 시 첫 페이지 데이터 세팅
+                setVisibleDonations(tempList.slice(0, donationsPerPage));
+                setVisibleEndedDonations(tempEndList.slice(0, donationsPerPage));
             }
         }
     );
+    
+    const handleLoadMoreActive = () => {
+        const nextPage = currentPageActive + 1;
+        const startIndex = currentPageActive * donationsPerPage;
+        const endIndex = startIndex + donationsPerPage;
+        const moreDonations = donationList.slice(startIndex, endIndex);
+        setVisibleDonations(prev => [...prev, ...moreDonations]);
+        setCurrentPageActive(nextPage);
+    };
 
+    const handleLoadMoreEnded = () => {
+        const nextPage = currentPageEnded + 1;
+        const startIndex = currentPageEnded * donationsPerPage;
+        const endIndex = startIndex + donationsPerPage;
+        const moreDonations = endDonationList.slice(startIndex, endIndex);
+        setVisibleEndedDonations(prev => [...prev, ...moreDonations]);
+        setCurrentPageEnded(nextPage);
+    };
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const donationPageId = queryParams.get('page');
+    console.log(donationPageId)
+    const deleteMutationButton = useMutation({
+        mutationKey: "deleteMutationButton",
+        mutationFn: deleteDonationPage,
+        onSuccess: response => {
+            alert("삭제완료")
+        },
+        onError: error => {
+            alert("삭제 권한이 없습니다")
+        }
+    })
+    const handleDeleteButtonClick = (donationPageId) => {
+        alert("삭제되었습니다.")
+        deleteMutationButton.mutate({ donationPageId });
+        window.location.reload();
+    }
     return (
         <div css={s.layout}>
             <div>
@@ -85,31 +130,42 @@ function TeamInfoPage(props) {
                 </div>
             </div>
             <div css={s.div3}>
-                <div><h2>진행중인 스토리</h2>
+            <div css={s.div3}>
+                <div>
+                    <h2>진행중인 스토리</h2>
                     {
-                        donationList.map(donation => 
-                        <>
-                            <div css={s.div4}>
-                            <Link to={`/donation?page=${donation.donationPageId}`}>
-                                <img css={s.link1} src={donation.mainImgUrl} alt="" />
-                            </Link>
-                            <div>{donation.storyTitle}</div>
+                        visibleDonations.map(donation => 
+                            <div css={s.div4} key={donation.donationPageId}>
+                                <Link to={`/donation?page=${donation.donationPageId}`}>
+                                    <img css={s.link1} src={donation.mainImgUrl} alt="" />
+                                </Link>
+                                <div>{donation.storyTitle}</div>
+                                <button><Link to={`/main/donation/update?page=${donation.donationPageId}`}>수정하기</Link></button>
+                                <div><button><Link to={`/main/donation/news?page=${donation.donationPageId}`}>후기작성</Link></button></div>
+                                <button css={s.button4} onClick={() => handleDeleteButtonClick(donation.donationPageId)}>삭제하기</button>
                             </div>
-                        </>)
+                        )
                     }
+                    {donationList.length > visibleDonations.length && (
+                        <button onClick={handleLoadMoreActive}>더 보기</button>
+                    )}
                 </div>
                 <div>
                     <h2>스토리 내역</h2>
                     {
-                        endDonationList.map(donation => <>
-                            <div css={s.div4}>
-                            <Link to={`/donation?page=${donation.donationPageId}`}>
-                                <img css={s.link1} src={donation.mainImgUrl} alt="" />
-                            </Link>
-                            <div>{donation.storyTitle}</div>
+                        visibleEndedDonations.map(donation => 
+                            <div css={s.div4} key={donation.donationPageId}>
+                                <Link to={`/donation?page=${donation.donationPageId}`}>
+                                    <img css={s.link1} src={donation.mainImgUrl} alt="" />
+                                </Link>
+                                <div>{donation.storyTitle}</div>
                             </div>
-                        </>)
+                        )
                     }
+                    {endDonationList.length > visibleEndedDonations.length && (
+                        <button onClick={handleLoadMoreEnded}>더 보기</button>
+                    )}
+                </div>
                 </div>
             </div>
         </div>
