@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import axios from 'axios';
-import { TbTrashXFilled } from 'react-icons/tb';
 import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom';
 import { getPrincipalRequest } from '../../../../apis/api/principal';
 import { challengeCommentRequest, challengeCommentResponse, commentReportRequest, deleteChallengeComment } from '../../../../apis/api/DonationAPI';
@@ -46,16 +45,24 @@ function ChallengeComment({ challengePageId }) {
             .then(response => {
                 console.log(response.data); // 데이터 구조 확인
                 setCommentList(prevCommentList => [...prevCommentList, ...response.data]);
+                console.log("chcomment"+response.data); // 데이터 구조 확인
             })
             .catch(console.error);
     }, [challengePageId, startIdx, count]);
 
-    const handleCommentChange = (e) => setComment(e.target.value);
+    const handleCommentChange = (event) => {
+        const newComment = event.target.value;
+        if (newComment.length <= 500) {
+            setComment(newComment);
+        }
+
+    }
     const handleCommentSubmit = async (e) => {
         e.preventDefault();
-
         try {
-            await challengeCommentRequest({ commentText: comment, challengePageId, userId });
+            await challengeCommentRequest(
+                { commentText: comment, 
+                    challengePageId, userId });
             setComment("");
             setIsExpanded(false); // 전송 후 확대 상태 해제
             setStartIdx(0); // 다시 처음부터 불러오기
@@ -65,7 +72,6 @@ function ChallengeComment({ challengePageId }) {
             console.error("덧글 전송 실패:", error);
         }
     };
-
 
     const mutation = useMutation(challengeCommentRequest, {
         onSuccess: () => {
@@ -155,7 +161,7 @@ function ChallengeComment({ challengePageId }) {
 
                 <div css={s.inputboxStyle}>
                     <form onSubmit={handleCommentSubmit}>
-                        <div ref={commentContainerRef}>
+                        <div css={s.commentContainer} ref={commentContainerRef}>
                             <textarea
                                 ref={textareaRef}
                                 css={isExpanded ? s.textareaFocusStyle : s.textareaNormalStyle}
@@ -165,14 +171,17 @@ function ChallengeComment({ challengePageId }) {
                                 onFocus={handleFocus}
                             />
                             {(isExpanded || comment.trim().length > 0) && (
-                                <button css={s.commentSubmitButton} type="submit">등록</button>
+                                <div css={s.commentControls}>
+                                    <span css={s.lengthStryle} >{comment.length}/500</span>
+                                    <button css={s.commentSubmitButton} type="submit">등록</button>
+                                </div>
                             )}
                         </div>
                     </form>
                 </div>
                 <div>
                 {commentList.map((comment, index) => (
-                        <div key={index} css={s.commentContainer}>
+                        <div key={index} css={s.commentContainer2}>
                             <div css={s.profileAndTextContainer}>
                                 <div css={s.profileSection}>
                                     <img src={comment.profileImg} css={s.profileIMG} />
@@ -197,8 +206,8 @@ function ChallengeComment({ challengePageId }) {
                 {isModalOpen && (
                         <DeleteModal
                             onClose={() => setIsModalOpen(false)}
-                            onConfirmDelete={() => deleteCommentMutation.mutate({ donationCommentId: currentCommentId })}
-                            onConfirmReport={() => reportCommentMutation.mutate({ donationCommentId: currentCommentId })}
+                            onConfirmDelete={() => deleteCommentMutation.mutate({ challengeCommentId: currentCommentId })}
+                            onConfirmReport={() => reportCommentMutation.mutate({ challengeCommentId: currentCommentId })}
                             isCommentOwner={isCommentOwner}
 
                         />

@@ -47,7 +47,7 @@ function CommentSection({ donationPageId }) {
     useEffect(() => {
         commentResponse(donationPageId, startIdx, count) // 시작 인덱스와 덧글 수 전달
             .then(response => {
-                console.log(response.data); // 데이터 구조 확인
+                console.log("chcomment"+response.data); // 데이터 구조 확인
                 setCommentList(prevCommentList => [...prevCommentList, ...response.data]);
             })
             .catch(console.error);
@@ -63,7 +63,9 @@ function CommentSection({ donationPageId }) {
     const handleCommentSubmit = async (e) => {
         e.preventDefault();
         try {
-            await donationCommentePost({ commentText: comment, donationPageId, userId });
+            await donationCommentePost(
+                { commentText: comment, 
+                    donationPageId, userId });
             setComment("");
             setIsExpanded(false); // 전송 후 확대 상태 해제
             setStartIdx(0); // 다시 처음부터 불러오기

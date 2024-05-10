@@ -12,28 +12,31 @@ width: 100%;
 `
 
 export const textareaNormalStyle = css`
-    width: calc(100% - 20px); /* 입력 상자와 버튼의 너비를 맞추기 위해 */
-    height: 40px; /* 기본 높이 */
-    padding: 10px; /* 내부 패딩 */
-    box-sizing: border-box; /* 패딩과 보더 포함하여 요소 크기 계산 */
-    border: 1px solid #d2d0d0; /* 테두리 스타일 */
-    border-radius: 5px; /* 테두리 모서리 둥글게 */
-    margin-top: 16px; /* 상단 여백 */
+    /* width: calc(100% - 20px); 
+    height: 40px; 
+    padding: 10px; 
+    box-sizing: border-box; 
+    border: 1px solid #d2d0d0; 
+    border-radius: 5px; 
+    margin-top: 16px; 
     font-family: 'NEXON Lv1 Gothic OTF';
-    resize: none; /* 사용자 크기 조정 비활성화 */
+    resize: none; */
+    width: 100%;
+    height: 40px;
+    border: none; // 통합된 테두리를 사용하기 때문에 테두리 제거
+    resize: none;
+    font-family: 'NEXON Lv1 Gothic OTF';
 `;
 
 // 확장된 상태의 textarea 스타일
 export const textareaFocusStyle = css`
-    width: calc(100% - 20px); /* 입력 상자와 버튼의 너비를 맞추기 위해 */
-    height: 100px; /* 포커스된 경우 높이 증가 */
-    padding: 10px; /* 내부 패딩 */
-    box-sizing: border-box; /* 패딩과 보더 포함하여 요소 크기 계산 */
-    border: 1px solid #007bff; /* 포커스된 경우 테두리 색상 변경 */
-    border-radius: 5px; /* 테두리 모서리 둥글게 */
-    margin-top: 16px; /* 상단 여백 */
-    font-family: 'NEXON Lv1 Gothic OTF';
-    resize: none; /* 사용자 크기 조정 비활성화 */
+    width: 100%;
+    height: 150px;
+    border: none; // 통합된 테두리를 사용하기 때문에 테두리 제거
+    resize: none;  
+    border-radius: 5px; 
+    font-family: 'NEXON Lv1 Gothic OTF'; 
+    outline: none; 
 `;
 
 
@@ -62,12 +65,20 @@ export const commentSubmitButton = css`
    
 }
 `;
-
+export const commentContainer2 = css`
+display: flex;
+flex-direction: row; 
+align-items: flex-start; // 상단 정렬
+margin-bottom: 10px; // 코멘트 간 여백
+`;
 export const commentContainer = css`
-        display: flex;
-        flex-direction: row; 
-        align-items: flex-start; // 상단 정렬
-        margin-bottom: 10px; // 코멘트 간 여백
+    border: 1px solid #838383;
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-family: 'NEXON Lv1 Gothic OTF';
 `;
 export const profileAndTextContainer = css`
     display: flex;
@@ -132,7 +143,18 @@ export const transparentButtonStyle = css`
 `;
 
 
-
+// 하단 컨트롤 영역 스타일
+export const commentControls = css`
+    display: flex;
+    justify-content: flex-end; // 요소들을 컨테이너의 오른쪽 끝으로 정렬
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    position: absolute; // 버튼 위치를 텍스트 입력 영역 하단에 고정
+    bottom: 10px; // 하단에서 얼마나 떨어져 있는지
+    left: 10px; // 왼쪽 패딩 고려
+    
+`;
 
 
 

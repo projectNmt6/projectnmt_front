@@ -29,8 +29,6 @@ export const getDonationNewsRequest = async (page) => {
     return await instance.get(`/main/donation/news/${page}`);
 };
 
-
-
 export const getChallengeRequest = async (data) => {
     return await instance.get("/main/donations/challenge", data);
 };
@@ -53,7 +51,7 @@ export const updateDonationPageResponse = async (data) => {
 }
 export const updateDonationNewsPageResponse = async (data) => {
     return await instance.get(`/main/donation/news/update/${data.donationPageId}`, data)
-} 
+}
 export const updateNewsRequest = async (data) => {
     return await instance.put(`/mian/donation/news/update${data.donationPageId}`, data);
 }
@@ -92,7 +90,7 @@ export const donationCommentePost = async (data) => {
 }
 
 export const challengeCommentRequest = async (data) => {
-    return await instance.post(`/challengeComment/upload`, data);
+    return await instance.post(`/comment/challenge/upload`, data);
 }
 
 export const commentResponse = async (donationPageId) => {
@@ -100,7 +98,7 @@ export const commentResponse = async (donationPageId) => {
 }
 
 export const challengeCommentResponse = async (challengePageId) => {
-    return await instance.get(`/challengeComment/get/${challengePageId}`)
+    return await instance.get(`/comment/challenge/get/${challengePageId}`)
 }
 
 export const donationGivingResponse = async (donationPageId) => {
@@ -121,7 +119,7 @@ export const deleteComment = async (data) => {
 
 export const deleteChallengeComment = async (data) => {
     const {challengeCommentId } = data;
-    return await instance.delete(`/challengeComment/delete/${challengeCommentId}`)
+    return await instance.delete(`/comment/challenge/delete/${challengeCommentId}`)
 }
 
 export const getNowFundingRequest = async (data) => {

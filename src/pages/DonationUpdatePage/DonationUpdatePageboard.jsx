@@ -19,7 +19,6 @@ function DonationUpdatePageBoard() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const donationPageId = queryParams.get('page');
-    const [selectedTagId, setSelectedTagId] = useState(null); 
     const [donationPage, setDonationPage] = useState({});
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
@@ -95,6 +94,7 @@ function DonationUpdatePageBoard() {
             fetchTeams();
         }
     }, [userId]);
+    
     useEffect(() => {
         const fetchData = async () => {
             if (donationPageId) {

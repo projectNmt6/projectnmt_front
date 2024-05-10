@@ -87,8 +87,7 @@ function AuthRoute(props) {
                 <Route path='/main/challenge/write' element={< ChallengeWrite />} />
                 <Route path='/main/challenge' element={< ChallengePage />} />
                 <Route path='/main/challenge/news' element={<ChallengeNewsWrite />} />
-                <Route path='/main/challenge/update' element={<ChallengeUpdatePage />} />
-                <Route path='/main/donation/news/update' element={<NewsUpdatePage />} />       
+                <Route path='/main/challenge/update' element={<ChallengeUpdatePage />} />    
                 <Route path="/account/mypage/donation" element={<MyDonation />} />        
                 <Route path="/main/donation/fundings/now" element= {  <NowDonationPage />} />
                 <Route path="/main/donation/fundings/end" element= {  < EndedDonationsPage />} />

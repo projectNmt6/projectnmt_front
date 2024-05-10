@@ -7,17 +7,13 @@ import * as s from "./style";
 import { buttonBox } from './style';
 import { imgUrlBox } from './style';
 import { useMutation, useQuery } from 'react-query';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import "react-datepicker/dist/react-datepicker.css";
 import { getDonationStoryRequest, registerNewsPage, updateDonationPageResponse } from '../../../apis/api/DonationAPI';
 import { getPrincipalRequest } from '../../../apis/api/principal';
 import { getTeamListRequest } from '../../../apis/api/teamApi';
 import TextEditor from '../../../components/TextEditor/TextEditor';
 
-const textEditorLayout = css`
-    overflow-y: auto;
-    margin-bottom: 20px;
-`;
 
 function NewsWrite() {
     const [content, setContent] = useState("");
@@ -43,6 +39,7 @@ function NewsWrite() {
             }
         }
     );
+
     const getDonationStoryQuery = useQuery(
         ["getDonationPageQuery", donationPageId],
         async () => {
@@ -59,6 +56,7 @@ function NewsWrite() {
     );
 
     console.log("team"+teamId)
+
     useEffect(() => {
         if (userId) {
             const fetchTeams = async () => {
@@ -79,8 +77,6 @@ function NewsWrite() {
             fetchTeams();
         }
     }, [userId]);
-
-       console.log("dddd"+donationPageId)
 
     const PostDonationNews = useMutation({
         mutationKey: "PostDonationNews",
@@ -107,15 +103,11 @@ function NewsWrite() {
         console.log("datateamId"+data.teamId)
     };
 
-    const handleCancelButton = () => {
-        if (window.confirm("작성 중인 내용을 취소하시겠습니까?")) {
-            setContent("");
-            alert("작성이 취소 되었습니다.");
-        }
-    };
+
+    const navigate = useNavigate(); // useNavigate 사용
 
     const handleHomeButton = () => {
-        window.location.href = "/main";
+        navigate(-1); // 이전 페이지로 돌아가기
     };
 
 
@@ -131,9 +123,7 @@ function NewsWrite() {
             <TextEditor content={content} setContent={setContent}  />
 
             <div style={buttonBox}>
-            <button css={[s.buttonStyle, s.cancelButtonStyle]} onClick={handleCancelButton}>
-                        취소
-                    </button>
+
                     <button css={s.buttonStyle} onClick={handleSubmitButton}>
                         작성완료
                     </button>

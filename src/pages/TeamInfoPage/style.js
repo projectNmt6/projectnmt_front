@@ -101,6 +101,13 @@ export const link1 = css`
     margin: 15px 15px 0px 0px;  
     border-radius: 3px;
 `;
+export const link2 = css`
+text-decoration: none;
+color: black;
+&:visited {
+    color: black; 
+  }
+`;
 
 export const div4 = css`
     display: flex;
@@ -113,13 +120,91 @@ export const div4 = css`
 `;
 
 export const button4 = css`
+    font-family: 'NEXON Lv1 Gothic OTF';
+    font-size: 16px;
+   padding: 10px 20px;
+  margin: 10px;
+  background-color: rgb(173, 76, 254); /* Green background */
+  color: white; /* White text */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+ 
+
+  &:active {
+    transform: translateY(1px); /* Slight press down effect */
+  }
+`;
+export const button5 = css`
+    font-family: 'NEXON Lv1 Gothic OTF';
+    font-size: 16px;
+   padding: 10px 20px;
+  margin: 10px;
+  background-color: rgb(254, 76, 218); /* Green background */
+  color: white; /* White text */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+ 
+
+  &:active {
+    transform: translateY(1px); /* Slight press down effect */
+  }
+`;
+export const button6 = css`
+    font-family: 'NEXON Lv1 Gothic OTF';
+    font-size: 16px;
+   padding: 10px 20px;
+  margin: 10px;
+  background-color: rgba(255, 64, 80, 0.9);
+  color: white; /* White text */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+ 
+
+  &:active {
+    transform: translateY(1px); /* Slight press down effect */
+  }
+`;
+
+export const moreLoad = css`
+    font-family: 'NEXON Lv1 Gothic OTF';
+    font-size: 16px;
+   padding: 10px 20px;
+  margin: 10px;
+  background-color: rgb(173, 76, 254); /* Green background */
+  color: white; /* White text */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+
+  &:active {
+    transform: translateY(1px); /* Slight press down effect */
+  }
+`;
+export const buttonGroup = css`
+    display: flex;
+    margin-right: 30px;
+    margin-left: 30px;
+    justify-content: space-between; /* 버튼들을 동일한 간격으로 배치합니다. */
+    background-color: white; /* 배경색을 설정하여 상단에 고정될 때 다른 내용과 겹치지 않도록 합니다. */
+    
+`;
+export const buttonText = css`
     border: none;
-    font-size: 14px;
+    font-family: 'NEXON Lv1 Gothic OTF';
+    font-size: 16px;
     margin-right: 3px;
     border-radius: 5px;
     padding: 12px;
     font-weight: 600;
     cursor: pointer;
+    background-color: transparent; // 배경색 제거
     color: rgb(136, 136, 136); // 초기 텍스트 색상 설정
 
     :focus {

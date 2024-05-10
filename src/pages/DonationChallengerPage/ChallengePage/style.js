@@ -38,16 +38,18 @@ export const rightCardLayout = css`
 
 
 export const sidebarStyle = css`
-margin: 0px;
+width: 340px;
+box-sizing: border-box;
 font: inherit;
 vertical-align: baseline;
-padding: 34px 25px 0px;
+padding: 20px;
 order: 1;
 position: sticky;
 top: 84px;
 border: 1px solid rgb(221, 221, 221);
 border-radius: 8px;
 margin-top: 40px;
+margin-left: 10px;
 background-color: rgb(255, 255, 255);
 `;
 
