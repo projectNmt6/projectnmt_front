@@ -16,7 +16,6 @@ import { countActionBoard, getActionBoardList } from '../../../apis/api/Challeng
 import { HiOutlineClock } from "react-icons/hi2";
 import { HiBadgeCheck } from "react-icons/hi";
 import TopButton from '../../../components/TopButton/TopButton';
-import ActionPhoto from './ActionPhoto/ActionPhoto';
 import ChallengeComment from './ChallenegComment/ChallengeComment';
 function ChallengePage() {
     const location = useLocation();
@@ -25,6 +24,7 @@ function ChallengePage() {
     const [challengePage, setChallengePage] = useState(null);
     const [userId, setUserId] = useState();
     const [teamInfo, setTeamInfo] = useState();
+    const [actingHeadCount, setActingHeadCount] = useState(0);
 
     const getChallengePageQuery = useQuery(
         ["getChallengePageQuery", challengePageId],
@@ -52,7 +52,7 @@ function ChallengePage() {
             refetchOnWindowFocus: false,
             onSuccess: (response) => {
                 console.log("Auth", response.data);
-                setUserId(response.data.userId); // 예제로 userId 설정
+                setUserId(response.data.userId);
             },
             onError: (error) => {
                 console.error("Authentication error", error);
@@ -72,7 +72,6 @@ function ChallengePage() {
         fetchData();
     }, [challengePageId]);
 
-    const [actingHeadCount, setActingHeadCount] = useState(0);
 
     useEffect(() => {
         if (challengePageId) {
@@ -227,11 +226,7 @@ function ChallengePage() {
                         <div css={s.modal}><LoginRequiredModal setShowModal={setShowModal} /></div>
                     </div>
                 )}
-
-                <div >
-                    <Link css={s.link} to={"/main"}>메인으로 </Link>
-                </div>
-
+                
                 <div >
                     <button onClick={handleNewsButtonClick}>후기작성버튼</button>
                     <button>후기 수정하기</button>
@@ -314,7 +309,6 @@ function ChallengePage() {
                     
                     <div css={s.actionText}>
                         <HiBadgeCheck />행동하기 인증!</div>
-
                     <div>
                         {actionList
                             .slice(0, 25) // 첫 25개 요소 추출
@@ -328,8 +322,6 @@ function ChallengePage() {
 
                     <button onClick={handleModalToggle} css={s.actionButton2}>행동하기!</button>
                 </div>
-                
-            <ActionPhoto />
             </div>
 
             <TopButton />

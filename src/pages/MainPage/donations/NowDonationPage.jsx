@@ -128,25 +128,9 @@ function NowDonationPage() {
             !selectedTagId || donation.donationTagId === selectedTagId
         );
         setVisibleDonations(filtered.slice(0, itemsPerPage));
-        console.log("Filtered donations by tag ID:", selectedTagId);
     }, [selectedTagId, donationList, itemsPerPage]);
 
-    useEffect(() => {
-        const fetchDonationTags = async () => {
-            try {
-                const response = await getDonationTagRequest();
-                const options = response.data.map(tag => ({
-                    value: tag.donationTagId,
-                    label: tag.donationTagName
-                }));
-                setDonationTagList(options);
-            } catch (error) {
-                console.error(error);
-            }
-        };
 
-        fetchDonationTags();
-    }, []);
 
     useEffect(() => {
         const fetchDonations = async () => {
@@ -233,7 +217,7 @@ function NowDonationPage() {
         const loadMoreVisibleDonations = () => {
             const newVisibleDonations = sortedDonations.slice(0, (currentPage + 1) * itemsPerPage);
             setVisibleDonations(newVisibleDonations);
-//         };
+        };
         loadMoreVisibleDonations();
     }, [currentPage, sortedDonations]);
 
@@ -294,10 +278,13 @@ function NowDonationPage() {
                                     </div>
                                     <div css={s.donationDetails}>
                                         <div css={s.donationTitle}>
-                                            <h3>{donation.storyTitle}</h3>
+                                            <div>{donation.storyTitle}</div>
                                         </div>
-                                        <p><strong>기관:</strong> {donation.teamName}</p>
+                                        <div css={s.teamName}>{donation.teamName}</div>
+                                        <div css={s.LikeButtonContainer}>
+
                                         <LikeButton donationPageId={donation.donationPageId} />
+                                        </div>
                                         <Progress pageId={donation.donationPageId} />
                                     </div>
                                 </div>

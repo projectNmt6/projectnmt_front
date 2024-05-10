@@ -5,13 +5,14 @@ export const header = css`
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    font-family: 'omyu_pretty';
+    font-family: 'NEXON Lv1 Gothic OTF';
     width: 100%;
     @font-face {
-    font-family: 'omyu_pretty';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
+        font-family: 'NEXON Lv1 Gothic OTF';
+        src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
 }
 `;
 
@@ -26,6 +27,7 @@ export const imgBox = css`
     & > img {
         height: 100%;
     }
+cursor: pointer;
 `;
 
 export const div = css`
@@ -101,12 +103,12 @@ export const input2 = css`
 `;
 export const input3 = css`
     width: 520px;
-    height: 24px;
+    height: 30px;
     background-color: #FAFAFA;
-    padding: 9px 13px;
+    padding: 9px 10px;
     margin-left: 150px;
     border-radius: 4px;
-    font-size:16px;
+    font-size:18px;
     border:1px solid #b8b8b8c1;
     :focus {
         outline: none;
@@ -114,7 +116,7 @@ export const input3 = css`
     }
 `;
 export const select = css`
-    font-size: 25px;
+    font-size: 20px;
     width: 630px;
 `;
 export const backButton = css`
@@ -134,6 +136,26 @@ export const backButton = css`
 export const link = css`
   text-decoration: none; // 링크의 밑줄 제거
   color: inherit; // 상위 요소에서 색상 상속
+`;
+
+export const cameraIcon   = css`
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+color: white; 
+font-size: 40px; /
+
+`;
+export const imgOverlay  = css`
+position: relative;
+width: 100%;
+height: 100%;
+`;
+export const img  = css`
+width: 100%;
+height: 100%;
+object-fit: cover;
 `;
 
 export const button = css`

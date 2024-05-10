@@ -42,12 +42,14 @@ function Progress({pageId}) {
             ) : (
                 
                 <>
+                    <div css={s.progressContainer}>
                     <div css={s.progressbar}>
                         <div css={s.progress} style={{ width: `${progressPercent}%` }}>
                             {isNaN(progressPercent) ? "" : ""}
                         </div>
                     </div>
-                    <div>{progressPercent} %</div>
+                    <div css={s.percent}>{progressPercent}%</div>
+                    </div>
                 </>
             )}
         </div>

@@ -10,7 +10,7 @@ import { storage } from "../../apis/filrebase/config/firebaseConfig";
 import { submitDonatorEditData } from "../../apis/api/DonatorApi";
 import AuthPageInput from "../../components/AuthPageInput/AuthPageInput";
 import { Link, useNavigate } from "react-router-dom";
-
+import { FaCamera } from "react-icons/fa";
 function UserInfoEditPage(props) {
     // useAuthCheck();
     const [name, handleNewName] = useInput();
@@ -20,8 +20,8 @@ function UserInfoEditPage(props) {
     const [phonenumber, handlePhoneNumber] = useInput();
     const queryClient = useQueryClient();
     const principalData = queryClient.getQueryData("principalQuery");
-    const [profileImg, setProfileImg] = useState("");
     const imgFileRef = useRef();
+    const [profileImg, setProfileImg] = useState("https://t1.kakaocdn.net/together_image/common/avatar/avatar05.png");
 
     const editMutation = useMutation({
         mutationKey: "editMutation",
@@ -107,7 +107,10 @@ function UserInfoEditPage(props) {
                 <h1>회원 정보 수정</h1>
                 <div css={s.imgBox} onClick={() => imgFileRef.current.click()}>
                     <input type="file" style={{ display: "none" }} ref={imgFileRef} multiple={true} onChange={handleImgFileChange} />
-                    <img src={profileImg} alt="" />
+                    <div css={s.imgOverlay}>
+                        <img src={profileImg} alt="" />
+                        <div css={s.cameraIcon}><FaCamera /></div>
+                    </div>
                 </div>
                 <div css={s.div}>
                     <div css={s.div1}>

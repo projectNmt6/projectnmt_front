@@ -1,36 +1,31 @@
 import axios from 'axios';
 import React, { useEffect, useMemo, useState } from 'react';
 import ReactQuill from 'react-quill';
-import { useLocation } from 'react-router-dom';
-import NonePage from './NonePage';
+import { useLocation, useNavigate } from 'react-router-dom';
 /** @jsxImportSource @emotion/react */
+import * as s from "./style";
 import { css } from '@emotion/react';
 import 'react-quill/dist/quill.snow.css';
 import { getPrincipalRequest } from '../../../apis/api/principal';
 import { getTeamListRequest } from '../../../apis/api/teamApi';
-import { useQuery } from 'react-query';
-import { updateDonationNewsPageResponse } from '../../../apis/api/DonationAPI';
-
-const textEditorLayout = css`
-    overflow-y: auto;
-    margin-bottom: 20px;
-`;
+import { useMutation, useQuery } from 'react-query';
+import { getDonationNewsRequest, getDonationStoryRequest, updateDonationNewsPageResponse, updateNewsRequest } from '../../../apis/api/DonationAPI';
+import TextEditor from '../../../components/TextEditor/TextEditor';
+import { errorSelector } from 'recoil';
 
 function NewsUpdatePage() {
 
-    const [ pageCategoryId, setPageCategoryId ] = useState();
-    const [ userId, setUserId ] = useState();
-    const [ donationNewsPageId, setDonationNewsPageId ] = useState("");
-    const [content, setContent] = useState('');
+    const [content, setContent] = useState("");
+    const [teamId, setTeamId] = useState(null);
+    const [teams, setTeams] = useState([]);
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
-    const donationPageId = queryParams.get('page');    
-    const [ teamId, setTeamId ] = useState();
-    const [teams, setTeams] = useState([]);
+    const donationPageId = queryParams.get('page');
     const [selectedTeam, setSelectedTeam] = useState(null);
+    const [userId, setUserId] = useState()
 
     const principalQuery = useQuery(
-        ["principalQuery"], 
+        ["principalQuery"],
         getPrincipalRequest,
         {
             retry: 0,
@@ -46,13 +41,22 @@ function NewsUpdatePage() {
     );
 
     useEffect(() => {
-        if (selectedTeam && selectedTeam.label === undefined) {
-            const team = teams.find(team => team.value === selectedTeam.value);
-            if (team) {
-                setSelectedTeam(team);
+        const fetchData = async () => {
+            try {
+                const response = await getDonationNewsRequest(donationPageId);
+
+                if (response && response.data && response.data.newsContent) {
+                    setContent(response.data.newsContent);
+                    setTeamId(response.data.teamId);
+                } else {
+                    setContent(null);
+                }
+            } catch (error) {
+                console.error('Error fetching donation page:', error);
             }
-        }
-    }, [selectedTeam, teams]);
+        };
+        fetchData();
+    }, [donationPageId]);
 
     useEffect(() => {
         if (userId) {
@@ -67,90 +71,77 @@ function NewsUpdatePage() {
                         setTeams(formattedTeams);
                     }
                 } catch (error) {
-                    console.error(error);
+                    console.error('Failed to fetch teams', error);
                 }
             };
+
             fetchTeams();
         }
     }, [userId]);
 
-    const modules = useMemo(() => {
-        return {
-            toolbar: [
-                [{ font: [] }],
-                [{ header: [1, 2, 3, 4, 5, 6, false] }],
-                [{ color: [] }, { background: [] }],
-                ["bold", "italic", "underline", "strike", "blockquote"],
-                [{ list: "ordered" }, { list: "bullet" }, { indent: "-1" }, { indent: "+1" }],
-                ["link"],
-                ["clean"],
-            ]
-        };
-    }, []);
+    console.log("team:" + teamId)
 
-    const formats = [
-        "font", "size", "header", "color", "background", "bold", "italic", "underline",
-        "strike", "blockquote", "list", "bullet", "indent", "link", "image"
-    ];
-
-useEffect(() => {
-    const fetchData = async () => {
-        if (donationPageId) {
-            try {
-                const response = await updateDonationNewsPageResponse({ donationPageId });
-                console.log(response.data)
-                if (response.status === 200) {
-                    const data = response.data;
-                    setPageCategoryId(data.pageCategoryId)
-                    setContent(data.content);
-                    setTeamId(data.teamId);
-                }
-            } catch (error) {
-                console.error('Error fetching challenge page:', error);
+    useEffect(() => {
+        if (selectedTeam && selectedTeam.label === undefined) {
+            const team = teams.find(team => team.value === selectedTeam.value);
+            if (team) {
+                setSelectedTeam(team);
             }
-        } else {
-            console.error('No valid challengePageId provided');
         }
-    };
-    fetchData();
-}, [donationPageId]);
+    }, [selectedTeam, teams]);
 
-    const handleContentChange = (value) => { 
-        setContent(value);
+    const navigate = useNavigate(); // useNavigate 사용
+
+    const handleHomeButton = () => {
+        navigate(-1); // 이전 페이지로 돌아가기
     };
+
+
+    const UpdateDonationNews = useMutation({
+        mutationKey: "UpdateDonationNews",
+        mutationFn: updateNewsRequest,
+        onSuccess: response => {
+            console.log("뉴스 업데이트 성공" + response)
+        },
+        onError: error => {
+            console.log(error)
+        }
+    })
 
     const handleSubmitButton = () => {
-
-        axios.put(`http://localhost:8080/main/donation/news/update/${donationPageId}`, {
-            donationPageId: donationPageId,            
-            pageCategoryId: pageCategoryId,
-            newsContent: content
-        })
-        .then(response => {
-            alert("저장 성공");
-            console.log(response)
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+        const data = {
+            donationNewsPageId: 0,
+            donationPageId: donationPageId,
+            pageCategoryId: 3,
+            newsContent: content,
+            teamId: teamId
+        }
+        UpdateDonationNews.mutate(data);
+        console.log("newsContent" + data.content)
+        console.log("datateamId" + data.teamId)
     };
 
     return (
         <div>
-            NewsPage
-            <div> 
 
-                <div css={textEditorLayout}>
-                <ReactQuill
-                    value={content}
-                    onChange={handleContentChange}
-                    modules={modules}
-                    formats={formats}
-                    theme="snow"
-                    style={{ height: '500px', margin: "50px" }}
-                />
-                <button onClick={handleSubmitButton}>수정 완료</button>
-            </div>
+            <div css={s.mainLayout}>
+
+                <div css={s.textTitle}>
+                    뉴스
+                </div>
+
+
+                <TextEditor content={content} setContent={setContent} />
+
+                <div style={s.buttonBox}>
+
+                    <button css={s.buttonStyle} onClick={handleSubmitButton}>
+                        작성완료
+                    </button>
+                    <button css={[s.buttonStyle, s.backButtonStyle]} onClick={handleHomeButton}>
+                        돌아가기
+                    </button>
+                </div>
             </div>
         </div>
     );
