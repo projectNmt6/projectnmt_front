@@ -8,6 +8,8 @@ import { Link, useSearchParams } from 'react-router-dom';
 import Message from '../../../components/Message/Message';
 import { link } from '../../DonationStoryPage/style';
 import AdminSearchPageNumbers from '../../../components/AdminSearchPageNumbers/AdminSearchPageNumbers';
+import { account } from '../../../components/rootHeader/style';
+import { IoClose } from 'react-icons/io5';
 
 function TeamManagement(props) {
     const [ teamList, setTeamList ] = useState([]);
@@ -16,9 +18,11 @@ function TeamManagement(props) {
     const [ selectedCategory, setSelectedCategory ] = useState({});
     const [ selectedSearchTextOption, setSelectedSearchTextOption ] = useState({});
     const [ selectedTeam, setSelectedTeam  ] = useState("");
+    const [ showModal, setShowModal  ] = useState(false);
     const searchCount = 10;
 
     const checkBoxRef = useRef();
+    const linkRef = useRef();
     const userId = searchParams.get("userId");
     const handleSearchTextOnChange = (e) => {
         setSearchText(() => e.target.value);
@@ -174,11 +178,13 @@ function TeamManagement(props) {
     return (
         <div css={s.mainContainer}>
             <div>
-                팀관리
-                <Message list={teamList} isTeam={1} text={"공지 보내기"}/>
-                <button onClick={handleDeleteTeamsOnClick}>팀 해체</button>
-                <Link to={`/admin/management/story?page=1&teamId=${selectedTeam.teamId}`}>스토리 보기</Link>
 
+                <div css={s.buttonContainer}>
+                    <Message list={teamList} isTeam={1} text={"공지 보내기"}/>
+                    <button onClick={handleDeleteTeamsOnClick} css={s.baseButton}>팀 해체</button>
+                    <button onClick={() => linkRef.current.click()} css={s.baseButton}>스토리 보기</button>
+                    <Link to={`/admin/management/story?page=1&teamId=${selectedTeam.teamId}`} style={{display:"none"}} ref={linkRef}></Link>
+                </div>
             </div>
             <div css={s.container}>
                 <table css={s.registerTable}>
@@ -192,7 +198,7 @@ function TeamManagement(props) {
                                 <td>
                                     {selectedTeam?.teamName}
                                 </td>
-                                <td rowSpan={3} style={{width:"200px", boxSizing:"border-box", padding:"5px"}}>
+                                <td rowSpan={3} style={{width:"200px"}}>
                                     <div css={s.imgBox}>
                                         <img src={selectedTeam?.teamLogoImgUrl} alt="" />
                                     </div>
@@ -201,7 +207,7 @@ function TeamManagement(props) {
                             <tr>
                                 <th css={s.registerTh}>카테고리</th>
                                 <td >
-                                    {selectedTeam?.teamTypeCategoryName !== null ?  selectedTeam    .teamTypeCategoryName : " 개인 " }
+                                    {selectedTeam?.teamTypeCategoryName !== null ?  selectedTeam.teamTypeCategoryName : " 개인 " }
                                 </td>
                                 <th css={s.registerTh}>홈페이지</th>
                                 <td onClick={() => window.open("http://" + selectedTeam?.teamHomepage)}>
@@ -212,11 +218,24 @@ function TeamManagement(props) {
                             <tr>
                             <th css={s.registerTh}>사업자 등록 번호</th>
                                 <td>
-                                    {selectedTeam?.phoneNumber}
+                                    {selectedTeam?.companyRegisterNumber}
                                 </td>
-                                <th css={s.registerTh}>사업자 등본</th>
+                                <th css={s.registerTh}>팀 계좌 목록</th>
                                 <td >
-                                    {selectedTeam?.username}
+                                    <button css={null} onClick={() => setShowModal(true)}>목록 열기</button>
+                                    <div css={s.layout(showModal)}>
+                                        <div css={s.accountBox}>
+                                            <button onClick={() => setShowModal(false)} css={s.accountBoxButton}><IoClose/></button>
+                                            {selectedTeam?.accounts?.map(account => {
+                                                    return <div> 
+                                                        <div>{account.bankName}</div>
+                                                        <div>{account.accountUsername}</div>
+                                                        <div>{account.accountNumber}</div>
+                                                    </div>
+                                                
+                                            })}
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>
@@ -274,7 +293,7 @@ function TeamManagement(props) {
                         </tbody>
                     </table>
                 </div>
-                <AdminSearchPageNumbers name={"team"} count={getCountQuery?.data?.data} />
+                <AdminSearchPageNumbers count={getCountQuery?.data?.data} page={searchParams.get("page")}/>
             </div>
         </div>
     );

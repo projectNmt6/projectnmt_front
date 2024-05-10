@@ -75,11 +75,12 @@ export const logout = css`
     cursor: pointer;
 `
 
-export const adminbox = (isAdmin) => css`
+export const adminbox = (isAdmin, headerLine) => css`
     display: flex;
     justify-content: center;
     align-items: center;
     border: none;
+    border-bottom: ${(headerLine === "관리자") ? "2px solid black" : "none"};
     padding: ${isAdmin? "20px" : "none"};
     cursor: pointer;
     margin:0px 20px;

@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import { FiLogOut, FiUser,FiSearch } from "react-icons/fi";
 import { FaHome } from "react-icons/fa";
 import { useQuery, useQueryClient } from 'react-query';
-import { FiSearch } from "react-icons/fi";
 import instance from '../../apis/utils/instance';
 import axios from 'axios';
 
@@ -40,7 +39,7 @@ function RootHeader(props) {
     console.log(headerLine);
     return (
         <div css={s.header}>
-            <Link css={s.account} to={"/"}>
+            <Link css={s.account} to={"/"} onClick={() => handleHeaderLine("")}>
                 <FaHome size={25} />
             </Link>
             <div css={s.header1}>
@@ -50,8 +49,8 @@ function RootHeader(props) {
                 <div css={s.challengebox(headerLine)}>
                     <Link to={"/main/challenges"} onClick={() => handleHeaderLine("챌린지")}>챌린지</Link>
                 </div>
-                <div css={s.adminbox(true)}>
-                    {isAdmin ? <Link to={"/admin/management/main"}> 관리자 </Link> : null}
+                <div css={s.adminbox(true, headerLine)}>
+                    {isAdmin ? <Link to={"/admin/management/main?page=1"}  onClick={() => handleHeaderLine("관리자")}> 관리자 </Link> : null}
                 </div> 
             </div>
 

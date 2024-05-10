@@ -28,6 +28,9 @@ export const updatePageShowRequest = async ( data ) => {
 export const getTeamMemberInfoRequest2 = async (params) => {
     return await instance.get('/team/member', { params });
 }
+export const postJoinTeamRequest = async (data) => {
+    return await instance.post('/team/join', data);
+}
 
 /**
  * 

@@ -12,6 +12,7 @@ import AdminSearchPageNumbers from "../../../components/AdminSearchPageNumbers/A
 
 function UserManagement({page, }) {
     const checkBoxRef = useRef();
+    const linkRef = useRef();
     const [ searchParams, setSearchParams ] = useSearchParams();
     const [ userList, setUserList ] = useState([]);
     const [ searchText, setSearchText ] = useState("");
@@ -186,14 +187,15 @@ function UserManagement({page, }) {
     return (
         <div css={s.mainContainer}>
             <div>
-                유저관리
-                <Message list={userList} isTeam={0} text={"공지 보내기"}/>
-                <button onClick={handleUserDeleteOnClick}>계정 삭제</button>
-                <Link to={`/admin/management/team?page=1&userId=${selectedUser.userId}`}>소속팀 보기</Link>
-                {selectedUser?.role?.roleId < 3 
-                        ? <button onClick={() => handleAdminRoleClick(3)}> 관리자 권한 부여 </button>
-                        : null}
-                        <button onClick={() => handleAdminRoleClick(5)}>사용 권한 제제</button>
+                
+                <div css={s.buttonContainer}>
+                    <Message list={userList} isTeam={0} text={"공지 보내기"}/>
+                    <button onClick={handleUserDeleteOnClick} css={s.baseButton}>계정 삭제</button>
+                    <button onClick={() => linkRef.current.click()} css={s.baseButton}> 소속팀 보기</button>
+                    <Link to={`/admin/management/team?page=1&userId=${selectedUser.userId}`} style={{display:"none"}} ref={linkRef}></Link>
+                    <button onClick={() => handleAdminRoleClick(3)} css={s.baseButton}> 관리자 권한 부여 </button>
+                    <button onClick={() => handleAdminRoleClick(5)} css={s.baseButton}>사용 권한 제제</button>
+                </div>
             </div>
             <div css={s.container}>
                 <table css={s.registerTable}>
@@ -288,7 +290,7 @@ function UserManagement({page, }) {
                                 }
                         </tbody>
                     </table>
-                    <AdminSearchPageNumbers name={"user"} count={getCountQuery.data?.data} />
+                    <AdminSearchPageNumbers count={getCountQuery.data?.data} page={searchParams.get("page")}/>
                 </div>
                     <CommentManagement  userId={selectedUser?.userId}/>    
                     

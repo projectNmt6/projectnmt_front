@@ -7,7 +7,6 @@ import { Route, Routes } from 'react-router-dom';
 import UserInfo from '../userInfo/UserInfo';
 import TeamManagement from '../TeamManagement/TeamManagement';
 import { useQueryClient } from 'react-query';
-import UserMiniManagement from '../main/miniManagement/userManagement/UserManagement';
 
 function AdminRoute(props) {
     const queryClient = useQueryClient();

@@ -50,6 +50,9 @@ function ChallengeMainPage() {
                         });
                     });
                     console.log(response.data)
+                },
+                onError: error => {
+                    console.log(error);
                 }
             }
         );

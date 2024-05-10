@@ -81,7 +81,7 @@ export const table =css`
     }
     & tr > td:nth-of-type(3),
     & tr > th:nth-of-type(3) {
-        width: 340px;
+        width: 328px;
     }
     & tr > td:nth-of-type(4),
     & tr > th:nth-of-type(4) {
@@ -184,13 +184,12 @@ export const container = css`
 
 export const mainContainer = css`
     box-sizing: border-box;
-    border: 1px solid black;
+    border: none;
     padding: 10px;
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
 `;
 
 export const imgBox = css`
@@ -207,3 +206,30 @@ export const imgBox = css`
         height: 100%;
     }
 `
+
+export const buttonContainer = css`
+    box-sizing: border-box;
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    height: 100%;
+`;
+
+export const baseButton = css`
+  width: 150px;
+  height: 30px;
+  border: none;
+  border-radius: 3px;
+  color: #6b6b6bc1;
+  box-shadow: 2px 2px 4px #808080;
+  cursor: pointer;
+  :hover {
+      background-color:#b8b8b8c1
+  }
+  :active {
+      box-shadow: inset 5px 5px 10px #808080;
+  }
+`;

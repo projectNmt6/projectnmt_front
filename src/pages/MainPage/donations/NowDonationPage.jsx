@@ -94,7 +94,6 @@ function NowDonationPage() {
         }
       });
 
-      console.log(sortedDonations);
 
       useEffect(() => {
         const onScroll = () => {
