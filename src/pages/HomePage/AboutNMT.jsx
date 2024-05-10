@@ -1,4 +1,5 @@
 import React from 'react';
+import defaultImg from '../../assets/defaultImg.jpeg';
 
 function AboutNMT(props) {
     return (
@@ -8,6 +9,7 @@ function AboutNMT(props) {
           안녕하세요! 우리는 <strong>사회변화</strong>를 꿈꾸는 혁신가들을 지지하고 돕는{' '}
           <strong>크라우드펀딩 플랫폼</strong> NMT입니다.
         </p>
+        <img src={defaultImg} alt="" />
    
         <h2 className="section-title">서비스 및 연혁</h2>
         <p>NMT는 새로운 경제를 상상하고 함께 성장할 수 있는 세상을 만듭니다.</p>

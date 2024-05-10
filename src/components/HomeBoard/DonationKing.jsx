@@ -5,7 +5,7 @@ import { useQuery, useQueryClient } from "react-query";
 import Progress from "../../components/progress/Progress";
 import { FaSackDollar } from "react-icons/fa6";
 import LikeButton from "../../components/LikeButton/LikeButton";
-import { getDonators } from "../../apis/api/donatorApi";
+import { getDonators } from "../../apis/api/DonatorApi";
 
 function DonationKing(props) {
     const [top3Donations, setTop3Donations] = useState([]);
@@ -65,7 +65,7 @@ function DonationKing(props) {
         <>
             <div css={s.cardStyle}>
                 <div css={s.cardText}>
-                    <h2>가장 많이 기부 중인 모금함 <FaSackDollar color="orange" /></h2>
+                    <h2>가장 많이 기부 중인 모금함 <FaSackDollar color="#aff0f0" /></h2>
                     <p>오늘, 기부 하셨나요? 당신의 마음도 함께 나눠주세요 </p>
                 </div>
                 <div css={s.Top3donationList}>

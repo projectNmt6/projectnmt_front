@@ -103,11 +103,11 @@ export const mainbox = (headerLine) => css`
     justify-content: center;
     align-items: center;
     border-bottom: ${(headerLine==="기부")? "2px solid black" : "none"};
-    padding: 25px 0px;
+    padding: 24px 0px;
     cursor: pointer;
     margin:0px 20px;
     :hover {
-        transform: scaleY(1.08);
+        transform: scaleX(1.08);
         transition: transform 250ms ease-in-out;
         transform-origin:  50% 50%;
         border-bottom: 1px solid #292929;
@@ -126,13 +126,13 @@ export const challengebox = (headerLine) => css`
     justify-content: center;
     align-items: center;
     border: none;
-    padding: 25px 0px;
+    padding: 24px 0px;
     border-bottom: ${(headerLine==="챌린지")? "2px solid black" : "none"};
 
     transition: transform 250ms ease-in-out;
     cursor: pointer;
     :hover {
-        transform: scaleY(1.08);
+        transform: scaleX(1.08);
         transition: transform 250ms ease-in-out;
         transform-origin:  50% 50%;
         border-bottom: 1px solid #292929;

@@ -100,3 +100,12 @@ export const bottom = css`
     height: 250px;
     background-color: white;
 `
+export const teamButtonLayout = css`
+display: flex;
+&>div{
+    padding: 20px;
+}
+&>div>link{
+
+}
+`

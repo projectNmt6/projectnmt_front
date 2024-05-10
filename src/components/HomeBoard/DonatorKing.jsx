@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from "react-query";
 import { FaCrown } from "react-icons/fa6";
 import LikeButton from "../../components/LikeButton/LikeButton";
-import { getDonators } from "../../apis/api/donatorApi";
+import { getDonators } from "../../apis/api/DonatorApi";
 
 function DonatorKing(props) {
     const [sortedDonorRankings,setSortedDonorRankings] = useState([]);
@@ -43,7 +43,7 @@ function DonatorKing(props) {
     return (
         <>
             <div css={s.kingCardStyle}>
-                            <h2>오늘의 기부왕!  <FaCrown color="orange" /></h2>
+                            <h2>오늘의 기부왕!  <FaCrown color="#aff0f0" /></h2>
                             {sortedDonorRankings.length > 0 ? (
                                 <div>
                                 <div css={s.rankingContainer}>

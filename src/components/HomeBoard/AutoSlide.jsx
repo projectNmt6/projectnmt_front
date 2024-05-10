@@ -6,13 +6,14 @@ import img2 from '../../assets/slide2.jpg';
 import img3 from '../../assets/slide3.jpg';
 import img4 from '../../assets/slide4.jpg';
 import { SlArrowLeft,SlArrowRight } from "react-icons/sl";
+import { useNavigate } from 'react-router-dom';
 
 function AutoSlide(props) {
  const [currentPosterNum, setCurrentPosterNum] = useState(0);
-
+ const navigate = useNavigate();
 
  const posters = [
-    { image: img1, title: '아동 청소년', text: '작은 꿈이 큰 미래를 만듭니다. 어린이들의 웃음을 지켜주세요.' },
+    { image: img1, title: '아동청소년', text: '작은 꿈이 큰 미래를 만듭니다. 어린이들의 웃음을 지켜주세요.' },
     { image: img2, title: '어르신', text: '존경과 사랑이 필요한 분들의 삶에 빛을 더해주세요.' },
     { image: img3, title: '동물', text: '지구에 있는 동물들을 위해 함께 해주세요.' },
     { image: img4, title: '환경', text: '푸른 지구를 지키는 것은 우리 모두의 책임입니다.' },
@@ -35,6 +36,10 @@ function AutoSlide(props) {
     setCurrentPosterNum((prev) => (prev + 1) % posters.length);
   };
 
+  const handleTaggedUrl = (title) => {
+    navigate(`/main?tag=${title}`);
+  };
+
  return (
     <div css={s.autoSlideContainer}>
       <ul css={s.slideList} style={{ transform: `translateX(-${currentPosterNum * 100}%)` }}>
@@ -45,7 +50,8 @@ function AutoSlide(props) {
             <img css={s.slideImage} src={image} alt={`Slide ${index + 1}`} />
             <div css={s.textOverlay}>
                 <h3>{text}</h3>
-                <h1>{title}에 기부하기</h1>
+                <h1>{title}에 후원하기</h1>
+                <button css={s.OverLayButton} onClick={()=>handleTaggedUrl(title)}>자세히보기</button>
             </div>
             <button css={s.nextButton} onClick={handleNextButton}><SlArrowRight size={30} color="#dbdbdb" /></button>
           </li>

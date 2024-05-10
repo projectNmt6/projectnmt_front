@@ -61,7 +61,7 @@ function RootHeader(props) {
                             <Link css={s.account} to={"/auth/signin"}>
                                 <FiUser size={22} />
                             </Link>
-                            <Link to={"/search"} css={s.searchIcon}><FiSearch size={22} /></Link>
+                            <Link to={"/search"} css={s.searchIcon}><FiSearch size={22} color="black" /></Link>
                         </div>
                         : <div css={s.accountItems}>
                             <button css={s.logout} onClick={handleLogoutClick}>

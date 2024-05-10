@@ -2,7 +2,7 @@
 import * as s from "./style";
 import { useQuery } from "react-query";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { FiSearch } from "react-icons/fi";
 import { FaPen } from "react-icons/fa6";
 import { getDonationListRequest, getDonationTagRequest } from "../../../apis/api/DonationAPI";
@@ -63,10 +63,29 @@ function NowDonationPage() {
         }
     );
 
+    
     //handleTag
-    const handleTagClick = (tag) => {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const navigate = useNavigate();
+    const tag = searchParams.get("tag");
+  
+    useEffect(() => {
+      if (tag) {
         setSelectedTag(tag);
+      } else {
+        setSelectedTag(null);
+      }
+    }, [tag]);
+  
+    const handleTagClick = (tagName) => {
+      if (tagName) {
+        setSearchParams({ tag: tagName });
+      } else {
+        setSearchParams({});
+      }
     };
+
+
     const filteredDonations = selectedTag
         ? donationList.filter(
             (donation) => donation.donationTagName
@@ -115,7 +134,7 @@ function NowDonationPage() {
                 <div css={s.tagContainer}>
                     <button
                         key="alltag"
-                        onClick={() => setSelectedTag(null)}
+                        onClick={() => handleTagClick(null)}
                         css={s.tagAllButton(selectedTag)}
                     >전체보기
                     </button>
@@ -138,7 +157,7 @@ function NowDonationPage() {
                 </div>
                 <div css={s.donationList}>
                 {
-    visibleDonations.map(
+    sortedDonations.map(
         donation => (
             <a href={`/donation?page=${donation.donationPageId}`} key={donation.donationPageId} css={s.linkStyle}>
                 <div key={donation.donationPageId} css={s.donationCard}>

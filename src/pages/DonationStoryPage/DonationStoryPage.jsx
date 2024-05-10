@@ -41,7 +41,7 @@ function DonationStoryPage() {
     const principalQuery = useQuery(
         ["principalQuery"],
         getPrincipalRequest,
-        {
+        {  
             retry: 0,
 
             refetchOnWindowFocus: false,
