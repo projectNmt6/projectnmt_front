@@ -12,7 +12,7 @@ export const main = css`
 
 export const contentAreaStyle = css`
   display: flex;
-  max-width: 1200px; /* 전체 페이지의 최대 너비를 1200px로 제한합니다. */
+  width: 1200px; /* 전체 페이지의 최대 너비를 1200px로 제한합니다. */
   margin: 0 auto; /* 가운데 정렬을 위해 추가 */  
   min-height: 500px;
 `;
@@ -32,8 +32,7 @@ export const rightCardLayout = css`
     flex-direction: column;
     flex-wrap: wrap;
     width: 360px;
-    min-height: 1000px;
-    padding-left: 30px;
+    margin-left: 40px;
 `;
 
 
@@ -41,6 +40,7 @@ export const sidebarStyle = css`
 width: 340px;
 box-sizing: border-box;
 font: inherit;
+
 vertical-align: baseline;
 padding: 20px;
 order: 1;
@@ -124,8 +124,9 @@ export const actionButton1 = css`
 
 `;
 export const actionButton2 = css`
+    width: 290px;
     display: flex;
-    margin: 10px; 
+    margin-top: 10px;
     border-radius: 10px;
    align-items: center;
    justify-content: center;
@@ -285,6 +286,7 @@ export const storyContent = css`
     display: flex;
     align-items: center;
     flex-direction: column;
+    margin-top: 40px;
 `;
 export const storyImage = css`
     display: flex;
@@ -350,9 +352,8 @@ export const headCountCss = css`
 `;
 
 export const howToText = css`
-    position: absolute; /* 절대 위치 설정 */
-    top: -13px; /* 상단으로 -15px 이동하여 박스 경계 부분에 겹치도록 */
-    left: 15%;
-    transform: translateX(-50%); /* 수평으로 가운데 정렬 */
+    position: relative; 
+    margin-bottom: 20px;
     font-weight: 700;
+    font-size: 20px;
 `;

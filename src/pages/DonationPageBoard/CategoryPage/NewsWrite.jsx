@@ -5,7 +5,6 @@ import 'react-quill/dist/quill.snow.css';
 import * as s from "./style";
 /** @jsxImportSource @emotion/react */
 import { buttonBox } from './style';
-import { imgUrlBox } from './style';
 import { useMutation, useQuery } from 'react-query';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import "react-datepicker/dist/react-datepicker.css";
@@ -22,8 +21,8 @@ function NewsWrite() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const donationPageId = queryParams.get('page'); 
-    const [selectedTeam, setSelectedTeam] = useState(null);
     const [ userId, setUserId] = useState();
+    
     const principalQuery = useQuery(
         ["principalQuery"], 
         getPrincipalRequest,

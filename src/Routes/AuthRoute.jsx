@@ -39,6 +39,7 @@ import ChallengeWrite from '../pages/DonationChallengerPage/ChallengePage/Challe
 import DonationPageboard from '../pages/DonationPageBoard/DonationWrite/DonationPageboard';
 import NowDonationPage from '../pages/MainPage/donations/NowDonationPage';
 import EndedDonationsPage from '../pages/MainPage/donations/EndedDonationsPage';
+import ChallengeNewsUpdate from '../pages/DonationChallengerPage/Challenge/ChallengeNewsWirte/ChallengeNewsUpdate';
 
 
 function AuthRoute(props) {
@@ -87,6 +88,7 @@ function AuthRoute(props) {
                 <Route path='/main/challenge/write' element={< ChallengeWrite />} />
                 <Route path='/main/challenge' element={< ChallengePage />} />
                 <Route path='/main/challenge/news' element={<ChallengeNewsWrite />} />
+                <Route path='/main/challenge/news/update' element={<ChallengeNewsUpdate />} />
                 <Route path='/main/challenge/update' element={<ChallengeUpdatePage />} />    
                 <Route path="/account/mypage/donation" element={<MyDonation />} />        
                 <Route path="/main/donation/fundings/now" element= {  <NowDonationPage />} />
