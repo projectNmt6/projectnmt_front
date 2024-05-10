@@ -64,6 +64,8 @@ export const div2 = css`
     padding-top: 100px;
     box-sizing: border-box;
     display: flex;
+    width: 800px;
+    height: 450px;
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -82,6 +84,8 @@ export const div3 = css`
     width: 630px;
 `;
 export const input2 = css`
+    display: flex;
+    box-sizing: border-box;
     width: 520px;
     height: 24px;
     padding: 9px 13px;

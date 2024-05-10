@@ -1,4 +1,3 @@
-
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import { useEffect, useRef, useState } from 'react';
@@ -125,14 +124,6 @@ function DonationStoryPage() {
         }
     })
 
-    const handleUpdateButtonClick = () => {
-        getUpdatePageBUtton.mutate({ donationPageId: donationPageId })
-    }
-
-    const handleDeleteButtonClick = () => {
-        console.log("삭제 시도:", donationPageId);
-        deleteMutationButton.mutate({ donationPageId: donationPageId });
-    }
 
     const getamountQuery = useQuery(
         ["getamountQuery", donationPageId],
@@ -166,12 +157,11 @@ function DonationStoryPage() {
         "getDonationQuery",
         async () => {
             const allDonationsResponse = await getDonationListRequest();
-            console.log("All Donations:", allDonationsResponse); // Log to check structure
+            console.log("All Donations:", allDonationsResponse); 
             if (allDonationsResponse && Array.isArray(allDonationsResponse.data)) {
-                // Filter out the current page from the donations list
                 return allDonationsResponse.data.filter(donation => donation.donationPageId !== donationPageId);
             }
-            return []; // Return an empty array if data is not in expected format
+            return [];
         },
         {
             refetchOnWindowFocus: false,

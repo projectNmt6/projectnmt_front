@@ -22,6 +22,5 @@ export const shareKakao = (route, title, THU, content, page) => { // urlì´ idê°
 
         }
     });
-      
     }
   };
