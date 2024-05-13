@@ -74,6 +74,7 @@ function ChallengePage() {
         fetchData();
     }, [challengePageId]);
 
+    console.log("chal"+challengePage.endDate)
 
     useEffect(() => {
         if (challengePageId) {
@@ -210,6 +211,18 @@ function ChallengePage() {
         }
     }, [challengePageId]);
 
+
+    
+    const [endDatePassed, setEndDatePassed] = useState(false);
+    useEffect(() => {
+        if (challengePage.endDate) {
+            const endDate = new Date(challengePage.endDate);
+            const today = new Date();
+            setEndDatePassed(endDate < today);
+        }
+    }, [challengePage.endDate]);
+
+
     return (
         <div css={s.contentAreaStyle}>
             <ChallengePageHeader 
@@ -315,7 +328,11 @@ function ChallengePage() {
                         }
                     </div>
 
-                    <button onClick={handleModalToggle} css={s.actionButton2}>행동하기!</button>
+                    <button onClick={handleModalToggle} 
+                      css={endDatePassed ? { ...s.actionButton2, ...s.disableActionButton } : s.actionButton2}
+                      disabled={endDatePassed}             
+                    
+                    >행동하기!</button>
                 </div>
             </div>
 

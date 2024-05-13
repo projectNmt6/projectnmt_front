@@ -7,6 +7,7 @@ import DonatorInfo from '../../DonatorInfo/DonatorInfo';
 import LoginRequiredModal from '../../../components/LoginRequiredModal/LoginRequiredModal';
 import { getPrincipalRequest } from '../../../apis/api/principal';
 import { useQuery } from 'react-query';
+import { getDonationStoryRequest } from '../../../apis/api/DonationAPI';
 
 function DonationHeader({ donationPageId, selectedTab, handleTabChange, contentRef }) {
     const [isVisible, setIsVisible] = useState(false);
@@ -77,6 +78,32 @@ function DonationHeader({ donationPageId, selectedTab, handleTabChange, contentR
         }
     );
 
+    const [endDatePassed, setEndDatePassed] = useState(false);
+    const getDonationStoryQuery = useQuery(
+        ["getDonationPageQuery", donationPageId],
+        async () => {
+            const response = await getDonationStoryRequest({ page: donationPageId });
+            return response.data;
+        },
+        {
+            refetchOnWindowFocus: false,
+            onSuccess: (data) => {
+                console.log(data);
+                setDonationPage(data);
+            }
+        }
+    );
+    
+    const [donationPage, setDonationPage] = useState({});
+    useEffect(() => {
+        if (donationPage.endDate) {
+            const endDate = new Date(donationPage.endDate);
+            const today = new Date();
+            setEndDatePassed(endDate < today);
+        }
+    }, [donationPage.endDate]);
+
+
     return (
         <div css={s.main}>
             <div css={[s.headerPanel2, { display: isVisible ? 'flex' : 'none' }]}>
@@ -92,7 +119,12 @@ function DonationHeader({ donationPageId, selectedTab, handleTabChange, contentR
                         <LikeButton donationPageId={donationPageId} />
                         <ShareButton />
                     </div>
-                    <button css={s.donation} onClick={handleDonateClick}>기부하기</button>
+                    <button
+                                    css={endDatePassed ? { ...s.donation, ...s.disabledDonateButtonStyle } : s.donation}
+                                    onClick={handleDonateClick}
+                                    disabled={endDatePassed}
+                                    >기부하기
+                                </button>
                 </div>
                 <div className="modal-overlay">
                     {showModal && modalType === 'login' && (

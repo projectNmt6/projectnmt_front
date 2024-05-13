@@ -190,7 +190,21 @@ export const tabListItem2 = css`
     display: flex; // 각 탭 항목도 flex로 설정하여 수평 정렬
     margin-right: 10px;
 `;
-
+export const disabledDonateButtonStyle = css`
+ width: 340px;
+    height: 50px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(49, 49, 49, 0.9);
+    color: white;
+    font-weight: 700;
+    font-size: 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    border: none;
+    cursor: default;
+`;
 export const likebutton = css`
     display: flex;
     align-items: center; // 세로 중앙 정렬을 위해 align-items를 center로 설정
