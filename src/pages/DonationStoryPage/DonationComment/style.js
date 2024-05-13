@@ -3,11 +3,11 @@ import { css } from "@emotion/react"
 export const commentBoxStyle = css`
    min-height: 40px;
     overflow-y: auto;
+    width: 690px;
 `;
 
 export const inputboxStyle = css`
 position: relative;
-width: 100%;
 
 `
 
@@ -21,18 +21,19 @@ margin-bottom: 10px; // 코멘트 간 여백
 export const commentContainer = css`
     border: 1px solid #838383;
     border-radius: 5px;
-    box-sizing: border-box;
+    box-sizing: border-box; // 패딩과 테두리 포함
     padding: 10px;
     margin-top: 15px;
     margin-bottom: 15px;
     font-family: 'NEXON Lv1 Gothic OTF';
+    box-sizing: border-box
 `;
 
 export const textareaNormalStyle = css`
-    /* width: calc(100% - 20px); 
+    box-sizing: borderbox;
     height: 40px; 
     padding: 10px; 
-    box-sizing: border-box; 
+    box-sizing: border-box;
     border: 1px solid #d2d0d0; 
     border-radius: 5px; 
     margin-top: 16px; 
@@ -54,6 +55,7 @@ export const textareaFocusStyle = css`
     border-radius: 5px; 
     font-family: 'NEXON Lv1 Gothic OTF'; 
     outline: none; 
+    box-sizing: border-box; // 패딩과 테두리 포함
 `;
 
 // 하단 컨트롤 영역 스타일
@@ -66,6 +68,7 @@ export const commentControls = css`
     position: absolute; // 버튼 위치를 텍스트 입력 영역 하단에 고정
     bottom: 10px; // 하단에서 얼마나 떨어져 있는지
     left: 10px; // 왼쪽 패딩 고려
+    box-sizing:border-box;
     
 `;
 
@@ -86,7 +89,7 @@ export const commentSubmitButton = css`
         bottom: 15px;
         right: 25px;
         font-family: 'Pretendard-Regular';
-
+        box-sizing: border-box;
 
 &:hover {
     background-color: #828282;
@@ -101,10 +104,10 @@ export const profileAndTextContainer = css`
 `;
 
 export const profileSection = css`
-        margin-right: 12px; // 이미지와 텍스트 사이의 간격
+padding-right: 12px; // 이미지와 텍스트 사이의 간격
 `;
 export const lengthStryle = css`
-        margin-right: 90px;
+        padding-right: 90px;
         font-size: 13px;
         color: #999;
 `;
@@ -121,6 +124,7 @@ export const textAndActionsContainer = css`
 `;
 export const textSection = css`
     display: flex;
+    box-sizing: border-box; // 패딩과 테두리 포함
     flex-direction: column; // 상하 정렬
     background-color: #f0f0f0; // 배경 색
     padding: 10px; // 내부 패딩
@@ -143,6 +147,7 @@ export const textSection = css`
 export const actionsContainer = css`
    display: flex;
         padding: 8px 0; // 상하 패딩
+        
 `;
 
 

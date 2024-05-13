@@ -4,24 +4,21 @@ import { useEffect, useRef, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import Progress from "../../components/progress/Progress";
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { commentReqest, commentResponse, deleteDonationPage, getDonationNewsRequest, updatePageRequest, getDonationStoryRequest, getProgressAmount, updateDonationPageResponse, registerNewsPage, getDonationListRequest } from '../../apis/api/DonationAPI';
+import { getDonationStoryRequest, getProgressAmount, updateDonationPageResponse, getDonationListRequest } from '../../apis/api/DonationAPI';
 import DOMPurify from 'dompurify';
 import LikeButton from '../../components/LikeButton/LikeButton';
-import axios from 'axios';
 import NewsPage from './CategoryPage/NewsPage'; // NewsPage 경로 수정
 import Story from './CategoryPage/Story'; // Story 경로 수정
-import { shareKakao } from '../../apis/utils/shareKakaoLink';
 import Donators from "./CategoryPage/Donators";
 import DonationComment from "../DonationStoryPage/DonationComment/DonationComment";
 import DonatorInfo from "../DonatorInfo/DonatorInfo";
 import { getTeamInfoRequest } from "../../apis/api/teamApi";
-import { RxShare2 } from "react-icons/rx";
 import { getPrincipalRequest } from '../../apis/api/principal';
 import ShareButton from "../../components/ShareModal/ShareButton";
 import DonationHeader from "./PageHeader/DonationHeader";
-import { div } from "../DonatorInfo/style";
 import LoginRequiredModal from "../../components/LoginRequiredModal/LoginRequiredModal";
 import TopButton from "../../components/TopButton/TopButton";
+
 function DonationStoryPage() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -29,8 +26,6 @@ function DonationStoryPage() {
     const [donationPage, setDonationPage] = useState({});
     const [goalAmount, setGoalAmount] = useState(0);
     const [currentAmount, setCurrentAmount] = useState(0);
-    const [commentList, setCommentList] = useState([]);
-    const donationCommentId = queryParams.get('commentId')
     const [selectedTab, setSelectedTab] = useState('story'); // news, story 중 하나의 값을 가짐
     const [showModal, setshowModal] = useState(false);
     const [userId, setUserId] = useState();
@@ -39,6 +34,9 @@ function DonationStoryPage() {
     const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태
     const [showLoginModal, setShowLoginModal] = useState(false); // 로그인 모달 표시 상태
     const [modalType, setModalType] = useState(null); // 'login' 또는 'donatorInfo'
+    const [visibleDonations, setVisibleDonations] = useState([]);
+    const [endDatePassed, setEndDatePassed] = useState(false);
+
 
     const handleDonateClick = () => {
         if (!isLoggedIn) {
@@ -86,7 +84,6 @@ function DonationStoryPage() {
     );
 
 
-
     const getDonationStoryQuery = useQuery(
         ["getDonationPageQuery", donationPageId],
         async () => {
@@ -101,21 +98,7 @@ function DonationStoryPage() {
             }
         }
     );
-
-
-    useEffect(() => {
-        commentResponse({ params: { donationPageId } })
-            .then(response => setCommentList(response.data))
-            .catch(console.error);
-    }, [donationPageId]);
-
-
-    const { storyContent, storyTitle, mainImgUrl, createDate, endDate } = donationPage || {};
-
-    const safeHTML = DOMPurify.sanitize(donationPage.storyContent);
-
-
-
+    
     const getTeamInfoMutation = useQuery(
         ["getTeamInfoMutation"],
         async () => {
@@ -132,20 +115,6 @@ function DonationStoryPage() {
             }
         }
     );
-
-    const getUpdatePageBUtton = useMutation({
-        mutationKey: "getUpdatePageBUtton",
-        mutationFn: updateDonationPageResponse,
-        onSuccess: response => {
-            console.log(response)
-            window.location.replace(`/main/donation/update?page=${donationPageId}`)
-        },
-        onError: error => {
-            alert("잘못된 접근입니다.")
-            console.log(error)
-        }
-    })
-
 
     const getamountQuery = useQuery(
         ["getamountQuery", donationPageId],
@@ -174,66 +143,32 @@ function DonationStoryPage() {
         }
     };
 
-    const [visibleDonations, setVisibleDonations] = useState([]);
     const getDonationListQuery = useQuery(
         "getDonationQuery",
         async () => {
-            const allDonationsResponse = await getDonationListRequest();
-            console.log("All Donations:", allDonationsResponse);
-            if (allDonationsResponse && Array.isArray(allDonationsResponse.data)) {
-                return allDonationsResponse.data.filter(donation => donation.donationPageId !== donationPageId);
-            }
-            return [];
+            const response = await getDonationListRequest();
+            return response.data;
         },
         {
             refetchOnWindowFocus: false,
-            onSuccess: (filteredDonations) => {
-                console.log("Filtered Donations:", filteredDonations); // Log to verify data
+            onSuccess: (data) => {
                 const today = new Date();
-                const updatedDonationList = filteredDonations.filter(donation => {
-                    const endDate = new Date(donation.endDate);
-                    return endDate > today;
-                }).map(donation => {
-                    const endDate = new Date(donation.endDate);
-                    const timeDiff = endDate - today;
-                    const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-                    return {
-                        ...donation,
-                        timeOut: daysLeft < 3,
-                    };
-                });
-                setVisibleDonations(updatedDonationList);
-            }
-        }
-    );
-
-    useEffect(() => {
-        async function fetchDonations() {
-            try {
-                const allDonationsResponse = await getDonationListRequest();
-                if (allDonationsResponse && Array.isArray(allDonationsResponse.data)) {
-                    const today = new Date();
-                    // 필터링 로직 개선: `donationPageId`를 문자열로 처리
-                    const currentId = String(donationPageId); // 페이지 ID를 문자열로 변환
-                    const filteredAndSortedDonations = allDonationsResponse.data
-                        .filter(donation => String(donation.donationPageId) !== currentId && new Date(donation.endDate) > today)
-                        .sort((a, b) => new Date(a.endDate) - new Date(b.endDate))
-                        .slice(0, 5);
-
-                    setVisibleDonations(filteredAndSortedDonations);
-                }
-            } catch (error) {
+                const currentId = String(donationPageId);
+                const updatedDonations = data
+                    .filter(donation => String(donation.donationPageId) !== currentId && new Date(donation.endDate) > today)
+                    .sort((a, b) => new Date(a.endDate) - new Date(b.endDate))
+                    .slice(0, 5);
+                setVisibleDonations(updatedDonations);
+                console.log("Filtered and Sorted Donations:", updatedDonations);
+            },
+            onError: (error) => {
                 console.error("Failed to fetch donations:", error);
             }
         }
-
-        fetchDonations();
-    }, [donationPageId]);
-
-
+    );
+    
 
     useEffect(() => {
-        console.log("visibleDonations updated: ", visibleDonations);
     }, [visibleDonations]);
 
     useEffect(() => {
@@ -242,7 +177,7 @@ function DonationStoryPage() {
                 const response = await getDonationStoryRequest({ page: donationPageId });
                 setDonationPage(response.data);
             } catch (error) {
-                console.error('Error fetching donation page:', error);
+                console.error(error);
             }
         };
         fetchData();
@@ -272,7 +207,6 @@ function DonationStoryPage() {
         }
     }, [showModal])
 
-    const [endDatePassed, setEndDatePassed] = useState(false);
 
     useEffect(() => {
         if (donationPage.endDate) {
@@ -380,7 +314,7 @@ function DonationStoryPage() {
                                             <div css={s.minidonationImage}>
                                                 <img src={
                                                     donation.mainImgUrl
-                                                } alt="" />
+                                                }  />
                                             </div>
                                             <div css={s.donationDetails}>
                                                 <div css={s.donationTitle}>

@@ -1,28 +1,28 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import { BsArrowUpSquareFill } from "react-icons/bs";
 
 export default function TopButton() {
-    const [showButton, setShowButton] = useState(true);
+    const [showButton, setShowButton] = useState(false);
 
     const handleScroll = () => {
-        if (!window.scrollY) return;
         window.scrollTo({
             top: 0,
             behavior: 'smooth',
         });
     };
 
-    useEffect(() => {
-        const handleShowButton = () => {
-            if (window.scrollY > window.innerHeight) {
-                setShowButton(true);
-            } else {
-                setShowButton(false);
-            }
-        };
+    const handleShowButton = () => {
+        if (window.scrollY > window.innerHeight) {
+            setShowButton(true);
+        } else {
+            setShowButton(false);
+        }
+    };
 
+    useEffect(() => {
+        handleShowButton(); // 마운트 시 초기 위치 확인
         window.addEventListener('scroll', handleShowButton);
         return () => {
             window.removeEventListener('scroll', handleShowButton);

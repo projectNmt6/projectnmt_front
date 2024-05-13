@@ -39,7 +39,9 @@ export const leftCardLayout = css`
     flex-direction: column;
     flex-wrap: wrap;
     position: sticky;    
-    padding-right: 20px;
+    margin-right: 20px;
+    box-sizing: border-box;
+    overflow-x: hidden;
 `;
 
 export const rightCardLayout = css`

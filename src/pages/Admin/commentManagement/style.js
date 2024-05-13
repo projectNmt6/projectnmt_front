@@ -1,4 +1,48 @@
 import {css} from "@emotion/react";
+export const table = css`
+    border: 1px solid #e0e0e0; /* 경계선 색상을 더욱 섬세하게 조정 */
+    border-collapse: collapse; /* 테이블 선들을 하나로 합침 */
+    width: 100%; /* 테이블 너비를 100%로 설정 */
+    & td, & th {
+        padding: 10px; /* 셀 패딩 증가 */
+        border-bottom: 1px solid #f0f0f0; /* 하단 경계선만 설정 */
+    }
+    & th {
+        background-color: #fafafa; /* 헤더 배경색 설정 */
+        font-weight: normal; /* 글씨 굵기 일반으로 설정 */
+    }
+`;
+
+export const baseButton = css`
+    background-color: #007bff; /* 배경색을 파란색으로 설정 */
+    color: white; /* 글자색을 흰색으로 설정 */
+    padding: 6px 12px; /* 패딩 설정 */
+    border: none; /* 테두리 제거 */
+    border-radius: 4px; /* 경계선 둥글게 처리 */
+    &:hover {
+        background-color: #0056b3; /* 호버 시 색상 변경 */
+    }
+`;
+
+export const buttonContainer = css`
+    display: flex;
+    justify-content: flex-end; /* 버튼을 우측 정렬 */
+    padding: 10px 0; /* 상하 패딩 설정 */
+    gap: 10px; /* 버튼 간 간격 설정 */
+`;
+
+export const tableLayout = css`
+    overflow-x: auto; /* 가로 스크롤바 설정 */
+    margin-top: 20px; /* 상단 여백 추가 */
+`;
+
+export const mainContainer = css`
+    max-width: 1200px; /* 최대 너비 설정 */
+    margin: 20px auto; /* 위, 아래 마진과 자동으로 중앙 정렬 */
+    padding: 20px; /* 내부 패딩 설정 */
+    border: 1px solid #e0e0e0; /* 경계선 색상 및 스타일 설정 */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* 상자 그림자 추가 */
+`;
 
 export const tableHeader = css`
     box-sizing: border-box;
@@ -25,94 +69,7 @@ export const tableContainer = css`
     
     position: relative;
 `;
-export const tableLayout =css`
-    position: relative;
-    border: none;    
-    background-color: white;
-    overflow-x: scroll;
-    height: 200px;
-    overflow-y: scroll;
-    &::-webkit-scrollbar {  
-        box-sizing: border-box;
-        border: 1px solid #ffffff;
-        width: 10px;
-        height: 10px;
-        background-color: #fdfdfd;
-    }
-    &::-webkit-scrollbar-thumb {
-        box-sizing: border-box;
-        background-color: #dbdbdb;
-        border: 1px solid #fafafa;
-    }
-`
 
-export const table =css`
-    border: 1px solid black;
-    border-collapse: collapse;
-    width: max-content;
-    
-    & td, & th {
-        border: 1px solid #dbdbdb;
-        padding: 0px 5px;
-    }
-    & th {
-        border-top: none;
-    } 
-    & td {
-        font-size: 14px;
-    }
-    /* & tr > td:nth-of-type(1),
-    & tr > th:nth-of-type(1) {
-        border-left: none;
-    }
-    & tr > td:nth-last-of-type(1),
-    & tr > th:nth-last-of-type(1) {
-        border-right: none;
-    } */
-    & tr > td:nth-of-type(1),
-    & tr > th:nth-of-type(1) {
-        text-align: center;
-        min-width: 30px;
-    }
-    & tr > td:nth-of-type(2),
-    & tr > th:nth-of-type(2) {
-        min-width: 110px;
-    }
-    & tr > td:nth-of-type(2) {
-        text-align: right;
-    }
-    & tr > td:nth-of-type(3),
-    & tr > th:nth-of-type(3) {
-        width: 340px;
-    }
-    & tr > td:nth-of-type(4),
-    & tr > th:nth-of-type(4) {
-        min-width: 100px;
-    }
-    tr > td:nth-of-type(4) {
-        text-align: right;
-    }
-    & tr > td:nth-of-type(5),
-    & tr > th:nth-of-type(5) {
-        min-width: 300px;
-    }
-    & tr > td:nth-of-type(6),
-    & tr > th:nth-of-type(6) {
-        min-width: 100px;
-    }
-    tr > td:nth-of-type(6) {
-        text-align: right;
-    }
-    & tr > td:nth-of-type(7),
-    & tr > th:nth-of-type(7) {
-        min-width: 100px;
-    }
-    & tr > td:nth-of-type(8),
-    & tr > th:nth-of-type(8) {
-        width: 75px;
-    }
-    
-`
 export const theadTr =css`
     position: sticky;
     top: 0px;
@@ -190,17 +147,6 @@ export const container = css`
     }
 `;
 
-export const mainContainer = css`
-    box-sizing: border-box;
-    border: 1px solid black;
-    padding: 10px;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`;
-
 export const imgBox = css`
     box-sizing: border-box;
     display: flex;
@@ -216,33 +162,6 @@ export const imgBox = css`
     }
 `
 
-export const baseButton = css`
-  width: 150px;
-  height: 30px;
-  margin-left   : 82px;
-  border: none;
-  border-radius: 3px;
-  color: #6b6b6bc1;
-  box-shadow: 2px 2px 4px #808080;
-  cursor: pointer;
-  :hover {
-      background-color:#b8b8b8c1
-  }
-  :active {
-      box-shadow: inset 5px 5px 10px #808080;
-  }
-`;
-
-
-export const buttonContainer = css`
-    box-sizing: border-box;
-    display: flex;
-    justify-content: flex-end;
-    border: none;
-    padding: 10px;
-    width: 100%;
-    height: 100%;
-`;
 export const textbox = css`
     margin-right: auto;
 `
