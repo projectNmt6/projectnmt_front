@@ -74,8 +74,6 @@ function ChallengePage() {
         fetchData();
     }, [challengePageId]);
 
-    console.log("chal"+challengePage.endDate)
-
     useEffect(() => {
         if (challengePageId) {
             countActionBoard(challengePageId)
@@ -174,19 +172,24 @@ function ChallengePage() {
         if (challengePage && challengePage.endDate) {
             const currentDate = new Date();
             const endDate = new Date(challengePage.endDate);
-
-            // 남은 시간(밀리초) 계산
+    
+            // Calculate remaining time in milliseconds
             const remainingTime = endDate.getTime() - currentDate.getTime();
-
-            // 밀리초를 일수로 변환
+    
+            // Convert milliseconds to days
             const days = Math.max(0, Math.ceil(remainingTime / (1000 * 60 * 60 * 24)));
-
-            // 상태 업데이트
+    
+            // Update state for remaining days
             setRemainingDays(days);
+    
+            // Set endDatePassed based on remaining days
+            setEndDatePassed(days <= 0);
         } else {
             setRemainingDays('날짜 정보 없음');
+            setEndDatePassed(true); // Assume passed if no end date is available
         }
     }, [challengePage]);
+    
 
     const [actionList, setActionList] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -212,24 +215,18 @@ function ChallengePage() {
     }, [challengePageId]);
 
 
-    
+
     const [endDatePassed, setEndDatePassed] = useState(false);
-    useEffect(() => {
-        if (challengePage.endDate) {
-            const endDate = new Date(challengePage.endDate);
-            const today = new Date();
-            setEndDatePassed(endDate < today);
-        }
-    }, [challengePage.endDate]);
+
 
 
     return (
         <div css={s.contentAreaStyle}>
-            <ChallengePageHeader 
-            contentRef={contentRef}
-            challengePageId={challengePageId}
-            selectedTab={selectedTab}
-            handleTabChange={handleTabChange}
+            <ChallengePageHeader
+                contentRef={contentRef}
+                challengePageId={challengePageId}
+                selectedTab={selectedTab}
+                handleTabChange={handleTabChange}
             />
 
             {showModal && (
@@ -261,12 +258,12 @@ function ChallengePage() {
                         </div>
                     </div>
                     <div >
-                    <div ref={contentRef} css={s.buttonGroupContainer}>
-                    <div css={s.buttonGroup}>
-                        <button css={s.button4} onClick={() => handleTabChange('story')}>Story</button>
-                        <button css={s.button4} onClick={() => handleTabChange('action')}>Action</button>
-                        <button css={s.button4} onClick={() => handleTabChange('news')}>news</button>
-                        </div>
+                        <div ref={contentRef} css={s.buttonGroupContainer}>
+                            <div css={s.buttonGroup}>
+                                <button css={s.button4} onClick={() => handleTabChange('story')}>Story</button>
+                                <button css={s.button4} onClick={() => handleTabChange('action')}>Action</button>
+                                <button css={s.button4} onClick={() => handleTabChange('news')}>news</button>
+                            </div>
                         </div>
                         <div css={s.boxbox1}>
                         </div>
@@ -327,12 +324,12 @@ function ChallengePage() {
                             ))
                         }
                     </div>
+                    <button onClick={handleModalToggle}
+                        css={endDatePassed ? { ...s.actionButton2, ...s.disableActionButton } : s.actionButton2}
+                        disabled={endDatePassed}>
+                        행동하기!
+                    </button>
 
-                    <button onClick={handleModalToggle} 
-                      css={endDatePassed ? { ...s.actionButton2, ...s.disableActionButton } : s.actionButton2}
-                      disabled={endDatePassed}             
-                    
-                    >행동하기!</button>
                 </div>
             </div>
 
