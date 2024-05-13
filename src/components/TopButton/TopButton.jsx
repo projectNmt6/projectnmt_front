@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
-import { FaRegArrowAltCircleUp } from "react-icons/fa";
+import { BsArrowUpSquareFill } from "react-icons/bs";
 
 export default function TopButton() {
     const [showButton, setShowButton] = useState(true);
@@ -32,9 +32,9 @@ export default function TopButton() {
     return (
         <div css={s.topBtn_wrap}>
             {showButton && (
-                <button css={s.topBtn} onClick={handleScroll}>
-                    <FaRegArrowAltCircleUp />
-                </button>
+                <div css={s.topBtn} onClick={handleScroll}>
+                    <BsArrowUpSquareFill />
+                </div>
             )}
         </div>
     );

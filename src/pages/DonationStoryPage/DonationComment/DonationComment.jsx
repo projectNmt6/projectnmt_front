@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { commentResponse, deleteComment, donationCommentPost, commentReportRequest, donationCommentePost } from '../../../apis/api/DonationAPI';
 import { TbTrashXFilled } from 'react-icons/tb';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getPrincipalRequest } from "../../../apis/api/principal";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { IoMdHeart } from "react-icons/io";
@@ -120,8 +120,14 @@ function CommentSection({ donationPageId }) {
         };
     }, [comment]);
 
+    const navigate = useNavigate(); // Hook from React Router for navigation
+    
     const handleFocus = () => {
-        setIsExpanded(true); // textarea 클릭 시 확대 상태 설정
+        if (!userId) {
+            navigate('/auth/signin');
+        } else {
+            setIsExpanded(true);
+        }
     };
 
     const openDeleteModal = (commentId, isOwner) => {

@@ -20,6 +20,7 @@ import { getPrincipalRequest } from '../../apis/api/principal';
 import ShareButton from "../../components/ShareModal/ShareButton";
 import DonationHeader from "./PageHeader/DonationHeader";
 import { div } from "../DonatorInfo/style";
+import LoginRequiredModal from "../../components/LoginRequiredModal/LoginRequiredModal";
 function DonationStoryPage() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -34,24 +35,55 @@ function DonationStoryPage() {
     const [userId, setUserId] = useState();
     const [teamInfo, setTeamInfo] = useState();
     const contentRef = useRef(null);
+    const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태
+    const [showLoginModal, setShowLoginModal] = useState(false); // 로그인 모달 표시 상태
+    const [modalType, setModalType] = useState(null); // 'login' 또는 'donatorInfo'
 
+    const handleDonateClick = () => {
+        if (!isLoggedIn) {
+            setModalType('login');
+            setshowModal(true); // 로그인 모달 표시
+        } else {
+            setModalType('donatorInfo');
+            setshowModal(true); // 기부 관련 모달 표시
+        }
+    };
+    
+    // 모달 닫기 함수
+    const handleCloseModal = () => {
+        setshowModal(false);
+        setModalType(null); // 모달 타입 초기화
+    };
+    
+    // 로그인 모달 상태 관리
+    useEffect(() => {
+        if (!isLoggedIn) {
+            setShowLoginModal(true);
+        } else {
+            setShowLoginModal(false);
+        }
+    }, [isLoggedIn]);
+    
 
+    // 사용자 인증 쿼리
     const principalQuery = useQuery(
         ["principalQuery"],
         getPrincipalRequest,
         {
             retry: 0,
-
             refetchOnWindowFocus: false,
             onSuccess: (response) => {
                 console.log("Auth", response.data);
                 setUserId(response.data.userId);
+                setIsLoggedIn(true); // 사용자 인증 성공 시 로그인 상태를 true로 설정
             },
             onError: (error) => {
                 console.error("Authentication error", error);
+                setIsLoggedIn(false); // 에러 발생 시 로그인 상태를 false로 설정
             }
         }
     );
+
 
 
     const getDonationStoryQuery = useQuery(
@@ -81,17 +113,6 @@ function DonationStoryPage() {
 
     const safeHTML = DOMPurify.sanitize(donationPage.storyContent);
 
-    const deleteMutationButton = useMutation({
-        mutationKey: "deleteMutationButton",
-        mutationFn: deleteDonationPage,
-        onSuccess: response => {
-            alert("삭제완료")
-            window.location.replace("/main");
-        },
-        onError: error => {
-            alert("삭제 권한이 없습니다")
-        }
-    })
 
 
     const getTeamInfoMutation = useQuery(
@@ -312,7 +333,7 @@ function DonationStoryPage() {
                             <div >기부 종료일: {calculateDaysRemaining(donationPage.createDate, donationPage.endDate)}</div>
                             <div >기부금은 100% 단체에 전달됩니다.</div>
                             <div css={s.likebutton}>
-                                <button css={s.donation} onClick={() => setshowModal(!showModal)}>기부하기</button>
+                                <button css={s.donation} onClick={handleDonateClick}>기부하기</button>
                                 <div css={s.likebutton1}>
                                     <span>
                                         <LikeButton donationPageId={donationPageId} />
@@ -366,11 +387,21 @@ function DonationStoryPage() {
 
                 </div>
             </div>
-            {showModal && (
-                <div >
-                    <div ><DonatorInfo setShowModal={setshowModal} /></div>
-                </div>
-            )}
+
+            <div>
+            <div className="modal-overlay">
+    {showModal && modalType === 'login' && (
+        <div css={s.cardStyle}>
+            <LoginRequiredModal setShowModal={handleCloseModal} />
+        </div>
+    )}
+    {showModal && modalType === 'donatorInfo' && (
+        <div>
+            <DonatorInfo setShowModal={handleCloseModal} />
+        </div>
+    )}
+</div>
+            </div>
         </div>
 
 

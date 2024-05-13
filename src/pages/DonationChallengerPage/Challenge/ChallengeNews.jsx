@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { PostChallengeNews, getChallengeNewsRequest } from '../../../apis/api/ChallengeApi';
-import { getPrincipalRequest } from '../../../apis/api/principal';
-import { getTeamListRequest } from '../../../apis/api/teamApi';
-import { useLocation } from 'react-router-dom';
-import { updateChallengeRequest } from '../../../apis/api/DonationAPI';
-import { useMutation, useQuery } from 'react-query';
-import ReactQuill from 'react-quill';
+
 import TextEditor from '../../../components/TextEditor/TextEditor';
 import DOMPurify from 'dompurify';
 import NonePage from '../../DonationStoryPage/CategoryPage/NonePage';
 
+import * as s from './style';
+/** @jsxImportSource @emotion/react */
 function ChallengeNews({challengePageId}) {
     
     const [title, setTitle] = useState("");
@@ -42,7 +39,7 @@ function ChallengeNews({challengePageId}) {
     
     return (
         <div>
-  <div>
+            <div css={s.challengeStory}>
                 {content && content.challengeNewsContent ? (                    
                     <div dangerouslySetInnerHTML={{ __html: safeHTML }} />
                 ) : (

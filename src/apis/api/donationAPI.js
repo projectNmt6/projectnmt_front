@@ -70,6 +70,9 @@ export const getUpdateChallengePageRequest = async (data) => {
 export const searchDonationRequest = async (params) => {
     return await instance.get("/main/search", { params });
 }
+export const searchChallengeRequest = async (params) => {
+    return await instance.get("/main/challenge/search", { params });
+}
 
 export const getDonationPageRequest = async (pageId) => {
     return await instance.get(`/main/donation/${pageId}`);

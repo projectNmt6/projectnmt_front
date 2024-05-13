@@ -56,8 +56,8 @@ function ActionBoard({challengePageId}) {
                     {actionList.map((action) => (
                         <div key={action.id} css={s.actionItem}>
                             <img src={action.imageURL} alt={`Action ${action.id}`} css={s.actionImage} />
-                            <p>User: {maskUserId(action.userName)}</p>
-                            <p>Content: {action.actionContent}</p>
+                            <p>{maskUserId(action.userName)}</p>
+                            <p>{action.actionContent}</p>
                         </div>
                     ))}
                 </div>       

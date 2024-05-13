@@ -5,11 +5,8 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { getTeamInfoRequest, getDonationListByTeamIdRequest, getChallengeListByTeamIdRequest } from "../../apis/api/teamApi";
 import { useState } from "react";
-import { now } from 'moment/moment';
 import { deleteChallengePage, deleteDonationPage, getDonationNewsRequest } from "../../apis/api/DonationAPI";
-import { TbWindmill } from "react-icons/tb";
 import { getChallengeNewsRequest } from "../../apis/api/ChallengeApi";
-import { div } from "../DonatorInfo/style";
 
 
 function TeamInfoPage(props) {
@@ -17,7 +14,7 @@ function TeamInfoPage(props) {
     const [donationList, setDonationList] = useState([]);
     const [challengeList, setChallengeList] = useState([])
     const [endDonationList, setEndDonationList] = useState([]);
-    const [endChsllengeList, setEndChallengeList] = useState([])
+    const [endChallengeList, setEndChallengeList] = useState([])
     const [searchParams] = useSearchParams();
     const teamId = searchParams.get("id");
     const queryClient = useQueryClient();
@@ -31,6 +28,8 @@ function TeamInfoPage(props) {
     const [currentPageEnded, setCurrentPageEnded] = useState(1);
     const donationsPerPage = 5;
     const ChallengesPerPage = 5;
+    const [currentPageActiveChallenge, setCurrentPageActiveChallenge] = useState(1);
+    const [currentPageEndedChallenge, setCurrentPageEndedChallenge] = useState(1);
 
     const getTeamInfoQuery = useQuery(
         ["getTeamListQuery"],
@@ -248,7 +247,24 @@ function TeamInfoPage(props) {
     const handleTabChange = (tab) => {
         setSelectedTab(tab);
     }
-    
+    const handleLoadMoreActiveChallenge = () => {
+        const nextPage = currentPageActiveChallenge + 1;
+        const startIndex = currentPageActiveChallenge * ChallengesPerPage;
+        const endIndex = startIndex + ChallengesPerPage;
+        const moreChallenges = challengeList.slice(startIndex, endIndex);
+        setVisibleChallenges(prev => [...prev, ...moreChallenges]);
+        setCurrentPageActiveChallenge(nextPage);
+    };
+
+    const handleLoadMoreEndedChallenge = () => {
+        const nextPage = currentPageEndedChallenge + 1;
+        const startIndex = currentPageEndedChallenge * ChallengesPerPage;
+        const endIndex = startIndex + ChallengesPerPage;
+        const moreChallenges = endChallengeList.slice(startIndex, endIndex);
+        setVisibleEndedChallenges(prev => [...prev, ...moreChallenges]);
+        setCurrentPageEndedChallenge(nextPage);
+    };
+
     return (
         <div css={s.layout}>
             <div>
@@ -260,7 +276,7 @@ function TeamInfoPage(props) {
                     </div>
                 </div>
                 <div css={s.button}>
-                    {teamInfo?.teamMembers.filter(teamMember => teamMember.userId === principalData.data.userId)[0]?.teamRoleId === 1
+                    {teamInfo?.teamMembers.filter(teamMember => teamMember.userId === principalData?.data?.userId)[0]?.teamRoleId === 1
                         ? <Link css={s.link} to={`/team/management?id=${teamId}`} state={{ teamInfo }} >관리하기</Link>
                         : null}
                 </div>
@@ -297,7 +313,7 @@ function TeamInfoPage(props) {
                                                         <div>
 
                                                             <button css={s.button4}><Link css={s.link2} to={`/main/donation/update?page=${donation.donationPageId}`}>수정하기</Link></button>
-                                                            <button css={s.button6} onClick={() => handleDeleteButtonClick(donation.donationPageId)}>삭제하기</button>
+                                                            {/* <button css={s.button6} onClick={() => handleDeleteButtonClick(donation.donationPageId)}>삭제하기</button> */}
 
                                                             {newsData[donation.donationPageId] ? (
                                                                 <button css={s.button5}>
@@ -332,7 +348,7 @@ function TeamInfoPage(props) {
                                 {selectedTab === 'completedStory' && (
                                     <div>
                                         <div css={s.div3}>
-                                        <h2>종료된 스토리 내역</h2>
+                                            <h2>종료된 스토리 내역</h2>
                                             {
                                                 visibleEndedDonations.map(donation =>
                                                     <div css={s.div4} key={donation.donationPageId}>
@@ -377,12 +393,12 @@ function TeamInfoPage(props) {
                                 {selectedTab === 'ongoingChallenge' && (
                                     <div>
                                         <div css={s.div3}>
-                                        <h2>진행중 챌린지 내역</h2>
+                                            <h2>진행중 챌린지 내역</h2>
                                             {
                                                 visibleChallenges.map(challenge =>
                                                     <div css={s.div4} key={challenge.challengePageId}>
                                                         <Link to={`/main/challenge?page=${challenge.challengePageId}`}>
-                                                            <img css={s.link1} src={challenge.mainImgUrl} alt="" />
+                                                            <img css={s.link1} src={challenge.challengeMainImg} alt="" />
                                                         </Link>
                                                         <div>
 
@@ -391,7 +407,7 @@ function TeamInfoPage(props) {
                                                             <div>
 
                                                                 <button css={s.button4}><Link css={s.link2} to={`/challenge/update?page=${challenge.challengePageId}`}>수정하기</Link></button>
-                                                                <button css={s.button6} onClick={() => handleChallengeDeleteButtonClick(challenge.challengePageId)}>삭제하기</button>
+                                                                {/* <button css={s.button6} onClick={() => handleChallengeDeleteButtonClick(challenge.challengePageId)}>삭제하기</button> */}
 
                                                                 {newsData[challenge.challengePageId] ? (
                                                                     <button css={s.button5}>
@@ -413,18 +429,21 @@ function TeamInfoPage(props) {
 
                                                 )
                                             }
+                                            {challengeList.length > visibleChallenges.length && (
+                                                <button css={s.moreLoad} onClick={handleLoadMoreActiveChallenge}>더 보기</button>
+                                            )}
                                         </div>
                                     </div>
                                 )}
                                 {selectedTab === 'completedChallenge' && (
                                     <div>
                                         <div css={s.div3}>
-                                        <h2>종료된 챌린지</h2>
+                                            <h2>종료된 챌린지</h2>
                                             {
                                                 visibleEndedChallenges.map(challenge =>
                                                     <div css={s.div4} key={challenge.challengePageId}>
                                                         <Link to={`/main/challenge?page=${challenge.challengePageId}`}>
-                                                            <img css={s.link1} src={challenge.mainImgUrl} alt="" />
+                                                            <img css={s.link1} src={challenge.challengeMainImg} alt="" />
                                                         </Link>
                                                         <div>
 
@@ -433,7 +452,7 @@ function TeamInfoPage(props) {
                                                             <div>
 
                                                                 <button css={s.button4}><Link css={s.link2} to={`/main/challenge/update?page=${challenge.challengePageId}`}>수정하기</Link></button>
-                                                                <button css={s.button6} onClick={() => handleChallengeDeleteButtonClick(challenge.challengePageId)}>삭제하기</button>
+                                                                {/* <button css={s.button6} onClick={() => handleChallengeDeleteButtonClick(challenge.challengePageId)}>삭제하기</button> */}
 
                                                                 {challengeNewsData[challenge.challengePageId] ? (
                                                                     <button css={s.button5}>
@@ -454,6 +473,9 @@ function TeamInfoPage(props) {
 
                                                 )
                                             }
+                                            {endChallengeList.length > visibleEndedChallenges.length && (
+                                                <button css={s.moreLoad} onClick={handleLoadMoreEndedChallenge}>더 보기</button>
+                                            )}
                                         </div>
                                     </div>
                                 )}

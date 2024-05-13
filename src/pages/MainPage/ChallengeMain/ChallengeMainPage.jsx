@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { FiSearch } from 'react-icons/fi';
 import axios from 'axios';
 /** @jsxImportSource @emotion/react */
@@ -8,6 +8,7 @@ import { getChallengeList } from '../../../apis/api/DonationAPI';
 import { useQuery, useQueryClient } from 'react-query';
 import { getTeamInfoRequest, getTeamListRequest } from '../../../apis/api/teamApi';
 import { FaPen } from "react-icons/fa6";
+import { getPrincipalRequest } from '../../../apis/api/principal';
 
 function ChallengeMainPage() {
     const [challengeList, setChallengeList] = useState([]);
@@ -57,15 +58,39 @@ function ChallengeMainPage() {
             }
         );
 
-
+        const principalQuery = useQuery(
+            ["principalQuery"],
+            getPrincipalRequest,
+            {
+                retry: 0,
+    
+                refetchOnWindowFocus: false,
+                onSuccess: (response) => {
+                    console.log("Auth", response.data);
+                    setUserId(response.data.userId);
+                },
+                onError: (error) => {
+                    console.error("Authentication error", error);
+                }
+            }
+        );
+        const [userId, setUserId] = useState();
+        const navigate = useNavigate(); // Hook from React Router for navigation
+    
+        const handleDonationProposalClick = () => {
+            if (userId) {
+                navigate('/main/challenge/write'); // Use navigate for SPA behavior
+            } else {
+                navigate('/auth/signin'); // Redirect to signin if not authenticated
+            }
+        }
     return (
         <>
         <div css={s.mainLayout}>
 
-            <div css={s.writeStyles}>
-                <div css={s.write}>
-                    <a href='/main/challenge/write'>
-                        <FaPen color="black" size={14} /> 작성하기 </a>
+            <div css={s.writeStyles} onClick={handleDonationProposalClick}>
+                <div css={s.write}>                   
+                        <FaPen color="black" size={14} /> 작성하기 
                 </div>
             </div>
             
