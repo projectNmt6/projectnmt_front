@@ -8,7 +8,13 @@ export const div = css`
     padding-top: 40px;
     font-size: 20px;
     font-weight: 800;
-    color: #656565;
+    color: black;
+    @font-face {
+  font-family: 'NEXON Lv1 Gothic OTF';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON%20Lv1%20Gothic%20OTF') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 `;
 
 export const div2 = css`
@@ -24,6 +30,7 @@ export const div3 = css`
     color: #656565;
     justify-content: space-between;
     align-items: center;
+    font-family: 'NEXON Lv1 Gothic OTF';
 `;
 export const font =css`
     margin:10px 0px;
@@ -50,11 +57,11 @@ export const input2 = css`
     width: 120px;
     height: 40px;
     color:#fff;
-    font-family: 'omyu_pretty';
     background-color: #9bbbff;
-    font-size: 19px;
+    font-size: 17px;
     border: none;
     border-radius: 5px;
+    font-family: 'NEXON Lv1 Gothic OTF';
     box-shadow: 2px 2px 4px rgba(0,79,255,0.3);
     transition: 0.8ms;
     margin-top: 20px;
@@ -71,10 +78,10 @@ export const input2 = css`
     }
 `;
 export const button2 = css`
-    width: 80px;
+    width: 120px;
     height: 35px;
     color:#fff;
-    font-family: 'omyu_pretty';
+    font-family: 'NEXON Lv1 Gothic OTF';
     background-color: #ff8d8d;
     font-size: 19px;
     border: none;
@@ -92,7 +99,6 @@ export const button2 = css`
 export const input3 = css`
     display: flex;
     width: 80px;
-    font-family: 'omyu_pretty';
     height: 28px;
     border-radius: 5px;
     color:#fff;
@@ -152,6 +158,7 @@ export const div8 = css`
 export const span1 = css`
     padding: 10px;
     color: #55555557;
+    font-family: 'NEXON Lv1 Gothic OTF';
 `;
 export const span2 = css`
     padding: 10px 300px 10px 0px;

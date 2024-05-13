@@ -19,12 +19,13 @@ export const header = css`
         font-style: normal;
       }
       
-}
+
 `
 export const header1 = css`
     position: absolute;
     display: flex;
     margin: 0px 240px;
+    font-family: 'NEXON Lv1 Gothic OTF';
 `;
 export const menuButton = css`
     box-sizing: border-box;

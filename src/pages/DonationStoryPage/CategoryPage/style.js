@@ -58,6 +58,9 @@ export const container = css`
     font-size: 20px;
     white-space: break-word ;
 
+    * > img {
+      width: 700px;
+    }
 
 `;
 

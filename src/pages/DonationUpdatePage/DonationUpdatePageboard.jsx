@@ -365,6 +365,7 @@ function DonationUpdatePageBoard() {
                 />
 
 
+                <div css={s.textTitle}>본문</div>
                 <TextEditor content={content} setContent={setContent} />
 
                 <div css={s.buttonBox}>

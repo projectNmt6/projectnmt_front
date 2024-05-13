@@ -5,6 +5,9 @@ import { getTeamMemberInfoRequest } from '../../apis/api/teamApi';
 import { button } from '../MessagePage/style';
 import { shareKakao } from '../../apis/utils/shareKakaoLink';
 
+import * as s from './style';
+import { div } from '../SignInPage/style';
+/** @jsxImportSource @emotion/react */
 function TeamMemberPage(props) {
     const location = useLocation();
     const teamInfo = location.state.teamInfo;
@@ -35,7 +38,17 @@ function TeamMemberPage(props) {
         shareKakao(route, title, THU, content, page);
     };
     return (
-        <button onClick={handleShareKakao}>공유하기</button>
+        <>
+        <div css={s.layout}>
+
+        <div css={s.text}>
+            팀원들에게 카카오톡으로 공유하기
+        </div>
+        <div css={s.button} onClick={handleShareKakao}>공유하기</div>
+        
+        </div>
+        </>
+
     );
 }
 

@@ -277,7 +277,7 @@ function TeamInfoPage(props) {
                 </div>
                 <div css={s.button}>
                     {teamInfo?.teamMembers.filter(teamMember => teamMember.userId === principalData?.data?.userId)[0]?.teamRoleId === 1
-                        ? <Link css={s.link} to={`/team/management?id=${teamId}`} state={{ teamInfo }} >관리하기</Link>
+                        ? <Link css={s.moreLoad} to={`/team/management?id=${teamId}`} state={{ teamInfo }} >관리하기</Link>
                         : null}
                 </div>
                 <div css={s.div2}>
@@ -385,7 +385,7 @@ function TeamInfoPage(props) {
                                                 )
                                             }
                                             {endDonationList.length > visibleEndedDonations.length && (
-                                                <button css={s.button4} onClick={handleLoadMoreEnded}>더 보기</button>
+                                                <button css={s.moreLoad} onClick={handleLoadMoreEnded}>더 보기</button>
                                             )}
                                         </div>
                                     </div>

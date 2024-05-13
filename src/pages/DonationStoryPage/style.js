@@ -8,6 +8,12 @@ export const main = css`
 
 `;
 
+export const disabledDonateButtonStyle = css`
+background-color: '#000'; // Change color to black
+color: '#fff';
+cursor: 'not-allowed';
+border: 'none';
+`;
 
 export const contentAreaStyle = css`
   display: flex;
@@ -24,6 +30,7 @@ export const leftCardLayout = css`
     flex-direction: column;
     flex-wrap: wrap;
     position: sticky;    
+    padding-right: 20px;
 `;
 
 export const rightCardLayout = css`
@@ -59,31 +66,32 @@ export const sidebarStyle2 = css`
   border-radius: 10px;
   justify-content: space-between;
   top: 20px;
-  right: 0;
+  width: 360px;
 `;
 export const sidebarStyle3 = css`
+    box-sizing: border-box;
+    width: 360px;
     display: flex;
     flex-direction: column;
     margin: 10px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     border-radius: 10px;
     padding: 20px;
     justify-content: space-between;
-    background-color: #f2f2f2; /* 배경색을 연한 회색으로 설정 */
+    background-color: #f2f2f2;
 `;
 
 export const teamInfo = css`
-  display: flex;
-  flex-direction: column;
-  width: 340px;
-  height: auto;
-  margin: 10px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  border-radius: 10px;
-  padding: 20px;
-  justify-content: space-between;
-  top: 20px; /* 부모 요소의 위쪽에서 일정한 거리만큼 떨어진 위치에 표시됩니다. */
-  right: 0; /* 오른쪽에 위치하도록 설정합니다. */
+box-sizing: border-box;
+margin: 0px;
+width: 360px; 
+font: inherit;
+vertical-align: baseline;
+padding: 34px 25px 0px;
+top: 100px;
+border: 1px solid rgb(221, 221, 221);
+border-radius: 8px;
+margin-top: 40px;
+background-color: rgb(255, 255, 255);
 `;
 export const teamName = css`
  font-weight: 700;
@@ -396,9 +404,11 @@ export const dates4 = css`
     margin-top: 20px;
 `;
 export const donation = css`
-    width: 300px;
+    width: 340px;
     height: 50px;
     text-align: center;
+    align-items: center;
+    justify-content: center;
     background-color: rgba(255, 64, 80, 0.9);
     color: white;
     font-weight: 700;

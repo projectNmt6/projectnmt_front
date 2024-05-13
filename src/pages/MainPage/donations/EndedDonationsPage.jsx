@@ -6,6 +6,7 @@ import { FaPen } from "react-icons/fa6";
 import { getDonationListRequest, getDonationTagRequest } from "../../../apis/api/DonationAPI";
 import LikeButton from "../../../components/LikeButton/LikeButton";
 import Progress from "../../../components/progress/Progress";
+import TopButton from "../../../components/TopButton/TopButton";
 
 function EndedDonationsPage(props) {
     const [donationTagList, setDonationTagList] = useState([]);
@@ -103,6 +104,8 @@ function EndedDonationsPage(props) {
                         )
                     }
                 </div>
+                
+            <TopButton />
         </>
     );
 }
