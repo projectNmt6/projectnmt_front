@@ -32,7 +32,6 @@ function Story(props) {
 
     return (
         <div css={s.container}>
-            Story
             <div>
                 {donationPage.donationImages && donationPage.donationImages.map((image, index) => (
                     <img key={index} src={image.donationImageURL} alt={`Image ${index}`} />

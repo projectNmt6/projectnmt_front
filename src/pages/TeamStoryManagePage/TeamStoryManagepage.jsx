@@ -22,7 +22,7 @@ function TeamStoryManagepage() {
     const [selectedTab, setSelectedTab] = useState('ongoingStory');
     const [searchParams] = useSearchParams();
     const teamId = searchParams.get("id");
-    const [endChsllengeList, setEndChallengeList] = useState([])
+    const [endChallengeList, setEndChallengeList] = useState([])
 
 
     const getDonationListRequest = useQuery(
@@ -102,15 +102,6 @@ function TeamStoryManagepage() {
         }
     );
 
-    const handleLoadMoreActive = () => {
-        const nextPage = currentPageActive + 1;
-        const startIndex = currentPageActive * donationsPerPage;
-        const endIndex = startIndex + donationsPerPage;
-        const moreDonations = donationList.slice(startIndex, endIndex);
-        setVisibleDonations(prev => [...prev, ...moreDonations]);
-        setCurrentPageActive(nextPage);
-    };
-
     const handleLoadMoreEnded = () => {
         const nextPage = currentPageEnded + 1;
         const startIndex = currentPageEnded * donationsPerPage;
@@ -158,7 +149,75 @@ function TeamStoryManagepage() {
     const handleTabChange = (tab) => {
         setSelectedTab(tab);
     }
+    const [currentPageChallengeActive, setCurrentPageChallengeActive] = useState(1);
+    const [currentPageChallengeEnded, setCurrentPageChallengeEnded] = useState(1);
 
+    // Existing useEffect and other logic...
+
+    const handleLoadMoreChallengeActive = () => {
+        const nextPage = currentPageChallengeActive + 1;
+        const startIndex = (nextPage - 1) * ChallengesPerPage;
+        const endIndex = startIndex + ChallengesPerPage;
+        const moreChallenges = challengeList.slice(startIndex, endIndex);
+        setVisibleChallenges(prev => [...prev, ...moreChallenges]);
+        setCurrentPageChallengeActive(nextPage);
+    };
+
+    const handleLoadMoreChallengeEnded = () => {
+        const nextPage = currentPageChallengeEnded + 1;
+        const startIndex = (nextPage - 1) * ChallengesPerPage;
+        const endIndex = startIndex + ChallengesPerPage;
+        const moreChallenges = endChallengeList.slice(startIndex, endIndex);
+        setVisibleEndedChallenges(prev => [...prev, ...moreChallenges]);
+        setCurrentPageChallengeEnded(nextPage);
+    };
+    useEffect(() => {
+        const loadTeamAndDonations = async () => {
+            try {
+                const teamInfoData = await getTeamInfoRequest({ teamId });
+                setTeamInfo(teamInfoData.data);
+    
+                const donationsData = await getDonationListByTeamIdRequest({ teamId });
+                setDonationList(donationsData.data);
+                setEndDonationList(donationsData.data.filter(donation => new Date(donation.endDate) < new Date()));
+    
+                // Set initial visible donations
+                setVisibleDonations(donationsData.data.slice(0, donationsPerPage));
+                setVisibleEndedDonations(donationsData.data.filter(donation => new Date(donation.endDate) < new Date()).slice(0, donationsPerPage));
+            } catch (error) {
+                console.error(error);
+            }
+        };
+    
+        loadTeamAndDonations();
+    }, [teamId]);
+    
+    useEffect(() => {
+        const loadTeamAndChallenges = async () => {
+            try {
+                const challengeData = await getChallengeListByTeamIdRequest({ teamId });
+                setChallengeList(challengeData.data);
+                setEndChallengeList(challengeData.data.filter(challenge => new Date(challenge.endDate) < new Date()));
+    
+                // Set initial visible challenges
+                setVisibleChallenges(challengeData.data.slice(0, ChallengesPerPage));
+                setVisibleEndedChallenges(challengeData.data.filter(challenge => new Date(challenge.endDate) < new Date()).slice(0, ChallengesPerPage));
+            } catch (error) {
+                console.error(error);
+            }
+        };
+    
+        loadTeamAndChallenges();
+    }, [teamId]);
+    
+    const handleLoadMoreActive = () => {
+        const nextPage = currentPageActive + 1;
+        const startIndex = currentPageActive * donationsPerPage;
+        const endIndex = startIndex + donationsPerPage;
+        const moreDonations = donationList.slice(startIndex, endIndex);
+        setVisibleDonations(prev => [...prev, ...moreDonations]);
+        setCurrentPageActive(nextPage);
+    };
     return (
         <div>
             <div css={s.layout}>
@@ -184,7 +243,6 @@ function TeamStoryManagepage() {
                                                             <img css={s.link1} src={donation.mainImgUrl} alt="" />
                                                         </Link>
                                                         <div>
-
                                                             <div>{donation.storyTitle}</div>
 
                                                             <div>
@@ -234,7 +292,7 @@ function TeamStoryManagepage() {
                                                     )
                                                 }
                                                 {endDonationList.length > visibleEndedDonations.length && (
-                                                    <button css={s.button4} onClick={handleLoadMoreEnded}>더 보기</button>
+                                                    <button css={s.moreLoad} onClick={handleLoadMoreEnded}>더 보기</button>
                                                 )}
                                             </div>
                                         </div>
@@ -247,7 +305,37 @@ function TeamStoryManagepage() {
                                                     visibleChallenges.map(challenge =>
                                                         <div css={s.div4} key={challenge.challengePageId}>
                                                             <Link to={`/main/challenge?page=${challenge.challengePageId}`}>
-                                                                <img css={s.link1} src={challenge.mainImgUrl} alt="" />
+                                                                <img css={s.link1} src={challenge.challengeMainImg} alt="" />
+                                                            </Link>
+                                                            <div>
+
+                                                                <div>{challenge.challengeTitle}</div>
+
+                                                                <div>
+
+                                                                    <button css={s.button4} onClick={() => pagePermitButtonOnClick(challenge.challengePageId)}>삭제 요청</button>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    )
+                                                }
+                                                {challengeList.length > visibleChallenges.length && (
+                                                    <button css={s.moreLoad} onClick={handleLoadMoreChallengeActive}>더 보기</button>
+                                                )}
+                                            </div>
+                                        </div>
+                                    )}
+                                    {selectedTab === 'completedChallenge' && (
+                                        <div>
+                                            <div css={s.div3}>
+                                                <h2>종료된 챌린지</h2>
+                                                {
+                                                    visibleEndedChallenges.map(challenge =>
+                                                        <div css={s.div4} key={challenge.challengePageId}>
+                                                            <Link to={`/main/challenge?page=${challenge.challengePageId}`}>
+                                                                <img css={s.link1} src={challenge.challengeMainImg} alt="" />
                                                             </Link>
                                                             <div>
 
@@ -266,32 +354,8 @@ function TeamStoryManagepage() {
                                             </div>
                                         </div>
                                     )}
-                                    {selectedTab === 'completedChallenge' && (
-                                        <div>
-                                            <div css={s.div3}>
-                                                <h2>종료된 챌린지</h2>
-                                                {
-                                                    visibleEndedChallenges.map(challenge =>
-                                                        <div css={s.div4} key={challenge.challengePageId}>
-                                                            <Link to={`/main/challenge?page=${challenge.challengePageId}`}>
-                                                                <img css={s.link1} src={challenge.mainImgUrl} alt="" />
-                                                            </Link>
-                                                            <div>
-
-                                                                <div>{challenge.challengeTitle}</div>
-
-                                                                <div>
-
-                                                                    <button css={s.button4} onClick={() => pagePermitButtonOnClick(challenge.challengePageId)}>삭제 요청</button>
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                    )
-                                                }
-                                            </div>
-                                        </div>
+                                    {endChallengeList.length > visibleEndedChallenges.length && (
+                                        <button css={s.moreLoad} onClick={handleLoadMoreChallengeEnded}>더 보기</button>
                                     )}
                                 </div>
 

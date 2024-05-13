@@ -1,12 +1,19 @@
 import { css } from "@emotion/react";
 
 export const mainLayout = css`
-    width: 750px;
+    width: 700px;
 `;
 export const textTitle = css`
     font-weight: 700;
     font-size: 20px;
-    padding: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    @font-face {
+  font-family: 'NEXON Lv1 Gothic OTF';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON%20Lv1%20Gothic%20OTF') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 `;
 export const imgUrlBox = css`
     display: inline-block;
@@ -15,7 +22,7 @@ export const imgUrlBox = css`
 `;
 
 export const dateDisplayBox = css`
-padding: 10px;
+    padding: 10px;
     margin-bottom: 5px;
     border: 1px solid #ccc;
     text-align: center;

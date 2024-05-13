@@ -21,6 +21,7 @@ import ShareButton from "../../components/ShareModal/ShareButton";
 import DonationHeader from "./PageHeader/DonationHeader";
 import { div } from "../DonatorInfo/style";
 import LoginRequiredModal from "../../components/LoginRequiredModal/LoginRequiredModal";
+import TopButton from "../../components/TopButton/TopButton";
 function DonationStoryPage() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -48,13 +49,13 @@ function DonationStoryPage() {
             setshowModal(true); // 기부 관련 모달 표시
         }
     };
-    
+
     // 모달 닫기 함수
     const handleCloseModal = () => {
         setshowModal(false);
         setModalType(null); // 모달 타입 초기화
     };
-    
+
     // 로그인 모달 상태 관리
     useEffect(() => {
         if (!isLoggedIn) {
@@ -63,7 +64,7 @@ function DonationStoryPage() {
             setShowLoginModal(false);
         }
     }, [isLoggedIn]);
-    
+
 
     // 사용자 인증 쿼리
     const principalQuery = useQuery(
@@ -178,7 +179,7 @@ function DonationStoryPage() {
         "getDonationQuery",
         async () => {
             const allDonationsResponse = await getDonationListRequest();
-            console.log("All Donations:", allDonationsResponse); 
+            console.log("All Donations:", allDonationsResponse);
             if (allDonationsResponse && Array.isArray(allDonationsResponse.data)) {
                 return allDonationsResponse.data.filter(donation => donation.donationPageId !== donationPageId);
             }
@@ -205,7 +206,7 @@ function DonationStoryPage() {
             }
         }
     );
-    
+
     useEffect(() => {
         async function fetchDonations() {
             try {
@@ -218,19 +219,19 @@ function DonationStoryPage() {
                         .filter(donation => String(donation.donationPageId) !== currentId && new Date(donation.endDate) > today)
                         .sort((a, b) => new Date(a.endDate) - new Date(b.endDate))
                         .slice(0, 5);
-    
+
                     setVisibleDonations(filteredAndSortedDonations);
                 }
             } catch (error) {
                 console.error("Failed to fetch donations:", error);
             }
         }
-    
+
         fetchDonations();
     }, [donationPageId]);
-    
 
-    
+
+
     useEffect(() => {
         console.log("visibleDonations updated: ", visibleDonations);
     }, [visibleDonations]);
@@ -271,11 +272,16 @@ function DonationStoryPage() {
         }
     }, [showModal])
 
+    const [endDatePassed, setEndDatePassed] = useState(false);
 
-    const handleNewsButtonClick = () => {
-        console.log('PageID:', donationPageId);
-        window.location.replace(`/main/donation/news?page=${donationPageId}`);
-    };
+    useEffect(() => {
+        if (donationPage.endDate) {
+            const endDate = new Date(donationPage.endDate);
+            const today = new Date();
+            setEndDatePassed(endDate < today);
+        }
+    }, [donationPage.endDate]);
+
 
     return (
         <div>
@@ -286,7 +292,7 @@ function DonationStoryPage() {
                 handleTabChange={handleTabChange}
             />
             <div css={s.contentAreaStyle}>
-                <div css={s.leftCardLayout}>                  
+                <div css={s.leftCardLayout}>
 
                     <div css={s.storyContent}>
                         <div css={s.main}>
@@ -333,7 +339,16 @@ function DonationStoryPage() {
                             <div >기부 종료일: {calculateDaysRemaining(donationPage.createDate, donationPage.endDate)}</div>
                             <div >기부금은 100% 단체에 전달됩니다.</div>
                             <div css={s.likebutton}>
-                                <button css={s.donation} onClick={handleDonateClick}>기부하기</button>
+                                <div>
+
+                                <button
+                                    css={endDatePassed ? { ...s.donation, ...s.disabledDonateButtonStyle } : s.donation}
+                                    onClick={handleDonateClick}
+                                    disabled={endDatePassed}
+                                    >기부하기
+                                </button>
+                                    </div>
+
                                 <div css={s.likebutton1}>
                                     <span>
                                         <LikeButton donationPageId={donationPageId} />
@@ -389,21 +404,23 @@ function DonationStoryPage() {
             </div>
 
             <div>
-            <div className="modal-overlay">
-    {showModal && modalType === 'login' && (
-        <div css={s.cardStyle}>
-            <LoginRequiredModal setShowModal={handleCloseModal} />
-        </div>
-    )}
-    {showModal && modalType === 'donatorInfo' && (
-        <div>
-            <DonatorInfo setShowModal={handleCloseModal} />
-        </div>
-    )}
-</div>
+                <div className="modal-overlay">
+                    {showModal && modalType === 'login' && (
+                        <div css={s.cardStyle}>
+                            <LoginRequiredModal setShowModal={handleCloseModal} />
+                        </div>
+                    )}
+                    {showModal && modalType === 'donatorInfo' && (
+                        <div>
+                            <DonatorInfo setShowModal={handleCloseModal} />
+                        </div>
+                    )}
+                </div>
             </div>
-        </div>
 
+
+            <TopButton />
+        </div>
 
     );
 }

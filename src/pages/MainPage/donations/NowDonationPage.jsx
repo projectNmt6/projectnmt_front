@@ -9,6 +9,7 @@ import { getDonationListRequest, getDonationTagRequest } from "../../../apis/api
 import Progress from "../../../components/progress/Progress";
 import LikeButton from "../../../components/LikeButton/LikeButton";
 import { getLike } from "../../../apis/api/Like";
+import TopButton from "../../../components/TopButton/TopButton";
 
 function NowDonationPage() {
     const [donationTagList, setDonationTagList] = useState([]);
@@ -292,6 +293,9 @@ function NowDonationPage() {
                         )
                     )
                 }
+
+                
+            <TopButton />
             </div>
         </>
     );

@@ -42,6 +42,7 @@ export const button = css`
     justify-content: flex-end;
     font-family: 'NEXON Lv1 Gothic OTF';
     align-items: center;
+    padding-right:15px;
 `;
 
 export const link = css`

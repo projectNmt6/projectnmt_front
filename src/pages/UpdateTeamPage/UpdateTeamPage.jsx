@@ -16,16 +16,12 @@ const header = css`
         flex-direction: column;
         width: 800px;
         margin-bottom: 20px;
-        font-family: 'omyu_pretty';
         align-items: center;
         font-size: 20px;
         border: 1px solid #dbdbdb;
-        @font-face {
-    font-family: 'omyu_pretty';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}`;   
+        font-family: 'NEXON Lv1 Gothic OTF';
+`; 
+
 const imgBox = css`
     & > img {
         border: 1px solid #dbdbdb;
@@ -128,7 +124,7 @@ function UpdateTeamPage(props) {
                     팀 정보수정
                 </div>
                 <div css={s.div2}>
-                    {teamInfo.teamName}
+                    팀명: {teamInfo.teamName}
                 </div>
             </div>
             <div css={s.div}>

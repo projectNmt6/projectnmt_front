@@ -1,4 +1,4 @@
-import { css } from "@emotion/react";
+import { css, keyframes } from "@emotion/react";
 
 
 ////////홈 CSS ////////////////
@@ -35,6 +35,7 @@ export const introStyle = css`
         border-radius: 50%;
         width: 70px;
         height: 70px;
+        padding-right: 50px;
     }
     & > h3 {
         padding: 5px 20px;
@@ -100,34 +101,63 @@ export const sidebarStyle = css`
   display: flex;
   flex-direction: column;
   margin: 10px;
-  background-color: #FFD79999;
+  background-color: #d4f0f099;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   border-radius: 10px;
   padding: 20px;
   justify-content: space-between;
-  overflow: hidden;
+  overflow: auto;
 
-  & > div > img {
-        width: 150px;
-        height: 150px;
-    }
 
 `;
+
+const brightnessAnimation = keyframes`
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+  `;
+  export const sideImg =css`
+    width: 100px;
+    height: 100px;
+    border-radius: 30%;
+    padding-right: 50px;
+    animation-name: ${brightnessAnimation};
+    animation-duration: 4s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    
+  `
+
 
 export const sidebarText = css`
 display: flex;
 flex-direction: row;
 justify-content: space-between;
 align-items: center;
+
 `
 
+
 export const totalAmountBox = css`
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
 border: 1px solid #dbdbdb;
 border-radius: 10px;
 padding: 10px;
 background-color: white;
 display:flex;
 justify-content: center;
+/* &>h3{
+  border-bottom: 1px solid #dbdbdb
+} */
 `
 
 
@@ -386,24 +416,45 @@ cursor : pointer;
 export const buttonLayout = css`
 display: flex;
 flex-wrap: wrap;
+justify-content: center;
 
 `
 export const button = (color) => css`
   display: flex;
   flex-direction: column;
-  height: 150px;
-  width: 150px;
+  height: 200px;
+  width: 200px;
   padding: 20px;
   border-radius: 10px;
   margin: 10px;
-  cursor: pointer;
+  /* cursor: pointer; */
   transition: background-color 0.3s;
-  background-color: ${color === "gray" ? "#FFC107" : "#BDBDBD"};
-  color: ${color === "gray" ? "white" : "black"};
+  background-color: #dbdbdb;
+  color: black;
   word-wrap: break-word;
   flex-wrap: wrap;
   position: relative;
   white-space: normal;
+`;
+export const button2 = (color) => css`
+  display: flex;
+  flex-direction: column;
+  height: 200px;
+  width: 200px;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 10px;
+  transition: background-color 0.3s;
+  background-color: #BDBDBD;
+  color: white;
+  word-wrap: break-word;
+  flex-wrap: wrap;
+  position: relative;
+  white-space: normal;
+  &>a{
+    color: black;
+  text-decoration: none;
+  }
 `;
 
 export const NoticeText = css`
@@ -415,8 +466,28 @@ export const NoticeText = css`
 `;
 export const icon = css`
   position: absolute;
-  top: 130px;
-  right: 20px;
+  bottom: 20px;
+  right: 30px;
   font-size: 24px;
   margin-top: 10px; 
+  border: 0;
+  background-color: transparent;
+`;
+
+
+
+export const modal = css`
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #d1d8dd;
+    border-radius: 5px;
+    box-shadow: 0 0 6px 1px rgba(0, 0, 0, 0.3);
+    background-color: white;
+    z-index: 1500; // 충분히 높은 z-index
 `;

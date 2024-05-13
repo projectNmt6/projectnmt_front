@@ -11,6 +11,8 @@ export const layout = css`
   align-items: center;
   background: rgba(0, 0, 0, 0.5);
   z-index: 10;
+  
+  font-family: 'NEXON Lv1 Gothic OTF';
 `;
 
 export const messageBox = css`
@@ -38,7 +40,12 @@ export const messageBoxButton = css`
   right: -150px;
   box-shadow: 2px 2px 4px #808080;
   cursor: pointer;
-
+  @font-face {
+    font-family: 'NEXON Lv1 Gothic OTF';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
   & > * {
     font-size: 16px;
   }
@@ -52,7 +59,8 @@ export const messageTextArea = css`
     bottom: 25px;
     width: 250px;
     height: 200px;
-    resize: none;
+    resize: none;    
+    font-family: 'NEXON Lv1 Gothic OTF';
 `;
 
 export const messageSubmitButton = css`
