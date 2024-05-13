@@ -54,7 +54,7 @@ export const donationList = css`
   flex-wrap: wrap;
   justify-content: flex-start;
   gap: 15px; 
-  justify-content: center;
+  justify-content: flex-start;
 `;
 
 export const donationCard = css`
@@ -203,19 +203,20 @@ export const inactive = {
 export const rightButton = (sortOrder) => css`
   background-color: transparent;
   font-size: 18px;
-  font-weight: ${!sortOrder? "bold" : " none"};
+  font-weight: ${sortOrder ? "bold" : "bold"};
   border: none;
-  color: ${!sortOrder? "black": "gray"};
+  color: ${!sortOrder ? "gray" : "black"};
   cursor: pointer;
-  border-left: ${!sortOrder? "3px dotted red" : "none"};
+  border-left: ${!sortOrder ? "3px red" : "none"};
 
-  &:focus{
+  &:focus {
     color: black;
-    border-left: 3px dotted red;
+    border-left: 3px red;
     border-collapse: none;
     font-weight: bold;
   }
 `
+
 export const RunningOut = (timeOut) => css`
       position: absolute;
       margin: -45px 10px;

@@ -1,4 +1,50 @@
-import {css} from "@emotion/react";
+import { css } from "@emotion/react";
+
+export const layout = css`
+    flex-direction: column;
+    box-sizing: border-box;
+    display: flex;
+    width: 750px;
+    border: 1px solid #dbdbdb;
+    border-radius: 5px;
+    box-shadow: 2px 2px 2px #aaaaaac1;
+    @font-face {
+        font-family: 'NEXON Lv1 Gothic OTF';
+        src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+`
+
+export const mainImgUrl = css`
+        width: 275px;
+    height: 190px;
+    margin: 15px 15px 0px 0px;  
+    border-radius: 3px;
+`
+
+export const moreButton = css`
+      box-sizing: border-box;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgb(229, 229, 229);
+    margin: 0px;
+    line-height: 1.5;
+    letter-spacing: -0.1px;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: rgb(255, 255, 255);
+    height: 46px;
+    padding: 0px 20px;
+    border-radius: 999px;
+    gap: 6px;
+    width: 116px;
+    color: rgb(68, 68, 68);
+    font-weight: normal;
+    font-size: 14px;
+    box-shadow: none; 
+`
 
 export const tableHeader = css`
     box-sizing: border-box;
@@ -6,26 +52,33 @@ export const tableHeader = css`
     border: 1px solid #dbdbdb;
     width: 100%;
 `
-export const searchButton = css`
+export const buttonBox = css`
+    display: flex;
     box-sizing: border-box;
-    border: none;
-    border-left: 1px solid #dbdbdb;
-    width: 85px;
-    cursor: pointer;
-    background-color: white;
-    &:hover{
-        background-color: #fafafa;
-    }
-    &:active{
-        background-color: #eeeeee;
-    }
 `
-export const tableContainer = css`
+export const deleteButton = css`
     box-sizing: border-box;
-    
-    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgb(229, 229, 229);
+    margin: 0px;
+    line-height: 1.5;
+    letter-spacing: -0.1px;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: rgb(255, 255, 255);
+    height: 46px;
+    padding: 0px 20px;
+    border-radius: 999px;
+    gap: 6px;
+    width: 116px;
+    color: rgb(68, 68, 68);
+    font-weight: normal;
+    font-size: 14px;
+    box-shadow: none; 
 `;
-export const tableLayout =css`
+export const tableLayout = css`
     position: relative;
     border: none;    
     background-color: white;
@@ -45,7 +98,7 @@ export const tableLayout =css`
     }
 `
 
-export const table =css`
+export const table = css`
     border: 1px solid black;
     border-collapse: collapse;
     width: max-content;
@@ -97,19 +150,19 @@ export const table =css`
     }
     
 `
-export const theadTr =css`
+export const theadTr = css`
     position: sticky;
     top: 0px;
     background-color: #fdfdfd;
 `
 
-export const nullDiv =css`
+export const nullDiv = css`
     border: none;
     border-right: 1px solid #dbdbdb;
     width: 282px;
 `
 
-export const searchInput=css`
+export const searchInput = css`
     flex-grow: 1;
     border: none;
     border-left: 1px solid #dbdbdb;

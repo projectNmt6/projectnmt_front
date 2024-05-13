@@ -16,13 +16,35 @@ function ChallengeComment({ challengePageId }) {
     const [commentList, setCommentList] = useState([]);
     const [comment, setComment] = useState("");
     const [userId, setUserId] = useState();
-    const [startIdx, setStartIdx] = useState(0); // 시작 인덱스
-    const [count, setCount] = useState(10); // 한 번에 표시할 덧글 수
     const commentContainerRef = useRef(null);
     const textareaRef = useRef(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentCommentId, setCurrentCommentId] = useState(null);
     const [isCommentOwner, setIsCommentOwner] = useState(false);
+    const [startIdx, setStartIdx] = useState(0); // 시작 인덱스
+    const [count, setCount] = useState(10); // 한 번에 표시할 덧글 수
+    const [hasMore, setHasMore] = useState(true); // 더 로드할 댓글이 있는지 확인
+
+    const loadComments = async () => {
+        try {
+            const response = await challengeCommentResponse(challengePageId, startIdx, count);
+            if (response.data.length < count) {
+                setHasMore(false); // 더 이상 로드할 댓글이 없음
+            }
+            setCommentList(prevCommentList => [...prevCommentList, ...response.data]);
+        } catch (error) {
+            console.error('Failed to load comments:', error);
+        }
+    };
+
+    useEffect(() => {
+        loadComments(); // 첫 로드
+    }, [challengePageId, startIdx]); // startIdx 변경 시 다시 로드
+
+    const handleLoadMoreComments = () => {
+        setStartIdx(prevStartIdx => prevStartIdx + count); // 다음 댓글들을 로드
+    };
+
 
     const principalQuery = useQuery(
         ["principalQuery"],
@@ -40,15 +62,6 @@ function ChallengeComment({ challengePageId }) {
         }
     );
 
-    useEffect(() => {
-        challengeCommentResponse(challengePageId, startIdx, count) // 시작 인덱스와 덧글 수 전달
-            .then(response => {
-                console.log(response.data); // 데이터 구조 확인
-                setCommentList(prevCommentList => [...prevCommentList, ...response.data]);
-                console.log("chcomment"+response.data); // 데이터 구조 확인
-            })
-            .catch(console.error);
-    }, [challengePageId, startIdx, count]);
 
     const handleCommentChange = (event) => {
         const newComment = event.target.value;
@@ -57,21 +70,19 @@ function ChallengeComment({ challengePageId }) {
         }
 
     }
-    const handleCommentSubmit = async (e) => {
-        e.preventDefault();
+  const handleCommentSubmit = async (event) => {
+        event.preventDefault();
+        if (!comment) return;
         try {
-            await challengeCommentRequest(
-                { commentText: comment, 
-                    challengePageId, userId });
+            await challengeCommentRequest({ commentText: comment, challengePageId, userId });
             setComment("");
-            setIsExpanded(false); // 전송 후 확대 상태 해제
-            setStartIdx(0); // 다시 처음부터 불러오기
-            const response = await challengeCommentResponse(challengePageId, startIdx, count);
-            setCommentList(response.data);
+            const newCommentData = await challengeCommentResponse(challengePageId, 0, 1); // 가장 최근 댓글만 불러오기
+            setCommentList(prev => [newCommentData.data[0], ...prev]); // 가장 앞에 새 댓글 추가
         } catch (error) {
             console.error("덧글 전송 실패:", error);
         }
     };
+
 
     const mutation = useMutation(challengeCommentRequest, {
         onSuccess: () => {
@@ -202,6 +213,8 @@ function ChallengeComment({ challengePageId }) {
                             </div>
                         </div>
                     ))}
+
+                                
                 </div>
                 {isModalOpen && (
                         <DeleteModal

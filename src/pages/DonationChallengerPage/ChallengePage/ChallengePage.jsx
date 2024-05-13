@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+import * as s from "./style";
 import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -10,8 +12,6 @@ import { getPrincipalRequest } from '../../../apis/api/principal';
 import LoginRequiredModal from '../../../components/LoginRequiredModal/LoginRequiredModal';
 import ActionModal from '../Challenge/ActionModal/ActionModal';
 import { getTeamInfoRequest, getTeamListRequest } from '../../../apis/api/teamApi';
-/** @jsxImportSource @emotion/react */
-import * as s from "./style";
 import { countActionBoard, getActionBoardList } from '../../../apis/api/ChallengeApi';
 import { HiOutlineClock } from "react-icons/hi2";
 import { HiBadgeCheck } from "react-icons/hi";
@@ -103,11 +103,7 @@ function ChallengePage() {
             document.body.style.overflow = 'auto';
         }
     }, [showModal, showNewModal]);
-    const [showCommentSection, setShowCommentSection] = useState(false);
 
-    const handleCommentToggle = () => {
-        setShowCommentSection(!showCommentSection);
-    };
     const [teams, setTeams] = useState([]);
 
     useEffect(() => {
@@ -219,9 +215,10 @@ function ChallengePage() {
 
     return (
         <div css={s.contentAreaStyle}>
+
             {showModal && (
                 <div css={s.container3}>
-                    <div css={s.modal}><LoginRequiredModal setShowModal={setShowModal} /></div>
+                    <div><LoginRequiredModal setShowModal={setShowModal} /></div>
                 </div>
             )}
             <div>
@@ -243,7 +240,7 @@ function ChallengePage() {
                 <div>
                     <div css={s.storyContent}>
                         <div css={s.main}>
-                            <img src={challengeMainImg} alt="Challenge" css={s.storyImage} />
+                            <img src={challengeMainImg} css={s.storyImage} />
 
                         </div>
                     </div>
@@ -260,7 +257,7 @@ function ChallengePage() {
                                     <ChallengeNews challengePageId={challengePageId} />
                                     : < ActionBoard challengePageId={challengePageId} />
                             }
-                                <h3>댓글을 남겨주세요.</h3>
+                            <h3>댓글을 남겨주세요.</h3>
                             <div css={s.commentBorder}>
                             </div>
                             <ChallengeComment challengePageId={challengePageId} />

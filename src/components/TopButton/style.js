@@ -9,8 +9,7 @@ export const topBtn_wrap = css`
 `;
 
 export const topBtn = css`
-    padding: 10px 20px;
-    font-size: 20px;
+    font-size: 50px;
     color: black;
     border: none;
     cursor: pointer;
