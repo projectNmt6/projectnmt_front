@@ -2,20 +2,29 @@
 import { useMutation, useQuery } from "react-query";
 import * as s from "./style";
 import React, { useEffect, useState } from 'react';
-import { getDonationListByTeamIdRequest } from "../../apis/api/teamApi";
-import { Link, useLocation } from "react-router-dom";
+import { getChallengeListByTeamIdRequest, getDonationListByTeamIdRequest, getTeamInfoRequest } from "../../apis/api/teamApi";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { updatePageShowRequest } from "../../apis/api/teamApi";
+import { getChallengeNewsRequest } from "../../apis/api/ChallengeApi";
+import { getDonationNewsRequest } from "../../apis/api/DonationAPI";
 
-function TeamStoryManagepage(props) {
-    const location = useLocation();
-    const teamInfo = location.state.teamInfo;
+function TeamStoryManagepage() {
     const [donationList, setDonationList] = useState([]);
     const [endDonationList, setEndDonationList] = useState([]);
-    const [currentPageActive, setCurrentPageActive] = useState(1);
-    const [currentPageEnded, setCurrentPageEnded] = useState(1);
-    const itemsPerPage = 5; // 페이지당 항목 수 설정
+    const [teamInfo, setTeamInfo] = useState();
+    const [challengeList, setChallengeList] = useState([])
     const [visibleDonations, setVisibleDonations] = useState([]);
     const [visibleEndedDonations, setVisibleEndedDonations] = useState([]);
+    const [visibleChallenges, setVisibleChallenges] = useState([]);
+    const [visibleEndedChallenges, setVisibleEndedChallenges] = useState([]);
+    const [currentPageActive, setCurrentPageActive] = useState(1);
+    const [currentPageEnded, setCurrentPageEnded] = useState(1);
+    const donationsPerPage = 5;
+    const ChallengesPerPage = 5;
+    const [selectedTab, setSelectedTab] = useState('ongoingStory');
+    const [searchParams] = useSearchParams();
+    const teamId = searchParams.get("id");
+    const [endChsllengeList, setEndChallengeList] = useState([])
 
 
     const getDonationListRequest = useQuery(
@@ -62,10 +71,43 @@ function TeamStoryManagepage(props) {
     const pagePermitButtonOnClick = (id) => {
         updateDonationShowMutation.mutate({ pageId: id });
     }
+
+    useQuery(
+        ["getChallengeListByTeamIdRequest"],
+        async () => {
+            return await getChallengeListByTeamIdRequest({
+                teamId: teamId
+            })
+        },
+        {
+            refetchOnWindowFocus: false,
+            onSuccess: response => {
+                console.log(response);
+
+                const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD format
+                let tempList = [];
+                let tempEndList = [];
+                response.data.forEach(arr => {
+                    if (new Date(arr.endDate) >= new Date(today)) {
+                        tempList.push(arr);
+                    } else {
+                        tempEndList.push(arr);
+                    }
+                });
+                setChallengeList(tempList);
+                setEndChallengeList(tempEndList);
+
+                // 초기화 시 첫 페이지 데이터 세팅
+                setVisibleChallenges(tempList.slice(0, ChallengesPerPage));
+                setVisibleEndedChallenges(tempEndList.slice(0, ChallengesPerPage));
+            }
+        }
+    );
+
     const handleLoadMoreActive = () => {
         const nextPage = currentPageActive + 1;
-        const startIndex = currentPageActive * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
+        const startIndex = currentPageActive * donationsPerPage;
+        const endIndex = startIndex + donationsPerPage;
         const moreDonations = donationList.slice(startIndex, endIndex);
         setVisibleDonations(prev => [...prev, ...moreDonations]);
         setCurrentPageActive(nextPage);
@@ -73,74 +115,209 @@ function TeamStoryManagepage(props) {
 
     const handleLoadMoreEnded = () => {
         const nextPage = currentPageEnded + 1;
-        const startIndex = currentPageEnded * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
+        const startIndex = currentPageEnded * donationsPerPage;
+        const endIndex = startIndex + donationsPerPage;
         const moreDonations = endDonationList.slice(startIndex, endIndex);
         setVisibleEndedDonations(prev => [...prev, ...moreDonations]);
         setCurrentPageEnded(nextPage);
     };
+    useEffect(() => {
+        const loadTeamAndDonations = async () => {
+            try {
+                const teamInfoData = await getTeamInfoRequest({ teamId });
+                setTeamInfo(teamInfoData.data);
+
+                const donationsData = await getDonationListByTeamIdRequest({ teamId });
+                setDonationList(donationsData.data);
+                setEndDonationList(donationsData.data.filter(donation => new Date(donation.endDate) < new Date()));
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        loadTeamAndDonations();
+    }, [teamId]);
+
+
 
     useEffect(() => {
-        if (donationList.length > 0) {
-            setVisibleDonations(donationList.slice(0, itemsPerPage));
-        }
-        if (endDonationList.length > 0) {
-            setVisibleEndedDonations(endDonationList.slice(0, itemsPerPage));
-        }
-    }, [donationList, endDonationList]);
+        const loadTeamAndChallenges = async () => {
+            try {
+                const teamInfoData = await getTeamInfoRequest({ teamId });
+                setTeamInfo(teamInfoData.data);
+
+                const challengeData = await getChallengeListByTeamIdRequest({ teamId });
+                setChallengeList(challengeData.data);
+                setEndChallengeList(challengeData.data.filter(challenge => new Date(challenge.endDate) < new Date()));
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        loadTeamAndChallenges();
+    }, [teamId]);
+
+    const handleTabChange = (tab) => {
+        setSelectedTab(tab);
+    }
 
     return (
         <div>
             <div css={s.layout}>
-                <div><h2>진행중인 스토리</h2>
-                    {
-                        visibleDonations.map(donation => (
-                            <div key={donation.donationPageId}>
-                                <Link to={`/donation?page=${donation.donationPageId}`}>
-                                    <img src={donation.mainImgUrl} css={s.mainImgUrl} />
-                                </Link>
-                                <div css={s.buttonBox}>
+                <div >
+                    <div>
+                        <div>
+                            <div>
+                                <div css={s.buttonGroup}>
+                                    <button css={s.buttonText} onClick={() => handleTabChange('ongoingStory')}>진행중 스토리</button>
+                                    <button css={s.buttonText} onClick={() => handleTabChange('completedStory')}>종료된 스토리</button>
+                                    <button css={s.buttonText} onClick={() => handleTabChange('ongoingChallenge')}>진행중 챌린지</button>
+                                    <button css={s.buttonText} onClick={() => handleTabChange('completedChallenge')}>종료된 챌린지</button>
+                                </div>
 
-                                <div>{donation.storyTitle}</div>
-                                <button css={s.deleteButton} onClick={() => pagePermitButtonOnClick(donation.donationPageId)}>삭제 요청</button>
+                                <div>
+                                    {selectedTab === 'ongoingStory' && (
+                                        <div css={s.div3}>
+                                            <h2>진행중인 스토리</h2>
+                                            {
+                                                visibleDonations.map(donation =>
+                                                    <div css={s.div4} key={donation.donationPageId}>
+                                                        <Link to={`/donation?page=${donation.donationPageId}`}>
+                                                            <img css={s.link1} src={donation.mainImgUrl} alt="" />
+                                                        </Link>
+                                                        <div>
+
+                                                            <div>{donation.storyTitle}</div>
+
+                                                            <div>
+                                                                <button css={s.button4} onClick={() => pagePermitButtonOnClick(donation.donationPageId)}>삭제 요청</button>
+
+
+
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                )
+                                            }
+                                            <div>
+
+                                                {donationList.length > visibleDonations.length && (
+                                                    <button css={s.moreLoad} onClick={handleLoadMoreActive}>더 보기</button>
+                                                )}
+                                            </div>
+
+                                        </div>
+                                    )}
+                                    {selectedTab === 'completedStory' && (
+                                        <div>
+                                            <div css={s.div3}>
+                                                <h2>종료된 스토리 내역</h2>
+                                                {
+                                                    visibleEndedDonations.map(donation =>
+                                                        <div css={s.div4} key={donation.donationPageId}>
+                                                            <Link to={`/donation?page=${donation.donationPageId}`}>
+                                                                <img css={s.link1} src={donation.mainImgUrl} alt="" />
+                                                            </Link>
+                                                            <div>
+
+                                                                <div>{donation.storyTitle}</div>
+
+                                                                <div>
+
+                                                                    <button css={s.button4} onClick={() => pagePermitButtonOnClick(donation.donationPageId)}>삭제 요청</button>
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    )
+                                                }
+                                                {endDonationList.length > visibleEndedDonations.length && (
+                                                    <button css={s.button4} onClick={handleLoadMoreEnded}>더 보기</button>
+                                                )}
+                                            </div>
+                                        </div>
+                                    )}
+                                    {selectedTab === 'ongoingChallenge' && (
+                                        <div>
+                                            <div css={s.div3}>
+                                                <h2>진행중 챌린지 내역</h2>
+                                                {
+                                                    visibleChallenges.map(challenge =>
+                                                        <div css={s.div4} key={challenge.challengePageId}>
+                                                            <Link to={`/main/challenge?page=${challenge.challengePageId}`}>
+                                                                <img css={s.link1} src={challenge.mainImgUrl} alt="" />
+                                                            </Link>
+                                                            <div>
+
+                                                                <div>{challenge.challengeTitle}</div>
+
+                                                                <div>
+
+                                                                    <button css={s.button4} onClick={() => pagePermitButtonOnClick(challenge.challengePageId)}>삭제 요청</button>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    )
+                                                }
+                                            </div>
+                                        </div>
+                                    )}
+                                    {selectedTab === 'completedChallenge' && (
+                                        <div>
+                                            <div css={s.div3}>
+                                                <h2>종료된 챌린지</h2>
+                                                {
+                                                    visibleEndedChallenges.map(challenge =>
+                                                        <div css={s.div4} key={challenge.challengePageId}>
+                                                            <Link to={`/main/challenge?page=${challenge.challengePageId}`}>
+                                                                <img css={s.link1} src={challenge.mainImgUrl} alt="" />
+                                                            </Link>
+                                                            <div>
+
+                                                                <div>{challenge.challengeTitle}</div>
+
+                                                                <div>
+
+                                                                    <button css={s.button4} onClick={() => pagePermitButtonOnClick(challenge.challengePageId)}>삭제 요청</button>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    )
+                                                }
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+
+
+
+                            </div>
+                            <div >
+
+                                <div >
+
+                                </div>
+                                <div >
+
                                 </div>
                             </div>
-                        ))
-                    }
-                    <div css={s.buttonBox}>
-                    {
-                        donationList.length > visibleDonations.length && (
-                            <button onClick={handleLoadMoreActive} css={s.moreButton}>더 보기</button>
-                        )
-                    }
+                        </div>
                     </div>
                 </div>
-                <div>
-                    <h2>스토리 내역</h2>
+            </div>
 
-                    {
-                        visibleEndedDonations.map(donation => (
-                            <div key={donation.donationPageId}>
-                                <Link to={`/donation?page=${donation.donationPageId}`}>
-                                    <img src={donation.mainImgUrl} alt="" css={s.mainImgUrl} />
-                                </Link>
-                                <div>{donation.storyTitle}</div>
-                                <button onClick={() => pagePermitButtonOnClick(donation.donationPageId)}>삭제 요청</button>
-                            </div>
-                        ))
-                    }
 
-                    <div css={s.buttonBox}>
 
-                    {
-                        endDonationList.length > visibleEndedDonations.length && (
-                            <button onClick={handleLoadMoreEnded} css={s.moreButton}>더 보기</button>
-                        )
-                    }
-                    </div>
+        </div>
 
-                </div>
-            </div></div>
     );
 }
 

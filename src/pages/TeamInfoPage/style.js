@@ -172,20 +172,26 @@ export const button6 = css`
 `;
 
 export const moreLoad = css`
-    font-family: 'NEXON Lv1 Gothic OTF';
-    font-size: 16px;
-   padding: 10px 20px;
-  margin: 10px;
-  background-color: rgb(173, 76, 254); /* Green background */
-  color: white; /* White text */
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
-
-  &:active {
-    transform: translateY(1px); /* Slight press down effect */
-  }
+      box-sizing: border-box;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgb(229, 229, 229);
+    margin: 0px;
+    line-height: 1.5;
+    letter-spacing: -0.1px;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: rgb(255, 255, 255);
+    height: 46px;
+    padding: 0px 20px;
+    border-radius: 999px;
+    gap: 6px;
+    width: 116px;
+    color: rgb(68, 68, 68);
+    font-weight: normal;
+    font-size: 14px;
+    box-shadow: none; 
 `;
 export const buttonGroup = css`
     display: flex;
