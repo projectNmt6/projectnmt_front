@@ -20,6 +20,11 @@ function UserManagement({page, }) {
     const [selectedTextOption, setSelectedTextOption] = useState({value: 0, label: "전체"});
     const [selectedRoleoption, setSelectedRoleoption] = useState({value: 0, label: "전체"});
     const searchCount = 10;
+    const [activeTab, setActiveTab] = useState("userInfo"); // 추가된 탭 상태
+
+    const handleTabChange = (tab) => {
+        setActiveTab(tab);
+    };
     const handleSearchTextOnChange = (e) => {
         setSearchText(() => e.target.value);
     }
@@ -198,7 +203,14 @@ function UserManagement({page, }) {
                 </div>
             </div>
             <div css={s.container}>
-                <table css={s.registerTable}>
+            <div >
+                    <button onClick={() => handleTabChange("userInfo")} css={activeTab === "userInfo" ? s.baseButton : s.baseButton}>User Info</button>
+                    <button onClick={() => handleTabChange("comments")} css={activeTab === "comments" ? s.baseButton : s.baseButton}>Comments</button>
+                </div>
+
+                 {activeTab === "userInfo" && (
+                    <div>
+                                       <table css={s.registerTable}>
                         <tbody>
                             <tr>
                                 <th css={s.registerTh}>유저번호</th>
@@ -292,7 +304,12 @@ function UserManagement({page, }) {
                     </table>
                     <AdminSearchPageNumbers count={getCountQuery.data?.data} page={searchParams.get("page")}/>
                 </div>
-                    <CommentManagement  userId={selectedUser?.userId}/>    
+                    </div>
+                )}
+                {activeTab === "comments" && (
+                    <CommentManagement userId={selectedUser?.userId} />
+                )}
+
                     
             </div>
         </div>
