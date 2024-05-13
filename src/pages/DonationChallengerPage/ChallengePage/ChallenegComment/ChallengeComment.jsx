@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import axios from 'axios';
-import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { getPrincipalRequest } from '../../../../apis/api/principal';
 import { challengeCommentRequest, challengeCommentResponse, commentReportRequest, deleteChallengeComment } from '../../../../apis/api/DonationAPI';
 /** @jsxImportSource @emotion/react */
@@ -155,11 +155,15 @@ function ChallengeComment({ challengePageId }) {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [comment]);
-
+    const navigate = useNavigate(); // Hook from React Router for navigation
+    
     const handleFocus = () => {
-        setIsExpanded(true); // textarea 클릭 시 확대 상태 설정
+        if (!userId) {
+            navigate('/auth/signin');
+        } else {
+            setIsExpanded(true);
+        }
     };
-
     const openDeleteModal = (commentId, isOwner) => {
         setCurrentCommentId(commentId);   // 현재 처리할 댓글 ID 설정
         setIsCommentOwner(isOwner);       // 댓글 작성자 여부 설정

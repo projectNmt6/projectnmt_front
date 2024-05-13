@@ -4,7 +4,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useQuery } from "react-query";
 import Select from 'react-select';
-import { getDonationTagRequest, searchDonationRequest } from "../../apis/api/DonationAPI";
+import { getDonationTagRequest, searchChallengeRequest, searchDonationRequest } from "../../apis/api/DonationAPI";
 import { FiSearch } from "react-icons/fi";
 import { TiHome } from "react-icons/ti";
 
@@ -16,6 +16,7 @@ function SearchPage(props) {
     const [ searchText, setSearchText] = useState("");
     const [ searchValue, setSearchValue] = useState("");
     const [donationList, setDonationList] = useState([]);
+    const [ challengeList, setChallengeList ] = useState([]);
     const [filteredDonations, setFilteredDonations] = useState([]);
     const [sortOrder, setSortOrder] = useState('');
     const [state, setState] = useState('전체');
@@ -29,50 +30,24 @@ function SearchPage(props) {
     const searchSubmit = () => {
         setSearchValue(()=>searchText);
     }
-   
-    useEffect(() => {
-        const fetchDonationTags = async () => {
-            try {
-                const response = await getDonationTagRequest();
-                const options = response.data.map(tag => ({
-                    value: tag.donationTagId,
-                    label: tag.donationTagName
-                }));
-                setSecondTagOptions(options);
-            } catch (error) {
-                console.error(error);
-            }
-        };
+     
 
-        fetchDonationTags();
-    }, []);
-    const handleMainTagChange = (selectedOption) => {
-        setSelectedMainTag(selectedOption);
-    };
-
-    const searchDonationQuery = useQuery(
-        ["searchDonationQuery", searchValue],
+    const searchChallengeQuery = useQuery(
+        ["searchChallengeQuery", searchValue],
         async () => {
-            const response = await searchDonationRequest({ name: searchValue });
+            const response = await searchChallengeRequest({ name: searchValue });
             return response.data; 
         },
         {
             refetchOnWindowFocus: false,
             onSuccess: response => {
-                setDonationList(response.map(donation => ({
+                setChallengeList(response.map(donation => ({
                     ...donation
                 })));
             }
         }
     );
 
-        useEffect(() => {
-            setFilteredDonations(selectedMainTag
-            ? donationList.filter(
-                (donation) => donation.mainCategoryName === (selectedMainTag) 
-                )
-                : donationList);
-        }, [selectedMainTag, donationList]);
 
     // 정렬 순서 변경 핸들러
     const handleSortChange = (event) => {
@@ -84,7 +59,7 @@ function SearchPage(props) {
     };
 
     useEffect(() => {
-        const filtered = donationList.filter(donation => {
+        const filtered = challengeList.filter(donation => {
             let shouldInclude = true;
     
             if (state === '진행중') {
@@ -97,20 +72,8 @@ function SearchPage(props) {
         });
     
         setFilteredDonations(filtered);
-    }, [selectedMainTag, donationList, state]);
+    }, [challengeList, state]);
 
-
-    useEffect(() => {
-            let sortDonations = filteredDonations; 
-            if (sortOrder === '기부액순') {
-                sortDonations.sort((a, b) => parseInt(b.goalAmount) - parseInt(a.goalAmount));
-            } else if (sortOrder === '최신순') {
-                sortDonations.sort((a, b) => new Date(b.createDate) - new Date(a.createDate));;        
-            }
-            setFilteredDonations([...sortDonations]);
-        
-
-    }, [sortOrder]);
 
 
 
@@ -131,17 +94,6 @@ function SearchPage(props) {
         </div>
         <div css={s.searchSelect}>
    
-            {mainTagOptions.map(
-                    tag => (
-                    <button 
-                        key={tag.label} 
-                        css={s.tagButton}
-                        onClick={() => handleMainTagChange(tag.label)}
-                        aria-pressed={selectedMainTag === tag.label}
-                    >
-                        {tag.label}
-                    </button>
-                ))}
 
         </div>
         <div css={s.tagHeader}>
@@ -160,30 +112,28 @@ function SearchPage(props) {
         </div>
             <div css={s.donationList}>
                 {
-                    filteredDonations.map(
-                        donation =>
-                        <a href={`/donation?page=${donation.donationPageId}`} key={donation.donationPageId}  css={s.linkStyle}>
-                            <div key={donation.donationPageId} css={s.donationCard}>
+                    filteredDonations.map( 
+                        challenge =>
+                        <a href={`/challenge?page=${challenge.challengePageId}`} key={challenge.challengePageId}  css={s.linkStyle}>
+                            <div key={challenge.challengePageId} css={s.donationCard}>
                                 <div css={s.donationImage}>
                                     <img src={
-                                            ! donation.mainImgUrl
+                                            ! challenge.mainImgUrl
                                             ? "https://www.shutterstock.com/image-vector/no-image-available-picture-coming-600nw-2057829641.jpg"
-                                            : donation.mainImgUrl
+                                            : challenge.mainImgUrl
                                         } alt="" />
                                 </div>
                                 <div css={s.donationDetails}>
                                     <div css={s.donationText}>
                                         <h2>
-                                            <strong className={new Date(donation.endDate) > today ? 'active' : 'finished'}>
-                                            {new Date(donation.endDate) > today ? '진행중' : '종료'}
+                                            <strong className={new Date(challenge.endDate) > today ? 'active' : 'finished'}>
+                                            {new Date(challenge.endDate) > today ? '진행중' : '종료'}
                                             </strong> 
-                                            {'  '}{donation.storyTitle}
+                                            {'  '}{challenge.challengeTitle}
                                         </h2>
-                                        <p><TiHome color="gray"/> {!donation.teamName?"기관 없음":donation.teamName}</p>
+                                        <p><TiHome color="gray"/> {!challenge.teamName?"기관 없음":challenge.teamName}</p>
                                     </div>
-                                    <div css={s.donationAmount}>
-                                        <p><strong>₩</strong>{donation.goalAmount.toLocaleString()}</p>
-                                    </div>
+
                                 </div>
                             </div>
                         </a>

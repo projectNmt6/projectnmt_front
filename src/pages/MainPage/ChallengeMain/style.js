@@ -118,7 +118,7 @@ export const writeStyles = css`
   display: flex;
   margin: 20px;
   padding-right: 20px;
-
+  cursor: pointer;
   justify-content: flex-end; 
   width: 100%; /* 작성하기 요소가 전체 너비를 차지하도록 설정 */
 `;

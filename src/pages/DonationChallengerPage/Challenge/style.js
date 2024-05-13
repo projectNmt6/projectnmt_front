@@ -3,8 +3,11 @@
 import { css } from "@emotion/react";
 
 export const challengeStory = css`
-
+width: 700px;
 margin-bottom: 50px;
+* > img {
+  width: 700px;
+}
 
 @font-face {
   font-family: 'NEXON Lv1 Gothic OTF';

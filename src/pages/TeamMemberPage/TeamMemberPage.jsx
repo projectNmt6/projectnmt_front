@@ -35,7 +35,7 @@ function TeamMemberPage(props) {
         shareKakao(route, title, THU, content, page);
     };
     return (
-        <button onClick={handleShareKakao}></button>
+        <button onClick={handleShareKakao}>공유하기</button>
     );
 }
 

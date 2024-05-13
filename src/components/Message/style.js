@@ -36,15 +36,9 @@ export const messageBoxButton = css`
   height: 30px;
   position: relative;
   right: -150px;
-  color: #6b6b6bc1;
   box-shadow: 2px 2px 4px #808080;
   cursor: pointer;
-  :hover {
-      background-color:#b8b8b8c1
-  }
-  :active {
-      box-shadow: inset 5px 5px 10px #808080;
-  }
+
   & > * {
     font-size: 16px;
   }
@@ -68,29 +62,19 @@ export const messageSubmitButton = css`
   height: 35px;
   border: none;
   border-radius: 3px;
-  color: #6b6b6bc1;
-  box-shadow: 2px 2px 4px #808080;
+  box-shadow: 2px 2px 4px;
   cursor: pointer;
   :hover {
-      background-color:#b8b8b8c1
+     
   }
   :active {
-      box-shadow: inset 5px 5px 10px #808080;
+      box-shadow: inset 5px 5px 10px ;
   }
 `;
 
 export const openButton = css`
-  width: 150px;
-  height: 30px;
   border: none;
-  border-radius: 3px;
-  color: #6b6b6bc1;
-  box-shadow: 2px 2px 4px #808080;
   cursor: pointer;
-  :hover {
-      background-color:#b8b8b8c1
-  }
-  :active {
-      box-shadow: inset 5px 5px 10px #808080;
-  }
+  color: black; // 텍스트 색상이 명시적으로 지정되어 있는지 확인
+
 `;

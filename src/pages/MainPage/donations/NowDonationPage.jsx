@@ -238,10 +238,10 @@ function NowDonationPage() {
                 <button
                     key="alltag"
                     onClick={() => {
-                        setSelectedTagId(null);  // 모든 태그가 선택되지 않았음을 명시적으로 설정
-                        setSelectedTag(null);  // 필요한 경우 selectedTag도 초기화
+                        setSelectedTagId(null);  
+                        setSelectedTag(null); 
                     }}
-                    css={s.tagAllButton(selectedTag === null)}  // 스타일 적용 확인
+                    css={s.tagAllButton(selectedTag === null)}
                 >전체보기</button>
 
                 {donationTagList.map(tag => (

@@ -5,8 +5,6 @@ import React, { useEffect, useState } from 'react';
 import { getChallengeListByTeamIdRequest, getDonationListByTeamIdRequest, getTeamInfoRequest } from "../../apis/api/teamApi";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { updatePageShowRequest } from "../../apis/api/teamApi";
-import { getChallengeNewsRequest } from "../../apis/api/ChallengeApi";
-import { getDonationNewsRequest } from "../../apis/api/DonationAPI";
 
 function TeamStoryManagepage() {
     const [donationList, setDonationList] = useState([]);

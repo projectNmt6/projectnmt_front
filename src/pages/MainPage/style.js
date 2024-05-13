@@ -9,9 +9,10 @@ export const write=css`
   &>a{
     text-decoration-line: none;
      color: black;
-     font-weight: 600;
+     font-weight: 700;
      line-height: 1.48;
   }
+  cursor: pointer;
 `;
 
 export const tagContainer = css`

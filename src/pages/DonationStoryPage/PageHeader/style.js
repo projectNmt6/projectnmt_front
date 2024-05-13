@@ -95,6 +95,24 @@ export const likebutton1 = css`
     }
 `;
 
+export const cardStyle = css`
+  margin: 10px;
+  background-color: #fff;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 10px;
+  width: 100%;
+  &:hover {
+    text-decoration: none;
+    color: inherit;
+    background-color:#faf9f7;
+    transition: background-color 0.5s ease,
+    border-color 0.5s ease;
+  }
+`;
 export const donation = css`
     width: 200px;
     height: 46px;

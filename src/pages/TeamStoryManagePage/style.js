@@ -124,8 +124,8 @@ export const button4 = css`
     font-size: 16px;
    padding: 10px 20px;
   margin: 10px;
-  background-color: rgb(173, 76, 254); /* Green background */
-  color: white; /* White text */
+  background-color: rgba(54, 54, 54, 0.9);
+  color: white; 
   border: none;
   border-radius: 5px;
   cursor: pointer;

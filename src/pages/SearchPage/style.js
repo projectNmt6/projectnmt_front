@@ -3,10 +3,10 @@ import { css } from "@emotion/react";
 export const layout = css`
 overflow: auto;
 @font-face {
-    font-family: 'omyu_pretty';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'NEXON Lv1 Gothic OTF';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON%20Lv1%20Gothic%20OTF') format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
 `
 export const searchBar = css`
@@ -24,7 +24,7 @@ export const searchInput = css`
 
   &>input{
     display: flex;
-    font-family: 'omyu_pretty';
+    font-family: 'NEXON Lv1 Gothic OTF';
     align-items: flex-start;
     box-sizing: border-box;
     border: none;
@@ -72,7 +72,7 @@ export const searchCategory = css`
 export const donationList = css`
   display: flex;
   flex-direction: column;
-  font-family: 'omyu_pretty';
+  font-family: 'NEXON Lv1 Gothic OTF';
   justify-content: center;
   margin: 5px 100px;
   gap: 20px; 
@@ -160,18 +160,13 @@ border-top: 1px solid #dbdbdb;
 display: flex;
 justify-content: space-between;
 align-items: center;
-font-family: 'omyu_pretty';
+font-family: 'NEXON Lv1 Gothic OTF';
 margin: 0 100px 0 100px;
-@font-face {
-    font-family: 'omyu_pretty';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}
+
 `
 export const selectItems = css`
 display: flex;
-font-family: 'omyu_pretty';
+font-family: 'NEXON Lv1 Gothic OTF';
 overflow: hidden;
 `
 
