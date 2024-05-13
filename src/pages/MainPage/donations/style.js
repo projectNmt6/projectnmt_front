@@ -61,7 +61,6 @@ export const donationCard = css`
   box-sizing: border-box;
   width: 270px; 
   height: 330px;
-  border: 1px solid #ccc; 
   overflow: hidden; 
 
 

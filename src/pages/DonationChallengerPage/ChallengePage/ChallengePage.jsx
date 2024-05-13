@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { deleteChallengePage, getChallengePageRequest } from '../../../apis/api/DonationAPI';
@@ -17,6 +17,7 @@ import { HiOutlineClock } from "react-icons/hi2";
 import { HiBadgeCheck } from "react-icons/hi";
 import TopButton from '../../../components/TopButton/TopButton';
 import ChallengeComment from './ChallenegComment/ChallengeComment';
+import ChallengePageHeader from "../../DonationStoryPage/PageHeader/ChallengePageHeader";
 function ChallengePage() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -26,6 +27,7 @@ function ChallengePage() {
     const [teamInfo, setTeamInfo] = useState();
     const [actingHeadCount, setActingHeadCount] = useState(0);
 
+    const contentRef = useRef(null);
     const getChallengePageQuery = useQuery(
         ["getChallengePageQuery", challengePageId],
         async () => {
@@ -185,11 +187,6 @@ function ChallengePage() {
         }
     }, [challengePage]);
 
-    const handleNewsButtonClick = () => {
-        window.location.replace(`/main/challenge/news?page=${challengePageId}`);
-    };
-
-
     const [actionList, setActionList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -215,6 +212,12 @@ function ChallengePage() {
 
     return (
         <div css={s.contentAreaStyle}>
+            <ChallengePageHeader 
+            contentRef={contentRef}
+            challengePageId={challengePageId}
+            selectedTab={selectedTab}
+            handleTabChange={handleTabChange}
+            />
 
             {showModal && (
                 <div css={s.container3}>
@@ -245,9 +248,13 @@ function ChallengePage() {
                         </div>
                     </div>
                     <div >
+                    <div ref={contentRef} css={s.buttonGroupContainer}>
+                    <div css={s.buttonGroup}>
                         <button css={s.button4} onClick={() => handleTabChange('story')}>Story</button>
                         <button css={s.button4} onClick={() => handleTabChange('action')}>Action</button>
                         <button css={s.button4} onClick={() => handleTabChange('news')}>news</button>
+                        </div>
+                        </div>
                         <div css={s.boxbox1}>
                         </div>
                         <div>
