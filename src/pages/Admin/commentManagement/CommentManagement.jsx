@@ -78,7 +78,7 @@ function CommentManagement({userId} ) {
             deleteCommentMutation.mutate(deleteComments);
         }
         setIsDelete(() => false);
-    },[sortedCommentList])
+    },[isDelete])
     return (
         <>
             <div css={s.buttonContainer}>

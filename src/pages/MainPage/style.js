@@ -97,9 +97,8 @@ export const linkStyle = css`
 export const headerButton = (selectedCategory) => css`
   display: flex;
   &>button{
-    background-color: none;
+    background-color: transparent;
     border: none;
-    background-color: transparent; 
     color: #949494;
     margin: 10px;
     cursor: pointer;
@@ -107,24 +106,22 @@ export const headerButton = (selectedCategory) => css`
     text-decoration-line: none;
     font-weight: 1000;
     line-height: 1.48;
-    &:focus{
+    &:focus, &:hover {
       font-weight: bold;
       color: black;
       border-bottom: 2px solid black;
     }
     &:nth-child(1){
-      color: ${!selectedCategory ? "black" : "#949494" };
-      border-bottom: ${!selectedCategory ? "2px solid black" : "none" };
+      color: ${selectedCategory === 0 ? "black" : "#949494"};
+      border-bottom: ${selectedCategory === 0 ? "2px solid black" : "none"};
+    }
+    &:nth-child(2){
+      color: ${selectedCategory === 1 ? "black" : "#949494"};
+      border-bottom: ${selectedCategory === 1 ? "2px solid black" : "none"};
     }
   }
-  @font-face {
-    font-family: 'NEXON Lv1 Gothic OTF';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON%20Lv1%20Gothic%20OTF') format('woff');
-    font-weight: normal;
-    font-style: normal;
-  }
-  
-  `;
+`;
+
 export const header = css`
 display: flex;
 justify-content: space-between;

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { FiSearch } from 'react-icons/fi';
 import axios from 'axios';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";

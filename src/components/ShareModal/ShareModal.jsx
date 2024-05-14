@@ -38,7 +38,6 @@ const ShareModal = ({ isOpen, onClose, donationPage, donationPageId }) => {
         <div css={s.body}>
           <button css={s.kakaobutton} onClick={handleShareKakao}></button>
           <button css={s.linkbutton} onClick={handleCopyLink}></button>
-          <button css={s.loginButton} onClick={handleNaverShare}>네이버 공유하기</button>
         </div>
       </div>
     </div>

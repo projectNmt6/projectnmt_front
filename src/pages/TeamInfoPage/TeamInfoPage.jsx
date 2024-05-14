@@ -362,7 +362,7 @@ function TeamInfoPage(props) {
                                                             <div>
 
                                                                 <button css={s.button4}><Link css={s.link2} to={`/main/donation/update?page=${donation.donationPageId}`}>수정하기</Link></button>
-                                                                <button css={s.button6} onClick={() => handleDeleteButtonClick(donation.donationPageId)}>삭제하기</button>
+                                                                {/* <button css={s.button6} onClick={() => handleDeleteButtonClick(donation.donationPageId)}>삭제하기</button> */}
 
                                                                 {newsData[donation.donationPageId] ? (
                                                                     <button css={s.button5}>
@@ -406,7 +406,7 @@ function TeamInfoPage(props) {
 
                                                             <div>
 
-                                                                <button css={s.button4}><Link css={s.link2} to={`/challenge/update?page=${challenge.challengePageId}`}>수정하기</Link></button>
+                                                                <button css={s.button4}><Link css={s.link2} to={`/main/challenge/update?page=${challenge.challengePageId}`}>수정하기</Link></button>
                                                                 {/* <button css={s.button6} onClick={() => handleChallengeDeleteButtonClick(challenge.challengePageId)}>삭제하기</button> */}
 
                                                                 {newsData[challenge.challengePageId] ? (

@@ -1,11 +1,40 @@
 import { css } from "@emotion/react"
 
-export const DonatorBox = css`
-    display: flex;
-    border: 1px solid #222222;
+
+export const actionBoardContainer = css`
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-auto-rows: auto;
+    grid-gap: 20px;
+    grid-auto-flow: dense;
+    padding-left: 20px;
+`;
+
+export const actionItem = css`
+  padding: 20px;
+  width: 250px;
+    height: auto;
+    object-fit: contain;
+   box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 20px 0px;
+   border-radius: 15px;
+`;
+
+
+export const username = css`
+  color: rgb(32, 32, 32);
+  font-size: 13px;
+`;
+export const amount = css`
+color: rgb(32, 32, 32);
+font-size: 15px;
+`;
+export const donationDate = css`
+font-size: 13px;
+color: gray;
 `;
 export const mainLayout = css`
-    width: 750px;
+    width: 700px;
 `;
 
 export const textTitle = css`

@@ -116,6 +116,15 @@ export const inputField = css`
     font-size: 20px;
     font-family: 'NEXON Lv1 Gothic OTF';
 `;
+export const textarea = css`
+    width: 100%;
+    height: 150px;
+    padding: 20px;
+    margin: 10px 0; 
+    box-sizing: border-box; 
+    font-size: 20px;
+    font-family: 'NEXON Lv1 Gothic OTF';
+`;
 export const imageBox = css`
     box-sizing: border-box;
     display: flex;

@@ -173,20 +173,16 @@ function ChallengePage() {
             const currentDate = new Date();
             const endDate = new Date(challengePage.endDate);
     
-            // Calculate remaining time in milliseconds
             const remainingTime = endDate.getTime() - currentDate.getTime();
     
-            // Convert milliseconds to days
             const days = Math.max(0, Math.ceil(remainingTime / (1000 * 60 * 60 * 24)));
     
-            // Update state for remaining days
             setRemainingDays(days);
     
-            // Set endDatePassed based on remaining days
             setEndDatePassed(days <= 0);
         } else {
             setRemainingDays('날짜 정보 없음');
-            setEndDatePassed(true); // Assume passed if no end date is available
+            setEndDatePassed(true);
         }
     }, [challengePage]);
     

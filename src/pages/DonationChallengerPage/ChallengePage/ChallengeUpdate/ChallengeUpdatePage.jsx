@@ -188,27 +188,12 @@ useEffect(() => {
             datePickerRef.current.setFocus();
         }
     }
-    const handleFileChange = (e) => {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-  
-      reader.onloadend = () => {
-        setUploadedImages((prevImages) => [...prevImages, reader.result]);
-      };
-  
-      if (file) {
-        reader.readAsDataURL(file);
-      }
-    };
+   
     const headCountChange = (e) => {
         const value = e.target.value;
         const parsedValue = value ? parseInt(value) : null;
         setHaedCount(parsedValue);
     }
-    const handleEndDateChange = (date) => {
-        setEndDate(date);
-
-    };
     return (
         <>
         <div css={s.mainLayout}>
@@ -225,8 +210,8 @@ useEffect(() => {
 
             <div>
             <div  css={s.textTitle}>프로젝트 요약</div>
-                <input type="text" 
-                css={s.inputField}
+                <textarea type="text" 
+                css={s.textarea}
                 placeholder='요약' 
                 value={overview} 
                 onChange={(e) => setOverview(e.target.value)} />
