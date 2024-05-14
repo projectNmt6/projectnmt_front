@@ -28,6 +28,7 @@ export const ShareModal = ({ isOpen, onClose, donationPage }) => {
   };
 
   console.log("Donation Page in Modal:", donationPage); // 확인을 위한 로깅
+  console.log("mainImgUrl:", donationPage.mainImgUrl); // 확인을 위한 로깅
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href);
