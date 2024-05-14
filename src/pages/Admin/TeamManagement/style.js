@@ -209,20 +209,28 @@ export const imgBox = css`
     `;
 
     export const baseButton = css`
-    width: 150px;
-    height: 30px;
-    margin-left   : 82px;
-    border: none;
-    border-radius: 3px;
-    color: #6b6b6bc1;
-    box-shadow: 2px 2px 4px #808080;
+  box-sizing: border-box;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgb(229, 229, 229);
+    margin: 0px;
+    line-height: 1.5;
+    letter-spacing: -0.1px;
+    text-decoration: none;
     cursor: pointer;
-    :hover {
-        background-color:#b8b8b8c1
-    }
-    :active {
-        box-shadow: inset 5px 5px 10px #808080;
-    }
+    background-color: rgb(255, 255, 255);
+    height: 46px;
+    padding: 0px 20px;
+    border-radius: 999px;
+    gap: 6px;
+    width: 140px;
+    color: rgb(68, 68, 68);
+    font-weight: normal;
+    box-shadow: none; 
+    font-size: 18px;
+    font-family: 700;
+    font-family: "NEXON Lv1 Gothic OTF";
     `;
 
 export const layout = (show) => css`
