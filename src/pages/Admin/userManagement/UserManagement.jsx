@@ -204,8 +204,8 @@ function UserManagement({page, }) {
             </div>
             <div css={s.container}>
             <div >
-                    <button onClick={() => handleTabChange("userInfo")} css={activeTab === "userInfo" ? s.baseButton : s.baseButton}>User Info</button>
-                    <button onClick={() => handleTabChange("comments")} css={activeTab === "comments" ? s.baseButton : s.baseButton}>Comments</button>
+                    <button onClick={() => handleTabChange("userInfo")} css={activeTab === "userInfo" ? s.baseButton : s.baseButton}>유저관리</button>
+                    <button onClick={() => handleTabChange("comments")} css={activeTab === "comments" ? s.baseButton : s.baseButton}>댓글관리</button>
                 </div>
 
                  {activeTab === "userInfo" && (

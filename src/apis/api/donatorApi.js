@@ -10,10 +10,10 @@ export const getDonatorList = async (params) => {
     return await instance.get("/account/mypage/donation", {params});
 }
 export const getDonators = async (params) => { 
-    return await instance.get("/donator", {params});
+    return await instance.get("/main/donator", {params});
 }
 export const getDonatorsByPageId = async (params) => { 
-    return await instance.get(`/list/${params.pageId}`);
+    return await instance.get(`/main/list/${params.pageId}`);
 }
 export const passwordEditData = async (data) => {
     return await instance.put("/account/mypage/edit/password", data)
