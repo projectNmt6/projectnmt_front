@@ -3,7 +3,7 @@
 import { css } from "@emotion/react";
 
 export const mainLayout = css`
-    width: 750px;
+    width: 700px;
 `;
 
 

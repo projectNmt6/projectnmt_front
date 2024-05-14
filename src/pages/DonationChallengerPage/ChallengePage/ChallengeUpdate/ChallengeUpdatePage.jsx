@@ -283,9 +283,6 @@ useEffect(() => {
  
 
             <div css={s.buttonBox}>
-            <button css={[s.buttonStyle, s.cancelButtonStyle]} onClick={handleCancelButton}>
-                취소
-            </button>
             <button css={s.buttonStyle} onClick={handleSubmitButton}>
                 작성완료
             </button>

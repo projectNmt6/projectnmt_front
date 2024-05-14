@@ -74,7 +74,7 @@ function EndedDonationsPage(props) {
     return (
         <>
                 <div css={s.donationList}>                   
-                                    {
+                            {
                     visibleDonations.map(
                         donation => (
                             <a href={`/donation?page=${donation.donationPageId}`} key={donation.donationPageId} css={s.linkStyle}>

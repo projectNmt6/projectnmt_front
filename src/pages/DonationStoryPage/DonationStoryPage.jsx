@@ -208,6 +208,9 @@ function DonationStoryPage() {
     }, [showModal])
 
 
+    const { storyContent, storyTitle, mainImgUrl, createDate, endDate } = donationPage || {};
+
+    const safeHTML = DOMPurify.sanitize(donationPage.storyContent);
     useEffect(() => {
         if (donationPage.endDate) {
             const endDate = new Date(donationPage.endDate);
@@ -287,7 +290,8 @@ function DonationStoryPage() {
                                     <span>
                                         <LikeButton donationPageId={donationPageId} />
                                     </span >
-                                    <span ><ShareButton /> 공유</span>
+                                    <span ><ShareButton donationPage={donationPage}
+                                     /> 공유</span>
                                 </div>
                             </div>
 
