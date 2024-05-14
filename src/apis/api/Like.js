@@ -8,3 +8,6 @@ export const postLike = async (data) => {
 export const getLike = async (params) => {
     return await instance.get("/like/get",{params});
 }
+export const getBestComment = async () => {
+    return await instance.get("/like/bestcomment");
+}

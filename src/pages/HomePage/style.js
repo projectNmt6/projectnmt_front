@@ -35,7 +35,7 @@ export const introStyle = css`
         border-radius: 50%;
         width: 70px;
         height: 70px;
-        padding-right: 50px;
+        margin-right: 50px;
     }
     & > h3 {
         padding: 5px 20px;
@@ -435,6 +435,14 @@ export const button = (color) => css`
   flex-wrap: wrap;
   position: relative;
   white-space: normal;
+  &>a{
+    color: black;
+  text-decoration: none;
+  &>img{
+    width: 50px;
+    height: 50px;
+  }
+  }
 `;
 export const button2 = (color) => css`
   display: flex;
@@ -454,6 +462,10 @@ export const button2 = (color) => css`
   &>a{
     color: black;
   text-decoration: none;
+  &>img{
+    width: 50px;
+    height: 50px;
+  }
   }
 `;
 
@@ -472,6 +484,7 @@ export const icon = css`
   margin-top: 10px; 
   border: 0;
   background-color: transparent;
+  cursor: pointer;
 `;
 
 

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from "react-query";
 import { commentResponse, getAllAmount, getDonationListRequest, getDonationStoryRequest, getProgressAmount } from "../../apis/api/DonationAPI";
 import introImg from '../../assets/introImg.jpeg';
-import introImg2 from '../../assets/introImg2.jpeg';
+import introImg2 from '../../assets/introImg2.png';
 import { FaArrowCircleRight } from "react-icons/fa";
 import sideImg from '../../assets/sideImg.png';
 import DonatorKing from "../../components/HomeBoard/DonatorKing";
@@ -123,7 +123,11 @@ function HomePage() {
                         </div>
                         <div css={s.totalAmountBox}>
                             <h3>총 기부     {totalDonationLength} 건</h3>
-                            <h3> ₩ 총 기부금     {totalDonationAmount.toLocaleString()}원</h3>
+                            {totalDonationAmount > 0 ? (
+                             <h3>총 기부금     {totalDonationAmount.toLocaleString()}원</h3>
+                                ) : (
+                             <h3>₩ 총 기부금 0원</h3>
+                                )}
                         </div>
                     </div>
 
@@ -132,7 +136,7 @@ function HomePage() {
                    
                         <h2>따뜻한 후기</h2>
                     
-                        <CommentShow donationPageId={97} />  
+                        <CommentShow />  
                     </div>
                     
                     <div css={s.sidebarStyle}>
@@ -149,7 +153,7 @@ function HomePage() {
                                 <p css={s.NoticeText}>챌린지 참여만으로 기부에 참여할 수 있어요!</p>
                                 <a href="/main/challenges" css={s.icon}><FaRegArrowAltCircleRight /></a>
                             </div>
-                            <div css={s.button}>
+                            <div css={s.button2}>
                                 <p css={s.NoticeText}>모금을 제안하고 싶은 당신을 위한 꿀팁!</p>
                                 <button css={s.icon} onClick={()=>setShowModal(!showModal)}><FaRegArrowAltCircleRight /></button>
                                 {showModal && (
@@ -157,9 +161,10 @@ function HomePage() {
                                     <div css={s.modal}><DonateTip setShowModal={setShowModal} /></div>
                                  )}
                             </div>
-                            <div css={s.button2}>
+                            <div css={s.button}>
                                 <p css={s.NoticeText}>NMT를 통해 어떤 변화가 이루어질까요?</p>
-                                <a href="/aboutNMT" css={s.icon}><FaRegArrowAltCircleRight /></a>
+                                <a href="/aboutNMT" css={s.icon}> <img src={introImg2} alt="" /></a>
+                                
                             </div>
                         </div>
                     </div>

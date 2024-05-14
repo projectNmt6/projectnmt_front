@@ -19,6 +19,12 @@ function LastDonator(props) {
             refetchOnWindowFocus: false,
             onSuccess: response => {
                 const donations = response.data;
+                  // 데이터가 없는 경우 처리
+                    if (donations.length === 0) {
+                        setClosestToGoal(null);
+                        return;
+                    }
+                console.log(donations);
                 const filteredDonations = donations.filter(donation => donation.goalAmount !== 0);
                 const uniqueDonations = filteredDonations.reduce((acc, curr) => {
                     if (!acc.some(item => item.donationPageId === curr.donationPageId)) {
@@ -26,7 +32,7 @@ function LastDonator(props) {
                     }
                     return acc;
                 }, []);
-
+                console.log(filteredDonations);
                 const closestToGoalDonation = uniqueDonations.reduce((prev, curr) => {
                     const prevDiff = Math.abs(prev.goalAmount - prev.addAmount);
                     const currDiff = Math.abs(curr.goalAmount - curr.addAmount);
@@ -43,6 +49,8 @@ function LastDonator(props) {
             <div css={s.cardStyle}>
                 <h2>마지막 기부자를 찾습니다 <BsFillSearchHeartFill color="#aff0f0" /></h2>
                 <p><strong>목표 달성까지 얼마 남지 않았어요! </strong></p>
+            {closestToGoal ? (
+            <div css={s.donationList}>
                 {closestToGoal && (
                     <div css={s.donationList}>
                         <a href={`/donation?page=${closestToGoal.donationPageId}`} key={closestToGoal.donationPageId} css={s.linkStyle}>
@@ -72,7 +80,10 @@ function LastDonator(props) {
                         </a>
                     </div>
                 )}
-
+              </div>
+                ) : (
+            <p>기부 캠페인이 없습니다.</p>
+                )}
             </div>
         </>
     );
