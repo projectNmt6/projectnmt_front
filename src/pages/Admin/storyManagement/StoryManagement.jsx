@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useMutation, useQuery } from "react-query";
 import Select from 'react-select';
 import { donation } from "../../DonationStoryPage/style";
-import { deleteDonationListRequest, deleteTeamListRequest, getAdminDonationListRequest, getStoryCountRequest, getTeamListRequest, updateDonationShowRequest } from "../../../apis/api/Admin";
+import { deleteDonationListRequest, deleteTeamListRequest, getAdminChallengeListRequest, getAdminDonationListRequest, getStoryCountRequest, getTeamListRequest, updateDonationShowRequest } from "../../../apis/api/Admin";
 import Message from "../../../components/Message/Message";
 import { Link, useSearchParams } from "react-router-dom";
 import AdminSearchPageNumbers from "../../../components/AdminSearchPageNumbers/AdminSearchPageNumbers";
@@ -23,6 +23,7 @@ function SearchPage(props) {
     const [donator, setDonator] = useState([]);
     const [ searchParams, setSearchParams ] = useSearchParams();
     const [ selectedStory, setSelectedStory ] = useState({});
+    const [ listHandler, setListHandler ] = useState(false);
     const searchCount = 10;
     const checkBoxRef = useRef();
     const storyLinkRef = useRef();
@@ -34,6 +35,7 @@ function SearchPage(props) {
         setSearchParams({
             page: 1
         })
+        setStoryList([]);
         getDonationListQuery.refetch();
     }
     
@@ -110,7 +112,7 @@ function SearchPage(props) {
         {
             refetchOnWindowFocus: false,
             onSuccess: response => {
-                console.log(response);
+                setListHandler(() => !listHandler)
                 setStoryList(() => response.data.map(story => {
                     return {
                         ...story,
@@ -121,6 +123,9 @@ function SearchPage(props) {
             }
         }
     );
+    useEffect(() => {
+        console.log(storyList);
+    },[storyList])
     const getCountQuery = useQuery(
         [ "getCountQuery", storyList ],
         async () => await getStoryCountRequest({
@@ -144,6 +149,7 @@ function SearchPage(props) {
             pageId: selectedStory.donationPageId
         }),
         {   
+            enabled: selectedStory?.donationPageId !== undefined,
             onSuccess: response => {
                 console.log(response);
                 setDonator(response.data.map(donator => {
@@ -240,8 +246,7 @@ function SearchPage(props) {
             </div>
             <div css={s.container}>
                 <table css={s.registerTable}>
-                    {
-                        selectedStory.isDonation === 1 ?
+                    
                         <tbody>
                             <tr>
                                 <th css={s.registerTh}>스토리 번호</th>
@@ -264,7 +269,7 @@ function SearchPage(props) {
                             <tr>
                                 <th css={s.registerTh}>모금 현황 / 모금 목표</th>
                                 <td >
-                                    {donator[0].addAmount} / {selectedStory.goalAmount}
+                                    {donator[0]?.addAmount} / {selectedStory.goalAmount}
                                 </td>
                                 <th css={s.registerTh}>기부 / 챌린지</th>
                                 <td >
@@ -274,7 +279,7 @@ function SearchPage(props) {
                             <tr>
                             <th css={s.registerTh}> 보류상태 </th>
                                 <td>
-                                    {selectedStory.donationPageShow === 1 ?  "확인 완료" : selectedStory.donationPageShow === 2 ? " 보류 중 " : "삭제 요청" }  
+                                    {selectedStory.donationPageShow === 1 ?  "확인 완료" : selectedStory.donationPageShow === 2 ? " 보류 중 " : selectedStory.donationIsShow === 3 ? "삭제 요청" : null}  
                                 </td>
                                 <th css={s.registerTh}>팀 명</th>
                                 <td >
@@ -282,43 +287,6 @@ function SearchPage(props) {
                                 </td>
                             </tr>
                         </tbody>
-                        : <tbody>
-                        <tr>
-                            <th css={s.registerTh}>스토리 번호</th>
-                            <td>
-                                {selectedStory.donationPageId}
-                            </td>
-                            <th css={s.registerTh}>스토리 타이틀</th>
-                            <td>
-                                {selectedStory.storyTitle}
-                            </td>
-                            <td rowSpan={3} style={{width:"200px", boxSizing:"border-box", padding:"5px"}}>
-                                <div css={s.imgBox}>
-                                    <img src={selectedStory.mainImgUrl} alt="" />
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th css={s.registerTh}>모금 현황 / 모금 목표</th>
-                            <td >
-                                {selectedStory.goalAmount}
-                            </td>
-                            <th css={s.registerTh}>main_category_id</th>
-                            <td >
-                                {selectedStory.mainCategoryName}
-                            </td>                                
-                        </tr>
-                        <tr>
-                            <th css={s.registerTh}>donation_page_show</th>
-                            <td>
-                                
-                            </td>
-                            <th css={s.registerTh}>page_category_id</th>
-                            <td >
-                            </td>
-                        </tr>
-                    </tbody>
-                    }
                     </table>
                 <div css={s.searchBar}>
                     <Select 
@@ -366,9 +334,6 @@ function SearchPage(props) {
                                 storyList.map(
                                     story => 
                                     <>
-                                    
-                                    {
-                                        story?.isDonation === 1 ?
                                         <tr key={story.donationPageId}>
                                             <td><input type="checkbox" value={story.donationPageId} checked={story.checked} onChange={handleCheckOnChange}/></td>
                                             <td>{story.donationPageId}</td>
@@ -377,16 +342,6 @@ function SearchPage(props) {
                                             <td>{story.donationPageShow === 1 ?  "확인 완료" : story.donationPageShow === 2 ? <button onClick={() => pagePermitButtonOnClick(story.donationPageId)} css={s.showButton}> 보류 중 </button> : "삭제 요청"}</td>
                                             <td>{story.mainCategoryName}</td>
                                         </tr>
-                                    :
-                                        <tr key={story.donationPageId}>
-                                            <td><input type="checkbox" value={story.donationPageId} checked={story.checked} onChange={handleCheckOnChange}/></td>
-                                            <td>{story.donationPageId}</td>
-                                            <td>{story.storyTitle}</td>
-                                            <td>{story.goalAmount}</td>
-                                            <td>{story.donationPageShow === 1 ?  "확인 완료" : story.donationPageShow === 2 ? " 보류 중 " : "삭제 요청"}</td>
-                                            <td>{story.mainCategoryName}</td>
-                                        </tr>
-                                    }
                                     </>
                                 )
                                 }

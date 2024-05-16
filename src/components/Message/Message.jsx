@@ -2,8 +2,8 @@
 import * as s from "./style";
 import React, { useState } from 'react';
 import { useMutation } from 'react-query';
-import { postMessageRequest } from '../../apis/api/Admin';
 import { IoClose } from "react-icons/io5";
+import { postMessageRequest } from "../../apis/api/Message";
 
 function Message({senderId, list, isTeam ,text}) {
     const [ message, setMessage ] = useState();

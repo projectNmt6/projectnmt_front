@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { deleteAllMessageRequest, getMessageListRequest } from '../../apis/api/Message';
+import { deleteAllMessageRequest, deleteMessageRequest, getMessageListRequest } from '../../apis/api/Message';
 import { useSearchParams } from 'react-router-dom';
 import Message from '../../components/Message/Message';
+import { now } from 'moment/moment';
 
 function MessagePage({isTeam, adminId}) {
     const queryClient = useQueryClient();
@@ -21,10 +22,34 @@ function MessagePage({isTeam, adminId}) {
         enabled: !!principalData?.data, 
         refetchOnWindowFocus: false,
         onSuccess: response => {
-            console.log(response);
             setMessageList(() => response.data);
         }
     });
+    const deleteOldMessageMutation = useMutation({
+        mutationKey: "deleteOldMessageMutation",
+        mutationFn: deleteMessageRequest,
+        onSuccess: response => {
+            alert("삭제완료.");
+            window.location.reload();   
+        },
+        onError: error => {}
+    }) 
+
+    useEffect(() => {
+        if(messageList.length > 0) {
+            const deleteList = messageList.filter(message => {
+                let date = new Date(message.date);
+                let newDate = new Date();
+                let Mdiff = Math.abs(newDate.getMonth() - date.getMonth());
+                let Ddiff = Math.abs(newDate.getDate() - date.getDate());
+                const diff = Mdiff * 30 + Ddiff;
+                console.log(diff);
+                return diff >= 60;
+            }).map(message => message.messageId);
+            console.log(deleteList);
+            deleteOldMessageMutation.mutate(deleteList);
+        }
+    },[messageList])
     const deleteMessageMutation = useMutation({
         mutationKey: "deleteNessageMutation",
         mutationFn: deleteAllMessageRequest,
