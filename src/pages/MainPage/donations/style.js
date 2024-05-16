@@ -61,20 +61,10 @@ export const donationCard = css`
   box-sizing: border-box;
   width: 270px; 
   height: 330px;
-  border: 1px solid #ccc; 
-  overflow: hidden; 
-
-
-  @media (max-width: 768px) { // 태블릿 이하에서 적용
-    flex-direction: column;
-    padding: 10px;
-  }
-
-  @media (max-width: 480px) { // 모바일 디바이스에서 적용
-    padding: 8px;
-    margin-bottom: 15px;
-  }
-  `;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+`;
 
 export const donationImage = css`
 
@@ -89,19 +79,21 @@ position: relative;
 
 export const donationDetails = css`
   display: flex;
-  
   flex-direction: column;
+  justify-content: space-between; // This distributes the space among children elements.
 `;
 export const donationTitle = css`
   font-size: 16px;
   color: rgb(32, 32, 32);
-  padding-bottom: 5px;
   padding-top: 10px;
+  height: 35px; // Adjust this height based on maximum expected lines (e.g., two lines of text)
+  overflow: hidden; // Ensures text doesn't overflow the designated space.
 `;
 export const teamName = css`
   color: rgb(136, 136, 136);
   font-size: 14px;
-  margin-bottom: 10px;
+  height: 15px;
+  padding: 10px 0px;
 `;
 export const LikeButtonContainer = css`
     display: flex;
@@ -187,6 +179,7 @@ export const selectItems = css`
 display: flex;
 justify-content: flex-end;
 padding: 20px;
+margin-right: 50px;
 `
 // style.js
 

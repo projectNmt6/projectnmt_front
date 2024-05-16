@@ -21,54 +21,47 @@ function NowDonationPage() {
     const itemsPerPage = 30;
     const [currentPage, setCurrentPage] = useState(0);
     const [sortedDonations, setSortedDonations] = useState([]);
+
+
+    // useEffect로 API 호출을 통합하여 중복 제거
     useEffect(() => {
-        const fetchDonationTags = async () => {
+        const fetchData = async () => {
             try {
-                const response = await getDonationTagRequest();
-                const options = response.data.map(tag => ({
+                const [tagResponse, donationResponse] = await Promise.all([
+                    getDonationTagRequest(),
+                    getDonationListRequest()
+                ]);
+
+                // 태그 처리
+                const tagOptions = tagResponse.data.map(tag => ({
                     value: tag.donationTagId,
                     label: tag.donationTagName
                 }));
-                setDonationTagList(options);
-            } catch (error) {
-                console.error(error);
-            }
-        };
+                setDonationTagList(tagOptions);
 
-        fetchDonationTags();
-    }, []);
-
-    useEffect(() => {
-        const fetchDonationList = async () => {
-            try {
-                const response = await getDonationListRequest();
+                // 기부 목록 처리
                 const today = new Date();
-                const validDonations = response.data.filter(donation => {
-                    const endDate = new Date(donation.endDate);
-                    return endDate > today;
-                });
-
-                const updatedDonationList = validDonations.map(donation => {
-                    const endDate = new Date(donation.endDate);
-                    const timeDiff = endDate - today;
-                    const daysLeft = timeDiff / (1000 * 60 * 60 * 24);
-                    console.log(donation.createDate)
-                    return {
-                        ...donation,
-                        timeOut: daysLeft < 3,
-                    };
-                });
-                setDonationList(updatedDonationList);
-                setVisibleDonations(updatedDonationList.slice(0, itemsPerPage));
+                const validDonations = donationResponse.data.filter(donation => new Date(donation.endDate) >= today);
+                setDonationList(validDonations);
+                setVisibleDonations(validDonations.slice(0, itemsPerPage));
             } catch (error) {
-                console.error(error);
+                console.error("Error fetching data:", error);
             }
         };
 
-        fetchDonationList();
+        fetchData();
     }, []);
 
-    
+    // 정렬 함수 활용 예시
+    useEffect(() => {
+        const sorted = applySorting(donationList, sortOrder);
+        setSortedDonations(sorted);
+        setVisibleDonations(sorted.slice(0, itemsPerPage));
+    }, [donationList, sortOrder]);
+
+
+
+
     const getDonationListQuery = useQuery(
         "getDonationQuery",
         async () => await getDonationListRequest(),
@@ -84,7 +77,7 @@ function NowDonationPage() {
                     const endDate = new Date(donation.endDate);
                     const timeDiff = endDate - today;
                     const daysLeft = timeDiff / (1000 * 60 * 60 * 24);
-                    console.log("1"+donation.createDate)
+                    console.log("1" + donation.createDate)
                     return {
                         ...donation,
                         timeOut: daysLeft < 3,
@@ -92,7 +85,7 @@ function NowDonationPage() {
                 });
                 setDonationList(updatedDonationList);
                 setVisibleDonations(updatedDonationList.slice(0, itemsPerPage));
-               
+
             }
         }
     );
@@ -155,13 +148,13 @@ function NowDonationPage() {
     const handleSortChange = (event) => {
         setSortOrder(event.target.value);
         setCurrentPage(0);  // 현재 페이지를 0으로 리셋
-    
+
         // 새 정렬 순서에 따라 보이는 기부 목록을 즉시 조정
         const sorted = applySorting(donationList, event.target.value);
         setSortedDonations(sorted);
         setVisibleDonations(sorted.slice(0, itemsPerPage));
     };
-    
+
     // 정렬 순서에 따라 정렬을 적용하는 헬퍼 함수
     const applySorting = (donations, sortOrder) => {
         return donations.sort((a, b) => {
@@ -179,8 +172,8 @@ function NowDonationPage() {
             }
         });
     };
-    
-    
+
+
 
     useEffect(() => {
         const filteredDonations = donationList.filter(
@@ -204,16 +197,16 @@ function NowDonationPage() {
 
     useEffect(() => {
         const visible = sortedDonations.slice(0, itemsPerPage);
-        setVisibleDonations(visible);    
-    }, [sortedDonations, currentPage, itemsPerPage]);   
-    
+        setVisibleDonations(visible);
+    }, [sortedDonations, currentPage, itemsPerPage]);
+
     useEffect(() => {
         // 정렬 순서가 변경될 때만 sortedDonations를 재계산하고, 페이지 변경 시에는 하지 않음
         const sorted = applySorting(donationList, sortOrder);
         setSortedDonations(sorted);
         setVisibleDonations(sorted.slice(0, itemsPerPage));
     }, [donationList, sortOrder]);  // selectedTagId와 currentPage 종속성 제거
-    
+
     useEffect(() => {
         const loadMoreVisibleDonations = () => {
             const newVisibleDonations = sortedDonations.slice(0, (currentPage + 1) * itemsPerPage);
@@ -241,8 +234,8 @@ function NowDonationPage() {
                 <button
                     key="alltag"
                     onClick={() => {
-                        setSelectedTagId(null);  
-                        setSelectedTag(null); 
+                        setSelectedTagId(null);
+                        setSelectedTag(null);
                     }}
                     css={s.tagAllButton(selectedTag === null)}
                 >전체보기</button>
@@ -286,7 +279,7 @@ function NowDonationPage() {
                                         <div css={s.teamName}>{donation.teamName}</div>
                                         <div css={s.LikeButtonContainer}>
 
-                                        <LikeButton donationPageId={donation.donationPageId} />
+                                            <LikeButton donationPageId={donation.donationPageId} />
                                         </div>
                                         <Progress pageId={donation.donationPageId} />
                                     </div>
@@ -296,8 +289,8 @@ function NowDonationPage() {
                     )
                 }
 
-                
-            <TopButton />
+
+                <TopButton />
             </div>
         </>
     );

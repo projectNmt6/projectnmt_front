@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { deleteChallengePage, getChallengePageRequest } from '../../../apis/api/DonationAPI';
@@ -17,6 +17,7 @@ import { HiOutlineClock } from "react-icons/hi2";
 import { HiBadgeCheck } from "react-icons/hi";
 import TopButton from '../../../components/TopButton/TopButton';
 import ChallengeComment from './ChallenegComment/ChallengeComment';
+import ChallengePageHeader from "../../DonationStoryPage/PageHeader/ChallengePageHeader";
 function ChallengePage() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -26,6 +27,7 @@ function ChallengePage() {
     const [teamInfo, setTeamInfo] = useState();
     const [actingHeadCount, setActingHeadCount] = useState(0);
 
+    const contentRef = useRef(null);
     const getChallengePageQuery = useQuery(
         ["getChallengePageQuery", challengePageId],
         async () => {
@@ -71,7 +73,6 @@ function ChallengePage() {
         };
         fetchData();
     }, [challengePageId]);
-
 
     useEffect(() => {
         if (challengePageId) {
@@ -171,24 +172,20 @@ function ChallengePage() {
         if (challengePage && challengePage.endDate) {
             const currentDate = new Date();
             const endDate = new Date(challengePage.endDate);
-
-            // 남은 시간(밀리초) 계산
+    
             const remainingTime = endDate.getTime() - currentDate.getTime();
-
-            // 밀리초를 일수로 변환
+    
             const days = Math.max(0, Math.ceil(remainingTime / (1000 * 60 * 60 * 24)));
-
-            // 상태 업데이트
+    
             setRemainingDays(days);
+    
+            setEndDatePassed(days <= 0);
         } else {
             setRemainingDays('날짜 정보 없음');
+            setEndDatePassed(true);
         }
     }, [challengePage]);
-
-    const handleNewsButtonClick = () => {
-        window.location.replace(`/main/challenge/news?page=${challengePageId}`);
-    };
-
+    
 
     const [actionList, setActionList] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -213,8 +210,20 @@ function ChallengePage() {
         }
     }, [challengePageId]);
 
+
+
+    const [endDatePassed, setEndDatePassed] = useState(false);
+
+
+
     return (
         <div css={s.contentAreaStyle}>
+            <ChallengePageHeader
+                contentRef={contentRef}
+                challengePageId={challengePageId}
+                selectedTab={selectedTab}
+                handleTabChange={handleTabChange}
+            />
 
             {showModal && (
                 <div css={s.container3}>
@@ -245,9 +254,13 @@ function ChallengePage() {
                         </div>
                     </div>
                     <div >
-                        <button css={s.button4} onClick={() => handleTabChange('story')}>Story</button>
-                        <button css={s.button4} onClick={() => handleTabChange('action')}>Action</button>
-                        <button css={s.button4} onClick={() => handleTabChange('news')}>news</button>
+                        <div ref={contentRef} css={s.buttonGroupContainer}>
+                            <div css={s.buttonGroup}>
+                                <button css={s.button4} onClick={() => handleTabChange('story')}>Story</button>
+                                <button css={s.button4} onClick={() => handleTabChange('action')}>Action</button>
+                                <button css={s.button4} onClick={() => handleTabChange('news')}>news</button>
+                            </div>
+                        </div>
                         <div css={s.boxbox1}>
                         </div>
                         <div>
@@ -307,8 +320,12 @@ function ChallengePage() {
                             ))
                         }
                     </div>
+                    <button onClick={handleModalToggle}
+                        css={endDatePassed ? { ...s.actionButton2, ...s.disableActionButton } : s.actionButton2}
+                        disabled={endDatePassed}>
+                        행동하기!
+                    </button>
 
-                    <button onClick={handleModalToggle} css={s.actionButton2}>행동하기!</button>
                 </div>
             </div>
 

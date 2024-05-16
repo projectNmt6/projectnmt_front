@@ -17,6 +17,7 @@ export const textEditorLayout = css`
     position: relative;
     height: 500px; // 전체 컨테이너 높이 설정
     overflow-y: auto; // 내부 스크롤 활성화
+    width: 100%;
 `;
 
 

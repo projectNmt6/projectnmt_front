@@ -9,10 +9,19 @@ export const main = css`
 `;
 
 export const disabledDonateButtonStyle = css`
-background-color: '#000'; // Change color to black
-color: '#fff';
-cursor: 'not-allowed';
-border: 'none';
+ width: 340px;
+    height: 50px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(49, 49, 49, 0.9);
+    color: white;
+    font-weight: 700;
+    font-size: 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    border: none;
+    cursor: default;
 `;
 
 export const contentAreaStyle = css`
@@ -30,7 +39,9 @@ export const leftCardLayout = css`
     flex-direction: column;
     flex-wrap: wrap;
     position: sticky;    
-    padding-right: 20px;
+    margin-right: 20px;
+    box-sizing: border-box;
+    overflow-x: hidden;
 `;
 
 export const rightCardLayout = css`

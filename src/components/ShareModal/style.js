@@ -73,8 +73,8 @@ export const kakaobutton = css`
   /* 카카오 버튼 스타일 */
   background-image: url(${kakaoIcon});
   background-size: cover;
-  width: 30px; /* 원형 버튼 크기 설정 */
-  height: 30px; /* 원형 버튼 크기 설정 */
+  width: 35px; /* 원형 버튼 크기 설정 */
+  height: 35px; /* 원형 버튼 크기 설정 */
   border-radius: 50%; /* 동그란 모양으로 설정 */
   border: none;
   cursor: pointer;
@@ -84,8 +84,8 @@ export const linkbutton = css`
   /* 카카오 버튼 스타일 */
   background-image: url(${linkIcon});
   background-size: cover;
-  width: 30px; /* 원형 버튼 크기 설정 */
-  height: 30px; /* 원형 버튼 크기 설정 */
+  width: 35px; /* 원형 버튼 크기 설정 */
+  height: 35px; /* 원형 버튼 크기 설정 */
   border-radius: 50%; /* 동그란 모양으로 설정 */
   border: none;
   cursor: pointer;

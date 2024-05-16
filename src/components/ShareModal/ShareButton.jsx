@@ -18,18 +18,19 @@ const shareButtonStyle = css`
     margin-right: 8px; // 아이콘과 텍스트 사이 간격
   }
 `;
-const ShareButton = () => {
+export const ShareButton = ( { donationPage } ) => {
   const [isOpen, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  console.log("111"+donationPage)
   return (
     <>
      <button css={shareButtonStyle} onClick={handleOpen}>
         <FiShare2 size={20} />
       </button>
-      <ShareModal isOpen={isOpen} onClose={handleClose} />
+      <ShareModal donationPage={donationPage} isOpen={isOpen} onClose={handleClose} />
     </>
   );
 };

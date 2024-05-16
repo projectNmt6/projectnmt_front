@@ -13,7 +13,6 @@ function DonatorInfo({ setShowModal }) {
     const [money, setMoney] = useState(0)
     const [message, setMessage] = useState("");
     const [checked, setChecked] = useState(false);
-    const [userId, setUserId] = useState();
     const inputRef = useRef(0);
 
     const queryClient = useQueryClient();
@@ -49,8 +48,10 @@ function DonatorInfo({ setShowModal }) {
 
     const checkHandled = (checked) => {
         setChecked(checked);
+        console.log("Checked state:", checked); // 로그 출력
     }
 
+    console.log(checked);
     const handleDonationSubmit = () => {
         if (!window.IMP) {
             alert("결제 모듈이 로드되지 않았습니다.");
@@ -72,7 +73,7 @@ function DonatorInfo({ setShowModal }) {
                     donationPageId: searchParams.get("page"),
                     amount: money,
                     message: message,
-                    anonymous: checked
+                    anonymous: checked ? 1 : 0 
                 });
             } else {
                 alert(`결제 실패: ${response.error_msg}`);

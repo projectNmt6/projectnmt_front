@@ -139,6 +139,22 @@ export const actionButton2 = css`
     font-weight: 500;
     font-family: 'NEXON Lv1 Gothic OTF';
 `;
+export const disableActionButton = css`
+    width: 290px;
+    display: flex;
+    margin-top: 10px;
+    border-radius: 10px;
+   align-items: center;
+   justify-content: center;
+    background-color: rgb(61, 61, 61);
+    height: 40px;
+    color: white; /* 글자색 변경 */
+    border: none;
+    font-size: 16px;
+    text-decoration: none;
+    font-weight: 500;
+    font-family: 'NEXON Lv1 Gothic OTF';
+`;
 
 
 export const remainingDays = css`
@@ -213,6 +229,21 @@ export const header = css`
 export const commentBorder = css`
 
 border-bottom: 1px solid #ccc; // 말풍선과 구분선
+`;
+
+export const buttonGroup = css`
+    display: flex;
+    justify-content: space-between; /* 버튼들을 동일한 간격으로 배치합니다. */
+    
+    top: 0; /* 상단에 고정되도록 설정 */
+    background-color: white; /* 배경색을 설정하여 상단에 고정될 때 다른 내용과 겹치지 않도록 합니다. */
+    padding: 10px 0; /* 필요한 경우 위아래 패딩을 추가할 수 있습니다. */
+`;
+
+export const buttonGroupContainer = css`
+  display: flex;
+  top: 0;
+  background-color: white;
 `;
 
 export const button4 = css`

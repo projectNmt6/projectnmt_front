@@ -3,7 +3,7 @@
 import { css } from "@emotion/react";
 
 export const mainLayout = css`
-    width: 750px;
+    width: 700px;
 `;
 
 
@@ -110,6 +110,15 @@ padding: 10px;
 `;
 export const inputField = css`
     width: 100%;
+    padding: 20px;
+    margin: 10px 0; 
+    box-sizing: border-box; 
+    font-size: 20px;
+    font-family: 'NEXON Lv1 Gothic OTF';
+`;
+export const textarea = css`
+    width: 100%;
+    height: 150px;
     padding: 20px;
     margin: 10px 0; 
     box-sizing: border-box; 

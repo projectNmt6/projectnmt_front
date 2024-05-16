@@ -6,20 +6,24 @@ export const tableHeader = css`
     border: 1px solid #dbdbdb;
     width: 100%;
 `
+export const mainContainer = css`
+    padding: 20px; /* 패딩 증가 */
+    width: 100%;
+    max-width: 1200px; /* 최대 너비 설정 */
+    margin: auto; /* 중앙 정렬 */
+    background-color: #fff; /* 배경색 통일 */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* 상자 그림자 추가 */
+`;
+
 export const searchButton = css`
-    box-sizing: border-box;
-    border: none;
-    border-left: 1px solid #dbdbdb;
-    width: 85px;
-    cursor: pointer;
-    background-color: white;
-    &:hover{
-        background-color: #fafafa;
+    padding: 8px 16px;
+    background-color: #007BFF; /* 버튼 색상 변경 */
+    color: white;
+    border-radius: 4px;
+    &:hover {
+        background-color: #0056b3; /* 호버 시 버튼 색상 변경 */
     }
-    &:active{
-        background-color: #eeeeee;
-    }
-`
+`;
 export const tableContainer = css`
     box-sizing: border-box;
     
@@ -44,67 +48,27 @@ export const tableLayout =css`
         border: 1px solid #fafafa;
     }
 `
-
-export const table =css`
-    border: 1px solid black;
+export const searchBar = css`
+    display: flex;
+    gap: 10px; /* 요소 사이의 간격 추가 */
+    align-items: center; /* 아이템을 세로 중앙으로 정렬 */
+    padding: 10px 0;
+`;
+export const table = css`
+    border: 1px solid #ccc; /* 더 부드러운 색상 사용 */
     border-collapse: collapse;
-    width: max-content;
+    width: 100%; /* 테이블 너비를 100%로 설정하여 공간 활용 극대화 */
+    margin: 20px 0; /* 상하 마진 추가 */
+
     & td, & th {
-        border: 1px solid #dbdbdb;
-        padding: 0px 5px;
+        padding: 10px 15px; /* 셀 내 패딩 조정 */
+        text-align: left; /* 모든 텍스트 왼쪽 정렬 */
+        border-bottom: 1px solid #eee; /* 선을 더 부드럽게 */
     }
     & th {
-        border-top: none;
-    } 
-    & td {
-        font-size: 14px;
+        background-color: #fafafa; /* 헤더 배경색 설정 */
     }
-    /* & tr > td:nth-of-type(1),
-    & tr > th:nth-of-type(1) {
-        border-left: none;
-    }
-    & tr > td:nth-last-of-type(1),
-    & tr > th:nth-last-of-type(1) {
-        border-right: none;
-    } */
-    & tr > td:nth-of-type(1),
-    & tr > th:nth-of-type(1) {
-        text-align: center;
-        min-width: 30px;
-    }
-    & tr > td:nth-of-type(2),
-    & tr > th:nth-of-type(2) {
-        min-width: 80px;
-    }
-    & tr > td:nth-of-type(2) {
-        text-align: right;
-    }
-    & tr > td:nth-of-type(3),
-    & tr > th:nth-of-type(3) {
-        width: 328px;
-    }
-    & tr > td:nth-of-type(4),
-    & tr > th:nth-of-type(4) {
-        min-width: 153px;
-    }
-    & tr > td:nth-of-type(5),
-    & tr > th:nth-of-type(5) {
-        min-width: 147px;
-    }
-    & tr > td:nth-of-type(6),
-    & tr > th:nth-of-type(6) {
-        min-width: 150px;
-    }
-    & tr > td:nth-of-type(7),
-    & tr > th:nth-of-type(7) {
-        min-width: 100px;
-    }
-    & tr > td:nth-of-type(8),
-    & tr > th:nth-of-type(8) {
-        width: 75px;
-    }
-    
-`
+`;
 export const theadTr =css`
     position: sticky;
     top: 0px;
@@ -126,14 +90,7 @@ export const searchInput=css`
     background-color: #fdfdfd;
     
 `
-export const searchBar = css`
-    display: flex;
-    box-sizing: border-box;
-    width:  1078px;
-    margin: 5px 0px;
-    border: 1px solid #dbdbdb;
 
-`
 
 export const registerTable = css`
     box-sizing: border-box;
@@ -182,16 +139,6 @@ export const container = css`
     }
 `;
 
-export const mainContainer = css`
-    box-sizing: border-box;
-    border: none;
-    padding: 10px;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-`;
-
 export const imgBox = css`
     box-sizing: border-box;
     display: flex;
@@ -219,17 +166,26 @@ export const buttonContainer = css`
 `;
 
 export const baseButton = css`
-  width: 150px;
-  height: 30px;
-  border: none;
-  border-radius: 3px;
-  color: #6b6b6bc1;
-  box-shadow: 2px 2px 4px #808080;
-  cursor: pointer;
-  :hover {
-      background-color:#b8b8b8c1
-  }
-  :active {
-      box-shadow: inset 5px 5px 10px #808080;
-  }
+  box-sizing: border-box;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgb(229, 229, 229);
+    margin: 0px;
+    line-height: 1.5;
+    letter-spacing: -0.1px;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: rgb(255, 255, 255);
+    height: 46px;
+    padding: 0px 20px;
+    border-radius: 999px;
+    gap: 6px;
+    width: 140px;
+    color: rgb(68, 68, 68);
+    font-weight: normal;
+    box-shadow: none; 
+    font-size: 18px;
+    font-family: 700;
+    font-family: "NEXON Lv1 Gothic OTF";
 `;

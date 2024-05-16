@@ -11,8 +11,6 @@ import TopButton from "../../../components/TopButton/TopButton";
 function EndedDonationsPage(props) {
     const [donationTagList, setDonationTagList] = useState([]);
     const [donationList, setDonationList] = useState([]);
-    const [selectedTag, setSelectedTag] = useState(null);
-    const [sortOrder, setSortOrder] = useState('');
 
     const [visibleDonations, setVisibleDonations] = useState([]);
     const itemsPerPage = 30;
@@ -75,34 +73,36 @@ function EndedDonationsPage(props) {
 }, [currentPage, donationList]);
     return (
         <>
-                <div css={s.donationList}>
-                    {
-
-                visibleDonations.map(
-                            donation =>
-                                <a href={`/donation?page=${donation.donationPageId}`} key={donation.donationPageId} css={s.linkStyle}>
-                                    <div key={donation.donationPageId} css={s.donationCard}>
-                                        <div css={s.donationImage}>
-                                            <img src={
-                                                !donation.mainImgUrl
-                                                    ? "https://www.shutterstock.com/image-vector/no-image-available-picture-coming-600nw-2057829641.jpg"
-                                                    : donation.mainImgUrl
-                                            } alt="" />
-                                            <div css={s.finished}>종료</div>
-                                        </div>
-                                        <div css={s.donationDetails}>
-                                            <div css={s.donationTitle}>
-                                                <h3>{donation.storyTitle}</h3>
-                                            </div>
-                                            <p><strong>기관:</strong> {donation.teamName}</p>
-                                            <LikeButton donationPageId = {donation.donationPageId} />
-                                            <Progress pageId={donation.donationPageId} />
-
-                                        </div>
+                <div css={s.donationList}>                   
+                            {
+                    visibleDonations.map(
+                        donation => (
+                            <a href={`/donation?page=${donation.donationPageId}`} key={donation.donationPageId} css={s.linkStyle}>
+                                <div key={donation.donationPageId} css={s.donationCard}>
+                                    <div css={s.donationImage}>
+                                        <img src={
+                                            !donation.mainImgUrl
+                                                ? "https://www.shutterstock.com/image-vector/no-image-available-picture-coming-600nw-2057829641.jpg"
+                                                : donation.mainImgUrl
+                                        } alt="" />                                       
+                                       <div css={s.finished}>종료</div>
                                     </div>
-                                </a>
+                                    <div css={s.donationDetails}>
+                                        <div css={s.donationTitle}>
+                                            <div>{donation.storyTitle}</div>
+                                        </div>
+                                        <div css={s.teamName}>{donation.teamName}</div>
+                                        <div css={s.LikeButtonContainer}>
+
+                                            <LikeButton donationPageId={donation.donationPageId} />
+                                        </div>
+                                        <Progress pageId={donation.donationPageId} />
+                                    </div>
+                                </div>
+                            </a>
                         )
-                    }
+                    )
+                }
                 </div>
                 
             <TopButton />

@@ -12,14 +12,15 @@ export const header = css`
     align-items: center;
     background-color: #FFF0F5;
     @font-face {
-    font-family: 'omyu_pretty';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
+    font-family: 'NEXON Lv1 Gothic OTF';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
 `;
 export const h1  = css`
     padding-top: 65px;
+    font-family: 'NEXON Lv1 Gothic OTF';
 `;
 export const div1 = css`
     display: flex;
@@ -40,6 +41,9 @@ export const div = css`
     `;
 export const span = css`
     display: flex;
+    font-family: 'NEXON Lv1 Gothic OTF';
+    font-weight: 600;
+    
     justify-content: center;
     align-items: center;
     width: 100px;
@@ -73,7 +77,7 @@ export const button = css`
     width: 300px;
     height: 35px;
     font-size: 18px;
-    font-family: 'omyu_pretty';
+    font-family: 'NEXON Lv1 Gothic OTF';
     box-shadow: 0 0 40px 40px blue inset, 0 0 0 0 blue;
     transition: all 150ms ease-in-out;
     box-shadow: 2px 2px 2px #aaaaaac1;

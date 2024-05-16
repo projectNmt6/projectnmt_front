@@ -4,10 +4,12 @@ import * as s from "./style";
 import ShareButton from '../../../components/ShareModal/ShareButton';
 import LikeButton from '../../../components/LikeButton/LikeButton';
 import DonatorInfo from '../../DonatorInfo/DonatorInfo';
+import ActionModal from '../../DonationChallengerPage/Challenge/ActionModal/ActionModal';
 
-function ChallengePageHeader({ donationPageId, selectedTab, handleTabChange, contentRef }) {
+function ChallengePageHeader({ challengePageId, selectedTab, handleTabChange, contentRef }) {
     const [isVisible, setIsVisible] = useState(false);
     const [showModal, setshowModal] = useState(false);
+
     useEffect(() => {
         const checkVisibility = () => {
             if (!contentRef.current) {
@@ -47,29 +49,15 @@ function ChallengePageHeader({ donationPageId, selectedTab, handleTabChange, con
                     <button css={[s.tabButton2, selectedTab === 'story' && s.activeTabButton2]} onClick={() => handleTabChange('story')}>
                         Story
                     </button>
-                    <button css={[s.tabButton2, selectedTab === 'donators' && s.activeTabButton2]} onClick={() => handleTabChange('donators')}>
-                        Donators
+                    <button css={[s.tabButton2, selectedTab === 'action' && s.activeTabButton2]} onClick={() => handleTabChange('action')}>
+                        Action
                     </button>
                     <button css={[s.tabButton2, selectedTab === 'news' && s.activeTabButton2]} onClick={() => handleTabChange('news')}>
                         News
                     </button>
                 </div>
             </div>
-            <div css={s.likebutton}>
-                <div css={s.socialButtons}>
-                    <LikeButton donationPageId={donationPageId} />
-                    <div className="divider"></div> 
-                    <ShareButton />
-                </div>
-                <button css={s.donation} onClick={() => setshowModal(!showModal)}>기부하기</button>
-            </div>
 
-
-            {showModal && (
-                <div>
-                    <div ><DonatorInfo setShowModal={setshowModal} /></div>
-                </div>
-            )}
         </div>
         </div>
     );

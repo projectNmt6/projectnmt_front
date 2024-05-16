@@ -5,7 +5,8 @@ export const shareKakao = (route, title, THU, content, page) => { // url이 id�
         kakao.init(process.env.REACT_APP_KAKAO); // 카카오에서 제공받은 javascript key를 넣어줌 -> .env파일에서 호출시킴
       }
 
-      
+
+
       console.log("THU: " + THU)
       console.log("title: " + title)
       console.log("route: " + route)

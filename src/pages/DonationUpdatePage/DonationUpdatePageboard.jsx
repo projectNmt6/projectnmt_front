@@ -372,7 +372,7 @@ function DonationUpdatePageBoard() {
                     <button css={s.buttonStyle} onClick={handleSubmitButton}>
                         작성완료
                     </button>
-                    <button css={[s.buttonStyle, s.backButtonStyle]} onClick={handleHomeButton}>
+                    <button css={[s.backButtonStyle]} onClick={handleHomeButton}>
                         돌아가기
                     </button>
                 </div>

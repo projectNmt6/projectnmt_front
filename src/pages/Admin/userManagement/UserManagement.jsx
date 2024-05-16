@@ -20,6 +20,11 @@ function UserManagement({page, }) {
     const [selectedTextOption, setSelectedTextOption] = useState({value: 0, label: "전체"});
     const [selectedRoleoption, setSelectedRoleoption] = useState({value: 0, label: "전체"});
     const searchCount = 10;
+    const [activeTab, setActiveTab] = useState("userInfo"); // 추가된 탭 상태
+
+    const handleTabChange = (tab) => {
+        setActiveTab(tab);
+    };
     const handleSearchTextOnChange = (e) => {
         setSearchText(() => e.target.value);
     }
@@ -193,12 +198,19 @@ function UserManagement({page, }) {
                     <button onClick={handleUserDeleteOnClick} css={s.baseButton}>계정 삭제</button>
                     <button onClick={() => linkRef.current.click()} css={s.baseButton}> 소속팀 보기</button>
                     <Link to={`/admin/management/team?page=1&userId=${selectedUser.userId}`} style={{display:"none"}} ref={linkRef}></Link>
-                    <button onClick={() => handleAdminRoleClick(3)} css={s.baseButton}> 관리자 권한 부여 </button>
-                    <button onClick={() => handleAdminRoleClick(5)} css={s.baseButton}>사용 권한 제제</button>
+                    <button onClick={() => handleAdminRoleClick(3)} css={s.baseButton}> 권한 부여 </button>
+                    <button onClick={() => handleAdminRoleClick(5)} css={s.baseButton}>사용 권한</button>
                 </div>
             </div>
             <div css={s.container}>
-                <table css={s.registerTable}>
+            <div >
+                    <button onClick={() => handleTabChange("userInfo")} css={activeTab === "userInfo" ? s.baseButton : s.baseButton}>유저관리</button>
+                    <button onClick={() => handleTabChange("comments")} css={activeTab === "comments" ? s.baseButton : s.baseButton}>댓글관리</button>
+                </div>
+
+                 {activeTab === "userInfo" && (
+                    <div>
+                        <table css={s.registerTable}>
                         <tbody>
                             <tr>
                                 <th css={s.registerTh}>유저번호</th>
@@ -292,7 +304,12 @@ function UserManagement({page, }) {
                     </table>
                     <AdminSearchPageNumbers count={getCountQuery.data?.data} page={searchParams.get("page")}/>
                 </div>
-                    <CommentManagement  userId={selectedUser?.userId}/>    
+                    </div>
+                )}
+                {activeTab === "comments" && (
+                    <CommentManagement userId={selectedUser?.userId} />
+                )}
+
                     
             </div>
         </div>

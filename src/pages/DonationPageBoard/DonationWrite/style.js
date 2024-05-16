@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 
 export const mainLayout = css`
-    width: 750px;
+    width: 700px;
 `;
 export const textTitle = css`
     font-weight: 700;
@@ -17,6 +17,7 @@ export const imgUrlBox = css`
 export const dateDisplayBox = css`
 
     width: 700px;
+    box-sizing: border-box;
 padding: 10px;
     margin-bottom: 5px;
     border: 1px solid #ccc;
