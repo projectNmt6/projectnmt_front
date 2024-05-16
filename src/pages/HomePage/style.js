@@ -5,7 +5,6 @@ import { css, keyframes } from "@emotion/react";
 export const mainLayout = css`
 background-color:  #F8F8F8;
 width: 100%;
-font-family: 'omyu_pretty';
 white-space: pre;
 @font-face {
   font-family: 'NEXON Lv1 Gothic OTF';

@@ -203,14 +203,16 @@ export const buttonContainer = css`
     box-sizing: border-box;
     margin: 10px 0;
     display: flex;
-    justify-content: flex-start;
     border: none;
     padding: 10px;
     width: 100%;
     height: 100%;
 `;
 
-export const baseButton = css`
+export const divmargin = css`
+    margin-left: 30px;
+`
+export const baseButton2 = css`
   width: 150px;
   height: 30px;
   margin-left   : 82px;
@@ -225,6 +227,31 @@ export const baseButton = css`
   :active {
       box-shadow: inset 5px 5px 10px #808080;
   }
+`;
+export const baseButton = css`
+
+margin-left: 30px;
+text-decoration: none;
+      box-sizing: border-box;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgb(229, 229, 229);
+    line-height: 1.5;
+    letter-spacing: -0.1px;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: rgb(255, 255, 255);
+    height: 46px;
+    padding: 0px 20px;
+    border-radius: 999px;
+    gap: 6px;
+    width: 130px;
+    color: rgb(68, 68, 68);
+    font-weight: 700;
+    font-size: 16px;
+    box-shadow: none;  
+    font-family: 'NEXON Lv1 Gothic OTF';
 `;
 export const showButton = css`
   width: 100px;

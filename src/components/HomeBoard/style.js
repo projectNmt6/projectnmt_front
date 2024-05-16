@@ -69,6 +69,10 @@ export const donationImage = css`
   }
 `;
 
+export const pbar = css`
+  width: 100%;
+`
+
 export const donationDetails = css`
   box-sizing: border-box;
   width: 100%;
@@ -124,6 +128,7 @@ flex-direction: column;
 
 
 export const Top3donationList = css`
+  box-sizing: border-box;
   display: flex;
   flex-direction: row;
   gap: 20px; 
@@ -136,16 +141,17 @@ export const Top3donationCard = css`
   display: flex;
   flex-direction: column;
   width: 300px; 
+  box-sizing: border-box;
   height: 363px;
   border: 1px solid #ccc; 
   border-radius: 8px; 
   border: none;
   margin: 20px;
+  
 `;
 
 export const Top3donationImage = css`
-  width: 250px; 
-  height: 150px;
+  width: 90%;
   margin-left: 7px;
   & > img {
     width:100%;
@@ -155,14 +161,18 @@ export const Top3donationImage = css`
 `;
 
 export const Top3donationDetails = css`
-  padding: 15px; 
-  h2 {
-    margin-top: 0;
-  }
-  p {
-    margin: 5px 0; 
-  }
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; 
 `;
+
+export const titlefont = css`
+  font-size: 16px;
+  color: rgb(32, 32, 32);
+  padding-top: 10px;
+  height: 35px; 
+  overflow: hidden;
+`
 
 export const Top3linkStyle = css`
   text-decoration: none; 

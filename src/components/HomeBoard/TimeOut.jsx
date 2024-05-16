@@ -87,7 +87,7 @@ function TimeOut(props) {
                                 </div>
                                 <div css={s.donationDetails}>
                                     <h2>{upcomingDonation.storyTitle}</h2>
-                                    <Progress pageId={upcomingDonation.donationPageId} />
+                                    <Progress css={s.pbar} pageId={upcomingDonation.donationPageId} />
                                     <div>
                                         <div><p><strong>{upcomingDonation.goalAmount}원 목표</strong> </p></div>
                                         <div><p><strong>남은 시간:</strong> {calculateTimeRemaining(upcomingDonation.endDate)}</p></div>

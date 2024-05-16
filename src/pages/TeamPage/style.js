@@ -1,7 +1,7 @@
 import {css} from "@emotion/react";
 export const textCss = css`
     text-decoration: none;
-    
+
 font-weight: 700;
 font-size: 17px;
 color: black;
@@ -29,6 +29,15 @@ text-decoration: none;
     font-weight: normal;
     font-size: 14px;
     box-shadow: none; 
+`;
+export const moreLoad2 = css`
+text-decoration: none;
+      box-sizing: border-box;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+   
 `;
 export const layout = css`
     box-sizing: border-box;

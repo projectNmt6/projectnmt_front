@@ -248,8 +248,6 @@ function TeamStoryManagepage() {
                                                             <div>
                                                                 <button css={s.button4} onClick={() => pagePermitButtonOnClick(donation.donationPageId)}>삭제 요청</button>
 
-
-
                                                             </div>
 
 

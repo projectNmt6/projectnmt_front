@@ -14,7 +14,32 @@ export const layout = css`
   
   font-family: 'NEXON Lv1 Gothic OTF';
 `;
-
+export const moreLoad = css`
+text-decoration: none;
+      box-sizing: border-box;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgb(229, 229, 229);
+    margin: 0px;
+    line-height: 1.5;
+    letter-spacing: -0.1px;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: rgb(255, 255, 255);
+    height: 46px;
+    padding: 0px 20px;
+    border-radius: 999px;
+    gap: 6px;
+    width: 130px;
+    color: rgb(68, 68, 68);
+    font-weight: 700;
+    font-size: 16px;
+    box-shadow: none; 
+ 
+    font-family: 'NEXON Lv1 Gothic OTF';
+    
+`;
 export const messageBox = css`
   box-sizing: border-box;
   position: relative;
