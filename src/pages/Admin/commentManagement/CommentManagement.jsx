@@ -3,12 +3,13 @@ import * as s from "./style";
 import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useSearchParams } from 'react-router-dom';
-import { deleteCommentRequest, getUserCommentListRequest } from '../../../apis/api/Admin';
+import { deleteCommentRequest, getChallengeCommentList, getUserCommentListRequest } from '../../../apis/api/Admin';
 
 function CommentManagement({userId} ) {
     const [ commentList, setCommentList] = useState([]);
     const [ sortedCommentList, setSortedCommentList] = useState([]);
     const num = 10;
+    const [ listHandler, setListHandler ] = useState(false);
     const [ isDelete, setIsDelete ] = useState(false);
     const getCommentListQuery = useQuery(
         [ "getCommentListQuery", userId ],
@@ -26,6 +27,27 @@ function CommentManagement({userId} ) {
                         checked: false
                     }
                 }));
+                setListHandler(() => !listHandler)
+            },
+        }
+    );
+    const getChallengeCommentListQuery = useQuery(
+        [ "getChallengeCommentListQuery",  listHandler],
+        async () => {
+            return await getChallengeCommentList({
+                userId: userId
+            })
+        },
+        {
+            refetchOnWindowFocus: false,
+            enabled: commentList.length > 0,
+            onSuccess: response => {
+                setCommentList(() => [...commentList, ...response.data.map(comment => {
+                    return {
+                        ...comment,
+                        checked: false
+                    }
+                })]);
             },
         }
     );

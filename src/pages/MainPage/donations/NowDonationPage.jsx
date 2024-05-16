@@ -232,7 +232,9 @@ function NowDonationPage() {
         window.addEventListener('scroll', onScroll);
         return () => window.removeEventListener('scroll', onScroll);
     }, []);
-
+    useEffect(() => {
+        console.log(visibleDonations);
+    },[visibleDonations])
     return (
         <>
             <div css={s.tagContainer}>

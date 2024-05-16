@@ -19,14 +19,15 @@ function LastDonator(props) {
             refetchOnWindowFocus: false,
             onSuccess: response => {
                 const donations = response.data;
+                console.log(donations);
                 const filteredDonations = donations.filter(donation => donation.goalAmount !== 0);
+                console.log(filteredDonations);
                 const uniqueDonations = filteredDonations.reduce((acc, curr) => {
                     if (!acc.some(item => item.donationPageId === curr.donationPageId)) {
                         acc.push(curr);
                     }
                     return acc;
                 }, []);
-
                 const closestToGoalDonation = uniqueDonations.reduce((prev, curr) => {
                     const prevDiff = Math.abs(prev.goalAmount - prev.addAmount);
                     const currDiff = Math.abs(curr.goalAmount - curr.addAmount);

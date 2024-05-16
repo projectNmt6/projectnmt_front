@@ -26,7 +26,7 @@ function LikeButton({challengePageId, donationPageId, commentId}) {
     const getLikeQuery = useQuery(
         ["getLikeQuery", donationPageId, principalData?.data?.userId, commentId],
         async () => {
-            const response = await getLike({ donationPageId, userId: !!principalData?.data.userId ? principalData.data.userId : 0, commentId});
+            const response = await getLike({ donationPageId, userId: !!principalData?.data.userId ? principalData?.data.userId : 0, commentId});
             return response.data;
         },
         {
@@ -36,7 +36,6 @@ function LikeButton({challengePageId, donationPageId, commentId}) {
             },
             onError: error => {
                 console.log(error);
-
             }
         }
     );
