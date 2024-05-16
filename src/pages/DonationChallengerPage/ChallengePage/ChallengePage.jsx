@@ -26,6 +26,7 @@ function ChallengePage() {
     const [userId, setUserId] = useState();
     const [teamInfo, setTeamInfo] = useState();
     const [actingHeadCount, setActingHeadCount] = useState(0);
+    console.log(teamInfo)
 
     const contentRef = useRef(null);
     const getChallengePageQuery = useQuery(

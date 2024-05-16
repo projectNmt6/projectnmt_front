@@ -59,6 +59,7 @@ export const table = css`
     border-collapse: collapse;
     width: 100%; /* 테이블 너비를 100%로 설정하여 공간 활용 극대화 */
     margin: 20px 0; /* 상하 마진 추가 */
+    
 
     & td, & th {
         padding: 10px 15px; /* 셀 내 패딩 조정 */
@@ -67,6 +68,11 @@ export const table = css`
     }
     & th {
         background-color: #fafafa; /* 헤더 배경색 설정 */
+    }
+    & td {
+        max-width: 250px;
+        word-break: break-all;
+
     }
 `;
 export const theadTr =css`
@@ -107,6 +113,11 @@ export const registerTable = css`
         background-color: white;
     }
 `;
+
+export const userId = css`
+    max-width: 250px;
+    
+`
 
 export const registerTh = css`
     box-sizing: border-box;
@@ -181,7 +192,7 @@ export const baseButton = css`
     padding: 0px 20px;
     border-radius: 999px;
     gap: 6px;
-    width: 140px;
+    width: 150px;
     color: rgb(68, 68, 68);
     font-weight: normal;
     box-shadow: none; 

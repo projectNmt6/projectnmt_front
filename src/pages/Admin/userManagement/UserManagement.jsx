@@ -198,8 +198,8 @@ function UserManagement({page, }) {
                     <button onClick={handleUserDeleteOnClick} css={s.baseButton}>계정 삭제</button>
                     <button onClick={() => linkRef.current.click()} css={s.baseButton}> 소속팀 보기</button>
                     <Link to={`/admin/management/team?page=1&userId=${selectedUser.userId}`} style={{display:"none"}} ref={linkRef}></Link>
-                    <button onClick={() => handleAdminRoleClick(3)} css={s.baseButton}> 권한 부여 </button>
-                    <button onClick={() => handleAdminRoleClick(5)} css={s.baseButton}>사용 권한</button>
+                    <button onClick={() => handleAdminRoleClick(3)} css={s.baseButton}> 관리자 권한 부여 </button>
+                    <button onClick={() => handleAdminRoleClick(5)} css={s.baseButton}>모금 권한 제제</button>
                 </div>
             </div>
             <div css={s.container}>
@@ -239,7 +239,7 @@ function UserManagement({page, }) {
                             </tr>
                             <tr>
                             <th css={s.registerTh}>아이디</th>
-                                <td colSpan={3}>
+                                <td  colSpan={3}>
                                     {selectedUser?.username}
                                 </td>
                             </tr>
@@ -288,10 +288,10 @@ function UserManagement({page, }) {
                                 userList.map(
                                     user => 
                                     <>
-                                        <tr key={user.userId}>
+                                        <tr  key={user.userId}>
                                             <td><input type="checkbox" value={user.userId} checked={user.checked} onChange={handleCheckOnChange}/></td>
                                             <td>{user.userId}</td>
-                                            <td>{user.username}</td>
+                                            <td >{user.username}</td>
                                             <td>{user.name}</td>
                                             <td>{user.phoneNumber}</td>
                                             <td>{user.email}</td>

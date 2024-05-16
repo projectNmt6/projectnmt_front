@@ -157,6 +157,13 @@ export const accountbuttn = css`
     cursor: default;
 `;
 
+export const bankbox = css`
+    width: 100%;
+    height: 50px;
+    border: 1px solid black;
+    padding: 10px;
+`
+
 export const inputBox = css`
     box-sizing: border-box;
     border: none;
@@ -277,7 +284,6 @@ export const accountBoxButton = css`
   position: relative;
   right: -150px;
   color: #6b6b6bc1;
-  box-shadow: 2px 2px 4px #808080;
   cursor: pointer;
   :hover {
       background-color:#b8b8b8c1

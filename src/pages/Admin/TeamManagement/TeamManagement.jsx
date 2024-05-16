@@ -227,11 +227,10 @@ function TeamManagement(props) {
                                         <div css={s.accountBox}>
                                             <button onClick={() => setShowModal(false)} css={s.accountBoxButton}><IoClose/></button>
                                             {selectedTeam?.accounts?.map(account => {
-                                                    return <div> 
-                                                        <div>{account.bankName}</div>
-                                                        <div>{account.accountUsername}</div>
+                                                    return <div css={s.bankbox}> 
+                                                        <div>{account.bankName} | {account.accountUsername}</div>                                                       
                                                         <div>{account.accountNumber}</div>
-                                                    </div>
+                                                            </div>
                                                 
                                             })}
                                         </div>

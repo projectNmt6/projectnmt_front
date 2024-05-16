@@ -22,7 +22,7 @@ export const div1 = css`
     font-family: 'Pretendard-Regular';
     justify-content: flex-start;
     width: 620px;
-    height: 100px;
+    height: 120px;
     border-bottom: 1px solid #dbdbdb;
 `;
 export const div5 = css`
