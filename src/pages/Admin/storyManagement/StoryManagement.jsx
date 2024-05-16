@@ -12,7 +12,7 @@ import AdminSearchPageNumbers from "../../../components/AdminSearchPageNumbers/A
 import { getDonatorsByPageId } from "../../../apis/api/DonatorApi";
 
 
-function SearchPage(props) {
+function StoryManagement(props) {
 
     const [ mainCategoryId, setMainCategoryId] = useState({value: 0, label: " 전체 "});
     const [ isTimeOut, setIsTimeOut] = useState({value: 0, label: " 전체 "});
@@ -355,4 +355,4 @@ function SearchPage(props) {
     );
 }
 
-export default SearchPage;
+export default StoryManagement;
