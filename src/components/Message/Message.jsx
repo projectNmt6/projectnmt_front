@@ -61,7 +61,7 @@ function Message({senderId, list, isTeam ,text}) {
                     <button onClick={handleMessageOnClick} css={s.messageSubmitButton}>메세지 보내기</button>
                 </div>
             </div>
-            : <button onClick={() => setShowModal(true)} css={s.openButton}>{text} </button>
+            : <button css={s.moreLoad} onClick={() => setShowModal(true)} >{text} </button>
         }
         </>
     );

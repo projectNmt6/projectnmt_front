@@ -80,14 +80,14 @@ position: relative;
 export const donationDetails = css`
   display: flex;
   flex-direction: column;
-  justify-content: space-between; // This distributes the space among children elements.
+  justify-content: space-between; 
 `;
 export const donationTitle = css`
   font-size: 16px;
   color: rgb(32, 32, 32);
   padding-top: 10px;
-  height: 35px; // Adjust this height based on maximum expected lines (e.g., two lines of text)
-  overflow: hidden; // Ensures text doesn't overflow the designated space.
+  height: 35px; 
+  overflow: hidden;
 `;
 export const teamName = css`
   color: rgb(136, 136, 136);

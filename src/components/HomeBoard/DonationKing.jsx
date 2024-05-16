@@ -76,7 +76,7 @@ function DonationKing(props) {
                                     <img src={!donation.mainImgUrl ? "https://www.shutterstock.com/image-vector/no-image-available-picture-coming-600nw-2057829641.jpg" : donation.mainImgUrl} alt="" />
                                 </div>
                                 <div css={s.Top3donationDetails}>
-                                    <h2>{!donation.storyTitle ? "제목없음" : donation.storyTitle}  </h2>
+                                    <div css={s.titlefont}>{!donation.storyTitle ? "제목없음" : donation.storyTitle}  </div>
                                     <Progress pageId={donation.donationPageId} />
                                     <div>
                                         <div css={s.Top3goalAmount}>

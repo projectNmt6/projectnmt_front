@@ -18,7 +18,7 @@ function CommentShow({ donationPageId, isDonation }) {
             .then(response => setCommentList(response.data))
             .catch(console.error);
     }, [donationPageId]);
-
+console.log(commentList)
     // const { data: principalData } = useQuery(
     //     ["principalQuery"], 
     //     getPrincipalRequest,

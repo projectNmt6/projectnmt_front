@@ -222,7 +222,7 @@ function TeamManagement(props) {
                                 </td>
                                 <th css={s.registerTh}>팀 계좌 목록</th>
                                 <td >
-                                    <button css={null} onClick={() => setShowModal(true)}>목록 열기</button>
+                                    <button css={s.accountbuttn} onClick={() => setShowModal(true)}>목록 열기</button>
                                     <div css={s.layout(showModal)}>
                                         <div css={s.accountBox}>
                                             <button onClick={() => setShowModal(false)} css={s.accountBoxButton}><IoClose/></button>

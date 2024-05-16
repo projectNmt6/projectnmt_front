@@ -150,6 +150,12 @@ export const registerTh = css`
     width: 100px;
     cursor: default;
 `;
+export const accountbuttn = css`
+    box-sizing: border-box;
+    border: 1px solid #dbdbdb;
+    padding: 5px;
+    cursor: default;
+`;
 
 export const inputBox = css`
     box-sizing: border-box;
@@ -209,12 +215,12 @@ export const imgBox = css`
     `;
 
     export const baseButton = css`
-  box-sizing: border-box;
+    box-sizing: border-box;
     display: inline-flex;
     justify-content: center;
     align-items: center;
     border: 1px solid rgb(229, 229, 229);
-    margin: 0px;
+    margin-left: 30px;
     line-height: 1.5;
     letter-spacing: -0.1px;
     text-decoration: none;

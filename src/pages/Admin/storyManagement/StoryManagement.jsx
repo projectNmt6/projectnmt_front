@@ -236,8 +236,8 @@ function SearchPage(props) {
             <div>
                 
                 <div css={s.buttonContainer}>
-                    <Message list={storyList} isTeam={1} text={"팀 공지"} />
-                    <div style={{marginLeft:"82px"}}>
+                    <Message  list={storyList} isTeam={1} text={"팀 공지"} />
+                    <div css={s.divmargin}>
                         <Message list={donator} isTeam={0} text={"후원자 공지"}/>
                     </div>
                     <button onClick={pageListPermitButtonOnClick} css={s.baseButton}> 확인완료 </button>
