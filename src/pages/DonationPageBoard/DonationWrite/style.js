@@ -17,7 +17,8 @@ export const imgUrlBox = css`
 export const dateDisplayBox = css`
 
     width: 700px;
-padding: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     margin-bottom: 5px;
     border: 1px solid #ccc;
     text-align: center;

@@ -22,8 +22,6 @@ function NowDonationPage() {
     const [currentPage, setCurrentPage] = useState(0);
     const [sortedDonations, setSortedDonations] = useState([]);
 
-
-    // useEffect로 API 호출을 통합하여 중복 제거
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -32,14 +30,12 @@ function NowDonationPage() {
                     getDonationListRequest()
                 ]);
 
-                // 태그 처리
                 const tagOptions = tagResponse.data.map(tag => ({
                     value: tag.donationTagId,
                     label: tag.donationTagName
                 }));
                 setDonationTagList(tagOptions);
 
-                // 기부 목록 처리
                 const today = new Date();
                 const validDonations = donationResponse.data.filter(donation => new Date(donation.endDate) >= today);
                 setDonationList(validDonations);
@@ -52,15 +48,54 @@ function NowDonationPage() {
         fetchData();
     }, []);
 
-    // 정렬 함수 활용 예시
     useEffect(() => {
         const sorted = applySorting(donationList, sortOrder);
-        setSortedDonations(sorted);
+        setDonationList(sorted);
         setVisibleDonations(sorted.slice(0, itemsPerPage));
     }, [donationList, sortOrder]);
 
+    const applySorting = (donations, sortOrder) => {
+        return donations.sort((a, b) => {
+            const dateA = new Date(a.createDate);
+            const dateB = new Date(b.createDate);
+            switch (sortOrder) {
+                case '최신순':
+                    return dateB - dateA;
+                case '추천순':
+                    return b.countLike - a.countLike;
+                case '종료임박순':
+                    return new Date(a.endDate) - new Date(b.endDate);
+                default:
+                    return dateB - dateA;
+            }
+        });
+    };
+
+    const handleTagClick = (tagId) => {
+        setSelectedTagId(tagId);
+    };
+
+    const handleSortChange = (event) => {
+        setSortOrder(event.target.value);
+        setCurrentPage(0);
+        const sorted = applySorting(donationList, event.target.value);
+        setDonationList(sorted);
+        setVisibleDonations(sorted.slice(0, itemsPerPage));
+    };
+
+    useEffect(() => {
+        const onScroll = () => {
+            if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 1) {
+                setCurrentPage(prevPage => prevPage + 1);
+            }
+        };
+
+        window.addEventListener('scroll', onScroll);
+        return () => window.removeEventListener('scroll', onScroll);
+    }, []);
 
 
+   
 
     const getDonationListQuery = useQuery(
         "getDonationQuery",
@@ -141,39 +176,6 @@ function NowDonationPage() {
         fetchDonations();
     }, []);
 
-    const handleTagClick = (tagId) => {
-        setSelectedTagId(tagId);
-    };
-
-    const handleSortChange = (event) => {
-        setSortOrder(event.target.value);
-        setCurrentPage(0);  // 현재 페이지를 0으로 리셋
-
-        // 새 정렬 순서에 따라 보이는 기부 목록을 즉시 조정
-        const sorted = applySorting(donationList, event.target.value);
-        setSortedDonations(sorted);
-        setVisibleDonations(sorted.slice(0, itemsPerPage));
-    };
-
-    // 정렬 순서에 따라 정렬을 적용하는 헬퍼 함수
-    const applySorting = (donations, sortOrder) => {
-        return donations.sort((a, b) => {
-            const dateA = new Date(a.createDate);
-            const dateB = new Date(b.createDate);
-            switch (sortOrder) {
-                case '최신순':
-                    return dateB - dateA; // 여기서는 Date 객체의 비교를 수행합니다.
-                case '추천순':
-                    return b.countLike - a.countLike;
-                case '종료임박순':
-                    return new Date(a.endDate) - new Date(b.endDate);
-                default:
-                    return dateB - dateA;
-            }
-        });
-    };
-
-
 
     useEffect(() => {
         const filteredDonations = donationList.filter(
@@ -225,7 +227,10 @@ function NowDonationPage() {
         window.addEventListener('scroll', onScroll);
         return () => window.removeEventListener('scroll', onScroll);
     }, []);
-
+    
+    useEffect(() => {
+        console.log(visibleDonations);
+    },[visibleDonations])
     return (
         <>
             <div css={s.tagContainer}>

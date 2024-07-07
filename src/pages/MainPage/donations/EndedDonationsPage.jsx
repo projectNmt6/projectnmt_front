@@ -2,7 +2,6 @@
 import * as s from "./style";
 import { useQuery } from "react-query";
 import { useEffect, useState } from "react";
-import { FaPen } from "react-icons/fa6";
 import { getDonationListRequest, getDonationTagRequest } from "../../../apis/api/DonationAPI";
 import LikeButton from "../../../components/LikeButton/LikeButton";
 import Progress from "../../../components/progress/Progress";
